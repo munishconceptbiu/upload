@@ -114,6 +114,11 @@ exports.saveArtical = async function (req, res, next) {
         const companylength = data.filter(e => e['company name']);
         const editionlength = data.filter(e => e['edition']);
         const medialength = data.filter(e => e['media type']);
+        console.log('artlength', artlength)
+        console.log('datelength', datelength)
+        console.log('companylength', companylength)
+        console.log('editionlength', editionlength)
+        console.log('medialength', medialength)
         if(artlength.length === 0){
             reject('Your sheet not proper article values. Please check')
         } 
