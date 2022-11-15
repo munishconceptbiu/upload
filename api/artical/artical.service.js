@@ -195,10 +195,10 @@ async function getSetting(client_id) {
     return result;
 }
 async function getQualitativeCheck(client_id) {
-    const artical  = await db.QaData.findOne({
-        where: { client_id: client_id }
+    const artical  = await db.QaData.findAll({
+        where: { client_id: client_id }, limit: 1
       });
-    return artical === null ? 0 : 1;
+    return artical.length === 0 ? 0 : 1;
 }
 
 async function getSettingAll(client_id) {
