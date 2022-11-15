@@ -117,6 +117,22 @@ const Dashboard = () => {
     setIP(res.data.IPv4)
   }
   const upload = async () => {
+    if(client_id === "" || client_id === undefined){
+      toast.error("Client id can't be empty");
+      return false;
+    }
+    if(month === "" || month === undefined){
+      toast.error("Month can't be empty");
+      return false;
+    }
+    if(year === "" || year === undefined){
+      toast.error("Year can't be empty");
+      return false;
+    }
+    if(file === "" || file === undefined){
+      toast.error("File can't be empty");
+      return false;
+    }
     setIsLoading(true);
     setClientName();
     setClientId()
@@ -166,13 +182,14 @@ const Dashboard = () => {
         setVertical('')
         resolve("Article upload processing");
       }).catch((err) => {
+        console.log('err', err.response.data.error)
         setGraphTypeName('');
         setGraphTypeId('')
         emptyLevel()
         setSetting([])
         setVerticals([])
         setVertical('')
-        reject(err.message)
+        reject(err.response.data.error)
       })
     //  axios(config).then((response) => {
       
