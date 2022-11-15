@@ -114,27 +114,27 @@ exports.saveArtical = async function (req, res, next) {
         const companylength = data.filter(e => e['company name']);
         const editionlength = data.filter(e => e['edition']);
         const medialength = data.filter(e => e['media type']);
-        console.log('artlength', artlength)
-        console.log('datelength', datelength)
-        console.log('companylength', companylength)
-        console.log('editionlength', editionlength)
-        console.log('medialength', medialength)
+        console.log('artlength', artlength.length)
+        console.log('datelength', datelength.length)
+        console.log('companylength', companylength.length)
+        console.log('editionlength', editionlength.length)
+        console.log('medialength', medialength.length)
         if(artlength.length === 0){
             reject('Your sheet not proper article values. Please check')
         } 
-        else if(datelength.length === 0){
+        if(datelength.length === 0){
             reject('Your sheet not proper publish date values. Please check')
         }
-        else if(companylength.length === 0){
+        if(companylength.length === 0){
             reject('Your sheet not proper company values. Please check')
         }
-        else if(editionlength.length === 0){
+        if(editionlength.length === 0){
             reject('Your sheet not proper edition values. Please check')
         }
-        else if(medialength.length === 0){
+        if(medialength.length === 0){
             reject('Your sheet not proper media type values. Please check')
         }
-        else {
+        if(artlength.length !== 0 && datelength.length !== 0 && companylength.length !== 0 && editionlength.length !== 0 && medialength.length !== 0) {
             articalService.addUploadDetails({
                 username: req.body.username,
                 email: req.body.email,
