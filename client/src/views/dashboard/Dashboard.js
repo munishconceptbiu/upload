@@ -154,19 +154,32 @@ const Dashboard = () => {
     // xhr.addEventListener("abort", AbortHandler, false);
     // xhr.open("POST", "http://qa.conceptbiu.com/unifiedapi/artical");
     // xhr.send(formData);
+
     const uploadPromise = new Promise((resolve, reject) => {
-     axios(config).then((response) => {
-      setGraphTypeName('');
-      setGraphTypeId('')
-      emptyLevel()
-      setSetting([])
-      setVerticals([])
-      setVertical('')
-      resolve("Article upload processing");
-    })
-      .catch((err) => {
+
+      post(`http://qa.conceptbiu.com/unifiedapi/artical`, formData).then((response) => {
+        setGraphTypeName('');
+        setGraphTypeId('')
+        emptyLevel()
+        setSetting([])
+        setVerticals([])
+        setVertical('')
+        resolve("Article upload processing");
+      }).catch((err) => {
+        setGraphTypeName('');
+        setGraphTypeId('')
+        emptyLevel()
+        setSetting([])
+        setVerticals([])
+        setVertical('')
         reject(err.message)
       })
+    //  axios(config).then((response) => {
+      
+    // })
+    //   .catch((err) => {
+    //     reject(err.message)
+    //   })
 
     });
     toast.promise(

@@ -333,7 +333,7 @@ exports.saveArtical = async function (req, res, next) {
         console.log('values', values)
         res.json({ message: 'Article upload processing', data: {} });
     }).catch((error)=> {
-        res.json({ message: error, data: {} });
+        res.status(500).json({ error: error });
     })
 
     // res.json({ message: 'Artical upload processing', data: {} });
