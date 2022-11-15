@@ -81,12 +81,10 @@ const Social = () => {
       let url = `https://clientportalv2.conceptbiu.com/unifiedapi/admin/cron/fetch-${platformTypeId}?client_id=${client_id}&topic_ids[]=&searchParams[from_date]=${moment(fromDate).format('L')}&searchParams[to_date]=${moment(toDate).format('L')}`
 
       get(`${url}`).then((response) => {
-        console.log('response', response)
         setPlatformTypeName('');
         setPlatformTypeId('')
         resolve("Successfully setting added");
       }).catch((err) => {
-        console.log('err', err)
         setPlatformTypeName('');
         setPlatformTypeId('')
         reject(err.message)

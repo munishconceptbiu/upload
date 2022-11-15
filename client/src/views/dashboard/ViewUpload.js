@@ -1,6 +1,6 @@
 import React, { Component, useState, useEffect } from 'react'
 
-import Table from 'react-bootstrap/Table';
+import moment from 'moment';
 
 import axios from 'axios';
 import { get , post } from "../../services/CommanService";
@@ -60,7 +60,7 @@ const ViewUpload = () => {
           <td>{list.year}</td>
           <td><a href={list.file} target="_blank">{list.filename}</a></td>
           <td>{list.ip_address}</td>
-          <td>{list.createdAt}</td>
+          <td>{moment(list.createdAt).format('lll')}</td>
         </tr>
        ))}
       </tbody>

@@ -110,9 +110,26 @@ exports.saveArtical = async function (req, res, next) {
         }
             
         const artlength = data.filter(e => e['article id']);
+        const datelength = data.filter(e => e['publish date']);
+        const companylength = data.filter(e => e['company name']);
+        const editionlength = data.filter(e => e['edition']);
+        const medialength = data.filter(e => e['media type']);
         if(artlength.length === 0){
             reject('Your sheet not proper article values. Please check')
-        }else {
+        } 
+        else if(datelength.length === 0){
+            reject('Your sheet not proper publish date values. Please check')
+        }
+        else if(companylength.length === 0){
+            reject('Your sheet not proper company values. Please check')
+        }
+        else if(editionlength.length === 0){
+            reject('Your sheet not proper edition values. Please check')
+        }
+        else if(medialength.length === 0){
+            reject('Your sheet not proper media type values. Please check')
+        }
+        else {
             articalService.addUploadDetails({
                 username: req.body.username,
                 email: req.body.email,
@@ -125,7 +142,7 @@ exports.saveArtical = async function (req, res, next) {
                 filename: f.filename,
                 originalname: f.originalname
             })
-            resolve('munish')
+            resolve('add uploaded details')
         }  
     });
 
@@ -147,7 +164,7 @@ exports.saveArtical = async function (req, res, next) {
                 graph_id: e.graph_id
             })
         })
-        resolve('munish1')
+        resolve('added settings')
     });
 
     const addVertical = new Promise((resolve, reject) => {
@@ -159,7 +176,7 @@ exports.saveArtical = async function (req, res, next) {
             isIndex: req.body.isIndex,
             isReach: req.body.isReach
         })
-        resolve('munish2')
+        resolve('add vertical')
     });
     
     Promise.all([addUploadDetails, addSetting, addVertical, data.map(async (e, index) => {
@@ -309,7 +326,7 @@ exports.saveArtical = async function (req, res, next) {
 
     })]).then((values) => {
         console.log('values', values)
-        res.json({ message: 'Artical upload processing', data: {} });
+        res.json({ message: 'Article upload processing', data: {} });
     }).catch((error)=> {
         res.json({ message: error, data: {} });
     })

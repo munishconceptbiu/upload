@@ -9,6 +9,7 @@ import axios from 'axios';
 import { get, post } from "../../services/CommanService";
 import myData from '../../assets/geoJson/client.json';
 import { store } from '../../store/store';
+import toast from 'react-hot-toast';
 
 const graphType = [
   {
@@ -134,41 +135,54 @@ const Dashboard = () => {
     formData.append('is_vertical', is_vertical)
     formData.append('isIndex', isIndex)
     formData.append('isReach', isReach)
-    // var config = {
-    //   method: 'POST',
-    //   url: 'http://qa.conceptbiu.com/unifiedapi/artical',
-    //   data: formData,
-    //   onUploadProgress: data => {
-    //     //Set the progress value to show the progress bar
-    //     setProgress(Math.round((100 * data.loaded) / data.total))
-    //     if (Math.round((100 * data.loaded) / data.total) === 100) {
-    //       swal("Success!", "Upload document done", "success");
-    //     }
-    //   },
-    // };
-    var xhr = new XMLHttpRequest();
-    // xhr.upload.addEventListener("progress", ProgressHandler, false);
-    xhr.addEventListener("load", SuccessHandler, false);
-    xhr.addEventListener("error", ErrorHandler, false);
-    xhr.addEventListener("abort", AbortHandler, false);
-    xhr.open("POST", "http://qa.conceptbiu.com/unifiedapi/artical");
-    xhr.send(formData);
+    var config = {
+      method: 'POST',
+      url: 'http://qa.conceptbiu.com/unifiedapi/artical',
+      data: formData,
+      // onUploadProgress: data => {
+      //   //Set the progress value to show the progress bar
+      //   setProgress(Math.round((100 * data.loaded) / data.total))
+      //   if (Math.round((100 * data.loaded) / data.total) === 100) {
+      //     swal("Success!", "Upload document done", "success");
+      //   }
+      // },
+    };
+    // var xhr = new XMLHttpRequest();
+    // // xhr.upload.addEventListener("progress", ProgressHandler, false);
+    // xhr.addEventListener("load", SuccessHandler, false);
+    // xhr.addEventListener("error", ErrorHandler, false);
+    // xhr.addEventListener("abort", AbortHandler, false);
+    // xhr.open("POST", "http://qa.conceptbiu.com/unifiedapi/artical");
+    // xhr.send(formData);
+    const uploadPromise = new Promise((resolve, reject) => {
+     axios(config).then((response) => {
+      setGraphTypeName('');
+      setGraphTypeId('')
+      emptyLevel()
+      setSetting([])
+      setVerticals([])
+      setVertical('')
+      resolve("Article upload processing");
+    })
+      .catch((err) => {
+        reject(err.message)
+      })
 
-    // return axios(config).then((response) => {
-    //   setGraphTypeName('');
-    //   setGraphTypeId('')
-    //   emptyLevel()
-    //   setSetting([])
-    //   setVerticals([])
-    //   setVertical('')
-    //   // setIsLoading(false)
-
-    // })
-    //   .catch(() => {
-    //     // setIsLoading(false)
-    //     // handleLoginFailure({ status: UNAUTHORIZED });
-    //   })
-    //   .finally(() => setIsLoading(false));;
+    });
+    toast.promise(
+      uploadPromise,
+      {
+        loading: 'uploading ...',
+        success: (data) => `${data}`,
+        error: (err) => `This just happened: ${err}`,
+      },
+      {
+        style: {
+          minWidth: '250px',
+        },
+        
+      }
+    );
   }
   const [file, setFile] = useState('')
   const onFileChange = event => {
@@ -219,13 +233,23 @@ const Dashboard = () => {
   }
 
   const setGraphTypeChange = (e) => {
-    console.log('graphTypes[e.target.value]', graphTypes[e.target.value - 1])
-    setGraphTypeId(e.target.value)
+    if(e.target.value === ""){
+      setGraphTypeId()
+      setGraphTypeName()
+      emptyLevel()
+    }else{
+      setGraphTypeId(e.target.value)
     setGraphTypeName(graphTypes[e.target.value - 1].label)
     emptyLevel()
+    }
+    
   }
 
   const addSetting = (e) => {
+    if(cityLevel === false && entityLevel === false && publicationLevel === false && journalistLevel === false && keywordLevel === false && spokespersonLevel === false && profilingLevel === false && topicLevel === false ){
+      toast.error("Please select atleast one level");
+      return false;
+    } 
     const currentSetting = {
       graph_type: graphTypeName,
       city_level: cityLevel,
@@ -242,8 +266,8 @@ const Dashboard = () => {
     let newSetting = [...setting];
     newSetting.push(currentSetting)
     setSetting(newSetting);
-    setGraphTypeName('');
-    setGraphTypeId('')
+    setGraphTypeName("");
+    setGraphTypeId("")
     emptyLevel()
   }
   const deleteLevel = (index) => {
@@ -251,12 +275,33 @@ const Dashboard = () => {
     newSetting.splice(index, 1)
     setSetting(newSetting);
   }
+  const editLevel = (index) => {
+    let editsetting = setting[index];
+    setGraphTypeName(editsetting.graph_type);
+    setGraphTypeId(editsetting.graph_id)
+    setCityLevel(editsetting.city_level);
+    setEntityLevel(editsetting.entity_level)
+    setPublicationLevel(editsetting.publication_level)
+    setjournalistLevel(editsetting.journalist_level)
+    setKeywordLevel(editsetting.keyword_level)
+    setSpokespersonLevel(editsetting.spokesperson_level)
+    setProfilingLevel(editsetting.profiling_level);
+    setVisibilityLevel(editsetting.visibility_level)
+    setTopicLevel(editsetting.topic_level);
+    let newSetting = [...setting];
+    newSetting.splice(index, 1)
+    setSetting(newSetting);
+  }
 
   const addVertical = () => {
+    if(vertical === ''){
+      toast.error("Vertical can't be empty");
+      return false
+    }
     let newvertical = [...verticals];
     newvertical.push(vertical)
     setVerticals(newvertical)
-    setVertical('')
+    setVertical("")
   }
   const deleteVertical = (index) => {
     let newvertical = [...verticals];
@@ -409,13 +454,15 @@ const Dashboard = () => {
                       {/* <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
                       {e.entity_level === true && <p class="card-text">Entity Level :  Yes</p>}
                       {e.publication_level === true && <p class="card-text">Publication Level : Yes</p>}
-                      {e.journlist_level === true && <p class="card-text">Journlist Level :  Yes</p>}
+                      {e.journalist_level === true && <p class="card-text">Journalist Level :  Yes</p>}
                       {e.city_level === true && <p class="card-text">City Level : Yes</p>}
                       {e.keyword_level === true && <p class="card-text">Keyword Level :  Yes</p>}
+                      {e.topic_level === true && <p class="card-text">Topic Level :  Yes</p>}
                       {e.spokesperson_level === true && <p class="card-text">Spokesperson Level :  Yes</p>}
                       {e.profiling_level === true && <p class="card-text">Profiling Level :  Yes</p>}
                       {e.visibility_level === true && <p class="card-text">Visibility Level :  Yes</p>}
                       <a href="javascript:void(0)" onClick={e => deleteLevel(index)} class="card-link">Remove</a>
+                      <a href="javascript:void(0)" onClick={e => editLevel(index)} class="card-link">Edit</a>
                     </div>
                   </div>
                 ))}
@@ -433,7 +480,7 @@ const Dashboard = () => {
               {is_vertical === "1" && (
                 <div class="col-12 ">
                   {/* <label for="vertical" class="form-label">Add </label> */}
-                  <input type="text" class="form-control" id="vertical" onChange={e => setVertical(e.target.value)} placeholder="" />
+                  <input type="text" class="form-control" id="vertical" value={vertical} onChange={e => setVertical(e.target.value)} placeholder="" />
 
 
 
@@ -470,7 +517,7 @@ const Dashboard = () => {
                 </div>
 
               </div>
-              <div class="col-12 ">
+              <div class="col-6 ">
                 <label for="zip" class="form-label">Document</label>
                 <input type="file" class="form-control" id="zip" onChange={onFileChange} placeholder="" required />
                 <div class="mt-10 img-note">
@@ -480,8 +527,8 @@ const Dashboard = () => {
             </div>
 
             <br></br>
-            {isLoading && <h5 class="loading">uploading</h5>}
-            <p ref={statusRef}></p>
+            {/* {isLoading && <h5 class="loading">uploading</h5>}
+            <p ref={statusRef}></p> */}
 
             <button class="btn btn-primary btn-medium" type="reset" onClick={e => upload()}>Upload</button>
           </form>
