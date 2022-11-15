@@ -1,4 +1,4 @@
-﻿
+
 {
     "database": {
         "host": "localhost",
@@ -28,7 +28,14 @@
         "password": "N<[MmAoPB~02c%i",
         "database": "datawarehouse"
     },
+    "livedatabase3": {
+        "host": "101.53.146.125",
+        "port": 3306,
+        "user": "root",
+        "password": "X@h52K!k#Ap$qfCaT",
+        "database": "concept_niqx_masters"
+    },
     "secret": "THIS IS USED TO SIGN AND VERIFY JWT TOKENS, REPLACE IT WITH YOUR OWN SECRET, IT CAN BE ANY STRING",
-    "baseUrl": "http://qa.conceptbiu.com/"
+    "baseUrl": "http://qa.conceptbiu.com//unifiedapi"
    
 }

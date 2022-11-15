@@ -1,5 +1,7 @@
 import axios from 'axios';
 import swal from "sweetalert";
+import toast, { Toaster } from 'react-hot-toast';
+
 import {
     loginConfirmedAction,
     logout,
@@ -15,7 +17,7 @@ export function signUp(name, email, password, confirm_password) {
         returnSecureToken: true,
     };
     return axios.post(
-        `http://localhost:8080/api/v1/register`,
+        `http://qa.conceptbiu.com/unifiedapi/api/v1/register`,
         postData,
     );
 }
@@ -44,7 +46,7 @@ export function formatError(errorResponse) {
            break;
         case 'INVALID_PASSWORD':
             //return 'Invalid Password';
-            swal("Oops", "Invalid Password", "error",{ button: "Try Again!",});
+            toast.error("Invalid Credential");
             break;
         case 'SUCCESS_REGISTER':
             //return 'Invalid Password';

@@ -8,7 +8,7 @@ initialize();
 
 async function initialize() {
     // create db if it doesn't already exist
-    const { host, port, user, password, database } = config.livedatabase;
+    const { host, port, user, password, database } = config.database;
     const connection = await mysql.createConnection({ host, port, user, password });
     // const connection = await mysql.createConnection({host: host, user: user, database: database});
     
@@ -24,18 +24,18 @@ async function initialize() {
       }});
 
     // init models and add them to the exported db object
-    db.User = require('../users/user.model')(sequelize);
+    db.User = require('../_model/user.model')(sequelize);
     // db.Artical = require('../artical/artical.model')(sequelize);
-    db.QaData = require('../artical/qa_data.model')(sequelize);
-    db.QaDataProduct = require('../artical/qa_data_product.model')(sequelize);
-    db.QaClientProduct = require('../artical/qa_client_product.model')(sequelize);
-    db.QaDataSpokesPerson = require('../artical/qa_data_spokesperson')(sequelize);
-    db.QaSpokesPerson = require('../artical/qa_spokesperson.model')(sequelize);
+    db.QaData = require('../_model/qa_data.model')(sequelize);
+    db.QaDataProduct = require('../_model/qa_data_product.model')(sequelize);
+    db.QaClientProduct = require('../_model/qa_client_product.model')(sequelize);
+    db.QaDataSpokesPerson = require('../_model/qa_data_spokesperson')(sequelize);
+    db.QaSpokesPerson = require('../_model/qa_spokesperson.model')(sequelize);
 
-    db.QaUploadDetail = require('../artical/qa_upload_details.model')(sequelize);
-    db.Edition = require('../artical/edition.model')(sequelize);
-    db.QaSetting = require('../artical/qa_setting.model')(sequelize);
-    db.QaVerticalSetting = require('../artical/qa_vertical_setting.model')(sequelize);
+    db.QaUploadDetail = require('../_model/qa_upload_details.model')(sequelize);
+    db.Edition = require('../_model/edition.model')(sequelize);
+    db.QaSetting = require('../_model/qa_setting.model')(sequelize);
+    db.QaVerticalSetting = require('../_model/qa_vertical_setting.model')(sequelize);
 
     
     // sync all models with database

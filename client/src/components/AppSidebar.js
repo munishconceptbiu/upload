@@ -1,7 +1,8 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { DashboardIcon, AnalysisIcon, NotificationsMenuIcon } from "../Icons/icons.component";
+import { DashboardIcon, AnalysisIcon, NotificationsMenuIcon, SocialIcon } from "../Icons/icons.component";
 import { NavLink } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 
 import './sidebars.css'
 const AppSidebar = () => {
@@ -10,6 +11,8 @@ const AppSidebar = () => {
   const sidebarShow = useSelector((state) => state.sidebarShow)
 
   return (
+    <>
+    <Toaster />
     <div className="d-flex flex-column flex-shrink-0 bg-light leftNavigationWrap" style={{width: "5.3rem" }}>
     <a href="/" className="d-block main-logo link-dark text-decoration-none" title="Icon-only" data-bs-toggle="tooltip" data-bs-placement="right">
       {/* <svg className="bi" width="40" height="32"><use xlinkHref="#bootstrap"/></svg>
@@ -35,6 +38,12 @@ const AppSidebar = () => {
          <span className='menuTitle'>View Setting</span>
         </NavLink>
       </li>
+      <li>
+      <NavLink to="/view-social" className="nav-link" title="Setting" data-bs-toggle="tooltip" data-bs-placement="right">
+         <span className='menuIcon'><SocialIcon /></span>
+         <span className='menuTitle'>Social</span>
+        </NavLink>
+      </li>
      {/* <li>
         <a href="#" className="nav-link py-3 " title="Products" data-bs-toggle="tooltip" data-bs-placement="right">
           <svg className="bi" width="24" height="24" role="img" aria-label="Products"><use xlinkHref="#grid"/></svg>
@@ -48,6 +57,7 @@ const AppSidebar = () => {
     </ul>
     
   </div>
+  </>
 
   )
 }

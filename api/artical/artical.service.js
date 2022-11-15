@@ -1,6 +1,8 @@
 
 const db = require('_helpers/db');
 const db2 = require('_helpers/db2');
+const db3 = require('_helpers/db3');
+
 const { Op } = require("sequelize");
 const { func } = require('joi');
 
@@ -26,7 +28,8 @@ module.exports = {
     deleteSetting,
     updateSetting,
     addVerticalSetting,
-    getVerticalSetting
+    getVerticalSetting,
+    getClientList
 };
 
 
@@ -187,15 +190,15 @@ async function getSetting(client_id) {
         "keyword_level",
         "spokesperson_level",
         "profiling_level",
-        "visibility_level", "topic_level", "client_name", "graph_id"]
+        "visibility_level", "topic_level", "client_name", "graph_id", "order_id"]
       });
     return result;
 }
 async function getQualitativeCheck(client_id) {
-    const { count, rows }  = await db.QaData.findAndCountAll({
+    const artical  = await db.QaData.findOne({
         where: { client_id: client_id }
       });
-    return count;
+    return artical === null ? 0 : 1;
 }
 
 async function getSettingAll(client_id) {
@@ -210,7 +213,7 @@ async function getSettingAll(client_id) {
         "keyword_level",
         "spokesperson_level",
         "profiling_level",
-        "visibility_level", "topic_level" , "client_name", "graph_id"]
+        "visibility_level", "topic_level" , "client_name", "graph_id", "order_id"]
       });
     return result;
 }
@@ -220,4 +223,16 @@ async function updateSetting(id, data) {
 }
 async function deleteSetting(id) {
     await db.QaSetting.destroy({ where: { id: id } });
+}
+
+async function getClientList(name) {
+    const result = await db3.Client.findAll({
+        where: { client_name: {
+            [Op.like]: `${name}%`
+          } },
+        attributes: ["id",
+        "client_name",
+       ]
+      });
+    return result;
 }

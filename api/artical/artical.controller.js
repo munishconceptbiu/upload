@@ -1,4 +1,4 @@
-﻿const express = require('express');
+const express = require('express');
 const reader = require('xlsx')
 const articalService = require('./artical.service');
 const moment = require('moment');
@@ -177,7 +177,7 @@ exports.saveArtical = async function (req, res, next) {
                     media_type: e['media type'],
                     photo_mention: e['photo'],
                     headline: e['headline'],
-                    headline_mention: e['headline mention'],
+                    headline_mention: e['headline mention'] || false,
                     prominence: e['prominence'],
                     tonality: e['tonality'],
                     vertical: e['vertical'],
@@ -439,6 +439,14 @@ exports.deleteSetting = async function (req, res, next) {
     articalService.deleteSetting(req.params.id)
         .then(data => {
             res.json({ settings: {}, message: "Client setting deleted successfully" });
+        })
+        .catch(next);
+}
+
+exports.getClientList =  async function (req, res, next) {
+    articalService.getClientList(req.params.client_name)
+        .then(data => {
+            res.json({ client: data, message: "Client list fetched successfully" });
         })
         .catch(next);
 }

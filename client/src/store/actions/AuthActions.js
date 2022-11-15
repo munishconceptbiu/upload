@@ -5,6 +5,7 @@ import {
   saveTokenInLocalStorage,
   signUp,
 } from "../../services/AuthService";
+import toast, { Toaster } from 'react-hot-toast';
 
 export const SIGNUP_CONFIRMED_ACTION = "[signup action] confirmed signup";
 export const SIGNUP_SUCCESS_ACTION = "[signup action] success signup";
@@ -44,8 +45,7 @@ export function loginAction(name, password, navigate) {
   return (dispatch) => {
     login(name, password)
       .then((response) => {
-        console.log('response.data', response.data)
-        if (response.status === 200) {
+        if (response.data.status === 200) {
           saveTokenInLocalStorage(response.data.result);
           // runLogoutTimer(dispatch, 3600 * 1000, history);
           dispatch(loginConfirmedAction(response.data.result));
@@ -57,8 +57,8 @@ export function loginAction(name, password, navigate) {
       })
       .catch((error) => {
         console.log('err', error)
-        // const errorMessage = formatError("INVALID_PASSWORD");
-        // dispatch(loginFailedAction(errorMessage));
+        const errorMessage = formatError("INVALID_PASSWORD");
+        dispatch(loginFailedAction(errorMessage));
       });
   };
 }

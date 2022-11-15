@@ -23,6 +23,8 @@ router.get('/check-qualitative/:client_id',  articalController.getQualitativeChe
 router.get('/get-setting',  articalController.getSettingAll);
 
 router.get('/getall',  articalController.getArtical);
+router.get('/getclientlist/:client_name',  articalController.getClientList);
+
 
 // routes
 router.get('/viewlist',  articalController.getList);

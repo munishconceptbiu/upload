@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import toast, { Toaster } from 'react-hot-toast';
 
 import { EmailIcon, PasswordIcon, XCircle } from "../../../Icons/icons.component";
 import "./login.sass";
@@ -63,48 +64,12 @@ const Login = ({ history }) => {
     dispatch(loadingToggleAction(true));	
         dispatch(loginAction(email, password, navigate));
         setIsLoading(false);
-    // post(`http://qa.conceptbiu.com/unifiedapi/users/authenticate`, {
-    //   username: email,
-    //   password: password,
-    // })
-    //   .then((response) => {
-    //     // const {
-    //     //   data: { status, result, messsage },
-    //     // } = response || {};
-    //     // if (status === SUCCESS) {
-    //     //   setCookie({
-    //     //     key: COOKIE.AUTH_TOKEN,
-    //     //     value: result.token,
-    //     //   });
-    //     //   setCookie({
-    //     //     key: COOKIE.CONCEPT_USER_ID,
-    //     //     value: result.id,
-    //     //   });
-    //     //   setCookie({
-    //     //     key: COOKIE.CONCEPT_USER_EMAIL,
-    //     //     value: result.email,
-    //     //   });
-
-    //     //   setCookie({
-    //     //     key: COOKIE.CONCEPT_USER_NAME,
-    //     //     value: JSON.stringify({
-    //     //       firstName: result.first_name,
-    //     //       lastName: result.last_name,
-    //     //     }),
-    //     //   });
-    //     dispatch(loginConfirmedAction(response.data));
-    //     navigate('/dashboard')
-    //     // } else {
-    //     //   handleLoginFailure({ status, messsage });
-    //     // }
-    //   })
-    //   .catch(() => {
-    //     // handleLoginFailure({ status: UNAUTHORIZED });
-    //   })
-    //   .finally(() => setIsLoading(false));
   };
   return (
+    
     <div className="loginWrap">
+          <Toaster />
+
       {isInvalidSession && (
         <div className="alert alert-danger alert-dismissible mt-3">
           <button

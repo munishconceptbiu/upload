@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { store } from '../store/store';
 
+
 const axiosInstance = axios.create({
-    baseURL: `http://qa.conceptbiu.com/unifiedapi/`,
+    baseURL: `http://qa.conceptbiu.com/unifiedapi`,
 });
 
 axiosInstance.interceptors.request.use((config) => {

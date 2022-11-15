@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from 'react'
-import Select from 'react-select'
+import AsyncSelect from 'react-select/async';
 import swal from 'sweetalert';
 import AppHeader from '../../components/AppHeader'
 
@@ -134,18 +134,18 @@ const Dashboard = () => {
     formData.append('is_vertical', is_vertical)
     formData.append('isIndex', isIndex)
     formData.append('isReach', isReach)
-    var config = {
-      method: 'POST',
-      url: 'http://qa.conceptbiu.com/unifiedapi/artical',
-      data: formData,
-      onUploadProgress: data => {
-        //Set the progress value to show the progress bar
-        setProgress(Math.round((100 * data.loaded) / data.total))
-        if(Math.round((100 * data.loaded) / data.total) === 100){
-          swal("Success!", "Upload document done", "success");
-        }
-      },
-    };
+    // var config = {
+    //   method: 'POST',
+    //   url: 'http://qa.conceptbiu.com/unifiedapi/artical',
+    //   data: formData,
+    //   onUploadProgress: data => {
+    //     //Set the progress value to show the progress bar
+    //     setProgress(Math.round((100 * data.loaded) / data.total))
+    //     if (Math.round((100 * data.loaded) / data.total) === 100) {
+    //       swal("Success!", "Upload document done", "success");
+    //     }
+    //   },
+    // };
     var xhr = new XMLHttpRequest();
     // xhr.upload.addEventListener("progress", ProgressHandler, false);
     xhr.addEventListener("load", SuccessHandler, false);
@@ -162,7 +162,7 @@ const Dashboard = () => {
     //   setVerticals([])
     //   setVertical('')
     //   // setIsLoading(false)
-      
+
     // })
     //   .catch(() => {
     //     // setIsLoading(false)
@@ -182,7 +182,7 @@ const Dashboard = () => {
     var percent = (e.loaded / e.total) * 100;
     progressRef.current.value = Math.round(percent);
     statusRef.current.innerHTML = Math.round(percent) + "% uploaded...";
-   
+
   };
 
   const SuccessHandler = (e) => {
@@ -263,6 +263,17 @@ const Dashboard = () => {
     newvertical.splice(index, 1)
     setVerticals(newvertical);
   }
+  const promiseOptions = (inputValue) =>
+    new Promise((resolve) => {
+      inputValue = inputValue || 'a'
+      get("artical/getclientlist/" + inputValue).then((response) => {
+        resolve(response.data.client.map((e) => ({
+          value: e.id,
+          label: e.client_name
+        })));
+      })
+
+    });
 
   useEffect(() => {
     // getClientList();
@@ -271,159 +282,144 @@ const Dashboard = () => {
   }, [myData]);
   return (
     <>
-    
-<AppHeader/>
-<div class="uqr-contents">
-  
-  <div class="container-fluid">
+
+      <AppHeader />
+      <div class="uqr-contents">
+
+        <div class="container-fluid">
           <form class="needs-validation" novalidate>
             <div class="row g-3">
 
-            <div class="col-12">
-        <div className='client-section'>
-          <label for="country" class="form-label">Client</label>
-          {/* <select class="form-select" onChange={e => setClientId(e.target.value)} id="country" required>
-            <option value="">Choose...</option>
-            {clientList?.map((item, index) => (
-                <option value={item.id}>{item.client_name}</option>
-            ))}
-            
-          </select> */}
-          <Select onChange={e => clientChange(e)} options={clientList?.map((e) => ( {
-            value: e.id,
-            label: e.client_name
-}))} />
-          {/* <div class="invalid-feedback">
-            Please select a valid country.
-          </div> */}
-        </div>
-        </div>
-        <div class="col-6">
-          <label for="state" class="form-label">Month</label>
-          <select class="form-select" id="state"  onChange={e => setMonth(e.target.value)} required>
-            <option value="">Choose...</option>
-            <option value={"January"}>January</option>
-            <option value={"February"}>February</option>
-            <option value={"March"}>March</option>
-            <option value={"April"}>April</option>
-            <option value={"May"}>May</option>
-            <option value={"June"}>June</option>
-            <option value={"July"}>July</option>
-            <option value={"August"}>August</option>
-            <option value={"September"}>September</option>
-            <option value={"October"}>October</option>
-            <option value={"November"}>November</option>
-            <option value={"December"}>December</option>
-          </select>
-          
-        </div> 
-        <div class="col-6">
-          <label for="state" class="form-label">Year</label>
-          <select class="form-select" id="state"  onChange={e => setYear(e.target.value)} required>
-            <option value="">Choose...</option>
-            <option value={2021}>2021</option>
-            <option value={2022}>2022</option>
-            <option value={2023}>2023</option>
-          </select>
-         
-        </div>
+              <div class="col-12">
+                <div className='client-section'>
+                  <label for="country" class="form-label">Client</label>
+                  <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => clientChange(e)} />              
+                </div>
+              </div>
+              <div class="col-6">
+                <label for="state" class="form-label">Month</label>
+                <select class="form-select" id="state" onChange={e => setMonth(e.target.value)} required>
+                  <option value="">Choose...</option>
+                  <option value={"January"}>January</option>
+                  <option value={"February"}>February</option>
+                  <option value={"March"}>March</option>
+                  <option value={"April"}>April</option>
+                  <option value={"May"}>May</option>
+                  <option value={"June"}>June</option>
+                  <option value={"July"}>July</option>
+                  <option value={"August"}>August</option>
+                  <option value={"September"}>September</option>
+                  <option value={"October"}>October</option>
+                  <option value={"November"}>November</option>
+                  <option value={"December"}>December</option>
+                </select>
 
-        <div class="col-12">
-          <label for="state" class="form-label">Graph Type</label>
-          <select class="form-select" id="state" onChange={e => setGraphTypeChange(e)} required>
+              </div>
+              <div class="col-6">
+                <label for="state" class="form-label">Year</label>
+                <select class="form-select" id="state" onChange={e => setYear(e.target.value)} required>
+                  <option value="">Choose...</option>
+                  <option value={2021}>2021</option>
+                  <option value={2022}>2022</option>
+                  <option value={2023}>2023</option>
+                </select>
+
+              </div>
+
+              <div class="col-12">
+                <label for="state" class="form-label">Graph Type</label>
+                <select class="form-select" id="state" onChange={e => setGraphTypeChange(e)} required>
                   <option value="">Choose...</option>
                   {graphTypes?.map((e) => (
                     <option disabled={setting.filter(s => s.graph_type === e.label).length === 1} value={e.value}>{e.label}</option>
                   ))}
                 </select>
-         
-        </div>
-        {graphTypeName && (
-        <div class="container graph-options">
-        <div class="col-12">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" checked={entityLevel} onChange={e=> setEntityLevel(e.target.checked)} />
-          <label class="form-check-label" for="flexCheckDefault1">
-            Entity Level
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked2" checked={publicationLevel} onChange={e=> setPublicationLevel(e.target.checked)} />
-          <label class="form-check-label" for="flexCheckChecked2">
-            Publication Level
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3" checked={journalistLevel} onChange={e=> setjournalistLevel(e.target.checked)} />
-          <label class="form-check-label" for="flexCheckDefault3">
-            Journlist Level
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked4" checked={cityLevel} onChange={e=> setCityLevel(e.target.checked)} />
-          <label class="form-check-label" for="flexCheckChecked4">
-            City  Level
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked5" checked={keywordLevel} onChange={e=> setKeywordLevel(e.target.checked)} />
-          <label class="form-check-label" for="flexCheckChecked5">
-            Keyword Level
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked9" checked={topicLevel} onChange={e=> setTopicLevel(e.target.checked)} />
-          <label class="form-check-label" for="flexCheckChecked9">
-            Topic Level
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked6" checked={spokespersonLevel} onChange={e=> setSpokespersonLevel(e.target.checked)} />
-          <label class="form-check-label" for="flexCheckChecked6">
-          Spokesperson Level
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked7" checked={profilingLevel} onChange={e=> setProfilingLevel(e.target.checked)} />
-          <label class="form-check-label" for="flexCheckChecked7">
-          Profiling Level
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked8" checked={visibilityLevel} onChange={e=> setVisibilityLevel(e.target.checked)} />
-          <label class="form-check-label" for="flexCheckChecked8">
-          Visibility Level
-          </label>
-        </div>
-          
-        </div>
-        <div class="col-12 ">
-        <button class="btn btn-primary" onClick={e => addSetting()}  type="button" >ADD GRAPH TYPE</button>
-        </div>
 
-        </div>
-         )}
-        <div class="container ">
-        <div class="row">
-{setting?.map((e, index) => (
-        <div class="card" key={index} style={{ width: "18rem"}}>
-<div class="card-body">
-<h5 class="card-title">{e.graph_type}</h5>
-{/* <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
-{e.entity_level === true && <p class="card-text">Entity Level :  Yes</p> }
-{e.publication_level === true && <p class="card-text">Publication Level : Yes</p> }
-{e.journlist_level === true && <p class="card-text">Journlist Level :  Yes</p>}
-{e.city_level === true && <p class="card-text">City Level : Yes</p>}
-{e.keyword_level === true && <p class="card-text">Keyword Level :  Yes</p>}
-{e.spokesperson_level === true && <p class="card-text">Spokesperson Level :  Yes</p>}
-{e.profiling_level === true && <p class="card-text">Profiling Level :  Yes</p>}
-{e.visibility_level === true && <p class="card-text">Visibility Level :  Yes</p>}
-<a href="javascript:void(0)" onClick={e => deleteLevel(index)} class="card-link">Remove</a>
-</div>
-</div>
-))}
-</div>
-</div>
+              </div>
+              {graphTypeName && (
+                <div class="container graph-options">
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" checked={entityLevel} onChange={e => setEntityLevel(e.target.checked)} />
+                      <label class="form-check-label" for="flexCheckDefault1">
+                        Entity Level
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked2" checked={publicationLevel} onChange={e => setPublicationLevel(e.target.checked)} />
+                      <label class="form-check-label" for="flexCheckChecked2">
+                        Publication Level
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3" checked={journalistLevel} onChange={e => setjournalistLevel(e.target.checked)} />
+                      <label class="form-check-label" for="flexCheckDefault3">
+                        Journlist Level
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked4" checked={cityLevel} onChange={e => setCityLevel(e.target.checked)} />
+                      <label class="form-check-label" for="flexCheckChecked4">
+                        City  Level
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked5" checked={keywordLevel} onChange={e => setKeywordLevel(e.target.checked)} />
+                      <label class="form-check-label" for="flexCheckChecked5">
+                        Keyword Level
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked9" checked={topicLevel} onChange={e => setTopicLevel(e.target.checked)} />
+                      <label class="form-check-label" for="flexCheckChecked9">
+                        Topic Level
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked6" checked={spokespersonLevel} onChange={e => setSpokespersonLevel(e.target.checked)} />
+                      <label class="form-check-label" for="flexCheckChecked6">
+                        Spokesperson Level
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked7" checked={profilingLevel} onChange={e => setProfilingLevel(e.target.checked)} />
+                      <label class="form-check-label" for="flexCheckChecked7">
+                        Profiling Level
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked8" checked={visibilityLevel} onChange={e => setVisibilityLevel(e.target.checked)} />
+                      <label class="form-check-label" for="flexCheckChecked8">
+                        Visibility Level
+                      </label>
+                    </div>
+
+                  </div>
+                  <div class="col-12 ">
+                    <button class="btn btn-primary" onClick={e => addSetting()} type="button" >ADD GRAPH TYPE</button>
+                  </div>
+
+                </div>
+              )}
+              <div class="col-12 ">
+                {setting?.map((e, index) => (
+                  <div class="card" key={index} style={{ width: "18rem" }}>
+                    <div class="card-body">
+                      <h5 class="card-title">{e.graph_type}</h5>
+                      {/* <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
+                      {e.entity_level === true && <p class="card-text">Entity Level :  Yes</p>}
+                      {e.publication_level === true && <p class="card-text">Publication Level : Yes</p>}
+                      {e.journlist_level === true && <p class="card-text">Journlist Level :  Yes</p>}
+                      {e.city_level === true && <p class="card-text">City Level : Yes</p>}
+                      {e.keyword_level === true && <p class="card-text">Keyword Level :  Yes</p>}
+                      {e.spokesperson_level === true && <p class="card-text">Spokesperson Level :  Yes</p>}
+                      {e.profiling_level === true && <p class="card-text">Profiling Level :  Yes</p>}
+                      {e.visibility_level === true && <p class="card-text">Visibility Level :  Yes</p>}
+                      <a href="javascript:void(0)" onClick={e => deleteLevel(index)} class="card-link">Remove</a>
+                    </div>
+                  </div>
+                ))}
+              </div>
 
               <div class="col-12">
                 <label for="vertical" class="form-label">Vertical</label>
@@ -435,65 +431,59 @@ const Dashboard = () => {
 
               </div>
               {is_vertical === "1" && (
-                <div class="container ">
-                  <div class="row">
-                    <div class="col-9">
-                {/* <label for="vertical" class="form-label">Add </label> */}
-                <input type="text" class="form-control" id="vertical" onChange={e => setVertical(e.target.value)}  placeholder=""  />
-              
-                      
+                <div class="col-12 ">
+                  {/* <label for="vertical" class="form-label">Add </label> */}
+                  <input type="text" class="form-control" id="vertical" onChange={e => setVertical(e.target.value)} placeholder="" />
 
-                    </div>
-                    <div class="col-3">
-                      <button class="btn btn-primary" onClick={e => addVertical ()} type="button" >Add Vertical</button>
-                    </div>
+
+
+                  <div class="col-12 mt-10">
+                    <button class="btn btn-primary" onClick={e => addVertical()} type="button" >Add Vertical</button>
                   </div>
                 </div>
               )}
-              <div class="container ">
-                <div class="row">
-                  {verticals?.map((e, index) => (
-                    <div class="card" key={index} style={{ width: "18rem" }}>
-                      <div class="card-body">
-                        <h5 class="card-title">{e}</h5>
-                       
-                        <a href="javascript:void(0)" onClick={e => deleteVertical(index)} class="card-link">Remove</a>
-                      </div>
-                    </div>
-                  ))}
+              <div class="col-12 ">
+                {verticals?.map((e, index) => (
+                  <div class="card" key={index} style={{ width: "18rem" }}>
+                    <div class="card-body">
+                      <h5 class="card-title">{e}</h5>
 
-                </div></div>
-                <div class="col-12">
+                      <a href="javascript:void(0)" onClick={e => deleteVertical(index)} class="card-link">Remove</a>
+                    </div>
+                  </div>
+                ))}
+
+              </div>
+              <div class="col-12">
                 <label for="state" class="form-label">Filter</label>
                 <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="index" checked={isIndex} onChange={e => setIndex(e.target.checked)} />
-                        <label class="form-check-label" for="index">
-                         Index
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="reach" checked={isReach} onChange={e => setReach(e.target.checked)} />
-                        <label class="form-check-label" for="reach">
-                        Reach '000
-                        </label>
-                      </div>
+                  <input class="form-check-input" type="checkbox" value="" id="index" checked={isIndex} onChange={e => setIndex(e.target.checked)} />
+                  <label class="form-check-label" for="index">
+                    Index
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="reach" checked={isReach} onChange={e => setReach(e.target.checked)} />
+                  <label class="form-check-label" for="reach">
+                    Reach '000
+                  </label>
+                </div>
 
               </div>
-              <div class="col-md-3">
+              <div class="col-12 ">
                 <label for="zip" class="form-label">Document</label>
                 <input type="file" class="form-control" id="zip" onChange={onFileChange} placeholder="" required />
-                <div class="">
-               Check the sample file before upload <a href="" target="_blank">Sample file</a>
-              </div>
+                <div class="mt-10 img-note">
+                  Check the sample file before upload <a href="http://qa.conceptbiu.com//unifiedapi/qualitative/sample_template1666253552888.xlsx" target="_blank">Sample file</a>
+                </div>
               </div>
             </div>
 
             <br></br>
-            <br></br>
-           {isLoading && <h5 class="loading">uploading</h5> }
-      <p ref={statusRef}></p>
+            {isLoading && <h5 class="loading">uploading</h5>}
+            <p ref={statusRef}></p>
 
-            <button class="btn btn-primary btn-medium" type="reset" onClick={e => upload()}>Upload</button> 
+            <button class="btn btn-primary btn-medium" type="reset" onClick={e => upload()}>Upload</button>
           </form>
         </div>
       </div>
