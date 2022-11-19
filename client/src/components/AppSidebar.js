@@ -1,15 +1,19 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { DashboardIcon, AnalysisIcon, NotificationsMenuIcon, SocialIcon } from "../Icons/icons.component";
-import { NavLink } from 'react-router-dom';
+import { DashboardIcon, AnalysisIcon, NotificationsMenuIcon, SocialIcon, LoginIcon } from "../Icons/icons.component";
+import { NavLink, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
+import { logout } from '../store/actions/AuthActions';
 
 import './sidebars.css'
-const AppSidebar = () => {
+const AppSidebar = (props) => {
   const dispatch = useDispatch()
+  let navigate = useNavigate();
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
-
+    function onLogout() {
+      dispatch(logout(navigate));
+   }
   return (
     <>
     <Toaster />
@@ -44,12 +48,13 @@ const AppSidebar = () => {
          <span className='menuTitle'>Social</span>
         </NavLink>
       </li>
-     {/* <li>
-        <a href="#" className="nav-link py-3 " title="Products" data-bs-toggle="tooltip" data-bs-placement="right">
-          <svg className="bi" width="24" height="24" role="img" aria-label="Products"><use xlinkHref="#grid"/></svg>
-        </a>
+     <li>
+     <NavLink to="javascript:void(0)" onClick={onLogout} className="nav-link" title="Setting" data-bs-toggle="tooltip" data-bs-placement="right">
+        <span className='menuIcon'><LoginIcon /></span>
+         <span className='menuTitle'>Logout</span>
+        </NavLink>
       </li>
-      <li>
+      {/* <li>
         <a href="#" className="nav-link py-3 " title="Customers" data-bs-toggle="tooltip" data-bs-placement="right">
           <svg className="bi" width="24" height="24" role="img" aria-label="Customers"><use xlinkHref="#people-circle"/></svg>
         </a>

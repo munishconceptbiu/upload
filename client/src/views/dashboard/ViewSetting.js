@@ -129,8 +129,8 @@ const ViewSetting = () => {
         </h1>
       </div>
       <div style={{ margin: "25px 20px 0 35px", marginTop: "80px" }}>
-        <div style={{ "padding": "4px 4px 32px" }}>      <button class="btn btn-success pull-right" style={{ float: "right" }} onClick={addSetting}>Add Setting</button>
-        </div>
+        {/* <div style={{ "padding": "4px 4px 32px" }}>      <button class="btn btn-success pull-right" style={{ float: "right" }} onClick={addSetting}>Add Setting</button>
+        </div> */}
 
         <div className='client-section'>
           <label for="country" class="form-label">Select Client</label>

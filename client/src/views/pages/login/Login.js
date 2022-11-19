@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
 import toast, { Toaster } from 'react-hot-toast';
+import { connect, useDispatch } from 'react-redux';
 
 import { EmailIcon, PasswordIcon, XCircle } from "../../../Icons/icons.component";
 import "./login.sass";
@@ -9,12 +9,12 @@ import { loadingToggleAction,loginAction, loginConfirmedAction
 import ConceptLogo from "../../../assets/images/conceptbiu-logo.png";
 import signLeftImage from "../../../assets/images/signin-left-image.svg";
 import {
-    useNavigate
-  
+    useNavigate,
+    useLocation
   } from "react-router-dom";
 
   import { post } from "../../../services/CommanService"
-const Login = ({ history }) => {
+const Login = (props) => {
     let navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -65,6 +65,15 @@ const Login = ({ history }) => {
         dispatch(loginAction(email, password, navigate));
         setIsLoading(false);
   };
+  let location = useLocation();
+  let from = location.state?.from?.pathname || "/";
+
+  useEffect(() => {
+    console.log('props.isAuthenticated', props.isAuthenticated, from)
+    if (props.isAuthenticated) {
+      navigate(from);
+    }
+  }, [from, navigate, props]);
   return (
     
     <div className="loginWrap">
@@ -178,5 +187,4 @@ const Login = ({ history }) => {
     </div>
   );
 };
-
 export default Login;

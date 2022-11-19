@@ -44,10 +44,10 @@ const graphType = [
     label: 'Publication',
     value: 8
   },
-  {
-    label: 'Visibility',
-    value: 9
-  }
+  // {
+  //   label: 'Visibility',
+  //   value: 9
+  // }
 
 ]
 const Dashboard = () => {
@@ -134,8 +134,8 @@ const Dashboard = () => {
       return false;
     }
     setIsLoading(true);
-    setClientName();
-    setClientId()
+    setClientName(null);
+    setClientId(null)
     const formData = new FormData();
 
     formData.append('upload', file);
@@ -368,7 +368,7 @@ const Dashboard = () => {
               <div class="col-12">
                 <div className='client-section'>
                   <label for="country" class="form-label">Client</label>
-                  <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => clientChange(e)} />              
+                  <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => clientChange(e)}  />              
                 </div>
               </div>
               <div class="col-6">

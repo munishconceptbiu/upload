@@ -31,9 +31,9 @@ export function signupAction(name, email, password, confirm_password, history) {
   };
 }
 
-export function logout(history) {
+export function logout(navigate) {
   localStorage.removeItem("userDetails");
-  history.push("/login");
+  navigate("/login");
   return {
     type: LOGOUT_ACTION,
   };
