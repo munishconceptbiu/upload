@@ -97,7 +97,7 @@ exports.saveArtical = async function (req, res, next) {
         data.shift();
     });
     
-    const addUploadDetails = new Promise((resolve, reject) => {
+    const addUploadDetails = new Promise(async (resolve, reject) => {
         if(req.body.isIndex === 'true') {
             if(data.filter(e => e.index).length === 0 ){
                 reject('Your sheet not proper index values. Please check')
@@ -108,6 +108,8 @@ exports.saveArtical = async function (req, res, next) {
                 reject('Your sheet not proper reach values. Please check')
             }
         }
+
+        
             
         const artlength = data.filter(e => e['article id']);
         const datelength = data.filter(e => e['publish date']);
@@ -134,6 +136,15 @@ exports.saveArtical = async function (req, res, next) {
         if(medialength.length === 0){
             reject('Your sheet not proper media type values. Please check')
         }
+
+       await JSON.parse(req.body.setting).map(async (entry, index) => {
+            if(entry.graph_id === 1){
+                const tonalitylength = data.filter(e => e['tonality']);
+                if(tonalitylength.length === 0){
+                    reject('Your sheet not proper tonality values. Please check')
+                }
+            }
+        })
         if(artlength.length !== 0 && datelength.length !== 0 && companylength.length !== 0 && editionlength.length !== 0 && medialength.length !== 0) {
             articalService.addUploadDetails({
                 username: req.body.username,
