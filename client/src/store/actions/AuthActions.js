@@ -6,6 +6,10 @@ import {
   signUp,
 } from "../../services/AuthService";
 import toast, { Toaster } from 'react-hot-toast';
+import {
+  useNavigate,
+  useLocation
+} from "react-router-dom";
 
 export const SIGNUP_CONFIRMED_ACTION = "[signup action] confirmed signup";
 export const SIGNUP_SUCCESS_ACTION = "[signup action] success signup";
@@ -30,6 +34,7 @@ export function signupAction(name, email, password, confirm_password, history) {
       });
   };
 }
+
 
 export function logout(navigate) {
   localStorage.removeItem("userDetails");

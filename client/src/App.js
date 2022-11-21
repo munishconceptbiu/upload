@@ -2,7 +2,7 @@
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 import React, { Component, Suspense, useEffect } from 'react'
-import { HashRouter, Route, Routes, useLocation, Navigate } from 'react-router-dom'
+import { HashRouter, Route, Routes, useLocation, Navigate, useNavigate } from 'react-router-dom'
 import { connect, useDispatch } from 'react-redux';
 import { checkAutoLogin } from './services/AuthService';
 
@@ -30,9 +30,9 @@ function App (props) {
         <Suspense fallback={loading}>
           <Routes>
                           {/* <Route exact path="/" element={<RequireAuth><Dashborad /></RequireAuth>} /> */}
-            {!auth && 
+            {/* {!auth &&  */}
             <Route exact path="/login" name="Login Page" element={<Login  isAuthenticated={props.isAuthenticated} />} />
-}
+{/* } */}
             {/* <Route exact path="/404" name="Page 404" element={<Page404 />} />
             <Route exact path="/500" name="Page 500" element={<Page500 />} /> */}
             <Route path="*" name="Home" element={<RequireAuth isAuthenticated={props.isAuthenticated}><DefaultLayout /></RequireAuth>} />
@@ -46,8 +46,9 @@ function App (props) {
 function RequireAuth(props) {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   useEffect(() => {
-      checkAutoLogin(dispatch, props.history);
+      checkAutoLogin(dispatch, navigate);
   }, [dispatch, props.history]);
   let auth = props.isAuthenticated;
   let location = useLocation();
@@ -57,7 +58,7 @@ function RequireAuth(props) {
     // trying to go to when they were redirected. This allows us to send them
     // along to that page after they login, which is a nicer user experience
     // than dropping them off on the home page.
-    return <Navigate to="/" state={{ from: location }} replace />;
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   return props.children;
