@@ -156,7 +156,7 @@ async function addUploadDetails(params) {
 
 async function addSetting(params) {
     const [row, created] = await db.QaSetting.findOrCreate({ where: { client_id: params.client_id, graph_type: params.graph_type  }, defaults: params });
-    if(created === true){
+    if(created === false){
         await db.QaSetting.update(params, { where: { id: row.id } });
     }
     return created;

@@ -173,7 +173,7 @@ const Dashboard = () => {
       <div className="uqr-contents">
 
         <div className="container-fluid">
-          <form className="needs-validation" novalidate>
+          <form className="needs-validation" noValidate>
             <div className="row g-3">
 
               <div className="col-6">

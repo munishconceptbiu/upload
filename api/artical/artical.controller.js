@@ -200,7 +200,7 @@ exports.saveArtical = async function (req, res, next) {
         resolve('add vertical')
     });
     
-    Promise.all([addUploadDetails, addSetting, addVertical, data.map(async (e, index) => {
+    Promise.all([addUploadDetails, data.map(async (e, index) => {
         const art = parseInt(e['article id']);
         if (art !== 0 && !isNaN(art)) {
 

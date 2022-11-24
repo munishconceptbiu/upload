@@ -21,6 +21,7 @@ import Reorder, {
     reorderFromToImmutable
 } from "react-reorder";
 import move from "lodash-move";
+import { useNavigate } from 'react-router-dom';
 
 
 const graphType = [
@@ -62,8 +63,9 @@ const graphType = [
     // }
 
 ]
-const Dashboard = () => {
+const AddSetting = () => {
     const state = store.getState();
+    const navigate = useNavigate()
     const [setting, setSetting] = useState([])
     const [client_id, setClientId] = useState()
     const [client_name, setClientName] = useState()
@@ -160,6 +162,7 @@ const Dashboard = () => {
                 setClientName();
                 setClientId()
                 resolve("Setting Successfully Saved");
+                navigate('/view-setting')
             }).catch((err) => {
                 console.log('err', err.response.data.error)
                 setGraphTypeName('');
@@ -305,7 +308,7 @@ const Dashboard = () => {
             <div className="uqr-contents">
 
                 <div className="container-fluid">
-                    <form className="needs-validation" novalidate>
+                    <form className="needs-validation" noValidate>
                         <div className="row g-3">
 
                             <div className="col-6">
@@ -321,8 +324,8 @@ const Dashboard = () => {
                                 <label for="state" className="form-label">Graph Type</label>
                                 <select className="form-select" id="state" onChange={e => setGraphTypeChange(e)} required>
                                     <option value="">Choose...</option>
-                                    {graphTypes?.map((e) => (
-                                        <option disabled={setting.filter(s => s.graph_type === e.label).length === 1} value={e.value}>{e.label}</option>
+                                    {graphTypes?.map((e, index) => (
+                                        <option key={index} disabled={setting.filter(s => s.graph_type === e.label).length === 1} value={e.value}>{e.label}</option>
                                     ))}
                                 </select>
 
@@ -521,5 +524,5 @@ const Dashboard = () => {
     )
 }
 
-export default Dashboard
+export default AddSetting
 
