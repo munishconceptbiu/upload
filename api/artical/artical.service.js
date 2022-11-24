@@ -239,11 +239,11 @@ async function getClientList(name) {
 }
 
 async function getSettingClientList(name) {
-    const result = await db3.Client.findAll({
+    const result = await db.QaSetting.findAll({
         where: { client_name: {
             [Op.like]: `${name}%`
           } },
-        attributes: ["id",
+        attributes: ["id", "client_id",
         "client_name",
        ],
        group: "client_id",

@@ -156,7 +156,8 @@ exports.saveArtical = async function (req, res, next) {
                 ip_address: req.body.ip_address,
                 file: f.url,
                 filename: f.filename,
-                originalname: f.originalname
+                originalname: f.originalname,
+                user_id: req.body.user_id
             })
             resolve('add uploaded details')
         }  
@@ -178,7 +179,7 @@ exports.saveArtical = async function (req, res, next) {
                 visibility_level: e.visibility_level,
                 client_name: req.body.client_name,
                 graph_id: e.graph_id,
-                order_id: index + 1
+                order_id: index + 1,
             })
         })
         resolve('added settings')
@@ -430,9 +431,9 @@ exports.addSetting = async function (req, res, next) {
     //         res.json({ setting: setting, message: 'Setting added successful' })
     //     })
     //     .catch(next);
-
-    const addSetting = new Promise((resolve, reject) => {
-        JSON.parse(req.body.setting).map(async (e, index) => {
+    console.log(req.body);
+    const addSettings = new Promise((resolve, reject) => {
+        req.body.setting.map(async (e, index) => {
             articalService.addSetting({
                 client_id: req.body.client_id,
                 entity_level: e.entity_level,
@@ -467,7 +468,7 @@ exports.addSetting = async function (req, res, next) {
         })
         resolve('add vertical')
     });
-    Promise.all([addUploadDetails, addSetting, addVertical]).then((values) => {
+    Promise.all([addUploadDetails, addSettings, addVertical]).then((values) => {
         console.log('values', values)
         res.json({ message: 'Setting sucessfully updated', data: {} });
     }).catch((error)=> {
