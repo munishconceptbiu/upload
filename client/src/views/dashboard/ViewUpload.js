@@ -11,14 +11,13 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const ViewUpload = () => {
   const state = store.getState();
-  console.log('state', state)
   
     const [uploadList, setUploadList] = useState([]);
     const [client_id, setClientId] = useState()
 
     const getUploadList = (cid) => {
-      const id = cid || client_id || state?.auth?.auth?.id
-      get("artical/viewlist/"+ id).then((response) => {
+      const id = cid || client_id || ""
+      get("artical/viewlist/"+ state?.auth?.auth?.id +"/?client_id="+ id).then((response) => {
         console.log('response', response)
         setUploadList(response.data.data)
           })

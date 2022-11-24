@@ -7,6 +7,7 @@ function model(sequelize) {
         username: { type: DataTypes.STRING, allowNull: true },
         email: { type: DataTypes.STRING, allowNull: true },
         client_id: { type: DataTypes.STRING, allowNull: true },
+        user_id: { type: DataTypes.STRING, allowNull: true },
         client_name: { type: DataTypes.STRING, allowNull: true },
         ip_address: { type: DataTypes.STRING, allowNull: true },
         file: { type: DataTypes.STRING, allowNull: true },
