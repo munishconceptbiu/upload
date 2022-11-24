@@ -35,8 +35,11 @@ module.exports = {
 
 
 
-async function getAllListUpload(client_id) {
-    const result = await db.QaUploadDetail.findAll({ where: { client_id: client_id }});
+async function getAllListUpload(user_id, client_id) {
+    const result = await db.QaUploadDetail.findAll({ where: { [Op.or]: [
+        { client_id: client_id },
+        { user_id: user_id }
+      ]}});
     return result;
 }
 async function getAll(client_id, article_id, entity_name, media_type) {

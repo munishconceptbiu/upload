@@ -49,7 +49,7 @@ exports.getArtical = async function (req, res, next) {
     res.json({ edition: edition, message: 'Edition successful' })
 }
 exports.getList = async function (req, res, next) {
-    articalService.getAllListUpload(req.params.client_id).then((data) => {
+    articalService.getAllListUpload(req.params.client_id, req.query.client_id).then((data) => {
         res.json({ data: data, message: 'Artical successful' })
     })
 }
