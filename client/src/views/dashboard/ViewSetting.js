@@ -20,7 +20,7 @@ const ViewSetting = () => {
   const [settingList, setSettingList] = useState([]);
   const getSettingList = (id) => {
     const cid = id || client_id
-    get("artical/get-setting/" + cid).then((response) => {
+    get("artical/get-unique-setting/" + cid).then((response) => {
       setSettingList(response.data.settings)
     })
       .catch(() => {

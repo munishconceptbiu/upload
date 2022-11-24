@@ -30,7 +30,8 @@ module.exports = {
     addVerticalSetting,
     getVerticalSetting,
     getClientList,
-    getSettingClientList
+    getSettingClientList,
+    getUniqueSetting
 };
 
 
@@ -250,6 +251,24 @@ async function getSettingClientList(name) {
         "client_name",
        ],
        group: "client_id",
+      });
+    return result;
+}
+async function getUniqueSetting(client_id) {
+    const result = await db.QaSetting.findAll({
+        where: { client_id: client_id },
+        attributes: ["id",
+        "client_id",
+        "graph_type",
+        "entity_level",
+        "publication_level",
+        "journalist_level",
+        "city_level",
+        "keyword_level",
+        "spokesperson_level",
+        "profiling_level",
+        "visibility_level", "topic_level", "client_name", "graph_id", "order_id"],
+        group: "client_id",
       });
     return result;
 }

@@ -540,3 +540,19 @@ exports.getSettingClientList =  async function (req, res, next) {
         })
         .catch(next);
 }
+
+exports.getUniqueSetting = async function (req, res, next) {
+    articalService.getQualitativeCheck(req.params.client_id)
+        .then(check => {
+            articalService.getUniqueSetting(req.params.client_id)
+                .then(data => {
+                    articalService.getVerticalSetting(req.params.client_id)
+                        .then(vertical => {
+                            res.json({ settings: data, qualitative: check > 0 ? true : false, isVertical: vertical ? vertical?.isVertical : false,verticals: vertical ? JSON.parse(vertical?.verticals) : [], isIndex: vertical ? vertical?.isIndex : false, isReach: vertical ? vertical?.isReach : false, message: "Client setting fetched successfully" });
+                        })
+                        .catch(next);
+                })
+                .catch(next);
+        })
+        .catch(next);
+}

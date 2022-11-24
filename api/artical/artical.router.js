@@ -18,6 +18,8 @@ router.post('/add-setting',  articalController.addSetting);
 router.put('/update-setting/:id',  articalController.updateSetting);
 
 router.get('/get-setting/:client_id',  articalController.getSetting);
+router.get('/get-unique-setting/:client_id',  articalController.getUniqueSetting);
+
 router.get('/check-qualitative/:client_id',  articalController.getQualitativeCheck);
 router.get('/viewlist/:client_id',  articalController.getList);
 
