@@ -468,7 +468,7 @@ exports.addSetting = async function (req, res, next) {
         })
         resolve('add vertical')
     });
-    Promise.all([addUploadDetails, addSettings, addVertical]).then((values) => {
+    Promise.all([addSettings, addVertical]).then((values) => {
         console.log('values', values)
         res.json({ message: 'Setting sucessfully updated', data: {} });
     }).catch((error)=> {
