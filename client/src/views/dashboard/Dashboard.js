@@ -4,12 +4,24 @@ import swal from 'sweetalert';
 import AppHeader from '../../components/AppHeader'
 
 import { ProgressBar } from "react-bootstrap"
+import DatePicker from "react-datepicker";
 
+import "react-datepicker/dist/react-datepicker.css";
+import moment from 'moment';
 import axios from 'axios';
 import { get, post } from "../../services/CommanService";
 import myData from '../../assets/geoJson/client.json';
 import { store } from '../../store/store';
 import toast from 'react-hot-toast';
+
+import Reorder, {
+  reorder,
+  reorderImmutable,
+  reorderFromTo,
+  reorderFromToImmutable
+} from "react-reorder";
+import move from "lodash-move";
+
 
 const graphType = [
   {
@@ -102,13 +114,19 @@ const Dashboard = () => {
 
   const [isIndex, setIndex] = useState(false);
   const [isReach, setReach] = useState(false);
+
+  const [isOnline, setIsOnline] = useState(false);
+  const [isPrint, setIsPrint] = useState(false);
+  const [isPrintOnline, setIsPrintOnline] = useState(false);
   const [progress, setProgress] = useState()
 
-  const uploadRef = React.useRef();
+  let selectRef = React.useRef();
   const statusRef = React.useRef();
   const loadTotalRef = React.useRef();
   const progressRef = React.useRef();
 
+  const [dateRange, setDateRange] = useState([null, null]);
+  const [startDate, endDate] = dateRange;
 
   //creating function to load ip address from the API
   const getData = async () => {
@@ -117,32 +135,49 @@ const Dashboard = () => {
     setIP(res.data.IPv4)
   }
   const upload = async () => {
-    if(client_id === "" || client_id === undefined){
+    console.log('musih',selectRef.getValue());
+    
+    const client = selectRef.getValue()[0]
+    if(client === "" || client === undefined || client === null){
       toast.error("Client id can't be empty");
       return false;
     }
-    if(month === "" || month === undefined){
-      toast.error("Month can't be empty");
+    if(startDate  === "" || startDate === null){
+      toast.error("Start Date can't be empty");
       return false;
     }
-    if(year === "" || year === undefined){
-      toast.error("Year can't be empty");
+    if(endDate === "" || endDate === null){
+      toast.error("End Date can't be empty");
+      return false;
+    }
+    
+    if(isPrint === false && isOnline === false && isPrintOnline === false){
+      toast.error("Please select altleast any two media types");
+      return false;
+    }
+    if(isPrint === true && isOnline === true && isPrintOnline === true){
+      toast.error("Please select only two media types");
+      return false;
+    }
+    if((isPrint === true && isOnline === false && isPrintOnline === false) || (isPrint === false && isOnline === true && isPrintOnline === false) || (isPrint === false && isOnline === false && isPrintOnline === true)){
+      toast.error("Please select two media types");
       return false;
     }
     if(file === "" || file === undefined){
       toast.error("File can't be empty");
       return false;
     }
+
+   
     setIsLoading(true);
-    setClientName(null);
-    setClientId(null)
+    
     const formData = new FormData();
 
     formData.append('upload', file);
-    formData.append('client_id', client_id);
-    formData.append('client_name', client_name);
-    formData.append('month', month)
-    formData.append('year', year)
+    formData.append('client_id', client.value);
+    formData.append('client_name', client.label);
+    formData.append('start_date', moment(startDate).format('L'))
+    formData.append('end_date', moment(endDate).format('L'))
     formData.append('username', state.auth.auth.first_name + ' ' + state.auth.auth.last_name);
     formData.append('email', state.auth.auth.email)
     formData.append('ip_address', ip)
@@ -151,6 +186,9 @@ const Dashboard = () => {
     formData.append('is_vertical', is_vertical)
     formData.append('isIndex', isIndex)
     formData.append('isReach', isReach)
+    formData.append('isOnline', isOnline)
+    formData.append('isPrint', isPrint)
+    formData.append('isPrintOnline', isPrintOnline)
     var config = {
       method: 'POST',
       url: 'http://qa.conceptbiu.com/unifiedapi/artical',
@@ -180,6 +218,10 @@ const Dashboard = () => {
         setSetting([])
         setVerticals([])
         setVertical('')
+        setFile('')
+        selectRef.clearValue();
+    setClientName();
+    setClientId()
         resolve("Article upload processing");
       }).catch((err) => {
         console.log('err', err.response.data.error)
@@ -188,7 +230,11 @@ const Dashboard = () => {
         emptyLevel()
         setSetting([])
         setVerticals([])
-        setVertical('')
+        setVertical('');
+        setFile('')
+        selectRef.clearValue();
+    setClientName();
+    setClientId()
         reject(err.response.data.error)
       })
     //  axios(config).then((response) => {
@@ -300,6 +346,10 @@ const Dashboard = () => {
     setGraphTypeId("")
     emptyLevel()
   }
+
+  const onReorder = (e, from, to) => {
+    setSetting(move(setting, from, to));
+  };
   const deleteLevel = (index) => {
     let newSetting = [...setting];
     newSetting.splice(index, 1)
@@ -354,26 +404,43 @@ const Dashboard = () => {
     // getClientList();
     setClientList(myData.result)
     getData()
-  }, [myData]);
+  }, []);
   return (
     <>
 
       <AppHeader />
-      <div class="uqr-contents">
+      <div className="uqr-contents">
 
-        <div class="container-fluid">
-          <form class="needs-validation" novalidate>
-            <div class="row g-3">
+        <div className="container-fluid">
+          <form className="needs-validation" novalidate>
+            <div className="row g-3">
 
-              <div class="col-12">
+              <div className="col-6">
                 <div className='client-section'>
-                  <label for="country" class="form-label">Client</label>
-                  <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => clientChange(e)}  />              
+                  <label for="country" className="form-label">Client</label>
+                  <AsyncSelect cacheOptions defaultOptions  loadOptions={promiseOptions} isClearable={true}  ref={(ref) => {
+            selectRef = ref;
+          }}/>              
                 </div>
               </div>
-              <div class="col-6">
-                <label for="state" class="form-label">Month</label>
-                <select class="form-select" id="state" onChange={e => setMonth(e.target.value)} required>
+              <div className="col-6">
+                <label for="state" className="form-label">Start Date & End Date</label>
+                
+                <DatePicker
+      selectsRange={true}
+      startDate={startDate}
+      endDate={endDate}
+      onChange={(update) => {
+        setDateRange(update);
+      }}
+      // isClearable={true}
+      className="form-control"
+    />
+
+        </div>
+              {/* <div className="col-6">
+                <label for="state" className="form-label">Month</label>
+                <select className="form-select" id="state" onChange={e => setMonth(e.target.value)} required>
                   <option value="">Choose...</option>
                   <option value={"January"}>January</option>
                   <option value={"February"}>February</option>
@@ -390,20 +457,20 @@ const Dashboard = () => {
                 </select>
 
               </div>
-              <div class="col-6">
-                <label for="state" class="form-label">Year</label>
-                <select class="form-select" id="state" onChange={e => setYear(e.target.value)} required>
+              <div className="col-6">
+                <label for="state" className="form-label">Year</label>
+                <select className="form-select" id="state" onChange={e => setYear(e.target.value)} required>
                   <option value="">Choose...</option>
                   <option value={2021}>2021</option>
                   <option value={2022}>2022</option>
                   <option value={2023}>2023</option>
                 </select>
 
-              </div>
+              </div> */}
 
-              <div class="col-12">
-                <label for="state" class="form-label">Graph Type</label>
-                <select class="form-select" id="state" onChange={e => setGraphTypeChange(e)} required>
+              <div className="col-12">
+                <label for="state" className="form-label">Graph Type</label>
+                <select className="form-select" id="state" onChange={e => setGraphTypeChange(e)} required>
                   <option value="">Choose...</option>
                   {graphTypes?.map((e) => (
                     <option disabled={setting.filter(s => s.graph_type === e.label).length === 1} value={e.value}>{e.label}</option>
@@ -412,95 +479,117 @@ const Dashboard = () => {
 
               </div>
               {graphTypeName && (
-                <div class="container graph-options">
-                  <div class="col-12">
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" checked={entityLevel} onChange={e => setEntityLevel(e.target.checked)} />
-                      <label class="form-check-label" for="flexCheckDefault1">
+                <div className="container graph-options">
+                  <div className="col-12">
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault1" checked={entityLevel} onChange={e => setEntityLevel(e.target.checked)} />
+                      <label className="form-check-label" for="flexCheckDefault1">
                         Entity Level
                       </label>
                     </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked2" checked={publicationLevel} onChange={e => setPublicationLevel(e.target.checked)} />
-                      <label class="form-check-label" for="flexCheckChecked2">
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked2" checked={publicationLevel} onChange={e => setPublicationLevel(e.target.checked)} />
+                      <label className="form-check-label" for="flexCheckChecked2">
                         Publication Level
                       </label>
                     </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3" checked={journalistLevel} onChange={e => setjournalistLevel(e.target.checked)} />
-                      <label class="form-check-label" for="flexCheckDefault3">
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault3" checked={journalistLevel} onChange={e => setjournalistLevel(e.target.checked)} />
+                      <label className="form-check-label" for="flexCheckDefault3">
                         Journlist Level
                       </label>
                     </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked4" checked={cityLevel} onChange={e => setCityLevel(e.target.checked)} />
-                      <label class="form-check-label" for="flexCheckChecked4">
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked4" checked={cityLevel} onChange={e => setCityLevel(e.target.checked)} />
+                      <label className="form-check-label" for="flexCheckChecked4">
                         City  Level
                       </label>
                     </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked5" checked={keywordLevel} onChange={e => setKeywordLevel(e.target.checked)} />
-                      <label class="form-check-label" for="flexCheckChecked5">
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked5" checked={keywordLevel} onChange={e => setKeywordLevel(e.target.checked)} />
+                      <label className="form-check-label" for="flexCheckChecked5">
                         Keyword Level
                       </label>
                     </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked9" checked={topicLevel} onChange={e => setTopicLevel(e.target.checked)} />
-                      <label class="form-check-label" for="flexCheckChecked9">
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked9" checked={topicLevel} onChange={e => setTopicLevel(e.target.checked)} />
+                      <label className="form-check-label" for="flexCheckChecked9">
                         Topic Level
                       </label>
                     </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked6" checked={spokespersonLevel} onChange={e => setSpokespersonLevel(e.target.checked)} />
-                      <label class="form-check-label" for="flexCheckChecked6">
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked6" checked={spokespersonLevel} onChange={e => setSpokespersonLevel(e.target.checked)} />
+                      <label className="form-check-label" for="flexCheckChecked6">
                         Spokesperson Level
                       </label>
                     </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked7" checked={profilingLevel} onChange={e => setProfilingLevel(e.target.checked)} />
-                      <label class="form-check-label" for="flexCheckChecked7">
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked7" checked={profilingLevel} onChange={e => setProfilingLevel(e.target.checked)} />
+                      <label className="form-check-label" for="flexCheckChecked7">
                         Profiling Level
                       </label>
                     </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked8" checked={visibilityLevel} onChange={e => setVisibilityLevel(e.target.checked)} />
-                      <label class="form-check-label" for="flexCheckChecked8">
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked8" checked={visibilityLevel} onChange={e => setVisibilityLevel(e.target.checked)} />
+                      <label className="form-check-label" for="flexCheckChecked8">
                         Visibility Level
                       </label>
                     </div>
 
                   </div>
-                  <div class="col-12 ">
-                    <button class="btn btn-primary" onClick={e => addSetting()} type="button" >ADD GRAPH TYPE</button>
+                  <div className="col-12 ">
+                    <button className="btn btn-primary" onClick={e => addSetting()} type="button" >ADD GRAPH TYPE</button>
                   </div>
 
                 </div>
               )}
-              <div class="col-12 ">
+              <div className="col-12 ">
+              {setting.length > 0 && <span>Use Drag and Drop Arrange the Order </span>}
+              <Reorder
+          reorderId="my-list" // Unique ID that is used internally to track this list (required)
+          reorderGroup="reorder-group" // A group ID that allows items to be dragged between lists of the same group (optional)
+          // getRef={this.storeRef.bind(this)} // Function that is passed a reference to the root node when mounted (optional)
+          component="div" // Tag name or Component to be used for the wrapping element (optional), defaults to 'div'
+          // placeholderClassName="placeholder" // className name to be applied to placeholder elements (optional), defaults to 'placeholder'
+          draggedClassName="dragged" // className name to be applied to dragged elements (optional), defaults to 'dragged'
+          lock="horizontal" // Lock the dragging direction (optional): vertical, horizontal (do not use with groups)
+          holdTime={500} // Default hold time before dragging begins (mouse & touch) (optional), defaults to 0
+          touchHoldTime={500} // Hold time before dragging begins on touch devices (optional), defaults to holdTime
+          mouseHoldTime={200} // Hold time before dragging begins with mouse (optional), defaults to holdTime
+          onReorder={onReorder} // Callback when an item is dropped (you will need this to update your state)
+          autoScroll={true} // Enable auto-scrolling when the pointer is close to the edge of the Reorder component (optional), defaults to true
+          disabled={false} // Disable reordering (optional), defaults to false
+          disableContextMenus={true} // Disable context menus when holding on touch devices (optional), defaults to true
+          // placeholder={
+          //   <div className="col-3" /> // Custom placeholder element (optional), defaults to clone of dragged element
+          // }
+        >  
                 {setting?.map((e, index) => (
-                  <div class="card" key={index} style={{ width: "18rem" }}>
-                    <div class="card-body">
-                      <h5 class="card-title">{e.graph_type}</h5>
-                      {/* <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
-                      {e.entity_level === true && <p class="card-text">Entity Level :  Yes</p>}
-                      {e.publication_level === true && <p class="card-text">Publication Level : Yes</p>}
-                      {e.journalist_level === true && <p class="card-text">Journalist Level :  Yes</p>}
-                      {e.city_level === true && <p class="card-text">City Level : Yes</p>}
-                      {e.keyword_level === true && <p class="card-text">Keyword Level :  Yes</p>}
-                      {e.topic_level === true && <p class="card-text">Topic Level :  Yes</p>}
-                      {e.spokesperson_level === true && <p class="card-text">Spokesperson Level :  Yes</p>}
-                      {e.profiling_level === true && <p class="card-text">Profiling Level :  Yes</p>}
-                      {e.visibility_level === true && <p class="card-text">Visibility Level :  Yes</p>}
-                      <a href="javascript:void(0)" onClick={e => deleteLevel(index)} class="card-link">Remove</a>
-                      <a href="javascript:void(0)" onClick={e => editLevel(index)} class="card-link">Edit</a>
+                  <div className="card" key={index} style={{ width: "18rem", cursor: "pointer" }}>
+                    <div className="card-body">
+                    <h5 className="">Order : {index + 1}</h5>
+                      <h5 className="card-title">{e.graph_type}</h5>
+                      {/* <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
+                      {e.entity_level === true && <p className="card-text">Entity Level :  Yes</p>}
+                      {e.publication_level === true && <p className="card-text">Publication Level : Yes</p>}
+                      {e.journalist_level === true && <p className="card-text">Journalist Level :  Yes</p>}
+                      {e.city_level === true && <p className="card-text">City Level : Yes</p>}
+                      {e.keyword_level === true && <p className="card-text">Keyword Level :  Yes</p>}
+                      {e.topic_level === true && <p className="card-text">Topic Level :  Yes</p>}
+                      {e.spokesperson_level === true && <p className="card-text">Spokesperson Level :  Yes</p>}
+                      {e.profiling_level === true && <p className="card-text">Profiling Level :  Yes</p>}
+                      {e.visibility_level === true && <p className="card-text">Visibility Level :  Yes</p>}
+                      <a href="javascript:void(0)" onClick={e => deleteLevel(index)} className="card-link">Remove</a>
+                      <a href="javascript:void(0)" onClick={e => editLevel(index)} className="card-link">Edit</a>
                     </div>
                   </div>
                 ))}
+                </Reorder>
               </div>
 
-              <div class="col-12">
-                <label for="vertical" class="form-label">Vertical</label>
-                <select class="form-select" id="vertical" onChange={e => setIsVertical(e.target.value)} required>
+              <div className="col-12">
+                <label for="vertical" className="form-label">Vertical</label>
+                <select className="form-select" id="vertical" onChange={e => setIsVertical(e.target.value)} required>
                   <option value="">Choose...</option>
                   <option value="1">Yes</option>
                   <option value="0">No</option>
@@ -508,59 +597,81 @@ const Dashboard = () => {
 
               </div>
               {is_vertical === "1" && (
-                <div class="col-12 ">
-                  {/* <label for="vertical" class="form-label">Add </label> */}
-                  <input type="text" class="form-control" id="vertical" value={vertical} onChange={e => setVertical(e.target.value)} placeholder="" />
+                <div className="col-12 ">
+                  {/* <label for="vertical" className="form-label">Add </label> */}
+                  <input type="text" className="form-control" id="vertical" value={vertical} onChange={e => setVertical(e.target.value)} placeholder="" />
 
 
 
-                  <div class="col-12 mt-10">
-                    <button class="btn btn-primary" onClick={e => addVertical()} type="button" >Add Vertical</button>
+                  <div className="col-12 mt-10">
+                    <button className="btn btn-primary" onClick={e => addVertical()} type="button" >Add Vertical</button>
                   </div>
                 </div>
               )}
-              <div class="col-12 ">
+              <div className="col-12 ">
                 {verticals?.map((e, index) => (
-                  <div class="card" key={index} style={{ width: "18rem" }}>
-                    <div class="card-body">
-                      <h5 class="card-title">{e}</h5>
+                  <div className="card" key={index} style={{ width: "18rem" }}>
+                    <div className="card-body">
+                      <h5 className="card-title">{e}</h5>
 
-                      <a href="javascript:void(0)" onClick={e => deleteVertical(index)} class="card-link">Remove</a>
+                      <a href="javascript:void(0)" onClick={e => deleteVertical(index)} className="card-link">Remove</a>
                     </div>
                   </div>
                 ))}
 
               </div>
-              <div class="col-12">
-                <label for="state" class="form-label">Filter</label>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="index" checked={isIndex} onChange={e => setIndex(e.target.checked)} />
-                  <label class="form-check-label" for="index">
+              <div className="col-12">
+                <label for="state" className="form-label">Filter</label>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" value="" id="index" checked={isIndex} onChange={e => setIndex(e.target.checked)} />
+                  <label className="form-check-label" for="index">
                     Index
                   </label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="reach" checked={isReach} onChange={e => setReach(e.target.checked)} />
-                  <label class="form-check-label" for="reach">
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" value="" id="reach" checked={isReach} onChange={e => setReach(e.target.checked)} />
+                  <label className="form-check-label" for="reach">
                     Reach '000
                   </label>
                 </div>
 
               </div>
-              <div class="col-6 ">
-                <label for="zip" class="form-label">Document</label>
-                <input type="file" class="form-control" id="zip" onChange={onFileChange} placeholder="" required />
-                <div class="mt-10 img-note">
+              <div className="col-12">
+                <label for="prints" className="form-label">Media Type</label>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" value="" id="print" checked={isPrint} onChange={e => setIsPrint(e.target.checked)} />
+                  <label className="form-check-label" for="print">
+                    Print
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" value="" id="online" checked={isOnline} onChange={e => setIsOnline(e.target.checked)} />
+                  <label className="form-check-label" for="online">
+                    Online
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" value="" id="printonline" checked={isPrintOnline} onChange={e => setIsPrintOnline(e.target.checked)} />
+                  <label className="form-check-label" for="printonline">
+                    Print & Online
+                  </label>
+                </div>
+
+              </div>
+              <div className="col-6 ">
+                <label for="zip" className="form-label">Document</label>
+                <input type="file" className="form-control" id="zip" onChange={onFileChange} placeholder="" required />
+                <div className="mt-10 img-note">
                   Check the sample file before upload <a href="http://qa.conceptbiu.com//unifiedapi/qualitative/sample_template1666253552888.xlsx" target="_blank">Sample file</a>
                 </div>
               </div>
             </div>
 
             <br></br>
-            {/* {isLoading && <h5 class="loading">uploading</h5>}
+            {/* {isLoading && <h5 className="loading">uploading</h5>}
             <p ref={statusRef}></p> */}
 
-            <button class="btn btn-primary btn-medium" type="reset" onClick={e => upload()}>Upload</button>
+            <button className="btn btn-primary btn-medium" type="button" onClick={e => upload()}>Upload</button>
           </form>
         </div>
       </div>

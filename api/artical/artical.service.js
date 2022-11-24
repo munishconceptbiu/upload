@@ -29,13 +29,14 @@ module.exports = {
     updateSetting,
     addVerticalSetting,
     getVerticalSetting,
-    getClientList
+    getClientList,
+    getSettingClientList
 };
 
 
 
-async function getAllListUpload() {
-    const result = await db.QaUploadDetail.findAll();
+async function getAllListUpload(client_id) {
+    const result = await db.QaUploadDetail.findAll({ where: { client_id: client_id }});
     return result;
 }
 async function getAll(client_id, article_id, entity_name, media_type) {
@@ -173,7 +174,7 @@ async function getVerticalSetting(client_id) {
     const result = await db.QaVerticalSetting.findOne({
         where: { client_id: client_id },
         attributes: ["id",
-         "verticals", "isVertical", "isIndex", "isReach" ]
+         "verticals", "isVertical", "isIndex", "isReach", 'isOnline', 'isPrint', 'isPrintOnline' ]
       });
     return result;
 }
@@ -233,6 +234,19 @@ async function getClientList(name) {
         attributes: ["id",
         "client_name",
        ]
+      });
+    return result;
+}
+
+async function getSettingClientList(name) {
+    const result = await db3.Client.findAll({
+        where: { client_name: {
+            [Op.like]: `${name}%`
+          } },
+        attributes: ["id",
+        "client_name",
+       ],
+       group: "client_id",
       });
     return result;
 }

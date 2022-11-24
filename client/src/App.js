@@ -5,7 +5,6 @@ import React, { Component, Suspense, useEffect } from 'react'
 import { HashRouter, Route, Routes, useLocation, Navigate, useNavigate } from 'react-router-dom'
 import { connect, useDispatch } from 'react-redux';
 import { checkAutoLogin } from './services/AuthService';
-
 import { isAuthenticated } from './store/selectors/AuthSelectors';
 
 const loading = (

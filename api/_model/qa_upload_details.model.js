@@ -14,6 +14,8 @@ function model(sequelize) {
         filename: { type: DataTypes.STRING, allowNull: true },
         month: { type: DataTypes.STRING, allowNull: true },
         year: { type: DataTypes.INTEGER, allowNull: true },
+        start_date:{ type: DataTypes.DATE, allowNull: false},
+        end_date: { type: DataTypes.DATE, allowNull: false},
         created_at: { type: DataTypes.DATE, allowNull: true},
         updated_at: { type: DataTypes.DATE, allowNull: true},
         createdAt: { type: DataTypes.DATE, allowNull: true},

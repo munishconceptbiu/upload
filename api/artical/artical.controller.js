@@ -49,7 +49,7 @@ exports.getArtical = async function (req, res, next) {
     res.json({ edition: edition, message: 'Edition successful' })
 }
 exports.getList = async function (req, res, next) {
-    articalService.getAllListUpload().then((data) => {
+    articalService.getAllListUpload(req.params.client_id).then((data) => {
         res.json({ data: data, message: 'Artical successful' })
     })
 }
@@ -137,22 +137,22 @@ exports.saveArtical = async function (req, res, next) {
             reject('Your sheet not proper media type values. Please check')
         }
 
-       await JSON.parse(req.body.setting).map(async (entry, index) => {
-            if(entry.graph_id === 1){
-                const tonalitylength = data.filter(e => e['tonality']);
-                if(tonalitylength.length === 0){
-                    reject('Your sheet not proper tonality values. Please check')
-                }
-            }
-        })
+    //    await JSON.parse(req.body.setting).map(async (entry, index) => {
+    //         if(entry.graph_id === 1){
+    //             const tonalitylength = data.filter(e => e['tonality']);
+    //             if(tonalitylength.length === 0){
+    //                 reject('Your sheet not proper tonality values. Please check')
+    //             }
+    //         }
+    //     })
         if(artlength.length !== 0 && datelength.length !== 0 && companylength.length !== 0 && editionlength.length !== 0 && medialength.length !== 0) {
             articalService.addUploadDetails({
                 username: req.body.username,
                 email: req.body.email,
                 client_id: req.body.client_id,
                 client_name: req.body.client_name,
-                month: req.body.month,
-                year: req.body.year,
+                start_date: req.body.start_date,
+                end_date: req.body.end_date,
                 ip_address: req.body.ip_address,
                 file: f.url,
                 filename: f.filename,
@@ -191,7 +191,10 @@ exports.saveArtical = async function (req, res, next) {
             client_id: req.body.client_id,
             client_name: req.body.client_name,
             isIndex: req.body.isIndex,
-            isReach: req.body.isReach
+            isReach: req.body.isReach,
+            isPrint: req.body.isPrint,
+            isOnline: req.body.isOnline,
+            isPrintOnline: req.body.isPrintOnline
         })
         resolve('add vertical')
     });
@@ -422,11 +425,55 @@ exports.processExcel = function (req, res) {
 }
 
 exports.addSetting = async function (req, res, next) {
-    articalService.addSetting(req.body)
-        .then((setting) => {
-            res.json({ setting: setting, message: 'Setting added successful' })
+    // articalService.addSetting(req.body)
+    //     .then((setting) => {
+    //         res.json({ setting: setting, message: 'Setting added successful' })
+    //     })
+    //     .catch(next);
+
+    const addSetting = new Promise((resolve, reject) => {
+        JSON.parse(req.body.setting).map(async (e, index) => {
+            articalService.addSetting({
+                client_id: req.body.client_id,
+                entity_level: e.entity_level,
+                publication_level: e.publication_level,
+                journalist_level: e.journalist_level,
+                city_level: e.city_level,
+                keyword_level: e.keyword_level,
+                topic_level: e.topic_level,
+                graph_type: e.graph_type,
+                spokesperson_level: e.spokesperson_level,
+                profiling_level: e.profiling_level,
+                visibility_level: e.visibility_level,
+                client_name: req.body.client_name,
+                graph_id: e.graph_id,
+                order_id: index + 1
+            })
         })
-        .catch(next);
+        resolve('added settings')
+    });
+
+    const addVertical = new Promise((resolve, reject) => {
+        articalService.addVerticalSetting({
+            isVertical: req.body.is_vertical,
+            verticals: req.body.verticals,
+            client_id: req.body.client_id,
+            client_name: req.body.client_name,
+            isIndex: req.body.isIndex,
+            isReach: req.body.isReach,
+            isPrint: req.body.isPrint,
+            isOnline: req.body.isOnline,
+            isPrintOnline: req.body.isPrintOnline
+        })
+        resolve('add vertical')
+    });
+    Promise.all([addUploadDetails, addSetting, addVertical]).then((values) => {
+        console.log('values', values)
+        res.json({ message: 'Setting sucessfully updated', data: {} });
+    }).catch((error)=> {
+        res.status(500).json({ error: error });
+    })
+
 }
 
 exports.getSetting = async function (req, res, next) {
@@ -479,6 +526,14 @@ exports.deleteSetting = async function (req, res, next) {
 
 exports.getClientList =  async function (req, res, next) {
     articalService.getClientList(req.params.client_name)
+        .then(data => {
+            res.json({ client: data, message: "Client list fetched successfully" });
+        })
+        .catch(next);
+}
+
+exports.getSettingClientList =  async function (req, res, next) {
+    articalService.getSettingClientList(req.params.client_name)
         .then(data => {
             res.json({ client: data, message: "Client list fetched successfully" });
         })
