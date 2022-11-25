@@ -14,10 +14,12 @@ import { useNavigate, NavLink } from 'react-router-dom';
 const ViewSetting = () => {
   let navigate = useNavigate();
   const [settingList, setSettingList] = useState([]);
+  const [setting, setSetting] = useState({})
   const getSettingList = (id) => {
     const cid = id || client_id
     get("artical/get-unique-setting/" + cid).then((response) => {
       setSettingList(response.data.settings)
+      setSetting(response.data)
     })
       .catch(() => {
         // handleLoginFailure({ status: UNAUTHORIZED });
@@ -172,9 +174,9 @@ const ViewSetting = () => {
                 <td>{list.spokesperson_level === true ? 'Yes' : 'No'}</td>
                 <td>{list.profiling_level === true ? 'Yes' : 'No'}</td>
                 <td>{list.visibility_level === true ? 'Yes' : 'No'}</td> */}
-                <td>{list.isOnline === true ? 'Yes' : 'No'}</td>
-                <td>{list.isPrint === true ? 'Yes' : 'No'}</td>
-                <td>{list.isPrintOnline === true ? 'Yes' : 'No'}</td>
+                <td>{setting.isOnline === true ? 'Yes' : 'No'}</td>
+                <td>{setting.isPrint === true ? 'Yes' : 'No'}</td>
+                <td>{setting.isPrintOnline === true ? 'Yes' : 'No'}</td>
                 <td ><NavLink to={`/edit-setting/${list.client_id}`}><EditIcon /></NavLink> <a href="javascript:void(0);" onClick={e => deleteSetting(list.id)} className='deleicon'><DeleteIcon /></a></td>
               </tr>
             ))}

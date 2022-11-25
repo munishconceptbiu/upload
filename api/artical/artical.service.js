@@ -208,6 +208,7 @@ async function getQualitativeCheck(client_id) {
 }
 
 async function getSettingAll(client_id) {
+    
     const result = await db.QaSetting.findAll({
         attributes: ["id",
         "client_id",
@@ -256,6 +257,14 @@ async function getSettingClientList(name) {
     return result;
 }
 async function getUniqueSetting(client_id) {
+    // const result = await db.QaSetting.findAll({
+    //     include: {
+    //       model: db.QaVerticalSetting,
+    //       as: 'settings',
+    //       where: { client_id: client_id },
+    //       }
+    //     });
+
     const result = await db.QaSetting.findAll({
         where: { client_id: client_id },
         attributes: ["id",
