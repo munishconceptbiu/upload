@@ -197,7 +197,7 @@ async function getSetting(client_id) {
         "spokesperson_level",
         "profiling_level",
         "visibility_level", "topic_level", "client_name", "graph_id", "order_id"],
-        order: ['order_id', 'ASC']
+        order: ['order_id']
       });
     return result;
 }
