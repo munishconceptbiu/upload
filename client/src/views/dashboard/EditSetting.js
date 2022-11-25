@@ -21,7 +21,7 @@ import Reorder, {
     reorderFromToImmutable
 } from "react-reorder";
 import move from "lodash-move";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink, useParams } from 'react-router-dom';
 
 
 const graphType = [
@@ -65,6 +65,8 @@ const graphType = [
 ]
 const AddSetting = () => {
     const state = store.getState();
+    const params = useParams();
+
     const navigate = useNavigate()
     const [setting, setSetting] = useState([])
     const [client_id, setClientId] = useState()
@@ -83,7 +85,7 @@ const AddSetting = () => {
     const [graphTypeId, setGraphTypeId] = useState()
     const [is_vertical, setIsVertical] = useState(0)
     const [verticals, setVerticals] = useState([])
-    const [vertical, setVertical] = useState()
+    const [vertical, setVertical] = useState("")
 
     const [isIndex, setIndex] = useState(false);
     const [isReach, setReach] = useState(false);
@@ -92,19 +94,15 @@ const AddSetting = () => {
     const [isPrint, setIsPrint] = useState(false);
     const [isPrintOnline, setIsPrintOnline] = useState(false);
 
-    let selectRef = React.useRef();
 
     const saveSetting = async () => {
 
-        const client = selectRef.getValue()[0]
-        if (client === "" || client === undefined || client === null) {
-            toast.error("Client id can't be empty");
-            return false;
-        }
+       
         if (setting.length === 0) {
             toast.error("Select atlease one graph type");
             return false;
         }
+        console.log('isPrint', isPrint, isOnline, isPrintOnline)
         if (isPrint === false && isOnline === false && isPrintOnline === false) {
             toast.error("Please select altleast any two media types");
             return false;
@@ -119,8 +117,7 @@ const AddSetting = () => {
         }
 
         const formData = {
-            client_id: client.value,
-            client_name: client.label,
+            client_id: params.client_id,
             username: state.auth.auth.first_name + ' ' + state.auth.auth.last_name,
             email: state.auth.auth.email,
             setting: setting,
@@ -158,20 +155,18 @@ const AddSetting = () => {
                 setSetting([])
                 setVerticals([])
                 setVertical('')
-                selectRef.clearValue();
                 setClientName();
                 setClientId()
                 resolve("Setting Successfully Saved");
                 navigate('/view-setting')
             }).catch((err) => {
-                console.log('err', err.response.data.error)
+                console.log('err', err)
                 setGraphTypeName('');
                 setGraphTypeId('')
                 emptyLevel()
                 setSetting([])
                 setVerticals([])
                 setVertical('');
-                selectRef.clearValue();
                 setClientName();
                 setClientId()
                 reject(err.response.data.error)
@@ -206,7 +201,6 @@ const AddSetting = () => {
     }
 
     const setGraphTypeChange = (e) => {
-        clientChange()
         if (e.target.value === "") {
             setGraphTypeId()
             setGraphTypeName()
@@ -249,13 +243,13 @@ const AddSetting = () => {
         setSetting(move(setting, from, to));
     };
     const deleteLevel = (index, e) => {
-       if(e.id){
-        deleteSetting(e.id)
-       }
-        let newSetting = [...setting];
-        newSetting.splice(index, 1)
-        setSetting(newSetting);
-    }
+        if(e.id){
+         deleteSetting(e.id)
+        }
+         let newSetting = [...setting];
+         newSetting.splice(index, 1)
+         setSetting(newSetting);
+     }
     const editLevel = (index) => {
         let editsetting = setting[index];
         setGraphTypeName(editsetting.graph_type);
@@ -300,42 +294,44 @@ const AddSetting = () => {
             })
 
         });
+    
+        const getSettingList = (id) => {
+            const cid = id
+            get("artical/get-setting/" + cid).then((response) => {
+              setSetting(response.data.settings)
+              setVerticals(response.data.verticals)
+              setIndex(response.data.isIndex);
+              setReach(response.data.isReach);
+              setIsOnline(response.data.isOnline || false);
+              setIsPrint(response.data.isPrint || false);
+              setIsPrintOnline(response.data.isPrintOnline || false)
+              setIsVertical(response.data.isVertical || false)
+            })
+              .catch(() => {
+                // handleLoginFailure({ status: UNAUTHORIZED });
+              })
+        
+          }
+          const deleteSetting = (id) => {
+            deleteMethod("artical/delete-setting/" + id).then((response) => {
+            //   swal("Success!", "Setting successfully deleted", "success");
+              getSettingList(params.client_id)
+            })
+              .catch(() => {
+                // handleLoginFailure({ status: UNAUTHORIZED });
+              })
+          }
 
-    const clientChange = () => {
-        const client = selectRef.getValue()[0];
-        console.log('client', client)
-        if(client){
-            get("artical/get-setting/" + client.value).then((response) => {
-            setSetting(response.data.settings)
-            setVerticals(response.data.verticals)
-            setIndex(response.data.isIndex);
-            setReach(response.data.isReach);
-            setIsOnline(response.data.isOnline || false);
-            setIsPrint(response.data.isPrint || false);
-            setIsPrintOnline(response.data.isPrintOnline || false)
-            setIsVertical(response.data.isVertical || false)
-        })
-        .catch(() => {
-          // handleLoginFailure({ status: UNAUTHORIZED });
-        })
-    }
-    }
-    const deleteSetting = (id) => {
-        deleteMethod("artical/delete-setting/" + id).then((response) => {
-        //   swal("Success!", "Setting successfully deleted", "success");
-          clientChange()
-        })
-          .catch(() => {
-            // handleLoginFailure({ status: UNAUTHORIZED });
-          })
-      }
-  
+    useEffect(() => {
+        getSettingList(params.client_id)
+    }, [params.client_id]);
+
     return (
         <>
 
             <div className="page-title">
                 <h1 >
-                    Add Setting
+                    Edit Setting
                 </h1>
             </div>
             <div className="uqr-contents">
@@ -343,15 +339,6 @@ const AddSetting = () => {
                 <div className="container-fluid">
                     <form className="needs-validation" noValidate>
                         <div className="row g-3">
-
-                            <div className="col-6">
-                                <div className='client-section'>
-                                    <label for="country" className="form-label">Client</label>
-                                    <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions}  ref={(ref) => {
-                                        selectRef = ref;
-                                    }} />
-                                </div>
-                            </div>
 
                             <div className="col-12">
                                 <label for="state" className="form-label">Graph Type</label>

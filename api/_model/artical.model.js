@@ -45,6 +45,7 @@ function model(sequelize) {
         co_score: { type: DataTypes.INTEGER, allowNull: false },
         circulation_web_weightage: { type: DataTypes.STRING, allowNull: false },
         index: { type: DataTypes.INTEGER, allowNull: false },
+        upload_id: { type: DataTypes.INTEGER, allowNull: false },
     };
 
     const options = {};

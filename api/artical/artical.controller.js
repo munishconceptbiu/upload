@@ -96,7 +96,7 @@ exports.saveArtical = async function (req, res, next) {
         data.shift();
         data.shift();
     });
-    
+    let upload;
     const addUploadDetails = new Promise(async (resolve, reject) => {
         if(req.body.isIndex === 'true') {
             if(data.filter(e => e.index).length === 0 ){
@@ -146,7 +146,7 @@ exports.saveArtical = async function (req, res, next) {
     //         }
     //     })
         if(artlength.length !== 0 && datelength.length !== 0 && companylength.length !== 0 && editionlength.length !== 0 && medialength.length !== 0) {
-            articalService.addUploadDetails({
+            upload = articalService.addUploadDetails({
                 username: req.body.username,
                 email: req.body.email,
                 client_id: req.body.client_id,
@@ -255,7 +255,8 @@ exports.saveArtical = async function (req, res, next) {
                     entity_name: e['company name'],
                     prominence: e['prominence'],
                     client_name: req.body.client_name,
-                    edition_id: edition?.id
+                    edition_id: edition?.id,
+                    upload_id: upload?.id
                 }
                 if (e['media type'] === 'Print') {
                     const [print_data, created] = dbdata;
@@ -303,7 +304,8 @@ exports.saveArtical = async function (req, res, next) {
                         if (spokesman.length !== 0) {
                             spokesman?.filter(async (s) => {
                                 const sperson = {
-                                    spokesperson_name: s[1]
+                                    spokesperson_name: s[1],
+                                    upload_id: upload?.id
                                 }
                                 await articalService.createQaSpokesPerson(sperson).then(async (sps) => {
                                     const [sporkepeople, created] = sps;
@@ -311,7 +313,8 @@ exports.saveArtical = async function (req, res, next) {
                                     const spersondata = {
                                         spokesperson_id: sporkepeople.id,
                                         q_article_id: q_articles?.id,
-                                        spokesperson_profiling: e['spokesperson profiling']
+                                        spokesperson_profiling: e['spokesperson profiling'],
+                                        upload_id: upload?.id
                                     }
                                     await articalService.createQaDataSpokesPerson(spersondata)
                                 })
@@ -322,14 +325,16 @@ exports.saveArtical = async function (req, res, next) {
                         if (products.length !== 0) {
                             products?.filter(async (p) => {
                                 const product = {
-                                    product_name: p[1]
+                                    product_name: p[1],
+                                    upload_id: upload?.id
                                 }
                                 await articalService.createQaClientProduct(product).then(async (pro) => {
                                     const [products, created] = pro;
 
                                     const spersondata = {
                                         product_id: products.id,
-                                        q_article_id: q_articles?.id
+                                        q_article_id: q_articles?.id,
+                                        upload_id: upload?.id
                                     }
                                     await articalService.createQaDataProduct(spersondata)
                                 })
@@ -484,7 +489,7 @@ exports.getSetting = async function (req, res, next) {
                 .then(data => {
                     articalService.getVerticalSetting(req.params.client_id)
                         .then(vertical => {
-                            res.json({ settings: data, qualitative: check > 0 ? true : false, isVertical: vertical ? vertical?.isVertical : false,verticals: vertical ? JSON.parse(vertical?.verticals) : [], isIndex: vertical ? vertical?.isIndex : false, isReach: vertical ? vertical?.isReach : false, message: "Client setting fetched successfully" });
+                            res.json({ settings: data, qualitative: check > 0 ? true : false, isVertical: vertical ? vertical?.isVertical : false,verticals: vertical ? JSON.parse(vertical?.verticals) : [], isIndex: vertical ? vertical?.isIndex : false, isReach: vertical ? vertical?.isReach : false, isOnline: vertical ? vertical?.isOnline : false, isPrint: vertical ? vertical?.isPrint : false , isPrintOnline: vertical ? vertical?.isPrintOnline : false, message: "Client setting fetched successfully" });
                         })
                         .catch(next);
                 })
@@ -548,7 +553,7 @@ exports.getUniqueSetting = async function (req, res, next) {
                 .then(data => {
                     articalService.getVerticalSetting(req.params.client_id)
                         .then(vertical => {
-                            res.json({ settings: data, qualitative: check > 0 ? true : false, isVertical: vertical ? vertical?.isVertical : false,verticals: vertical ? JSON.parse(vertical?.verticals) : [], isIndex: vertical ? vertical?.isIndex : false, isReach: vertical ? vertical?.isReach : false, message: "Client setting fetched successfully" });
+                            res.json({ settings: data, qualitative: check > 0 ? true : false, isVertical: vertical ? vertical?.isVertical : false,verticals: vertical ? JSON.parse(vertical?.verticals) : [], isIndex: vertical ? vertical?.isIndex : false, isReach: vertical ? vertical?.isReach : false, isOnline: vertical ? vertical?.isOnline : false, isPrint: vertical ? vertical?.isPrint : false , isPrintOnline: vertical ? vertical?.isPrintOnline : false, message: "Client setting fetched successfully" });
                         })
                         .catch(next);
                 })

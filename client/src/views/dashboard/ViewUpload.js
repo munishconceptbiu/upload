@@ -3,9 +3,10 @@ import AsyncSelect from 'react-select/async';
 
 import moment from 'moment';
 import { store } from '../../store/store';
+import { EditIcon, DeleteIcon } from "../../Icons/icons.component";
 
 import axios from 'axios';
-import { get , post } from "../../services/CommanService";
+import { get , post, deleteMethod } from "../../services/CommanService";
 import AppHeader from '../../components/AppHeader';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -45,6 +46,14 @@ const ViewUpload = () => {
     getUploadList(e.value);
   }
     
+  const deleteUpload= (id) => {
+    deleteMethod("artical/delete-upload/" + id).then((response) => {
+      toast.success("Setting successfully deleted");
+    })
+      .catch(() => {
+        // handleLoginFailure({ status: UNAUTHORIZED });
+      })
+  }
 
     useEffect(() => {
         getUploadList();
@@ -80,6 +89,7 @@ const ViewUpload = () => {
           <th>File Link</th>
           <th>Uploaded By</th>
           <th>Uploaded At</th>
+          {/* <th> Actions </th> */}
         </tr>
       </thead>
       <tbody>
@@ -93,6 +103,7 @@ const ViewUpload = () => {
           <td><a href={list.file} target="_blank">{list.filename}</a></td>
           <td>{list.username}</td>
           <td>{moment(list.createdAt).format('lll')}</td>
+          {/* <td > {list.user_id === state.auth.auth.id && <a href="javascript:void(0);" onClick={e => deleteUpload(list.id)} className='deleicon'><DeleteIcon /></a> }  {list.user_id !== state.auth.auth.id && <span>-</span>} </td> */}
         </tr>
        ))}
       </tbody>

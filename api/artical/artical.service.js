@@ -153,7 +153,8 @@ async function createQaDataProduct(params) {
 
 async function addUploadDetails(params) {
 
-    await db.QaUploadDetail.create(params);
+    const upload = await db.QaUploadDetail.create(params);
+    return upload;
 }
 
 

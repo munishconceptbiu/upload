@@ -204,7 +204,7 @@ const Dashboard = () => {
 
               <div className="col-6 ">
                 <label for="zip" className="form-label">Document</label>
-                <input type="file" className="form-control" id="zip" onChange={onFileChange} placeholder="" required />
+                <input type="file" className="form-control" id="zip" accept=".xls, .xlsx" onChange={onFileChange} placeholder="" required />
                 <div className="mt-10 img-note">
                   Check the sample file before upload <a href="http://qa.conceptbiu.com//unifiedapi/qualitative/sample_template1666253552888.xlsx" target="_blank">Sample file</a>
                 </div>

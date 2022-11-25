@@ -10,11 +10,7 @@ import axios from 'axios';
 import { get, post, put, deleteMethod } from "../../services/CommanService";
 import { pureFinalPropsSelectorFactory } from 'react-redux/es/connect/selectorFactory';
 import toast, { Toaster } from 'react-hot-toast';
-import {
-  useNavigate
-
-} from "react-router-dom";
-
+import { useNavigate, NavLink } from 'react-router-dom';
 const ViewSetting = () => {
   let navigate = useNavigate();
   const [settingList, setSettingList] = useState([]);
@@ -77,7 +73,7 @@ const ViewSetting = () => {
 
   const deleteSetting = (id) => {
     deleteMethod("artical/delete-setting/" + id).then((response) => {
-      swal("Success!", "Setting successfully deleted", "success");
+      toast.success("Setting successfully deleted");
       getSettingList()
     })
       .catch(() => {
@@ -116,9 +112,7 @@ const ViewSetting = () => {
   }
 
 
-  useEffect(() => {
 
-  }, []);
   return (
     <>
 
@@ -147,7 +141,7 @@ const ViewSetting = () => {
               <th>#</th>
 
               <th>Client Name</th>
-              <th>Grpah Type</th>
+              {/* <th>Grpah Type</th>
               <th>Entity Level</th>
               <th>Publication Level</th>
               <th>Journlist Level</th>
@@ -156,7 +150,10 @@ const ViewSetting = () => {
               <th>Topic Level</th>
               <th>Spokesperson Level</th>
               <th>Profiling Level</th>
-              <th>Visibility Level</th>
+              <th>Visibility Level</th> */}
+              <th>Online</th>
+              <th>Print</th>
+              <th>Print and Online</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -165,7 +162,7 @@ const ViewSetting = () => {
               <tr>
                 <td>{index + 1}</td>
                 <td>{list.client_name}</td>
-                <td>{list.graph_type}</td>
+                {/* <td>{list.graph_type}</td>
                 <td>{list.entity_level === true ? 'Yes' : 'No'}</td>
                 <td>{list.publication_level === true ? 'Yes' : 'No'}</td>
                 <td>{list.journalist_level === true ? 'Yes' : 'No'}</td>
@@ -174,8 +171,11 @@ const ViewSetting = () => {
                 <td>{list.topic_level === true ? 'Yes' : 'No'}</td>
                 <td>{list.spokesperson_level === true ? 'Yes' : 'No'}</td>
                 <td>{list.profiling_level === true ? 'Yes' : 'No'}</td>
-                <td>{list.visibility_level === true ? 'Yes' : 'No'}</td>
-                <td ><a onClick={e => editOpen(list)} href="javascript:void(0)"><EditIcon /></a> <a href="javascript:void(0);" onClick={e => deleteSetting(list.id)} className='deleicon'><DeleteIcon /></a></td>
+                <td>{list.visibility_level === true ? 'Yes' : 'No'}</td> */}
+                <td>{list.isOnline === true ? 'Yes' : 'No'}</td>
+                <td>{list.isPrint === true ? 'Yes' : 'No'}</td>
+                <td>{list.isPrintOnline === true ? 'Yes' : 'No'}</td>
+                <td ><NavLink to={`/edit-setting/${list.client_id}`}><EditIcon /></NavLink> <a href="javascript:void(0);" onClick={e => deleteSetting(list.id)} className='deleicon'><DeleteIcon /></a></td>
               </tr>
             ))}
             {settingList.length === 0 &&
