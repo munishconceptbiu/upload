@@ -12,7 +12,7 @@ function model(sequelize) {
         updated_at: { type: DataTypes.DATE, allowNull: true},
         createdAt: { type: DataTypes.DATE, allowNull: true},
         updatedAt: { type: DataTypes.DATE, allowNull: true},
-        upload_id: { type: DataTypes.INTEGER, allowNull: false },
+        upload_id: { type: DataTypes.INTEGER, allowNull: true },
     };
 
     const options = {

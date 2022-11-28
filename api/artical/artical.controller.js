@@ -42,6 +42,7 @@ const states = [
     { id: 100, city: "Goa", state: "Goa" },
     { id: 33, city: "Greater Noida", state: "Uttar Pradesh" },
     { id: 33, city: "Noida", state: "Uttar Pradesh" },
+    { id:43, city: "Dehradun", state: "Uttarakhand"}
 ]
 
 exports.getArtical = async function (req, res, next) {
@@ -146,70 +147,86 @@ exports.saveArtical = async function (req, res, next) {
     //         }
     //     })
         if(artlength.length !== 0 && datelength.length !== 0 && companylength.length !== 0 && editionlength.length !== 0 && medialength.length !== 0) {
-            upload = articalService.addUploadDetails({
-                username: req.body.username,
-                email: req.body.email,
-                client_id: req.body.client_id,
-                client_name: req.body.client_name,
-                start_date: req.body.start_date,
-                end_date: req.body.end_date,
-                ip_address: req.body.ip_address,
-                file: f.url,
-                filename: f.filename,
-                originalname: f.originalname,
-                user_id: req.body.user_id
-            })
-            resolve('add uploaded details')
+            // upload = await articalService.addUploadDetails({
+            //     username: req.body.username,
+            //     email: req.body.email,
+            //     client_id: req.body.client_id,
+            //     client_name: req.body.client_name,
+            //     start_date: req.body.start_date,
+            //     end_date: req.body.end_date,
+            //     ip_address: req.body.ip_address,
+            //     file: f.url,
+            //     filename: f.filename,
+            //     originalname: f.originalname,
+            //     user_id: req.body.user_id
+            // })
+            console.log('upload test', upload)
+            resolve(upload)
         }  
     });
 
-    const addSetting = new Promise((resolve, reject) => {
-        JSON.parse(req.body.setting).map(async (e, index) => {
-            articalService.addSetting({
-                client_id: req.body.client_id,
-                entity_level: e.entity_level,
-                publication_level: e.publication_level,
-                journalist_level: e.journalist_level,
-                city_level: e.city_level,
-                keyword_level: e.keyword_level,
-                topic_level: e.topic_level,
-                graph_type: e.graph_type,
-                spokesperson_level: e.spokesperson_level,
-                profiling_level: e.profiling_level,
-                visibility_level: e.visibility_level,
-                client_name: req.body.client_name,
-                graph_id: e.graph_id,
-                order_id: index + 1,
-            })
-        })
-        resolve('added settings')
-    });
+    // const addSetting = new Promise((resolve, reject) => {
+    //     JSON.parse(req.body.setting).map(async (e, index) => {
+    //         articalService.addSetting({
+    //             client_id: req.body.client_id,
+    //             entity_level: e.entity_level,
+    //             publication_level: e.publication_level,
+    //             journalist_level: e.journalist_level,
+    //             city_level: e.city_level,
+    //             keyword_level: e.keyword_level,
+    //             topic_level: e.topic_level,
+    //             graph_type: e.graph_type,
+    //             spokesperson_level: e.spokesperson_level,
+    //             profiling_level: e.profiling_level,
+    //             visibility_level: e.visibility_level,
+    //             client_name: req.body.client_name,
+    //             graph_id: e.graph_id,
+    //             order_id: index + 1,
+    //         })
+    //     })
+    //     resolve('added settings')
+    // });
 
-    const addVertical = new Promise((resolve, reject) => {
-        articalService.addVerticalSetting({
-            isVertical: req.body.is_vertical,
-            verticals: req.body.verticals,
+    // const addVertical = new Promise((resolve, reject) => {
+    //     articalService.addVerticalSetting({
+    //         isVertical: req.body.is_vertical,
+    //         verticals: req.body.verticals,
+    //         client_id: req.body.client_id,
+    //         client_name: req.body.client_name,
+    //         isIndex: req.body.isIndex,
+    //         isReach: req.body.isReach,
+    //         isPrint: req.body.isPrint,
+    //         isOnline: req.body.isOnline,
+    //         isPrintOnline: req.body.isPrintOnline
+    //     })
+    //     resolve('add vertical')
+    // });
+    let insertlenth = 0;
+
+    Promise.all([addUploadDetails, 
+        upload =  await articalService.addUploadDetails({
+            username: req.body.username,
+            email: req.body.email,
             client_id: req.body.client_id,
             client_name: req.body.client_name,
-            isIndex: req.body.isIndex,
-            isReach: req.body.isReach,
-            isPrint: req.body.isPrint,
-            isOnline: req.body.isOnline,
-            isPrintOnline: req.body.isPrintOnline
-        })
-        resolve('add vertical')
-    });
-    
-    Promise.all([addUploadDetails, data.map(async (e, index) => {
+            start_date: req.body.start_date,
+            end_date: req.body.end_date,
+            ip_address: req.body.ip_address,
+            file: f.url,
+            filename: f.filename,
+            originalname: f.originalname,
+            user_id: req.body.user_id
+        }),
+        data.map(async (e, index) => {
         const art = parseInt(e['article id']);
         if (art !== 0 && !isNaN(art)) {
-
-            articalService.getAll(req.body.client_id, e['article id'], e['company name'], e['media type']).then(async (dbdata) => {
+       
+            await articalService.getAll(req.body.client_id, e['article id'], e['company name'], e['media type']).then(async (dbdata) => {
                 const state_name = states.filter(state => state.city === e['edition']);
                 const edition = e['media type'] === "Print" ? await articalService.getEdition(e['edition']) : { id: null };
                 qa_data = {
 
-                    state_name: state_name[0].state,
+                    state_name: state_name.length ? state_name[0].state : '',
                     article_id: e['article id'],
                     client_id: req.body.client_id,
                     media_type: e['media type'],
@@ -300,35 +317,35 @@ exports.saveArtical = async function (req, res, next) {
                     //     await articalService.updateQaData(qa_data, q_articles)
                     // }
                     if (q_articles) {
+                        insertlenth = insertlenth + 1;
                         const spokesman = Object.entries(e).filter((e, v) => e[0].match(/spokesperson [0-9]/g) && e[1] !== 0)
                         if (spokesman.length !== 0) {
                             spokesman?.filter(async (s) => {
                                 const sperson = {
                                     spokesperson_name: s[1],
                                     upload_id: upload?.id
-                                }
+                                };
                                 await articalService.createQaSpokesPerson(sperson).then(async (sps) => {
-                                    const [sporkepeople, created] = sps;
-
+                                    const [spokepeople, created] = sps;
                                     const spersondata = {
-                                        spokesperson_id: sporkepeople.id,
+                                        spokesperson_id: spokepeople.id,
                                         q_article_id: q_articles?.id,
                                         spokesperson_profiling: e['spokesperson profiling'],
                                         upload_id: upload?.id
-                                    }
-                                    await articalService.createQaDataSpokesPerson(spersondata)
-                                })
+                                    };
+                                    await articalService.createQaDataSpokesPerson(spersondata);
+                                });
 
                             })
                         }
-                        const products = Object.entries(e).filter((e, v) => e[0].match(/product name [0-9]/g) && e[1] !== 0)
-                        if (products.length !== 0) {
-                            products?.filter(async (p) => {
+                        const productss = Object.entries(e).filter((e, v) => e[0].match(/product name [0-9]/g) && e[1] !== 0)
+                        if (productss.length !== 0) {
+                            productss?.filter(async (p) => {
                                 const product = {
                                     product_name: p[1],
                                     upload_id: upload?.id
                                 }
-                                await articalService.createQaClientProduct(product).then(async (pro) => {
+                                await articalService.createQaClientProduct(product).then(async (	pro) => {
                                     const [products, created] = pro;
 
                                     const spersondata = {
@@ -345,14 +362,16 @@ exports.saveArtical = async function (req, res, next) {
                 });
 
             })
-            // if(data.length === index+1){
-            //     resolve('datas')
-            // }
+
+            if(data.length === index+1){
+                res.json({ message: 'Article upload succesfully - total article : ' + insertlenth, data: {} });
+                // resolve('datas')
+            }
         }
 
     })]).then((values) => {
-        console.log('values', values)
-        res.json({ message: 'Article upload processing', data: {} });
+        // console.log('values', values)
+        // res.json({ message: 'Article upload processing', data: {} });
     }).catch((error)=> {
         res.status(500).json({ error: error });
     })
@@ -436,7 +455,6 @@ exports.addSetting = async function (req, res, next) {
     //         res.json({ setting: setting, message: 'Setting added successful' })
     //     })
     //     .catch(next);
-    console.log(req.body);
     const addSettings = new Promise((resolve, reject) => {
         req.body.setting.map(async (e, index) => {
             articalService.addSetting({

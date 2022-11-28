@@ -50,7 +50,7 @@ async function getAll(client_id, article_id, entity_name, media_type) {
     if (media_type === 'Print') {
         result = await db2.PrintData.findAll({
             where: { [Op.or]: [{ client_id: client_id, article_id: article_id, entity_name: entity_name }, {  article_id: article_id, entity_name: entity_name }] }, attributes: [
-                'id', 'client_id', 'entity_id', 'entity_name', 'entity_group_id', 'entity_group', 'article_id', 'article_type_id', 'article_type', 'publish_date', 'publish_datetime', 'article_created_on_datetime', 'article_created_on', 'publication_id', 'edition_id', 'zone_id', 'publication_type_id', 'language_id', 'suppliment_id', 'source', 'source_id', 'reportor', 'mav', 'ccm', 'section_id', 'is_front_page', 'is_photo', 'cav_id', 'tonality_id', 'direct_news_id', 'hit_n_miss_id', 'product_services', 'headline_mention', 'spokesperson_id', 'photo_mention_id', 'prominent_id', 'category_id', 'created_on', 'created_by', 'last_modified_on', 'last_modified_by', 'priority_id', 'entity_article_id', 'press_release_id', 'month', 'is_client_favourite' // We had to list all attributes...
+                'id', 'publication_id', 'publication_type_id', 'language_id', 'suppliment_id', 'source_id', 'cav_id', 'entity_id', 'zone_id', 'prominent_id', 'section_id' // We had to list all attributes...
             ]
         });
     }
@@ -58,7 +58,7 @@ async function getAll(client_id, article_id, entity_name, media_type) {
         result = await db2.OnlineData.findAll({
             where: {
                 [Op.or]: [{ client_id: client_id, article_id: article_id, entity_name: entity_name }, {  article_id: article_id, entity_name: entity_name }] }, attributes: [
-                'id', 'client_id', 'entity_id', 'entity_name', 'entity_group_id', 'entity_group', 'article_id', 'article_type_id', 'article_type', 'publish_date', 'publish_datetime', 'article_created_on_datetime', 'article_created_on', 'publication_id', 'edition_id', 'zone_id', 'publication_type_id', 'language_id', 'suppliment_id', 'source', 'source_id', 'reportor', 'mav', 'ccm', 'section_id', 'is_front_page', 'is_photo', 'cav_id', 'tonality_id', 'direct_news_id', 'hit_n_miss_id', 'product_services', 'headline_mention', 'spokesperson_id', 'photo_mention_id', 'prominent_id', 'category_id', 'created_on', 'created_by', 'last_modified_on', 'last_modified_by', 'priority_id', 'entity_article_id', 'press_release_id', 'month', 'is_client_favourite' // We had to list all attributes...
+                    'id', 'publication_id', 'publication_type_id', 'language_id', 'suppliment_id', 'source_id', 'cav_id', 'entity_id', 'zone_id', 'prominent_id', 'section_id' // We had to list all attributes...
             ]
         });
     }
@@ -132,27 +132,60 @@ async function updateQaData(params, article) {
 }
 
 async function createQaSpokesPerson(params) {
-
+    // const project = await db.QaSpokesPerson.findOne({ where: { spokesperson_name: params.spokesperson_name }});
+    // if(project === null){
+    //     console.log('project', project)
+    //     console.log('params.sp', params.spokesperson_name)
+    //     return await db.QaSpokesPerson.create(params);
+    // }
+    // else{
+    //     console.log('params.upadate', params.spokesperson_name)
+    //     await db.QaSpokesPerson.update(params, { where: { id: project.id } });
+    //     return db.QaSpokesPerson.findOne({ where: { id: project.id } });
+    // }
     return await db.QaSpokesPerson.findOrCreate({ where: { spokesperson_name: params.spokesperson_name }, defaults: params });
 }
 
 async function createQaDataSpokesPerson(params) {
 
+//     const { count, rows } = await db.QaDataSpokesPerson.findAndCountAll({ where:{ spokesperson_id: params.spokesperson_id, q_article_id : params.q_article_id }});
+//     if(count === 0){
+//         return await db.QaDataSpokesPerson.create(params);
+//     }
+//    else{
+//         await db.QaDataSpokesPerson.update(params, { where: { id: rows[0].id } });
+//         return db.QaDataSpokesPerson.findOne({ where: { id: rows[0].id } });
+//     }
+
     await db.QaDataSpokesPerson.findOrCreate({ where: { spokesperson_id: params.spokesperson_id, q_article_id : params.q_article_id }, defaults: params });
 }
 
 async function createQaClientProduct(params) {
+    // const { count, rows } = await db.QaClientProduct.findAndCountAll({ where:{ product_name: params.product_name }});
+    // if(count === 0){
+    //     return await db.QaClientProduct.create(params);
+    // }
+    // else{
+    //     await db.QaClientProduct.update(params, { where: { id: rows[0].id } });
+    //     return db.QaClientProduct.findOne({ where: { id: rows[0].id } });
+    // }
 
     return await db.QaClientProduct.findOrCreate({ where: { product_name: params.product_name }, defaults: params });
 }
 
 async function createQaDataProduct(params) {
-
+    // const { count, rows } = await db.QaDataProduct.findAndCountAll({ where:{ product_id: params.product_id, q_article_id : params.q_article_id }});
+    // if(count === 0){
+    //     return await db.QaDataProduct.create(params);
+    // }
+    // else{
+    //     await db.QaDataProduct.update(params, { where: { id: rows[0].id } });
+    //     return db.QaDataProduct.findOne({ where: { id: rows[0].id } });
+    // }
     await db.QaDataProduct.findOrCreate({ where: { product_id: params.product_id, q_article_id : params.q_article_id }, defaults: params });
 }
 
 async function addUploadDetails(params) {
-
     const upload = await db.QaUploadDetail.create(params);
     return upload;
 }

@@ -3,7 +3,7 @@ import { store } from '../store/store';
 
 
 const axiosInstance = axios.create({
-    baseURL: `http://qa.conceptbiu.com/unifiedapi`,
+    baseURL: `http://localhost:4000`,
 });
 
 axiosInstance.interceptors.request.use((config) => {

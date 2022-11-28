@@ -114,12 +114,12 @@ const Dashboard = () => {
 
     const uploadPromise = new Promise((resolve, reject) => {
 
-      post(`http://qa.conceptbiu.com/unifiedapi/artical`, formData).then((response) => {
+      post(`http://localhost:4000/artical`, formData).then((response) => {
         setFile('')
         selectRef.clearValue();
         setClientName();
         setClientId()
-        resolve("Article upload processing");
+        resolve(response.data.message);
       }).catch((err) => {
         console.log('err', err.response.data.error)
         setFile('')
