@@ -114,7 +114,7 @@ const Dashboard = () => {
 
     const uploadPromise = new Promise((resolve, reject) => {
 
-      post(`http://localhost:4000/artical`, formData).then((response) => {
+      post(`http://qa.conceptbiu.com/unifiedapi/artical`, formData).then((response) => {
         setFile('')
         selectRef.clearValue();
         setClientName();
