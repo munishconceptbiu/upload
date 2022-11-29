@@ -51,6 +51,7 @@ const ViewUpload = () => {
 
         deleteMethod(`artical/delete-upload/${id}`).then((response) => {
           resolve("Upload Successfully deleted");
+          getUploadList()
         }).catch((err) => {
             reject(err.response.data.error)
         })
