@@ -34,7 +34,9 @@ module.exports = {
     getUniqueSetting,
     deleteUpload,
     findQaSpokesPerson,
-    findProductOne
+    findProductOne,
+    getUniqueVerticalSetting,
+    updateUploadCount
 };
 
 
@@ -333,7 +335,10 @@ async function getUniqueSetting(client_id) {
     //     });
 
     const result = await db.QaSetting.findAll({
-        where: { client_id: client_id },
+        where: { [Op.or]: [
+            { client_id: client_id },
+            { user_id: client_id }
+          ]},
         attributes: ["id",
         "client_id",
         "graph_type",
@@ -344,8 +349,19 @@ async function getUniqueSetting(client_id) {
         "keyword_level",
         "spokesperson_level",
         "profiling_level",
-        "visibility_level", "topic_level", "client_name", "graph_id", "order_id"],
+        "visibility_level", "topic_level", "client_name", "graph_id", "order_id", "total_article"],
         group: "client_id",
+      });
+    return result;
+}
+async function getUniqueVerticalSetting(client_id) {
+    const result = await db.QaVerticalSetting.findOne({
+        where: { [Op.or]: [
+            { client_id: client_id },
+            { user_id: client_id }
+          ]},
+        attributes: ["id",
+         "verticals", "isVertical", "isIndex", "isReach", 'isOnline', 'isPrint', 'isPrintOnline' ]
       });
     return result;
 }
@@ -357,4 +373,8 @@ async function deleteUpload(id) {
     await db.QaDataProduct.destroy({ where: { upload_id: id } });
     await db.QaSpokesPerson.destroy({ where: { upload_id: id } });
     await db.QaDataSpokesPerson.destroy({ where: { upload_id: id } });
+}
+
+async function updateUploadCount(id, count){
+    return await db.QaUploadDetail.update({total_article: count}, { where: { id: id } });
 }

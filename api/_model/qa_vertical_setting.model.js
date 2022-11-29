@@ -22,7 +22,8 @@ function model(sequelize) {
         updated_at: { type: DataTypes.DATE, allowNull: true},
         deleted_at: { type: DataTypes.DATE, allowNull: true},
         createdAt: { type: DataTypes.DATE, allowNull: true},
-        updatedAt: { type: DataTypes.DATE, allowNull: true}
+        updatedAt: { type: DataTypes.DATE, allowNull: true},
+        user_id: { type: DataTypes.INTEGER, allowNull: false },
     };
 
     const options = {

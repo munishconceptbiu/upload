@@ -394,6 +394,7 @@ exports.saveArtical = async function (req, res, next) {
             })
 
             if(data.length === index+1){
+                await articalService.updateUploadCount(upload?.id, insertlenth)
                 res.json({ message: 'Article upload succesfully - total article : ' + insertlenth, data: {} });
                 // resolve('datas')
             }
@@ -501,7 +502,9 @@ exports.addSetting = async function (req, res, next) {
                 visibility_level: e.visibility_level,
                 client_name: req.body.client_name,
                 graph_id: e.graph_id,
-                order_id: index + 1
+                order_id: index + 1,
+                user_id: req.body.user_id,
+                created_by: req.body.user_id
             })
         })
         resolve('added settings')
@@ -517,7 +520,9 @@ exports.addSetting = async function (req, res, next) {
             isReach: req.body.isReach,
             isPrint: req.body.isPrint,
             isOnline: req.body.isOnline,
-            isPrintOnline: req.body.isPrintOnline
+            isPrintOnline: req.body.isPrintOnline,
+            user_id: req.body.user_id,
+            created_by: req.body.user_id
         })
         resolve('add vertical')
     });
@@ -599,7 +604,7 @@ exports.getUniqueSetting = async function (req, res, next) {
         .then(check => {
             articalService.getUniqueSetting(req.params.client_id)
                 .then(data => {
-                    articalService.getVerticalSetting(req.params.client_id)
+                    articalService.getUniqueVerticalSetting(req.params.client_id)
                         .then(vertical => {
                             res.json({ settings: data, qualitative: check > 0 ? true : false, isVertical: vertical ? vertical?.isVertical : false,verticals: vertical ? JSON.parse(vertical?.verticals) : [], isIndex: vertical ? vertical?.isIndex : false, isReach: vertical ? vertical?.isReach : false, isOnline: vertical ? vertical?.isOnline : false, isPrint: vertical ? vertical?.isPrint : false , isPrintOnline: vertical ? vertical?.isPrintOnline : false, message: "Client setting fetched successfully" });
                         })
