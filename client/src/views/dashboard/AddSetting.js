@@ -206,7 +206,7 @@ const AddSetting = () => {
     }
 
     const setGraphTypeChange = (e) => {
-        clientChange()
+        // clientChange()
         if (e.target.value === "") {
             setGraphTypeId()
             setGraphTypeName()
@@ -303,7 +303,6 @@ const AddSetting = () => {
 
     const clientChange = () => {
         const client = selectRef.getValue()[0];
-        console.log('client', client)
         if(client){
             get("artical/get-setting/" + client.value).then((response) => {
             setSetting(response.data.settings)
