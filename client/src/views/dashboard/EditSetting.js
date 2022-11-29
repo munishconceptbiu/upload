@@ -118,6 +118,7 @@ const AddSetting = () => {
 
         const formData = {
             client_id: params.client_id,
+            client_name: client_name,
             username: state.auth.auth.first_name + ' ' + state.auth.auth.last_name,
             email: state.auth.auth.email,
             setting: setting,
@@ -129,7 +130,6 @@ const AddSetting = () => {
             isPrint: isPrint,
             isPrintOnline: isPrintOnline
         }
-
 
         // const formData = new FormData();
 
@@ -294,7 +294,8 @@ const AddSetting = () => {
             setIsOnline(response.data.isOnline || false);
             setIsPrint(response.data.isPrint || false);
             setIsPrintOnline(response.data.isPrintOnline || false)
-            setIsVertical(response.data.isVertical || false)
+            setIsVertical(response.data.isVertical || false);
+            setClientName(response.data.settings[0].client_name);
         })
             .catch(() => {
                 // handleLoginFailure({ status: UNAUTHORIZED });
