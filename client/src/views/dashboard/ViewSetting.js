@@ -11,12 +11,15 @@ import { get, post, put, deleteMethod } from "../../services/CommanService";
 import { pureFinalPropsSelectorFactory } from 'react-redux/es/connect/selectorFactory';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate, NavLink } from 'react-router-dom';
+import { store } from '../../store/store';
+
 const ViewSetting = () => {
   let navigate = useNavigate();
+  const state = store.getState();
   const [settingList, setSettingList] = useState([]);
   const [setting, setSetting] = useState({})
   const getSettingList = (id) => {
-    const cid = id || client_id
+    const cid = id || client_id ||  state.auth.auth.id
     get("artical/get-unique-setting/" + cid).then((response) => {
       setSettingList(response.data.settings)
       setSetting(response.data)
@@ -112,7 +115,9 @@ const ViewSetting = () => {
     //    }
     //  );
   }
-
+  useEffect(() => {
+    getSettingList();
+  }, []);
 
 
   return (

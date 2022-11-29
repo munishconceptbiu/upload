@@ -130,7 +130,8 @@ const AddSetting = () => {
             isReach: isReach,
             isOnline: isOnline,
             isPrint: isPrint,
-            isPrintOnline: isPrintOnline
+            isPrintOnline: isPrintOnline,
+            user_id: state.auth.auth.id
         }
 
 
