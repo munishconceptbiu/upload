@@ -275,7 +275,7 @@ const AddSetting = () => {
     }
 
     const addVertical = () => {
-        if (vertical === '') {
+        if (vertical === '' || vertical.trim().length === 0) {
             toast.error("Vertical can't be empty");
             return false
         }

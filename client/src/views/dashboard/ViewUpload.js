@@ -47,12 +47,28 @@ const ViewUpload = () => {
   }
     
   const deleteUpload= (id) => {
-    deleteMethod("artical/delete-upload/" + id).then((response) => {
-      toast.success("Setting successfully deleted");
-    })
-      .catch(() => {
-        // handleLoginFailure({ status: UNAUTHORIZED });
-      })
+      const uploadPromise = new Promise((resolve, reject) => {
+
+        deleteMethod(`artical/delete-upload/${id}`).then((response) => {
+          resolve("Upload Successfully deleted");
+        }).catch((err) => {
+            reject(err.response.data.error)
+        })
+    });
+    toast.promise(
+        uploadPromise,
+        {
+            loading: 'deleting ...',
+            success: (data) => `${data}`,
+            error: (err) => `This just happened: ${err}`,
+        },
+        {
+            style: {
+                minWidth: '250px',
+            },
+
+        }
+    );
   }
 
     useEffect(() => {
@@ -103,7 +119,7 @@ const ViewUpload = () => {
           <td><a href={list.file} target="_blank">{list.filename}</a></td>
           <td>{list.username}</td>
           <td>{moment(list.createdAt).format('lll')}</td>
-          {/* <td > {list.user_id === state.auth.auth.id && <a href="javascript:void(0);" onClick={e => deleteUpload(list.id)} className='deleicon'><DeleteIcon /></a> }  {list.user_id !== state.auth.auth.id && <span>-</span>} </td> */}
+          <td > {list.user_id === state.auth.auth.id && <a href="javascript:void(0);" onClick={e => deleteUpload(list.id)} className='deleicon'><DeleteIcon /></a> }  {list.user_id !== state.auth.auth.id && <span>-</span>} </td>
         </tr>
        ))}
       </tbody>

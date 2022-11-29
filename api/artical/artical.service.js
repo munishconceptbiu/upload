@@ -3,7 +3,7 @@ const db = require('_helpers/db');
 const db2 = require('_helpers/db2');
 const db3 = require('_helpers/db3');
 
-const { Op } = require("sequelize");
+const { Op, sequelize } = require("sequelize");
 const { func } = require('joi');
 
 module.exports = {
@@ -31,7 +31,10 @@ module.exports = {
     getVerticalSetting,
     getClientList,
     getSettingClientList,
-    getUniqueSetting
+    getUniqueSetting,
+    deleteUpload,
+    findQaSpokesPerson,
+    findProductOne
 };
 
 
@@ -131,19 +134,42 @@ async function updateQaData(params, article) {
     return db.QaData.findOne({ where: { id: article.id } });
 }
 
-async function createQaSpokesPerson(params) {
-    // const project = await db.QaSpokesPerson.findOne({ where: { spokesperson_name: params.spokesperson_name }});
+async function findProductOne(project) {
+    return db.QaClientProduct.findOne({ where: { product_name_merge: project.product_name_merge } });
+}
+async function findQaSpokesPerson(project) {
+    return db.QaSpokesPerson.findOne({ where: { spokesperson_name_merge: project.spokesperson_name_merge } });
+}
+
+async function createQaSpokesPerson(dataArray) {
+
+    // sequelize.sync().then(async () => {
+
+        await db.QaSpokesPerson.bulkCreate(dataArray, 
+            {
+                ignoreDuplicates: true,
+            } ).then(res => {
+            return res;
+        }).catch((error) => {
+            console.error('Failed to retrieve data : ', error);
+        });
+    
+    // }).catch((error) => {
+    //     console.error('Unable to create table : ', error);
+    // });
+    
+    // const project = await db.QaSpokesPerson.findOne({ where: { spokesperson_name_merge: params.spokesperson_name_merge }});
     // if(project === null){
-    //     console.log('project', project)
-    //     console.log('params.sp', params.spokesperson_name)
+    //     // console.log('project', project)
+    //     // console.log('params.sp', params.spokesperson_name)
     //     return await db.QaSpokesPerson.create(params);
     // }
     // else{
-    //     console.log('params.upadate', params.spokesperson_name)
+    //     // console.log('params.upadate', params.spokesperson_name)
     //     await db.QaSpokesPerson.update(params, { where: { id: project.id } });
     //     return db.QaSpokesPerson.findOne({ where: { id: project.id } });
     // }
-    return await db.QaSpokesPerson.findOrCreate({ where: { spokesperson_name: params.spokesperson_name }, defaults: params });
+    // return await db.QaSpokesPerson.findOrCreate({ where: { spokesperson_name_merge: params.spokesperson_name_merge }, defaults: params });
 }
 
 async function createQaDataSpokesPerson(params) {
@@ -157,10 +183,18 @@ async function createQaDataSpokesPerson(params) {
 //         return db.QaDataSpokesPerson.findOne({ where: { id: rows[0].id } });
 //     }
 
-    await db.QaDataSpokesPerson.findOrCreate({ where: { spokesperson_id: params.spokesperson_id, q_article_id : params.q_article_id }, defaults: params });
+   return await db.QaDataSpokesPerson.findOrCreate({ where: { spokesperson_id: params.spokesperson_id, q_article_id : params.q_article_id }, defaults: params });
 }
 
-async function createQaClientProduct(params) {
+async function createQaClientProduct(dataArray) {
+    await db.QaClientProduct.bulkCreate(dataArray, 
+        {
+            ignoreDuplicates: true,
+        } ).then(res => {
+        return res;
+    }).catch((error) => {
+        console.error('Failed to retrieve data : ', error);
+    });
     // const { count, rows } = await db.QaClientProduct.findAndCountAll({ where:{ product_name: params.product_name }});
     // if(count === 0){
     //     return await db.QaClientProduct.create(params);
@@ -170,7 +204,7 @@ async function createQaClientProduct(params) {
     //     return db.QaClientProduct.findOne({ where: { id: rows[0].id } });
     // }
 
-    return await db.QaClientProduct.findOrCreate({ where: { product_name: params.product_name }, defaults: params });
+    // return await db.QaClientProduct.findOrCreate({ where: { product_name: params.product_name }, defaults: params });
 }
 
 async function createQaDataProduct(params) {
@@ -265,7 +299,6 @@ async function updateSetting(id, data) {
 async function deleteSetting(id) {
     await db.QaSetting.destroy({ where: { id: id } });
 }
-
 async function getClientList(name) {
     const result = await db3.Client.findAll({
         where: { client_name: {
@@ -315,4 +348,13 @@ async function getUniqueSetting(client_id) {
         group: "client_id",
       });
     return result;
+}
+
+async function deleteUpload(id) {
+    await db.QaUploadDetail.destroy({ where: { id: id } });
+    await db.QaData.destroy({ where: { upload_id: id } });
+    await db.QaClientProduct.destroy({ where: { upload_id: id } });
+    await db.QaDataProduct.destroy({ where: { upload_id: id } });
+    await db.QaSpokesPerson.destroy({ where: { upload_id: id } });
+    await db.QaDataSpokesPerson.destroy({ where: { upload_id: id } });
 }

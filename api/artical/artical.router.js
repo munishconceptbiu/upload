@@ -33,6 +33,7 @@ router.get('/get-setting-clientlist/:client_name',  articalController.getSetting
 // routes
 router.delete('/delete-setting/:id',  articalController.deleteSetting);
 
+router.delete('/delete-upload/:id',  articalController.deleteUpload);
 
 
 module.exports = router;

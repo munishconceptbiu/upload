@@ -56,6 +56,37 @@ exports.getList = async function (req, res, next) {
 }
 
 
+const addSpokesPersonAndData = async(e, q_articles, upload) => {
+    const spokesman = Object.entries(e).filter((e, v) => e[0].match(/spokesperson [0-9]/g) && e[1] !== 0)[0]?.map(e => ({
+        "spokesperson_name": e.trim(),
+                "spokesperson_name_merge": e.replace(/[^a-zA-Z0-9]/g, '_').trim(),
+                "upload_id": upload?.id
+    }))
+    if (spokesman !== undefined && spokesman?.length !== 0) {
+      
+            await articalService.createQaSpokesPerson(spokesman).then(async (spokepeople) => {
+              
+                return spokepeople
+            });
+    }
+};
+
+const addProductAndData = async(e, q_articles, upload) => {
+    const productss = Object.entries(e).filter((e, v) => e[0].match(/product name [0-9]/g) && e[1] !== 0)[0]?.map(e => ({
+        "product_name": e.trim(),
+                "product_name_merge": e.replace(/[^a-zA-Z0-9]/g, '_').trim(),
+                "upload_id": upload?.id
+    }))
+    if (productss !== undefined && productss?.length !== 0) {
+        
+            await articalService.createQaClientProduct(productss).then(async (	pro) => {
+                return pro;
+            })
+
+    }
+}
+
+
 exports.saveArtical = async function (req, res, next) {
     console.log('files', req.body)
     var f = req.body.upload; // <input type="file" id="upload" name="upload">
@@ -187,23 +218,10 @@ exports.saveArtical = async function (req, res, next) {
     //     resolve('added settings')
     // });
 
-    // const addVertical = new Promise((resolve, reject) => {
-    //     articalService.addVerticalSetting({
-    //         isVertical: req.body.is_vertical,
-    //         verticals: req.body.verticals,
-    //         client_id: req.body.client_id,
-    //         client_name: req.body.client_name,
-    //         isIndex: req.body.isIndex,
-    //         isReach: req.body.isReach,
-    //         isPrint: req.body.isPrint,
-    //         isOnline: req.body.isOnline,
-    //         isPrintOnline: req.body.isPrintOnline
-    //     })
-    //     resolve('add vertical')
-    // });
+    
     let insertlenth = 0;
 
-    Promise.all([addUploadDetails, 
+   await Promise.all([addUploadDetails, 
         upload =  await articalService.addUploadDetails({
             username: req.body.username,
             email: req.body.email,
@@ -310,6 +328,8 @@ exports.saveArtical = async function (req, res, next) {
                         qa_data.section_id = online_data.dataValues.section_id
                     }
                 }
+
+                
                 // console.log('qa_data', qa_data)
                 await articalService.createQaData(qa_data).then(async (q_articles) => {
                     // const [q_articles, created] = q_articles;
@@ -318,42 +338,52 @@ exports.saveArtical = async function (req, res, next) {
                     // }
                     if (q_articles) {
                         insertlenth = insertlenth + 1;
-                        const spokesman = Object.entries(e).filter((e, v) => e[0].match(/spokesperson [0-9]/g) && e[1] !== 0)
-                        if (spokesman.length !== 0) {
-                            spokesman?.filter(async (s) => {
-                                const sperson = {
-                                    spokesperson_name: s[1],
+                       const result = await addSpokesPersonAndData(e, q_articles, upload);
+
+                       const spokesman = Object.entries(e).filter((e, v) => e[0].match(/spokesperson [0-9]/g) && e[1] !== 0)
+                    if (spokesman.length !== 0) {
+                        spokesman?.forEach(async (s) => {
+                            const sperson = {
+                                spokesperson_name: s[1].trim(),
+                                spokesperson_name_merge: s[1].replace(/[^a-zA-Z0-9]/g, '_').trim(),
+                                upload_id: upload?.id
+                            };
+                            await articalService.findQaSpokesPerson(sperson).then(async (spokepeople) => {
+                                // const [spokepeople, created] = sps;
+                                if(spokepeople){
+                                const spersondata = {
+                                    spokesperson_id: spokepeople.id,
+                                    q_article_id: q_articles?.id,
+                                    spokesperson_profiling: e['spokesperson profiling'],
                                     upload_id: upload?.id
                                 };
-                                await articalService.createQaSpokesPerson(sperson).then(async (sps) => {
-                                    const [spokepeople, created] = sps;
-                                    const spersondata = {
-                                        spokesperson_id: spokepeople.id,
-                                        q_article_id: q_articles?.id,
-                                        spokesperson_profiling: e['spokesperson profiling'],
-                                        upload_id: upload?.id
-                                    };
-                                    await articalService.createQaDataSpokesPerson(spersondata);
-                                });
-
-                            })
-                        }
+                                const result = await articalService.createQaDataSpokesPerson(spersondata);
+                                return spokepeople
+                            }
+                            });
+                
+                        })
+                    }
+                    
+                    const results = await addProductAndData(e, q_articles, upload);
                         const productss = Object.entries(e).filter((e, v) => e[0].match(/product name [0-9]/g) && e[1] !== 0)
                         if (productss.length !== 0) {
                             productss?.filter(async (p) => {
                                 const product = {
                                     product_name: p[1],
-                                    upload_id: upload?.id
+                                    upload_id: upload?.id,
+                                    product_name_merge: s[1].replace(/[^a-zA-Z0-9]/g, '_').trim()
                                 }
-                                await articalService.createQaClientProduct(product).then(async (	pro) => {
-                                    const [products, created] = pro;
+                                await articalService.findProductOne(product).then(async (products) => {
+                                    // const [products, created] = pro;
 
-                                    const spersondata = {
+                                    const productdata = {
                                         product_id: products.id,
                                         q_article_id: q_articles?.id,
                                         upload_id: upload?.id
                                     }
-                                    await articalService.createQaDataProduct(spersondata)
+                                   const res = await articalService.createQaDataProduct(productdata);
+                                    return productdata;
                                 })
 
                             })
@@ -576,6 +606,14 @@ exports.getUniqueSetting = async function (req, res, next) {
                         .catch(next);
                 })
                 .catch(next);
+        })
+        .catch(next);
+}
+
+exports.deleteUpload = async function (req, res, next) {
+    articalService.deleteUpload(req.params.id)
+        .then(data => {
+            res.json({ settings: {}, message: "Upload deleted successfully" });
         })
         .catch(next);
 }

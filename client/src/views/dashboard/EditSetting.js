@@ -97,7 +97,7 @@ const AddSetting = () => {
 
     const saveSetting = async () => {
 
-       
+
         if (setting.length === 0) {
             toast.error("Select atlease one graph type");
             return false;
@@ -243,13 +243,13 @@ const AddSetting = () => {
         setSetting(move(setting, from, to));
     };
     const deleteLevel = (index, e) => {
-        if(e.id){
-         deleteSetting(e.id)
+        if (e.id) {
+            deleteSetting(e.id)
         }
-         let newSetting = [...setting];
-         newSetting.splice(index, 1)
-         setSetting(newSetting);
-     }
+        let newSetting = [...setting];
+        newSetting.splice(index, 1)
+        setSetting(newSetting);
+    }
     const editLevel = (index) => {
         let editsetting = setting[index];
         setGraphTypeName(editsetting.graph_type);
@@ -269,7 +269,7 @@ const AddSetting = () => {
     }
 
     const addVertical = () => {
-        if (vertical === '') {
+        if (vertical === '' || vertical.trim().length === 0) {
             toast.error("Vertical can't be empty");
             return false
         }
@@ -283,44 +283,33 @@ const AddSetting = () => {
         newvertical.splice(index, 1)
         setVerticals(newvertical);
     }
-    const promiseOptions = (inputValue) =>
-        new Promise((resolve) => {
-            inputValue = inputValue || 'a'
-            get("artical/getclientlist/" + inputValue).then((response) => {
-                resolve(response.data.client.map((e) => ({
-                    value: e.id,
-                    label: e.client_name
-                })));
+ 
+    const getSettingList = (id) => {
+        const cid = id
+        get("artical/get-setting/" + cid).then((response) => {
+            setSetting(response.data.settings)
+            setVerticals(response.data.verticals)
+            setIndex(response.data.isIndex);
+            setReach(response.data.isReach);
+            setIsOnline(response.data.isOnline || false);
+            setIsPrint(response.data.isPrint || false);
+            setIsPrintOnline(response.data.isPrintOnline || false)
+            setIsVertical(response.data.isVertical || false)
+        })
+            .catch(() => {
+                // handleLoginFailure({ status: UNAUTHORIZED });
             })
 
-        });
-    
-        const getSettingList = (id) => {
-            const cid = id
-            get("artical/get-setting/" + cid).then((response) => {
-              setSetting(response.data.settings)
-              setVerticals(response.data.verticals)
-              setIndex(response.data.isIndex);
-              setReach(response.data.isReach);
-              setIsOnline(response.data.isOnline || false);
-              setIsPrint(response.data.isPrint || false);
-              setIsPrintOnline(response.data.isPrintOnline || false)
-              setIsVertical(response.data.isVertical || false)
-            })
-              .catch(() => {
-                // handleLoginFailure({ status: UNAUTHORIZED });
-              })
-        
-          }
-          const deleteSetting = (id) => {
-            deleteMethod("artical/delete-setting/" + id).then((response) => {
+    }
+    const deleteSetting = (id) => {
+        deleteMethod("artical/delete-setting/" + id).then((response) => {
             //   swal("Success!", "Setting successfully deleted", "success");
-              getSettingList(params.client_id)
-            })
-              .catch(() => {
+            getSettingList(params.client_id)
+        })
+            .catch(() => {
                 // handleLoginFailure({ status: UNAUTHORIZED });
-              })
-          }
+            })
+    }
 
     useEffect(() => {
         getSettingList(params.client_id)
