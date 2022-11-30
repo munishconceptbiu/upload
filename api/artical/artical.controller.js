@@ -191,7 +191,6 @@ exports.saveArtical = async function (req, res, next) {
             //     originalname: f.originalname,
             //     user_id: req.body.user_id
             // })
-            console.log('upload test', upload)
             resolve(upload)
         }
     });
@@ -357,7 +356,7 @@ exports.saveArtical = async function (req, res, next) {
                             // if(created === false) {
                             //     await articalService.updateQaData(qa_data, q_articles)
                             // }
-                            console.log('q_articles', q_articles)
+                            console.log('q_articles', q_articles.id)
                             if (q_articles) {
                                 insertlenth = insertlenth + 1;
                                 const result = await addSpokesPersonAndData(e, q_articles, upload);

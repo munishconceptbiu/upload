@@ -152,20 +152,7 @@ async function createQaData(params) {
         if (count === 1) {
             return updateQaData(params, rows[0])
         }
-    } else {
-        if (params?.media_type === 'Print') {
-            const { count, rows } = await db.QaData.findAndCountAll({ where: { article_id: params.article_id, edition_id: params?.edition_id } })
-            if (count === 0) {
-                return addQaData(params);
-            }
-            if (count === 1) {
-                return updateQaData(params, rows[0])
-            }
-        }
-        else {
-            return addQaData(params);
-        }
-    }
+    } 
 
 }
 
