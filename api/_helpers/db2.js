@@ -26,7 +26,9 @@ async function initialize() {
     // // init models and add them to the exported db2 object
     db2.OnlineData = require('../_model/online.model')(sequelize);
     db2.PrintData = require('../_model/print.model')(sequelize);
-  
+      
+    db2.sequelize = sequelize;
+    db2.Sequelize = Sequelize;
     // sync all models with database
     await sequelize.sync();
     
