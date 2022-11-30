@@ -241,6 +241,7 @@ exports.saveArtical = async function (req, res, next) {
             if (art !== 0 && !isNaN(art)) {
 
                 await articalService.getAll(req.body.client_id, e['article id'], e['company name'], e['media type']).then(async (dbdata) => {
+                    console.log('dbdata', dbdata)
                     if (dbdata.length === 0) {
                         articalService.deleteUpload(upload.id)
                         return Promise.reject(`Data are mismatch please check and try again article id are ${art} and entity name is ${e['company name']}`);
@@ -349,7 +350,7 @@ exports.saveArtical = async function (req, res, next) {
                         // }
 
 
-                        // console.log('qa_data', qa_data)
+                        console.log('qa_data', qa_data)
                         await articalService.createQaData(qa_data).then(async (q_articles) => {
                             // const [q_articles, created] = q_articles;
                             // if(created === false) {

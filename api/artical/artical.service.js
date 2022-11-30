@@ -171,14 +171,14 @@ async function createQaData(params) {
 
 async function updateQaData(params, article) {
     await db.QaData.update(params, { where: { id: article.id } });
-    return db.QaData.findOne({ where: { id: article.id } });
+    return await db.QaData.findOne({ where: { id: article.id } });
 }
 
 async function findProductOne(project) {
-    return db.QaClientProduct.findOne({ where: { product_name_merge: project.product_name_merge } });
+    return await db.QaClientProduct.findOne({ where: { product_name_merge: project.product_name_merge } });
 }
 async function findQaSpokesPerson(project) {
-    return db.QaSpokesPerson.findOne({ where: { spokesperson_name_merge: project.spokesperson_name_merge } });
+    return await db.QaSpokesPerson.findOne({ where: { spokesperson_name_merge: project.spokesperson_name_merge } });
 }
 
 async function createQaSpokesPerson(dataArray) {
