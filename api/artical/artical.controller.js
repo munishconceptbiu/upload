@@ -220,9 +220,9 @@ exports.saveArtical = async function (req, res, next) {
 
 
     let insertlenth = 0;
+    let noinsertlength =[];
 
     await Promise.all([addUploadDetails,
-        await  new Promise(async (resolve, reject) => {
         upload =  await articalService.addUploadDetails({
             username: req.body.username,
             email: req.body.email,
@@ -241,11 +241,13 @@ exports.saveArtical = async function (req, res, next) {
             if (art !== 0 && !isNaN(art)) {
 
                 await articalService.getAll(req.body.client_id, e['article id'], e['company name'], e['media type']).then(async (dbdata) => {
-                    console.log('dbdata', dbdata)
                     if (dbdata.length === 0) {
-                        articalService.deleteUpload(upload.id)
-                        return Promise.reject(`Data are mismatch please check and try again article id are ${art} and entity name is ${e['company name']}`);
-                        // res.status(500).json({ error: `Data are mismatch please check and try again article id are ${art} and entity name is ${e['company name']}` ,data: { article_id: art, entity_name: e['company name']} });
+                        noinsertlength.push({
+                            article_id: art,
+                            entity_name: e['company name'],
+                            media_type: e['media type']
+                        })
+                        
                     } else {
                         dbdata = dbdata[0]
                         const state_name = states.filter(state => state.city === e['edition']);
@@ -350,12 +352,12 @@ exports.saveArtical = async function (req, res, next) {
                         // }
 
 
-                        console.log('qa_data', qa_data)
                         await articalService.createQaData(qa_data).then(async (q_articles) => {
                             // const [q_articles, created] = q_articles;
                             // if(created === false) {
                             //     await articalService.updateQaData(qa_data, q_articles)
                             // }
+                            console.log('q_articles', q_articles)
                             if (q_articles) {
                                 insertlenth = insertlenth + 1;
                                 const result = await addSpokesPersonAndData(e, q_articles, upload);
@@ -416,12 +418,12 @@ exports.saveArtical = async function (req, res, next) {
 
                 if (data.length === index + 1) {
                     await articalService.updateUploadCount(upload?.id, insertlenth)
-                    // res.json({ message: 'Article upload succesfully - total article : ' + insertlenth, data: {} });
-                    resolve('Article upload succesfully - total article : ' + insertlenth)
+                    res.json({ message: 'Article upload succesfully - total article : ' + insertlenth, data: noinsertlength });
+                    // resolve('Article upload succesfully - total article : ' + insertlenth)
                 }
             }
 
-        }) })
+        }) 
         
     
     ]).then((values) => {
