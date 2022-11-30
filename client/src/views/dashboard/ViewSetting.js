@@ -182,7 +182,7 @@ const ViewSetting = () => {
                 <td>{setting.isOnline === true ? 'Yes' : 'No'}</td>
                 <td>{setting.isPrint === true ? 'Yes' : 'No'}</td>
                 <td>{setting.isPrintOnline === true ? 'Yes' : 'No'}</td>
-                <td ><NavLink to={`/edit-setting/${list.client_id}`}><EditIcon /></NavLink> <a href="javascript:void(0);" onClick={e => deleteSetting(list.id)} className='deleicon'><DeleteIcon /></a></td>
+                <td ><NavLink to={`/edit-setting/${list.client_id}`}><EditIcon /></NavLink> <a href="#" onClick={e => deleteSetting(list.id)} className='deleicon'><DeleteIcon /></a></td>
               </tr>
             ))}
             {settingList.length === 0 &&

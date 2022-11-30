@@ -37,7 +37,9 @@ module.exports = {
     findQaSpokesPerson,
     findProductOne,
     getUniqueVerticalSetting,
-    updateUploadCount
+    updateUploadCount,
+    addNotMatchingArticle,
+    getNMArticleList
 };
 
 
@@ -141,7 +143,6 @@ async function addQaData(params) {
 }
 
 async function createQaData(params) {
-    console.log('add did', params.article_id)
 
     //check article id and cav id if there cavid
     if (params?.cav_id) {
@@ -400,7 +401,6 @@ async function getUniqueVerticalSetting(client_id) {
 }
 
 async function deleteUpload(id) {
-    console.log('delete did', id)
     await db.QaUploadDetail.destroy({ where: { id: id } });
     await db.QaData.destroy({ where: { upload_id: id } });
     await db.QaClientProduct.destroy({ where: { upload_id: id } });
@@ -409,6 +409,19 @@ async function deleteUpload(id) {
     await db.QaDataSpokesPerson.destroy({ where: { upload_id: id } });
 }
 
-async function updateUploadCount(id, count) {
-    return await db.QaUploadDetail.update({ total_article: count }, { where: { id: id } });
+async function updateUploadCount(id, count, ncount) {
+    return await db.QaUploadDetail.update({ total_article: count, nm_total_article: ncount }, { where: { id: id } });
+}
+
+async function addNotMatchingArticle(params) {
+    return await db.QaNMArticleSetting.create(params);
+}
+
+
+async function getNMArticleList(id) {
+    const result = await db.QaNMArticleSetting.findAll({
+        where: { upload_id: id
+        }
+    });
+    return result;
 }

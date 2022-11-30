@@ -1,6 +1,7 @@
 import React, { Component, useState, useEffect } from 'react'
 import AsyncSelect from 'react-select/async';
-
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import moment from 'moment';
 import { store } from '../../store/store';
 import { EditIcon, DeleteIcon } from "../../Icons/icons.component";
@@ -72,6 +73,23 @@ const ViewUpload = () => {
     );
   }
 
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [uploadNMArticleList, setUploadNMArticleList] = useState([]);
+  const getNMArticleList = (id) => {
+    get("artical/view-not-matching-upload-list/" + id).then((response) => {
+      handleShow();
+
+      setUploadNMArticleList(response.data.list)
+    })
+      .catch(() => {
+        // handleLoginFailure({ status: UNAUTHORIZED });
+      })
+
+  }
+
     useEffect(() => {
         getUploadList();
       }, []);
@@ -106,7 +124,9 @@ const ViewUpload = () => {
           <th>File Link</th>
           <th>Uploaded By</th>
           <th>Uploaded At</th>
-          {/* <th> Actions </th> */}
+          <th> Uploaded Article Count </th>
+          <th> Mismatch Article Count </th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -120,13 +140,67 @@ const ViewUpload = () => {
           <td><a href={list.file} target="_blank">{list.filename}</a></td>
           <td>{list.username}</td>
           <td>{moment(list.createdAt).format('lll')}</td>
-          <td > {list.user_id === state.auth.auth.id && <a href="javascript:void(0);" onClick={e => deleteUpload(list.id)} className='deleicon'><DeleteIcon /></a> }  {list.user_id !== state.auth.auth.id && <span>-</span>} </td>
+          <td>{list.total_article}</td>
+          <td>{list.nm_total_article === 0 && <span> - </span> } 
+          {list.nm_total_article > 0 && <span onClick={e => getNMArticleList(list.id)} title='view' style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline'}}>{list.nm_total_article}</span> } </td>
+          <td > {list.user_id === state.auth.auth.id && <a href="#" onClick={e => deleteUpload(list.id)} className='deleicon'><DeleteIcon /></a> }  {list.user_id !== state.auth.auth.id && <span>-</span>} </td>
         </tr>
        ))}
       </tbody>
     </table>
       </div>
     </div>
+
+    
+    <Modal show={show} onHide={handleClose}>
+          <>
+            <Modal.Header closeButton>
+              <Modal.Title>Not Matcing Articles</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+
+              <div class="container ">
+                <div class="row">
+                  <div class="col-9">
+                  <table className='table'>
+      <thead>
+        <tr>
+          <th>#</th>
+          {/* <th>Email</th> */}
+          <th>Client Name</th>
+          <th>Client Id</th>
+          <th>Article Id</th>
+          <th>Entity Name</th>
+         
+        </tr>
+      </thead>
+      <tbody>
+        {uploadNMArticleList?.map((list, index) => (
+        <tr>
+          <td>{index+1}</td>
+          <td>{list.client_name}</td>
+          <td>{list.client_id}</td>
+          <td>{list.article_id}</td>
+          <td>{list.entity_name}</td>
+        </tr>
+       ))}
+      </tbody>
+    </table>
+
+                  </div>
+
+                </div>
+              </div>
+
+            </Modal.Body>
+          </>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+         
+        </Modal.Footer>
+      </Modal>
   </>
 
     )

@@ -219,7 +219,7 @@ exports.saveArtical = async function (req, res, next) {
 
 
     let insertlenth = 0;
-    let noinsertlength =[];
+    let noinsertlength = 0;
 
     await Promise.all([addUploadDetails,
         upload =  await articalService.addUploadDetails({
@@ -241,10 +241,14 @@ exports.saveArtical = async function (req, res, next) {
 
                 await articalService.getAll(req.body.client_id, e['article id'], e['company name'], e['media type']).then(async (dbdata) => {
                     if (dbdata.length === 0) {
-                        noinsertlength.push({
+                        noinsertlength = noinsertlength + 1;
+                        await articalService.addNotMatchingArticle({
                             article_id: art,
                             entity_name: e['company name'],
-                            media_type: e['media type']
+                            media_type: e['media type'],
+                            client_id: req.body.client_id,
+                            client_name: req.body.client_name,
+                            upload_id: upload?.id
                         })
                         
                     } else {
@@ -356,7 +360,7 @@ exports.saveArtical = async function (req, res, next) {
                             // if(created === false) {
                             //     await articalService.updateQaData(qa_data, q_articles)
                             // }
-                            console.log('q_articles', q_articles.id)
+                            // console.log('q_articles', q_articles.id)
                             if (q_articles) {
                                 insertlenth = insertlenth + 1;
                                 const result = await addSpokesPersonAndData(e, q_articles, upload);
@@ -416,8 +420,8 @@ exports.saveArtical = async function (req, res, next) {
                 })
 
                 if (data.length === index + 1) {
-                    await articalService.updateUploadCount(upload?.id, insertlenth)
-                    res.json({ message: 'Article upload succesfully - total article : ' + insertlenth, data: noinsertlength });
+                    await articalService.updateUploadCount(upload?.id, insertlenth, noinsertlength)
+                    res.json({ message: 'Article upload succesfully - total article : ' + insertlenth, data: {} });
                     // resolve('Article upload succesfully - total article : ' + insertlenth)
                 }
             }
@@ -644,6 +648,13 @@ exports.deleteUpload = async function (req, res, next) {
     articalService.deleteUpload(req.params.id)
         .then(data => {
             res.json({ settings: {}, message: "Upload deleted successfully" });
+        })
+        .catch(next);
+}
+exports.getNMArticleList = async function (req, res, next) {
+    articalService.getNMArticleList(req.params.id)
+        .then(data => {
+            res.json({ list : data, message: "Upload not matching list fetched successfully" });
         })
         .catch(next);
 }
