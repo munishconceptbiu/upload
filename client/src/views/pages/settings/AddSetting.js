@@ -1,7 +1,7 @@
 import React, { Component, useState, useEffect } from 'react'
 import AsyncSelect from 'react-select/async';
 import swal from 'sweetalert';
-import AppHeader from '../../components/AppHeader'
+import AppHeader from '../../../components/AppHeader'
 
 import { ProgressBar } from "react-bootstrap"
 import DatePicker from "react-datepicker";
@@ -9,9 +9,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
 import axios from 'axios';
-import { get, post, deleteMethod } from "../../services/CommanService";
-import myData from '../../assets/geoJson/client.json';
-import { store } from '../../store/store';
+import { get, post, deleteMethod } from "../../../services/CommanService";
+import myData from '../../../assets/geoJson/client.json';
+import { store } from '../../../store/store';
 import toast from 'react-hot-toast';
 
 import Reorder, {
@@ -21,7 +21,7 @@ import Reorder, {
     reorderFromToImmutable
 } from "react-reorder";
 import move from "lodash-move";
-import { useNavigate, NavLink, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 const graphType = [
@@ -65,8 +65,6 @@ const graphType = [
 ]
 const AddSetting = () => {
     const state = store.getState();
-    const params = useParams();
-
     const navigate = useNavigate()
     const [setting, setSetting] = useState([])
     const [client_id, setClientId] = useState()
@@ -94,15 +92,19 @@ const AddSetting = () => {
     const [isPrint, setIsPrint] = useState(false);
     const [isPrintOnline, setIsPrintOnline] = useState(false);
 
+    let selectRef = React.useRef();
 
     const saveSetting = async () => {
 
-
+        const client = selectRef.getValue()[0]
+        if (client === "" || client === undefined || client === null) {
+            toast.error("Client id can't be empty");
+            return false;
+        }
         if (setting.length === 0) {
             toast.error("Select atlease one graph type");
             return false;
         }
-        console.log('isPrint', isPrint, isOnline, isPrintOnline)
         if (isPrint === false && isOnline === false && isPrintOnline === false) {
             toast.error("Please select altleast any two media types");
             return false;
@@ -117,8 +119,8 @@ const AddSetting = () => {
         }
 
         const formData = {
-            client_id: params.client_id,
-            client_name: client_name,
+            client_id: client.value,
+            client_name: client.label,
             username: state.auth.auth.first_name + ' ' + state.auth.auth.last_name,
             email: state.auth.auth.email,
             setting: setting,
@@ -131,6 +133,7 @@ const AddSetting = () => {
             isPrintOnline: isPrintOnline,
             user_id: state.auth.auth.id
         }
+
 
         // const formData = new FormData();
 
@@ -156,18 +159,20 @@ const AddSetting = () => {
                 setSetting([])
                 setVerticals([])
                 setVertical('')
+                selectRef.clearValue();
                 setClientName();
                 setClientId()
                 resolve("Setting Successfully Saved");
                 navigate('/view-setting')
             }).catch((err) => {
-                console.log('err', err)
+                console.log('err', err.response.data.error)
                 setGraphTypeName('');
                 setGraphTypeId('')
                 emptyLevel()
                 setSetting([])
                 setVerticals([])
                 setVertical('');
+                selectRef.clearValue();
                 setClientName();
                 setClientId()
                 reject(err.response.data.error)
@@ -202,6 +207,7 @@ const AddSetting = () => {
     }
 
     const setGraphTypeChange = (e) => {
+        // clientChange()
         if (e.target.value === "") {
             setGraphTypeId()
             setGraphTypeName()
@@ -244,9 +250,9 @@ const AddSetting = () => {
         setSetting(move(setting, from, to));
     };
     const deleteLevel = (index, e) => {
-        if (e.id) {
-            deleteSetting(e.id)
-        }
+       if(e.id){
+        deleteSetting(e.id)
+       }
         let newSetting = [...setting];
         newSetting.splice(index, 1)
         setSetting(newSetting);
@@ -284,10 +290,22 @@ const AddSetting = () => {
         newvertical.splice(index, 1)
         setVerticals(newvertical);
     }
- 
-    const getSettingList = (id) => {
-        const cid = id
-        get("artical/get-setting/" + cid).then((response) => {
+    const promiseOptions = (inputValue) =>
+        new Promise((resolve) => {
+            inputValue = inputValue || 'a'
+            get("artical/getclientlist/" + inputValue).then((response) => {
+                resolve(response.data.client.map((e) => ({
+                    value: e.id,
+                    label: e.client_name
+                })));
+            })
+
+        });
+
+    const clientChange = () => {
+        const client = selectRef.getValue()[0];
+        if(client){
+            get("artical/get-setting/" + client.value).then((response) => {
             setSetting(response.data.settings)
             setVerticals(response.data.verticals)
             setIndex(response.data.isIndex);
@@ -295,34 +313,29 @@ const AddSetting = () => {
             setIsOnline(response.data.isOnline || false);
             setIsPrint(response.data.isPrint || false);
             setIsPrintOnline(response.data.isPrintOnline || false)
-            setIsVertical(response.data.isVertical || false);
-            setClientName(response.data.settings[0].client_name);
+            setIsVertical(response.data.isVertical || false)
         })
-            .catch(() => {
-                // handleLoginFailure({ status: UNAUTHORIZED });
-            })
-
+        .catch(() => {
+          // handleLoginFailure({ status: UNAUTHORIZED });
+        })
+    }
     }
     const deleteSetting = (id) => {
         deleteMethod("artical/delete-setting/" + id).then((response) => {
-            //   swal("Success!", "Setting successfully deleted", "success");
-            getSettingList(params.client_id)
+        //   swal("Success!", "Setting successfully deleted", "success");
+          clientChange()
         })
-            .catch(() => {
-                // handleLoginFailure({ status: UNAUTHORIZED });
-            })
-    }
-
-    useEffect(() => {
-        getSettingList(params.client_id)
-    }, [params.client_id]);
-
+          .catch(() => {
+            // handleLoginFailure({ status: UNAUTHORIZED });
+          })
+      }
+  
     return (
         <>
 
             <div className="page-title">
                 <h1 >
-                    Edit Setting
+                    Add Setting
                 </h1>
             </div>
             <div className="uqr-contents">
@@ -331,8 +344,17 @@ const AddSetting = () => {
                     <form className="needs-validation" noValidate>
                         <div className="row g-3">
 
+                            <div className="col-6">
+                                <div className='client-section'>
+                                    <label htmlFor="country" className="form-label">Client</label>
+                                    <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions}  ref={(ref) => {
+                                        selectRef = ref;
+                                    }} />
+                                </div>
+                            </div>
+
                             <div className="col-12">
-                                <label for="state" className="form-label">Graph Type</label>
+                                <label htmlFor="state" className="form-label">Graph Type</label>
                                 <select className="form-select" id="state" onChange={e => setGraphTypeChange(e)} required>
                                     <option value="">Choose...</option>
                                     {graphTypes?.map((e, index) => (
@@ -346,55 +368,55 @@ const AddSetting = () => {
                                     <div className="col-12">
                                         <div className="form-check">
                                             <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault1" checked={entityLevel} onChange={e => setEntityLevel(e.target.checked)} />
-                                            <label className="form-check-label" for="flexCheckDefault1">
+                                            <label className="form-check-label" htmlFor="flexCheckDefault1">
                                                 Entity Level
                                             </label>
                                         </div>
                                         <div className="form-check">
                                             <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked2" checked={publicationLevel} onChange={e => setPublicationLevel(e.target.checked)} />
-                                            <label className="form-check-label" for="flexCheckChecked2">
+                                            <label className="form-check-label" htmlFor="flexCheckChecked2">
                                                 Publication Level
                                             </label>
                                         </div>
                                         <div className="form-check">
                                             <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault3" checked={journalistLevel} onChange={e => setjournalistLevel(e.target.checked)} />
-                                            <label className="form-check-label" for="flexCheckDefault3">
+                                            <label className="form-check-label" htmlFor="flexCheckDefault3">
                                                 Journlist Level
                                             </label>
                                         </div>
                                         <div className="form-check">
                                             <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked4" checked={cityLevel} onChange={e => setCityLevel(e.target.checked)} />
-                                            <label className="form-check-label" for="flexCheckChecked4">
+                                            <label className="form-check-label" htmlFor="flexCheckChecked4">
                                                 City  Level
                                             </label>
                                         </div>
                                         <div className="form-check">
                                             <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked5" checked={keywordLevel} onChange={e => setKeywordLevel(e.target.checked)} />
-                                            <label className="form-check-label" for="flexCheckChecked5">
+                                            <label className="form-check-label" htmlFor="flexCheckChecked5">
                                                 Keyword Level
                                             </label>
                                         </div>
                                         <div className="form-check">
                                             <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked9" checked={topicLevel} onChange={e => setTopicLevel(e.target.checked)} />
-                                            <label className="form-check-label" for="flexCheckChecked9">
+                                            <label className="form-check-label" htmlFor="flexCheckChecked9">
                                                 Topic Level
                                             </label>
                                         </div>
                                         <div className="form-check">
                                             <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked6" checked={spokespersonLevel} onChange={e => setSpokespersonLevel(e.target.checked)} />
-                                            <label className="form-check-label" for="flexCheckChecked6">
+                                            <label className="form-check-label" htmlFor="flexCheckChecked6">
                                                 Spokesperson Level
                                             </label>
                                         </div>
                                         <div className="form-check">
                                             <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked7" checked={profilingLevel} onChange={e => setProfilingLevel(e.target.checked)} />
-                                            <label className="form-check-label" for="flexCheckChecked7">
+                                            <label className="form-check-label" htmlFor="flexCheckChecked7">
                                                 Profiling Level
                                             </label>
                                         </div>
                                         <div className="form-check">
                                             <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked8" checked={visibilityLevel} onChange={e => setVisibilityLevel(e.target.checked)} />
-                                            <label className="form-check-label" for="flexCheckChecked8">
+                                            <label className="form-check-label" htmlFor="flexCheckChecked8">
                                                 Visibility Level
                                             </label>
                                         </div>
@@ -428,7 +450,7 @@ const AddSetting = () => {
                                 // }
                                 >
                                     {setting?.map((e, index) => (
-                                        <div className="card" key={index} style={{ width: "18rem", cursor: "pointer" }}>
+                                        <div className="card graph-float" key={index} style={{ width: "18rem", cursor: "pointer" }}>
                                             <div className="card-body">
                                                 <h5 className="">Order : {index + 1}</h5>
                                                 <h5 className="card-title">{e.graph_type}</h5>
@@ -451,7 +473,7 @@ const AddSetting = () => {
                             </div>
 
                             <div className="col-12">
-                                <label for="vertical" className="form-label">Vertical</label>
+                                <label htmlFor="vertical" className="form-label">Vertical</label>
                                 <select className="form-select" id="vertical" onChange={e => setIsVertical(e.target.value)} required>
                                     <option value="">Choose...</option>
                                     <option value="1">Yes</option>
@@ -461,7 +483,7 @@ const AddSetting = () => {
                             </div>
                             {is_vertical === "1" && (
                                 <div className="col-12 ">
-                                    {/* <label for="vertical" className="form-label">Add </label> */}
+                                    {/* <label htmlFor="vertical" className="form-label">Add </label> */}
                                     <input type="text" className="form-control" id="vertical" value={vertical} onChange={e => setVertical(e.target.value)} placeholder="" />
 
 
@@ -484,38 +506,38 @@ const AddSetting = () => {
 
                             </div>
                             <div className="col-12">
-                                <label for="state" className="form-label">Filter</label>
+                                <label htmlFor="state" className="form-label">Filter</label>
                                 <div className="form-check">
                                     <input className="form-check-input" type="checkbox" value="" id="index" checked={isIndex} onChange={e => setIndex(e.target.checked)} />
-                                    <label className="form-check-label" for="index">
+                                    <label className="form-check-label" htmlFor="index">
                                         Index
                                     </label>
                                 </div>
                                 <div className="form-check">
                                     <input className="form-check-input" type="checkbox" value="" id="reach" checked={isReach} onChange={e => setReach(e.target.checked)} />
-                                    <label className="form-check-label" for="reach">
+                                    <label className="form-check-label" htmlFor="reach">
                                         Reach '000
                                     </label>
                                 </div>
 
                             </div>
                             <div className="col-12">
-                                <label for="prints" className="form-label">Media Type</label>
+                                <label htmlFor="prints" className="form-label">Media Type</label>
                                 <div className="form-check">
                                     <input className="form-check-input" type="checkbox" value="" id="print" checked={isPrint} onChange={e => setIsPrint(e.target.checked)} />
-                                    <label className="form-check-label" for="print">
+                                    <label className="form-check-label" htmlFor="print">
                                         Print
                                     </label>
                                 </div>
                                 <div className="form-check">
                                     <input className="form-check-input" type="checkbox" value="" id="online" checked={isOnline} onChange={e => setIsOnline(e.target.checked)} />
-                                    <label className="form-check-label" for="online">
+                                    <label className="form-check-label" htmlFor="online">
                                         Online
                                     </label>
                                 </div>
                                 <div className="form-check">
                                     <input className="form-check-input" type="checkbox" value="" id="printonline" checked={isPrintOnline} onChange={e => setIsPrintOnline(e.target.checked)} />
-                                    <label className="form-check-label" for="printonline">
+                                    <label className="form-check-label" htmlFor="printonline">
                                         Print & Online
                                     </label>
                                 </div>

@@ -143,7 +143,7 @@ const Login = (props) => {
             </div>
             {/* <div className="passwordFormGroup">
               {loginError && (
-                <div class="alert alert-danger customAlert">
+                <div className="alert alert-danger customAlert">
                   <XCircle /> {loginError}
                 </div>
               )}

@@ -1,15 +1,13 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import AsyncSelect from 'react-select/async';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import moment from 'moment';
-import { store } from '../../store/store';
-import { EditIcon, DeleteIcon } from "../../Icons/icons.component";
+import { store } from '../../../store/store';
+import { DeleteIcon } from "../../../Icons/icons.component";
 
-import axios from 'axios';
-import { get , post, deleteMethod } from "../../services/CommanService";
-import AppHeader from '../../components/AppHeader';
-import toast, { Toaster } from 'react-hot-toast';
+import { get , deleteMethod } from "../../../services/CommanService";
+import toast from 'react-hot-toast';
 
 const ViewUpload = () => {
   const state = store.getState();
@@ -101,17 +99,17 @@ const ViewUpload = () => {
             </h1>
             </div>
             <div style={{ margin: "25px 20px 0 35px", marginTop: "80px" }}>
-        {/* <div style={{ "padding": "4px 4px 32px" }}>      <button class="btn btn-success pull-right" style={{ float: "right" }} onClick={addSetting}>Add Setting</button>
+        {/* <div style={{ "padding": "4px 4px 32px" }}>      <button className="btn btn-success pull-right" style={{ float: "right" }} onClick={addSetting}>Add Setting</button>
         </div> */}
 
         <div className='client-section'>
-          <label for="country" class="form-label">Select Client</label>
+          <label htmlFor="country" className="form-label">Select Client</label>
           <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => clientChange(e)} />
         </div>
 
       </div>
-    <div class="">
-      <div class="view-setting">
+    <div className="">
+      <div className="view-setting">
         
         <table className='table'>
       <thead>
@@ -131,7 +129,7 @@ const ViewUpload = () => {
       </thead>
       <tbody>
         {uploadList?.map((list, index) => (
-        <tr>
+        <tr  key={index}>
           <td>{index+1}</td>
           {/* <td>{list.email}</td> */}
           <td>{list.client_name}</td>
@@ -159,9 +157,9 @@ const ViewUpload = () => {
             </Modal.Header>
             <Modal.Body>
 
-              <div class="container ">
-                <div class="row">
-                  <div class="col-9">
+              <div className="container ">
+                <div className="row">
+                  <div className="col-9">
                   <table className='table'>
       <thead>
         <tr>
@@ -176,7 +174,7 @@ const ViewUpload = () => {
       </thead>
       <tbody>
         {uploadNMArticleList?.map((list, index) => (
-        <tr>
+        <tr  key={index}>
           <td>{index+1}</td>
           <td>{list.client_name}</td>
           <td>{list.client_id}</td>

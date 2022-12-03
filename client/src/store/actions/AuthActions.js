@@ -50,15 +50,15 @@ export function loginAction(name, password, navigate) {
   return (dispatch) => {
     login(name, password)
       .then((response) => {
-        if (response.data.status === 200) {
-          saveTokenInLocalStorage(response.data.result);
+        // if (response.data.status === 200) {
+          saveTokenInLocalStorage(response.data.user);
           // runLogoutTimer(dispatch, 3600 * 1000, history);
-          dispatch(loginConfirmedAction(response.data.result));
+          dispatch(loginConfirmedAction(response.data.user));
           navigate("/");
-        } else {
-          const errorMessage = formatError("INVALID_PASSWORD");
-          dispatch(loginFailedAction(errorMessage));
-        }
+        // } else {
+        //   const errorMessage = formatError("INVALID_PASSWORD");
+        //   dispatch(loginFailedAction(errorMessage));
+        // }
       })
       .catch((error) => {
         console.log('err', error)

@@ -275,7 +275,7 @@ exports.saveArtical = async function (req, res, next) {
                             publication: e['publication'],
                             language: e['language'],
                             category_A: e['category'],
-                            visibility_score: e['visibility score'],
+                            visibility_score: e['visibility score'] || e['visibility'],
                             circulation_web_weightage: e["cir ('000) & web wtg"],
                             co_score: e['co score'],
                             edition: e['edition'],

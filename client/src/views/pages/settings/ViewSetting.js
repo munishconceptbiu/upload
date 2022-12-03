@@ -1,17 +1,12 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import AsyncSelect from 'react-select/async';
-import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { EditIcon, DeleteIcon } from "../../Icons/icons.component";
-import swal from 'sweetalert';
-import AppHeader from '../../components/AppHeader';
-import axios from 'axios';
-import { get, post, put, deleteMethod } from "../../services/CommanService";
-import { pureFinalPropsSelectorFactory } from 'react-redux/es/connect/selectorFactory';
-import toast, { Toaster } from 'react-hot-toast';
+import { EditIcon, DeleteIcon } from "../../../Icons/icons.component";
+import { get, put, deleteMethod } from "../../../services/CommanService";
+import toast from 'react-hot-toast';
 import { useNavigate, NavLink } from 'react-router-dom';
-import { store } from '../../store/store';
+import { store } from '../../../store/store';
 
 const ViewSetting = () => {
   let navigate = useNavigate();
@@ -131,16 +126,16 @@ const ViewSetting = () => {
         </h1>
       </div>
       <div style={{ margin: "25px 20px 0 35px", marginTop: "80px" }}>
-        <div style={{ "padding": "4px 4px 32px" }}>      <button class="btn btn-success pull-right" style={{ float: "right" }} onClick={addSetting}>Add Setting</button>
+        <div style={{ "padding": "4px 4px 32px" }}>      <button className="btn btn-success pull-right" style={{ float: "right" }} onClick={addSetting}>Add Setting</button>
         </div>
 
         <div className='client-section'>
-          <label for="country" class="form-label">Select Client</label>
+          <label htmlFor="country" className="form-label">Select Client</label>
           <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => clientChange(e)} />
         </div>
 
       </div>
-      <div class="view-setting">
+      <div className="view-setting">
 
         <table className='table'>
           <thead>
@@ -166,7 +161,7 @@ const ViewSetting = () => {
           </thead>
           <tbody>
             {settingList?.map((list, index) => (
-              <tr>
+              <tr  key={index}>
                 <td>{index + 1}</td>
                 <td>{list.client_name}</td>
                 {/* <td>{list.graph_type}</td>
@@ -182,7 +177,7 @@ const ViewSetting = () => {
                 <td>{setting.isOnline === true ? 'Yes' : 'No'}</td>
                 <td>{setting.isPrint === true ? 'Yes' : 'No'}</td>
                 <td>{setting.isPrintOnline === true ? 'Yes' : 'No'}</td>
-                <td ><NavLink to={`/edit-setting/${list.client_id}`}><EditIcon /></NavLink> <a href="#" onClick={e => deleteSetting(list.id)} className='deleicon'><DeleteIcon /></a></td>
+                <td ><NavLink to={`/edit-setting/${list.client_id}`}><EditIcon /></NavLink> <a href="javascript:void(0)" onClick={e => deleteSetting(list.id)} className='deleicon'><DeleteIcon /></a></td>
               </tr>
             ))}
             {settingList.length === 0 &&
@@ -203,60 +198,60 @@ const ViewSetting = () => {
             </Modal.Header>
             <Modal.Body>
 
-              <div class="container ">
-                <div class="row">
-                  <div class="col-9">
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" checked={editData.entity_level} onChange={e => setEditData({ ...editData, entity_level: e.target.checked })} />
-                      <label class="form-check-label" for="flexCheckDefault1">
+              <div className="container ">
+                <div className="row">
+                  <div className="col-9">
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault1" checked={editData.entity_level} onChange={e => setEditData({ ...editData, entity_level: e.target.checked })} />
+                      <label className="form-check-label" htmlFor="flexCheckDefault1">
                         Entity Level
                       </label>
                     </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked2" checked={editData.publication_level} onChange={e => setEditData({ ...editData, publication_level: e.target.checked })} />
-                      <label class="form-check-label" for="flexCheckChecked2">
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked2" checked={editData.publication_level} onChange={e => setEditData({ ...editData, publication_level: e.target.checked })} />
+                      <label className="form-check-label" htmlFor="flexCheckChecked2">
                         Publication Level
                       </label>
                     </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3" checked={editData.journalist_level} onChange={e => setEditData({ ...editData, journalist_level: e.target.checked })} />
-                      <label class="form-check-label" for="flexCheckDefault3">
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault3" checked={editData.journalist_level} onChange={e => setEditData({ ...editData, journalist_level: e.target.checked })} />
+                      <label className="form-check-label" htmlFor="flexCheckDefault3">
                         Journlist Level
                       </label>
                     </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked4" checked={editData.city_level} onChange={e => setEditData({ ...editData, city_level: e.target.checked })} />
-                      <label class="form-check-label" for="flexCheckChecked4">
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked4" checked={editData.city_level} onChange={e => setEditData({ ...editData, city_level: e.target.checked })} />
+                      <label className="form-check-label" htmlFor="flexCheckChecked4">
                         City  Level
                       </label>
                     </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked5" checked={editData.keyword_level} onChange={e => setEditData({ ...editData, keyword_level: e.target.checked })} />
-                      <label class="form-check-label" for="flexCheckChecked5">
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked5" checked={editData.keyword_level} onChange={e => setEditData({ ...editData, keyword_level: e.target.checked })} />
+                      <label className="form-check-label" htmlFor="flexCheckChecked5">
                         Keyword Level
                       </label>
                     </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked9" checked={editData.topic_level} onChange={e => setEditData({ ...editData, topic_level: e.target.checked })} />
-                      <label class="form-check-label" for="flexCheckChecked9">
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked9" checked={editData.topic_level} onChange={e => setEditData({ ...editData, topic_level: e.target.checked })} />
+                      <label className="form-check-label" htmlFor="flexCheckChecked9">
                         Topic Level
                       </label>
                     </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked6" checked={editData.spokesperson_level} onChange={e => setEditData({ ...editData, spokesperson_level: e.target.checked })} />
-                      <label class="form-check-label" for="flexCheckChecked6">
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked6" checked={editData.spokesperson_level} onChange={e => setEditData({ ...editData, spokesperson_level: e.target.checked })} />
+                      <label className="form-check-label" htmlFor="flexCheckChecked6">
                         Spokesperson Level
                       </label>
                     </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked7" checked={editData.profiling_level} onChange={e => setEditData({ ...editData, profiling_level: e.target.checked })} />
-                      <label class="form-check-label" for="flexCheckChecked7">
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked7" checked={editData.profiling_level} onChange={e => setEditData({ ...editData, profiling_level: e.target.checked })} />
+                      <label className="form-check-label" htmlFor="flexCheckChecked7">
                         Profiling Level
                       </label>
                     </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked8" checked={editData.visibility_level} onChange={e => setEditData({ ...editData, visibility_level: e.target.checked })} />
-                      <label class="form-check-label" for="flexCheckChecked8">
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked8" checked={editData.visibility_level} onChange={e => setEditData({ ...editData, visibility_level: e.target.checked })} />
+                      <label className="form-check-label" htmlFor="flexCheckChecked8">
                         Visibility Level
                       </label>
                     </div>

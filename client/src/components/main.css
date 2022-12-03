@@ -203,3 +203,18 @@ ul.nav-pills li a.active svg{
     fill: #ffffff; 
 }
 .leftNavigationWrap:hover{width: 250px !important;}
+
+.levelbutton {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    margin-bottom:12px!important;
+    margin-right:8px!important;
+    border-radius: 29px;
+}
+
+.graph-float {
+    float: left;
+    margin: 10px;
+    min-height: 500px;
+}
+
+
