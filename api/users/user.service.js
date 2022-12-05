@@ -16,8 +16,8 @@ module.exports = {
     clientlist,
 };
 
-async function authenticate({ email, password }) {
-    const user = await db.User.scope('withHash').findOne({ where: { email } });
+async function authenticate({ username, password }) {
+    const user = await db.User.scope('withHash').findOne({ where: { email: username } });
 
     if (!user || !(await bcrypt.compare(password, user.hash)))
         throw 'Username or password is incorrect';
