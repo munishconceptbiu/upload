@@ -96,7 +96,7 @@ const Upload = () => {
     formData.append('client_name', client.label);
     formData.append('start_date', moment(startDate).format('L'))
     formData.append('end_date', moment(endDate).format('L'))
-    formData.append('username', state.auth.auth.first_name + ' ' + state.auth.auth.last_name);
+    formData.append('username', state.auth.auth.username);
     formData.append('email', state.auth.auth.email);
     formData.append('user_id', state.auth.auth.id)
     formData.append('ip_address', ip)
