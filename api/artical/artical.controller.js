@@ -629,11 +629,12 @@ exports.getSettingClientList = async function (req, res, next) {
 }
 
 exports.getUniqueSetting = async function (req, res, next) {
-articalService.getSetting(req.params.client_id)
-        .then(check => {
+
     articalService.getUniqueSetting(req.params.client_id)
         .then(data => {
-            articalService.getUniqueVerticalSetting(req.params.client_id)
+    articalService.getSetting(data && data.length ? data[0].client_id : req.params.client_id)
+        .then(check => {
+            articalService.getUniqueVerticalSetting(data && data.length ? data[0].client_id : req.params.client_id)
                 .then(vertical => {
                     res.json({ settings: data, levels: check,  isVertical: vertical ? vertical?.isVertical : false, verticals: vertical ? JSON.parse(vertical?.verticals) : [], isIndex: vertical ? vertical?.isIndex : false, isReach: vertical ? vertical?.isReach : false, isOnline: vertical ? vertical?.isOnline : false, isPrint: vertical ? vertical?.isPrint : false, isPrintOnline: vertical ? vertical?.isPrintOnline : false, message: "Client setting fetched successfully" });
                 })
