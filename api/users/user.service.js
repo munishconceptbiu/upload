@@ -17,31 +17,24 @@ module.exports = {
 };
 
 async function authenticate({ username, password }) {
-    // const user = await db.User.scope('withHash').findOne({ where: { username } });
+    const user = await db.User.scope('withHash').findOne({ where: { email: username } });
 
-    // if (!user || !(await bcrypt.compare(password, user.hash)))
-    //     throw 'Username or password is incorrect';
+    if (!user || !(await bcrypt.compare(password, user.hash)))
+        throw 'Username or password is incorrect';
 
-    // // authentication successful
-    // const token = jwt.sign({ sub: user.id }, secret, { expiresIn: '7d' });
-    // return { ...omitHash(user.get()), token };
+    // authentication successful
+    const token = jwt.sign({ sub: user.id }, secret, { expiresIn: '7d' });
+    return { ...omitHash(user.get()), token };
 
-    // axios.post('http://betadevapi.conceptbiu.com/app/auth/login', {'email':username, 'password':password})
-    //   .then(function (response) {
-    //     return response.data
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
-    const data = {'email':username, 'password':password}
-    const url = "http://betadevapi.conceptbiu.com/app/auth/login";
-    const config = {
-        method: 'post',
-        url,
-        headers: { 'Content-Type': 'application/json' },
-        data,
-      };
-      return axios(config);
+    // const data = {'email':username, 'password':password}
+    // const url = "http://betadevapi.conceptbiu.com/app/auth/login";
+    // const config = {
+    //     method: 'post',
+    //     url,
+    //     headers: { 'Content-Type': 'application/json' },
+    //     data,
+    //   };
+    //   return axios(config);
 }
 
 async function clientlist(authorization) {
@@ -55,7 +48,7 @@ async function clientlist(authorization) {
 }
 
 async function getAll() {
-    return await db.User.findAll();
+    return await db.User.findAll({where: { role: 'moderator'}});
 }
 
 async function getById(id) {

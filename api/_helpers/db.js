@@ -16,7 +16,7 @@ async function initialize() {
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
 
     // connect to db
-    const sequelize = new Sequelize(database, user, password, { host : host, dialect: 'mysql' , pool: {
+    const sequelize = new Sequelize(database, user, password, {logging: false, host : host, dialect: 'mysql' , pool: {
         max: 20,
         min: 0,
         acquire: 60000000,
@@ -36,8 +36,8 @@ async function initialize() {
     db.Edition = require('../_model/edition.model')(sequelize);
     db.QaSetting = require('../_model/qa_setting.model')(sequelize);
     db.QaVerticalSetting = require('../_model/qa_vertical_setting.model')(sequelize);
+    db.QaNMArticleSetting = require('../_model/nm_article.model')(sequelize);
 
-    
     // sync all models with database
     await sequelize.sync();
     

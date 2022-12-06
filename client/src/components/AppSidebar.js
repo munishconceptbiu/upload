@@ -1,12 +1,15 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { DashboardIcon, AnalysisIcon, NotificationsMenuIcon, SocialIcon, LoginIcon } from "../Icons/icons.component";
+import { DashboardIcon, AnalysisIcon, NotificationsMenuIcon, SocialIcon, LoginIcon, UsersIcon, ProfileIcon } from "../Icons/icons.component";
 import { NavLink, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { logout } from '../store/actions/AuthActions';
+import { store } from '../store/store';
 
 import './sidebars.css'
 const AppSidebar = (props) => {
+  const state = store.getState();
+
   const dispatch = useDispatch()
   let navigate = useNavigate();
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
@@ -39,17 +42,34 @@ const AppSidebar = (props) => {
       <li>
       <NavLink to="/view-setting" className="nav-link" title="Setting" data-bs-toggle="tooltip" data-bs-placement="right">
          <span className='menuIcon'><NotificationsMenuIcon /></span>
-         <span className='menuTitle'>View Setting</span>
+         <span className='menuTitle'>Setting</span>
         </NavLink>
       </li>
-      <li>
+      {state?.auth?.auth?.role === 'admin' && 
+         <li>
+      <NavLink to="/view-users" className="nav-link" title="Users" data-bs-toggle="tooltip" data-bs-placement="right">
+         <span className='menuIcon'><UsersIcon /></span>
+         <span className='menuTitle'>Users</span>
+        </NavLink>
+      </li>
+    }
+      {/* <li>
       <NavLink to="/view-social" className="nav-link" title="Setting" data-bs-toggle="tooltip" data-bs-placement="right">
          <span className='menuIcon'><SocialIcon /></span>
          <span className='menuTitle'>Social</span>
         </NavLink>
+      </li> */}
+      <li>
+      <NavLink to="/profile" className="nav-link" title="Setting" data-bs-toggle="tooltip" data-bs-placement="right">
+         <span className='menuIcon'><ProfileIcon /></span>
+         <span className='menuTitle'>Profile</span>
+        </NavLink>
       </li>
+     
+       
      <li>
-     <NavLink to="javascript:void(0)" onClick={onLogout} className="nav-link" title="Setting" data-bs-toggle="tooltip" data-bs-placement="right">
+      
+     <NavLink to="/#" onClick={onLogout} className="nav-link" title="Logout" data-bs-toggle="tooltip" data-bs-placement="right">
         <span className='menuIcon'><LoginIcon /></span>
          <span className='menuTitle'>Logout</span>
         </NavLink>

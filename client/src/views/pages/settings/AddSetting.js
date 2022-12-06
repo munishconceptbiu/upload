@@ -10,9 +10,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
 import axios from 'axios';
-import { get, post } from "../../services/CommanService";
-import myData from '../../assets/geoJson/client.json';
-import { store } from '../../store/store';
+import { get, post, deleteMethod } from "../../../services/CommanService";
+import myData from '../../../assets/geoJson/client.json';
+import { store } from '../../../store/store';
 import toast from 'react-hot-toast';
 
 import Reorder, {
@@ -84,7 +84,7 @@ const AddSetting = () => {
     const [graphTypeId, setGraphTypeId] = useState()
     const [is_vertical, setIsVertical] = useState(0)
     const [verticals, setVerticals] = useState([])
-    const [vertical, setVertical] = useState()
+    const [vertical, setVertical] = useState("")
 
     const [isIndex, setIndex] = useState(false);
     const [isReach, setReach] = useState(false);
@@ -131,7 +131,8 @@ const AddSetting = () => {
             isReach: isReach,
             isOnline: isOnline,
             isPrint: isPrint,
-            isPrintOnline: isPrintOnline
+            isPrintOnline: isPrintOnline,
+            user_id: state.auth.auth.id
         }
 
 
@@ -207,6 +208,7 @@ const AddSetting = () => {
     }
 
     const setGraphTypeChange = (e) => {
+        // clientChange()
         if (e.target.value === "") {
             setGraphTypeId()
             setGraphTypeName()
@@ -248,7 +250,10 @@ const AddSetting = () => {
     const onReorder = (e, from, to) => {
         setSetting(move(setting, from, to));
     };
-    const deleteLevel = (index) => {
+    const deleteLevel = (index, e) => {
+       if(e.id){
+        deleteSetting(e.id)
+       }
         let newSetting = [...setting];
         newSetting.splice(index, 1)
         setSetting(newSetting);
@@ -272,7 +277,7 @@ const AddSetting = () => {
     }
 
     const addVertical = () => {
-        if (vertical === '') {
+        if (vertical === '' || vertical.trim().length === 0) {
             toast.error("Vertical can't be empty");
             return false
         }
@@ -298,12 +303,40 @@ const AddSetting = () => {
 
         });
 
+    const clientChange = () => {
+        const client = selectRef.getValue()[0];
+        if(client){
+            get("artical/get-setting/" + client.value).then((response) => {
+            setSetting(response.data.settings)
+            setVerticals(response.data.verticals)
+            setIndex(response.data.isIndex);
+            setReach(response.data.isReach);
+            setIsOnline(response.data.isOnline || false);
+            setIsPrint(response.data.isPrint || false);
+            setIsPrintOnline(response.data.isPrintOnline || false)
+            setIsVertical(response.data.isVertical || false)
+        })
+        .catch(() => {
+          // handleLoginFailure({ status: UNAUTHORIZED });
+        })
+    }
+    }
+    const deleteSetting = (id) => {
+        deleteMethod("artical/delete-setting/" + id).then((response) => {
+        //   swal("Success!", "Setting successfully deleted", "success");
+          clientChange()
+        })
+          .catch(() => {
+            // handleLoginFailure({ status: UNAUTHORIZED });
+          })
+      }
+  
     return (
         <>
 
             <div className="page-title">
                 <h1 >
-                    View Setting
+                    Add Setting
                 </h1>
             </div>
             <div className="uqr-contents">
@@ -314,15 +347,15 @@ const AddSetting = () => {
 
                             <div className="col-6">
                                 <div className='client-section'>
-                                    <label for="country" className="form-label">Client</label>
-                                    <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} isClearable={true} ref={(ref) => {
+                                    <label htmlFor="country" className="form-label">Client</label>
+                                    <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions}  ref={(ref) => {
                                         selectRef = ref;
                                     }} />
                                 </div>
                             </div>
 
                             <div className="col-12">
-                                <label for="state" className="form-label">Graph Type</label>
+                                <label htmlFor="state" className="form-label">Graph Type</label>
                                 <select className="form-select" id="state" onChange={e => setGraphTypeChange(e)} required>
                                     <option value="">Choose...</option>
                                     {graphTypes?.map((e, index) => (
@@ -336,55 +369,55 @@ const AddSetting = () => {
                                     <div className="col-12">
                                         <div className="form-check">
                                             <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault1" checked={entityLevel} onChange={e => setEntityLevel(e.target.checked)} />
-                                            <label className="form-check-label" for="flexCheckDefault1">
+                                            <label className="form-check-label" htmlFor="flexCheckDefault1">
                                                 Entity Level
                                             </label>
                                         </div>
                                         <div className="form-check">
                                             <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked2" checked={publicationLevel} onChange={e => setPublicationLevel(e.target.checked)} />
-                                            <label className="form-check-label" for="flexCheckChecked2">
+                                            <label className="form-check-label" htmlFor="flexCheckChecked2">
                                                 Publication Level
                                             </label>
                                         </div>
                                         <div className="form-check">
                                             <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault3" checked={journalistLevel} onChange={e => setjournalistLevel(e.target.checked)} />
-                                            <label className="form-check-label" for="flexCheckDefault3">
+                                            <label className="form-check-label" htmlFor="flexCheckDefault3">
                                                 Journlist Level
                                             </label>
                                         </div>
                                         <div className="form-check">
                                             <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked4" checked={cityLevel} onChange={e => setCityLevel(e.target.checked)} />
-                                            <label className="form-check-label" for="flexCheckChecked4">
+                                            <label className="form-check-label" htmlFor="flexCheckChecked4">
                                                 City  Level
                                             </label>
                                         </div>
                                         <div className="form-check">
                                             <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked5" checked={keywordLevel} onChange={e => setKeywordLevel(e.target.checked)} />
-                                            <label className="form-check-label" for="flexCheckChecked5">
+                                            <label className="form-check-label" htmlFor="flexCheckChecked5">
                                                 Keyword Level
                                             </label>
                                         </div>
                                         <div className="form-check">
                                             <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked9" checked={topicLevel} onChange={e => setTopicLevel(e.target.checked)} />
-                                            <label className="form-check-label" for="flexCheckChecked9">
+                                            <label className="form-check-label" htmlFor="flexCheckChecked9">
                                                 Topic Level
                                             </label>
                                         </div>
                                         <div className="form-check">
                                             <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked6" checked={spokespersonLevel} onChange={e => setSpokespersonLevel(e.target.checked)} />
-                                            <label className="form-check-label" for="flexCheckChecked6">
+                                            <label className="form-check-label" htmlFor="flexCheckChecked6">
                                                 Spokesperson Level
                                             </label>
                                         </div>
                                         <div className="form-check">
                                             <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked7" checked={profilingLevel} onChange={e => setProfilingLevel(e.target.checked)} />
-                                            <label className="form-check-label" for="flexCheckChecked7">
+                                            <label className="form-check-label" htmlFor="flexCheckChecked7">
                                                 Profiling Level
                                             </label>
                                         </div>
                                         <div className="form-check">
                                             <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked8" checked={visibilityLevel} onChange={e => setVisibilityLevel(e.target.checked)} />
-                                            <label className="form-check-label" for="flexCheckChecked8">
+                                            <label className="form-check-label" htmlFor="flexCheckChecked8">
                                                 Visibility Level
                                             </label>
                                         </div>
@@ -422,6 +455,7 @@ const AddSetting = () => {
                                             <div className="card-body">
                                                 <h5 className="">Order : {index + 1}</h5>
                                                 <h5 className="card-title">{e.graph_type}</h5>
+<<<<<<< HEAD:client/src/views/dashboard/AddSetting.js
                                                 {/* <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
 
                                                 {e.entity_level === true && <p className="card-text">Entity Level </p>}
@@ -435,6 +469,48 @@ const AddSetting = () => {
                                                 {e.visibility_level === true && <p className="card-text">Visibility Level</p>}
                                                 <a href="javascript:void(0)" onClick={e => deleteLevel(index)} className="card-link"><DeleteIcon/></a>
                                                 <a href="javascript:void(0)" onClick={e => editLevel(index)} className="card-link"><EditIcon/></a>
+=======
+                                               {/* <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
+                                               {e.entity_level === true && 
+                                                // <p className="card-text">Entity Level :  Yes</p>
+                                                <><Button className="levelbutton" variant="light">Entity</Button>{' '}</>
+                                                }
+                                                {e.publication_level === true && 
+                                                // <p className="card-text">Publication Level : Yes</p>
+                                                <><Button className="levelbutton"  variant="light">Publication</Button>{' '}</>
+                                                }
+                                                {e.journalist_level === true && 
+                                                // <p className="card-text">Journalist Level :  Yes</p>
+                                               <><Button className="levelbutton"  variant="light">Journalist</Button>{' '}</>
+                                                }
+                                                {e.city_level === true &&
+                                                //  <p className="card-text">City Level : Yes</p>
+                                                 <><Button className="levelbutton"  variant="light">City</Button>{' '}</>
+                                                 }
+                                                {e.keyword_level === true && 
+                                                // <p className="card-text">Keyword Level :  Yes</p>
+                                                <><Button className="levelbutton"  variant="light">Keyword</Button>{' '}</>
+                                                }
+                                                {e.topic_level === true && 
+                                                // <p className="card-text">Topic Level :  Yes</p>
+                                                <><Button className="levelbutton"  variant="light">Topic</Button>{' '}</>
+                                                }
+                                                {e.spokesperson_level === true && 
+                                                // <p className="card-text">Spokesperson Level :  Yes</p>
+                                                <><Button className="levelbutton"  variant="light">Spokesperson</Button>{' '}</>
+                                                }
+                                                {e.profiling_level === true && 
+                                                <><Button className="levelbutton"  variant="light">Profiling</Button>{' '}</>
+                                                // <p className="card-text">Profiling Level :  Yes</p>
+                                                }
+                                                {e.visibility_level === true && 
+                                                // <p className="card-text">Visibility Level :  Yes</p>
+                                                <><Button className="levelbutton"  variant="light">Visibility</Button>{' '}</>
+                                                }
+                                                <br></br>
+                                                <a href="javascript:void(0)" onClick={event => deleteLevel(index, e)} className="card-link">Remove</a>
+                                                <a href="javascript:void(0)" onClick={e => editLevel(index)} className="card-link">Edit</a>
+>>>>>>> 6d09f3355b3f684229f0a460fd23f1c4dfd92d43:client/src/views/pages/settings/AddSetting.js
                                             </div>
                                         </div>
                                     ))}
@@ -442,7 +518,7 @@ const AddSetting = () => {
                             </div>
 
                             <div className="col-12">
-                                <label for="vertical" className="form-label">Vertical</label>
+                                <label htmlFor="vertical" className="form-label">Vertical</label>
                                 <select className="form-select" id="vertical" onChange={e => setIsVertical(e.target.value)} required>
                                     <option value="">Choose...</option>
                                     <option value="1">Yes</option>
@@ -452,7 +528,7 @@ const AddSetting = () => {
                             </div>
                             {is_vertical === "1" && (
                                 <div className="col-12 ">
-                                    {/* <label for="vertical" className="form-label">Add </label> */}
+                                    {/* <label htmlFor="vertical" className="form-label">Add </label> */}
                                     <input type="text" className="form-control" id="vertical" value={vertical} onChange={e => setVertical(e.target.value)} placeholder="" />
 
 
@@ -475,38 +551,38 @@ const AddSetting = () => {
 
                             </div>
                             <div className="col-12">
-                                <label for="state" className="form-label">Filter</label>
+                                <label htmlFor="state" className="form-label">Filter</label>
                                 <div className="form-check">
                                     <input className="form-check-input" type="checkbox" value="" id="index" checked={isIndex} onChange={e => setIndex(e.target.checked)} />
-                                    <label className="form-check-label" for="index">
+                                    <label className="form-check-label" htmlFor="index">
                                         Index
                                     </label>
                                 </div>
                                 <div className="form-check">
                                     <input className="form-check-input" type="checkbox" value="" id="reach" checked={isReach} onChange={e => setReach(e.target.checked)} />
-                                    <label className="form-check-label" for="reach">
+                                    <label className="form-check-label" htmlFor="reach">
                                         Reach '000
                                     </label>
                                 </div>
 
                             </div>
                             <div className="col-12">
-                                <label for="prints" className="form-label">Media Type</label>
+                                <label htmlFor="prints" className="form-label">Media Type</label>
                                 <div className="form-check">
                                     <input className="form-check-input" type="checkbox" value="" id="print" checked={isPrint} onChange={e => setIsPrint(e.target.checked)} />
-                                    <label className="form-check-label" for="print">
+                                    <label className="form-check-label" htmlFor="print">
                                         Print
                                     </label>
                                 </div>
                                 <div className="form-check">
                                     <input className="form-check-input" type="checkbox" value="" id="online" checked={isOnline} onChange={e => setIsOnline(e.target.checked)} />
-                                    <label className="form-check-label" for="online">
+                                    <label className="form-check-label" htmlFor="online">
                                         Online
                                     </label>
                                 </div>
                                 <div className="form-check">
                                     <input className="form-check-input" type="checkbox" value="" id="printonline" checked={isPrintOnline} onChange={e => setIsPrintOnline(e.target.checked)} />
-                                    <label className="form-check-label" for="printonline">
+                                    <label className="form-check-label" htmlFor="printonline">
                                         Print & Online
                                     </label>
                                 </div>

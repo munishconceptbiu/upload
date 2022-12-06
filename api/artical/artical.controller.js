@@ -42,6 +42,7 @@ const states = [
     { id: 100, city: "Goa", state: "Goa" },
     { id: 33, city: "Greater Noida", state: "Uttar Pradesh" },
     { id: 33, city: "Noida", state: "Uttar Pradesh" },
+    { id: 43, city: "Dehradun", state: "Uttarakhand" }
 ]
 
 exports.getArtical = async function (req, res, next) {
@@ -52,6 +53,37 @@ exports.getList = async function (req, res, next) {
     articalService.getAllListUpload(req.params.client_id, req.query.client_id).then((data) => {
         res.json({ data: data, message: 'Artical successful' })
     })
+}
+
+
+const addSpokesPersonAndData = async (e, q_articles, upload) => {
+    const spokesman = Object.entries(e).filter((e, v) => e[0].match(/spokesperson [0-9]/g) && e[1] !== 0)[0]?.map(e => ({
+        "spokesperson_name": e.trim(),
+        "spokesperson_name_merge": e.replace(/[^a-zA-Z0-9]/g, '_').trim(),
+        "upload_id": upload?.id
+    }))
+    if (spokesman !== undefined && spokesman?.length !== 0) {
+
+        await articalService.createQaSpokesPerson(spokesman).then(async (spokepeople) => {
+
+            return spokepeople
+        });
+    }
+};
+
+const addProductAndData = async (e, q_articles, upload) => {
+    const productss = Object.entries(e).filter((e, v) => e[0].match(/product name [0-9]/g) && e[1] !== 0)[0]?.map(e => ({
+        "product_name": e.trim(),
+        "product_name_merge": e.replace(/[^a-zA-Z0-9]/g, '_').trim(),
+        "upload_id": upload?.id
+    }))
+    if (productss !== undefined && productss?.length !== 0) {
+
+        await articalService.createQaClientProduct(productss).then(async (pro) => {
+            return pro;
+        })
+
+    }
 }
 
 
@@ -96,21 +128,21 @@ exports.saveArtical = async function (req, res, next) {
         data.shift();
         data.shift();
     });
-    
+    let upload;
     const addUploadDetails = new Promise(async (resolve, reject) => {
-        if(req.body.isIndex === 'true') {
-            if(data.filter(e => e.index).length === 0 ){
+        if (req.body.isIndex === 'true') {
+            if (data.filter(e => e.index).length === 0) {
                 reject('Your sheet not proper index values. Please check')
             }
         }
-         if(req.body.isReach === 'true') {
-            if(data.filter(e => e["cir ('000) & web wtg"]).length === 0) {
+        if (req.body.isReach === 'true') {
+            if (data.filter(e => e["cir ('000) & web wtg"]).length === 0) {
                 reject('Your sheet not proper reach values. Please check')
             }
         }
 
-        
-            
+
+
         const artlength = data.filter(e => e['article id']);
         const datelength = data.filter(e => e['publish date']);
         const companylength = data.filter(e => e['company name']);
@@ -121,234 +153,286 @@ exports.saveArtical = async function (req, res, next) {
         console.log('companylength', companylength.length)
         console.log('editionlength', editionlength.length)
         console.log('medialength', medialength.length)
-        if(artlength.length === 0){
+        if (artlength.length === 0) {
             reject('Your sheet not proper article values. Please check')
-        } 
-        if(datelength.length === 0){
+        }
+        if (datelength.length === 0) {
             reject('Your sheet not proper publish date values. Please check')
         }
-        if(companylength.length === 0){
+        if (companylength.length === 0) {
             reject('Your sheet not proper company values. Please check')
         }
-        if(editionlength.length === 0){
+        if (editionlength.length === 0) {
             reject('Your sheet not proper edition values. Please check')
         }
-        if(medialength.length === 0){
+        if (medialength.length === 0) {
             reject('Your sheet not proper media type values. Please check')
         }
 
-    //    await JSON.parse(req.body.setting).map(async (entry, index) => {
-    //         if(entry.graph_id === 1){
-    //             const tonalitylength = data.filter(e => e['tonality']);
-    //             if(tonalitylength.length === 0){
-    //                 reject('Your sheet not proper tonality values. Please check')
-    //             }
-    //         }
+        //    await JSON.parse(req.body.setting).map(async (entry, index) => {
+        //         if(entry.graph_id === 1){
+        //             const tonalitylength = data.filter(e => e['tonality']);
+        //             if(tonalitylength.length === 0){
+        //                 reject('Your sheet not proper tonality values. Please check')
+        //             }
+        //         }
+        //     })
+        if (artlength.length !== 0 && datelength.length !== 0 && companylength.length !== 0 && editionlength.length !== 0 && medialength.length !== 0) {
+            // upload = await articalService.addUploadDetails({
+            //     username: req.body.username,
+            //     email: req.body.email,
+            //     client_id: req.body.client_id,
+            //     client_name: req.body.client_name,
+            //     start_date: req.body.start_date,
+            //     end_date: req.body.end_date,
+            //     ip_address: req.body.ip_address,
+            //     file: f.url,
+            //     filename: f.filename,
+            //     originalname: f.originalname,
+            //     user_id: req.body.user_id
+            // })
+            resolve(upload)
+        }
+    });
+
+    // const addSetting = new Promise((resolve, reject) => {
+    //     JSON.parse(req.body.setting).map(async (e, index) => {
+    //         articalService.addSetting({
+    //             client_id: req.body.client_id,
+    //             entity_level: e.entity_level,
+    //             publication_level: e.publication_level,
+    //             journalist_level: e.journalist_level,
+    //             city_level: e.city_level,
+    //             keyword_level: e.keyword_level,
+    //             topic_level: e.topic_level,
+    //             graph_type: e.graph_type,
+    //             spokesperson_level: e.spokesperson_level,
+    //             profiling_level: e.profiling_level,
+    //             visibility_level: e.visibility_level,
+    //             client_name: req.body.client_name,
+    //             graph_id: e.graph_id,
+    //             order_id: index + 1,
+    //         })
     //     })
-        if(artlength.length !== 0 && datelength.length !== 0 && companylength.length !== 0 && editionlength.length !== 0 && medialength.length !== 0) {
-            articalService.addUploadDetails({
-                username: req.body.username,
-                email: req.body.email,
-                client_id: req.body.client_id,
-                client_name: req.body.client_name,
-                start_date: req.body.start_date,
-                end_date: req.body.end_date,
-                ip_address: req.body.ip_address,
-                file: f.url,
-                filename: f.filename,
-                originalname: f.originalname,
-                user_id: req.body.user_id
-            })
-            resolve('add uploaded details')
-        }  
-    });
+    //     resolve('added settings')
+    // });
 
-    const addSetting = new Promise((resolve, reject) => {
-        JSON.parse(req.body.setting).map(async (e, index) => {
-            articalService.addSetting({
-                client_id: req.body.client_id,
-                entity_level: e.entity_level,
-                publication_level: e.publication_level,
-                journalist_level: e.journalist_level,
-                city_level: e.city_level,
-                keyword_level: e.keyword_level,
-                topic_level: e.topic_level,
-                graph_type: e.graph_type,
-                spokesperson_level: e.spokesperson_level,
-                profiling_level: e.profiling_level,
-                visibility_level: e.visibility_level,
-                client_name: req.body.client_name,
-                graph_id: e.graph_id,
-                order_id: index + 1,
-            })
-        })
-        resolve('added settings')
-    });
 
-    const addVertical = new Promise((resolve, reject) => {
-        articalService.addVerticalSetting({
-            isVertical: req.body.is_vertical,
-            verticals: req.body.verticals,
+    let insertlenth = 0;
+    let noinsertlength = 0;
+
+    await Promise.all([addUploadDetails,
+        upload = await articalService.addUploadDetails({
+            username: req.body.username,
+            email: req.body.email,
             client_id: req.body.client_id,
             client_name: req.body.client_name,
-            isIndex: req.body.isIndex,
-            isReach: req.body.isReach,
-            isPrint: req.body.isPrint,
-            isOnline: req.body.isOnline,
-            isPrintOnline: req.body.isPrintOnline
+            start_date: req.body.start_date,
+            end_date: req.body.end_date,
+            ip_address: req.body.ip_address,
+            file: f.url,
+            filename: f.filename,
+            originalname: f.originalname,
+            user_id: req.body.user_id
+        }),
+        data.map(async (e, index) => {
+            const art = parseInt(e['article id']);
+            if (art !== 0 && !isNaN(art)) {
+
+                await articalService.getAll(req.body.client_id, e['article id'], e['company name'], e['media type']).then(async (dbdata) => {
+                    if (dbdata.length === 0) {
+                        noinsertlength = noinsertlength + 1;
+                        await articalService.addNotMatchingArticle({
+                            article_id: art,
+                            entity_name: e['company name'],
+                            media_type: e['media type'],
+                            client_id: req.body.client_id,
+                            client_name: req.body.client_name,
+                            upload_id: upload?.id
+                        })
+
+                    } else {
+                        dbdata = dbdata[0]
+                        const state_name = states.filter(state => state.city === e['edition']);
+                        const edition = e['media type'] === "Print" ? await articalService.getEdition(e['edition']) : { id: null };
+                        qa_data = {
+
+                            state_name: state_name.length ? state_name[0].state : '',
+                            article_id: e['article id'],
+                            client_id: req.body.client_id,
+                            media_type: e['media type'],
+                            photo_mention: e['photo'],
+                            headline: e['headline'],
+                            headline_mention: e['headline mention'] || false,
+                            prominence: e['prominence'],
+                            tonality: e['tonality'],
+                            vertical: e['vertical'],
+                            EV: e['ev'],
+                            theme: e['theme'],
+                            keyword_level_1: e['keyword_level_1'],
+                            Topic: e['topic'],
+                            publication_type: e['publication type'],
+                            publication: e['publication'],
+                            language: e['language'],
+                            category_A: e['category'],
+                            visibility_score: e['visibility score'] || e['visibility'],
+                            circulation_web_weightage: e["cir ('000) & web wtg"],
+                            co_score: e['co score'],
+                            edition: e['edition'],
+                            publish_date: moment(e['publish date']).format('YYYY-MM-DD'),
+                            mav: typeof e['mav'] === 'number' ? e['mav'] : 0,
+                            ccm: typeof e['ccm'] === 'number' ? e['ccm'] : 0,
+                            word_count: e['word count'],
+                            press_release: e['press release'],
+                            page_no: e['page no'],
+                            circlation: e['circulation'],
+                            zone: e['zone'],
+                            link: e['undefined'],
+                            website_url: e['undefined'],
+                            month_name: e['month'],
+                            monthly_visits: e['monthly visitors*'],
+                            total_CCMs: e['total ccms'],
+                            client_article_type: e['article type'],
+                            photo_weightage: typeof e['photo weightage'] === 'number' ? e['photo weightage'] : 0,
+                            headline_weightage: typeof e['headline weightage'] === 'number' ? e['headline weightage'] : 0,
+                            prominence_weightage: typeof e['prominence weightage'] === 'number' ? e['prominence weightage'] : 0,
+                            word_count_weightage: typeof e['word count wtg'] === 'number' ? e['word count wtg'] : 0,
+                            front_Page_weightage: typeof e['front page'] === 'number' ? e['front page'] : 0,
+                            index_weightage: typeof e['index'] === 'number' ? e['index'] : 0,
+                            source_name: e['journalist'],
+                            entity_name: e['company name'],
+                            prominence: e['prominence'],
+                            client_name: req.body.client_name,
+                            edition_id: edition?.id,
+                            upload_id: upload?.id,
+                        }
+                        qa_data.publication_id = dbdata?.publication_id;
+                        qa_data.edition_id = dbdata?.edition_id,
+                            qa_data.publication_type_id = dbdata?.publication_type_id
+                        qa_data.language_id = dbdata?.language_id
+                        qa_data.suppliment_id = dbdata?.suppliment_id,
+                            qa_data.source_id = dbdata?.source_id
+                        qa_data.cav_id = dbdata?.cav_id
+                        qa_data.entity_id = dbdata?.entity_id
+                        qa_data.zone_id = dbdata?.zone_id
+                        qa_data.prominent_id = dbdata?.prominent_id
+                        qa_data.section_id = dbdata?.section_id
+                        // if (e['media type'] === 'Print') {
+                        //     const [print_data, created] = dbdata;
+                        //     if (print_data) {
+                        //         qa_data.publication_id = print_data.dataValues.publication_id;
+                        //         // qa_data.edition_id = print_data.dataValues.edition_id,
+                        //         qa_data.publication_type_id = print_data.dataValues.publication_type_id
+                        //         qa_data.language_id = print_data.dataValues.language_id
+                        //         qa_data.suppliment_id = print_data.dataValues.suppliment_id,
+                        //             qa_data.source_id = print_data.dataValues.source_id
+                        //         qa_data.cav_id = print_data.dataValues.cav_id
+                        //         qa_data.entity_id = print_data.dataValues.entity_id
+                        //         qa_data.zone_id = print_data.dataValues.zone_id
+                        //         qa_data.prominent_id = print_data.dataValues.prominent_id
+                        //         qa_data.section_id = print_data.dataValues.section_id
+                        //         edition_id: edition?.id,
+                        //     }
+                        //     else {
+
+                        //     }
+                        // }
+                        // if (e['media type'] === 'Online') {
+                        //     const [online_data, created] = dbdata;
+                        //     if (online_data) {
+                        //         qa_data.publication_id = online_data.dataValues.publication_id;
+                        //         // qa_data.edition_id = online_data.dataValues.edition_id,
+                        //         qa_data.publication_type_id = online_data.dataValues.publication_type_id
+                        //         qa_data.language_id = online_data.dataValues.language_id
+                        //         qa_data.suppliment_id = online_data.dataValues.suppliment_id,
+                        //             qa_data.source_id = online_data.dataValues.source_id
+                        //         qa_data.cav_id = online_data.dataValues.cav_id
+                        //         qa_data.entity_id = online_data.dataValues.entity_id
+                        //         qa_data.zone_id = online_data.dataValues.zone_id
+                        //         qa_data.prominent_id = online_data.dataValues.prominent_id
+                        //         qa_data.section_id = online_data.dataValues.section_id
+                        //     }
+                        // }
+
+
+                        await articalService.createQaData(qa_data).then(async (q_articles) => {
+                            // const [q_articles, created] = q_articles;
+                            // if(created === false) {
+                            //     await articalService.updateQaData(qa_data, q_articles)
+                            // }
+                            // console.log('q_articles', q_articles.id)
+                            if (q_articles) {
+                                insertlenth = insertlenth + 1;
+                                const result = await addSpokesPersonAndData(e, q_articles, upload);
+
+                                const spokesman = Object.entries(e).filter((e, v) => e[0].match(/spokesperson [0-9]/g) && e[1] !== 0)
+                                if (spokesman.length !== 0) {
+                                    spokesman?.forEach(async (s) => {
+                                        const sperson = {
+                                            spokesperson_name: s[1].trim(),
+                                            spokesperson_name_merge: s[1].replace(/[^a-zA-Z0-9]/g, '_').trim(),
+                                            upload_id: upload?.id
+                                        };
+                                        await articalService.findQaSpokesPerson(sperson).then(async (spokepeople) => {
+                                            // const [spokepeople, created] = sps;
+                                            if (spokepeople) {
+                                                const spersondata = {
+                                                    spokesperson_id: spokepeople.id,
+                                                    q_article_id: q_articles?.id,
+                                                    spokesperson_profiling: e['spokesperson profiling'],
+                                                    upload_id: upload?.id
+                                                };
+                                                const result = await articalService.createQaDataSpokesPerson(spersondata);
+                                                return spokepeople
+                                            }
+                                        });
+
+                                    })
+                                }
+
+                                const results = await addProductAndData(e, q_articles, upload);
+                                const productss = Object.entries(e).filter((e, v) => e[0].match(/product name [0-9]/g) && e[1] !== 0)
+                                if (productss.length !== 0) {
+                                    productss?.filter(async (p) => {
+                                        const product = {
+                                            product_name: p[1],
+                                            upload_id: upload?.id,
+                                            product_name_merge: s[1].replace(/[^a-zA-Z0-9]/g, '_').trim()
+                                        }
+                                        await articalService.findProductOne(product).then(async (products) => {
+                                            // const [products, created] = pro;
+
+                                            const productdata = {
+                                                product_id: products.id,
+                                                q_article_id: q_articles?.id,
+                                                upload_id: upload?.id
+                                            }
+                                            const res = await articalService.createQaDataProduct(productdata);
+                                            return productdata;
+                                        })
+
+                                    })
+                                }
+                            }
+                        });
+                    }
+
+                })
+
+                if (data.length === index + 1) {
+                    await articalService.updateUploadCount(upload?.id, insertlenth, noinsertlength)
+                    res.json({ message: 'Article upload succesfully - total article : ' + insertlenth, data: {} });
+                    // resolve('Article upload succesfully - total article : ' + insertlenth)
+                }
+            }
+
         })
-        resolve('add vertical')
-    });
-    
-    Promise.all([addUploadDetails, data.map(async (e, index) => {
-        const art = parseInt(e['article id']);
-        if (art !== 0 && !isNaN(art)) {
 
-            articalService.getAll(req.body.client_id, e['article id'], e['company name'], e['media type']).then(async (dbdata) => {
-                const state_name = states.filter(state => state.city === e['edition']);
-                const edition = e['media type'] === "Print" ? await articalService.getEdition(e['edition']) : { id: null };
-                qa_data = {
 
-                    state_name: state_name[0].state,
-                    article_id: e['article id'],
-                    client_id: req.body.client_id,
-                    media_type: e['media type'],
-                    photo_mention: e['photo'],
-                    headline: e['headline'],
-                    headline_mention: e['headline mention'] || false,
-                    prominence: e['prominence'],
-                    tonality: e['tonality'],
-                    vertical: e['vertical'],
-                    EV: e['ev'],
-                    theme: e['theme'],
-                    keyword_level_1: e['keyword_level_1'],
-                    Topic: e['topic'],
-                    publication_type: e['publication type'],
-                    publication: e['publication'],
-                    language: e['language'],
-                    category_A: e['category'],
-                    visibility_score: e['visibility score'],
-                    circulation_web_weightage: e["cir ('000) & web wtg"],
-                    co_score: e['co score'],
-                    edition: e['edition'],
-                    publish_date: moment(e['publish date']).format('YYYY-MM-DD'),
-                    mav: typeof e['mav'] === 'number' ? e['mav'] : 0,
-                    ccm: typeof e['ccm'] === 'number' ? e['ccm'] : 0,
-                    word_count: e['word count'],
-                    press_release: e['press release'],
-                    page_no: e['page no'],
-                    circlation: e['circulation'],
-                    zone: e['zone'],
-                    link: e['undefined'],
-                    website_url: e['undefined'],
-                    month_name: e['month'],
-                    monthly_visits: e['monthly visitors*'],
-                    total_CCMs: e['total ccms'],
-                    client_article_type: e['article type'],
-                    photo_weightage: typeof e['photo weightage'] === 'number' ?  e['photo weightage'] : 0,
-                    headline_weightage: typeof  e['headline weightage'] === 'number' ? e['headline weightage'] : 0,
-                    prominence_weightage: typeof e['prominence weightage'] === 'number' ? e['prominence weightage'] : 0,
-                    word_count_weightage: typeof e['word count wtg'] === 'number' ? e['word count wtg'] : 0,
-                    front_Page_weightage: typeof e['front page'] === 'number' ? e['front page'] : 0,
-                    index_weightage: typeof e['index'] === 'number' ? e['index'] : 0,
-                    source_name: e['journalist'],
-                    entity_name: e['company name'],
-                    prominence: e['prominence'],
-                    client_name: req.body.client_name,
-                    edition_id: edition?.id
-                }
-                if (e['media type'] === 'Print') {
-                    const [print_data, created] = dbdata;
-                    if (print_data) {
-                        qa_data.publication_id = print_data.dataValues.publication_id;
-                        // qa_data.edition_id = print_data.dataValues.edition_id,
-                        qa_data.publication_type_id = print_data.dataValues.publication_type_id
-                        qa_data.language_id = print_data.dataValues.language_id
-                        qa_data.suppliment_id = print_data.dataValues.suppliment_id,
-                            qa_data.source_id = print_data.dataValues.source_id
-                        qa_data.cav_id = print_data.dataValues.cav_id
-                        qa_data.entity_id = print_data.dataValues.entity_id
-                        qa_data.zone_id = print_data.dataValues.zone_id
-                        qa_data.prominent_id = print_data.dataValues.prominent_id
-                        qa_data.section_id = print_data.dataValues.section_id
-                    }
-                    else {
-
-                    }
-                }
-                if (e['media type'] === 'Online') {
-                    const [online_data, created] = dbdata;
-                    if (online_data) {
-                        qa_data.publication_id = online_data.dataValues.publication_id;
-                        // qa_data.edition_id = online_data.dataValues.edition_id,
-                        qa_data.publication_type_id = online_data.dataValues.publication_type_id
-                        qa_data.language_id = online_data.dataValues.language_id
-                        qa_data.suppliment_id = online_data.dataValues.suppliment_id,
-                            qa_data.source_id = online_data.dataValues.source_id
-                        qa_data.cav_id = online_data.dataValues.cav_id
-                        qa_data.entity_id = online_data.dataValues.entity_id
-                        qa_data.zone_id = online_data.dataValues.zone_id
-                        qa_data.prominent_id = online_data.dataValues.prominent_id
-                        qa_data.section_id = online_data.dataValues.section_id
-                    }
-                }
-                // console.log('qa_data', qa_data)
-                await articalService.createQaData(qa_data).then(async (q_articles) => {
-                    // const [q_articles, created] = q_articles;
-                    // if(created === false) {
-                    //     await articalService.updateQaData(qa_data, q_articles)
-                    // }
-                    if (q_articles) {
-                        const spokesman = Object.entries(e).filter((e, v) => e[0].match(/spokesperson [0-9]/g) && e[1] !== 0)
-                        if (spokesman.length !== 0) {
-                            spokesman?.filter(async (s) => {
-                                const sperson = {
-                                    spokesperson_name: s[1]
-                                }
-                                await articalService.createQaSpokesPerson(sperson).then(async (sps) => {
-                                    const [sporkepeople, created] = sps;
-
-                                    const spersondata = {
-                                        spokesperson_id: sporkepeople.id,
-                                        q_article_id: q_articles?.id,
-                                        spokesperson_profiling: e['spokesperson profiling']
-                                    }
-                                    await articalService.createQaDataSpokesPerson(spersondata)
-                                })
-
-                            })
-                        }
-                        const products = Object.entries(e).filter((e, v) => e[0].match(/product name [0-9]/g) && e[1] !== 0)
-                        if (products.length !== 0) {
-                            products?.filter(async (p) => {
-                                const product = {
-                                    product_name: p[1]
-                                }
-                                await articalService.createQaClientProduct(product).then(async (pro) => {
-                                    const [products, created] = pro;
-
-                                    const spersondata = {
-                                        product_id: products.id,
-                                        q_article_id: q_articles?.id
-                                    }
-                                    await articalService.createQaDataProduct(spersondata)
-                                })
-
-                            })
-                        }
-                    }
-                });
-
-            })
-            // if(data.length === index+1){
-            //     resolve('datas')
-            // }
-        }
-
-    })]).then((values) => {
-        console.log('values', values)
-        res.json({ message: 'Article upload processing', data: {} });
-    }).catch((error)=> {
+    ]).then((values) => {
+        // console.log('values', values)
+        // res.json({ message: 'Article upload processing', data: {} });
+    }).catch((error) => {
         res.status(500).json({ error: error });
     })
 
@@ -431,7 +515,6 @@ exports.addSetting = async function (req, res, next) {
     //         res.json({ setting: setting, message: 'Setting added successful' })
     //     })
     //     .catch(next);
-    console.log(req.body);
     const addSettings = new Promise((resolve, reject) => {
         req.body.setting.map(async (e, index) => {
             articalService.addSetting({
@@ -448,7 +531,9 @@ exports.addSetting = async function (req, res, next) {
                 visibility_level: e.visibility_level,
                 client_name: req.body.client_name,
                 graph_id: e.graph_id,
-                order_id: index + 1
+                order_id: index + 1,
+                user_id: req.body.user_id,
+                created_by: req.body.user_id
             })
         })
         resolve('added settings')
@@ -464,14 +549,16 @@ exports.addSetting = async function (req, res, next) {
             isReach: req.body.isReach,
             isPrint: req.body.isPrint,
             isOnline: req.body.isOnline,
-            isPrintOnline: req.body.isPrintOnline
+            isPrintOnline: req.body.isPrintOnline,
+            user_id: req.body.user_id,
+            created_by: req.body.user_id
         })
         resolve('add vertical')
     });
     Promise.all([addSettings, addVertical]).then((values) => {
         console.log('values', values)
         res.json({ message: 'Setting sucessfully updated', data: {} });
-    }).catch((error)=> {
+    }).catch((error) => {
         res.status(500).json({ error: error });
     })
 
@@ -484,7 +571,7 @@ exports.getSetting = async function (req, res, next) {
                 .then(data => {
                     articalService.getVerticalSetting(req.params.client_id)
                         .then(vertical => {
-                            res.json({ settings: data, qualitative: check > 0 ? true : false, isVertical: vertical ? vertical?.isVertical : false,verticals: vertical ? JSON.parse(vertical?.verticals) : [], isIndex: vertical ? vertical?.isIndex : false, isReach: vertical ? vertical?.isReach : false, message: "Client setting fetched successfully" });
+                            res.json({ settings: data, qualitative: check > 0 ? true : false, isVertical: vertical ? vertical?.isVertical : false, verticals: vertical ? JSON.parse(vertical?.verticals) : [], isIndex: vertical ? vertical?.isIndex : false, isReach: vertical ? vertical?.isReach : false, isOnline: vertical ? vertical?.isOnline : false, isPrint: vertical ? vertical?.isPrint : false, isPrintOnline: vertical ? vertical?.isPrintOnline : false, message: "Client setting fetched successfully" });
                         })
                         .catch(next);
                 })
@@ -525,7 +612,7 @@ exports.deleteSetting = async function (req, res, next) {
         .catch(next);
 }
 
-exports.getClientList =  async function (req, res, next) {
+exports.getClientList = async function (req, res, next) {
     articalService.getClientList(req.params.client_name)
         .then(data => {
             res.json({ client: data, message: "Client list fetched successfully" });
@@ -533,7 +620,7 @@ exports.getClientList =  async function (req, res, next) {
         .catch(next);
 }
 
-exports.getSettingClientList =  async function (req, res, next) {
+exports.getSettingClientList = async function (req, res, next) {
     articalService.getSettingClientList(req.params.client_name)
         .then(data => {
             res.json({ client: data, message: "Client list fetched successfully" });
@@ -542,17 +629,34 @@ exports.getSettingClientList =  async function (req, res, next) {
 }
 
 exports.getUniqueSetting = async function (req, res, next) {
-    articalService.getQualitativeCheck(req.params.client_id)
+
+    articalService.getUniqueSetting(req.params.client_id)
+        .then(data => {
+    articalService.getSetting(data && data.length ? data[0].client_id : req.params.client_id)
         .then(check => {
-            articalService.getUniqueSetting(req.params.client_id)
-                .then(data => {
-                    articalService.getVerticalSetting(req.params.client_id)
-                        .then(vertical => {
-                            res.json({ settings: data, qualitative: check > 0 ? true : false, isVertical: vertical ? vertical?.isVertical : false,verticals: vertical ? JSON.parse(vertical?.verticals) : [], isIndex: vertical ? vertical?.isIndex : false, isReach: vertical ? vertical?.isReach : false, message: "Client setting fetched successfully" });
-                        })
-                        .catch(next);
+            articalService.getUniqueVerticalSetting(data && data.length ? data[0].client_id : req.params.client_id)
+                .then(vertical => {
+                    res.json({ settings: data, levels: check,  isVertical: vertical ? vertical?.isVertical : false, verticals: vertical ? JSON.parse(vertical?.verticals) : [], isIndex: vertical ? vertical?.isIndex : false, isReach: vertical ? vertical?.isReach : false, isOnline: vertical ? vertical?.isOnline : false, isPrint: vertical ? vertical?.isPrint : false, isPrintOnline: vertical ? vertical?.isPrintOnline : false, message: "Client setting fetched successfully" });
                 })
                 .catch(next);
+        })
+        .catch(next);
+    })
+    .catch(next);
+    
+}
+
+exports.deleteUpload = async function (req, res, next) {
+    articalService.deleteUpload(req.params.id)
+        .then(data => {
+            res.json({ settings: {}, message: "Upload deleted successfully" });
+        })
+        .catch(next);
+}
+exports.getNMArticleList = async function (req, res, next) {
+    articalService.getNMArticleList(req.params.id)
+        .then(data => {
+            res.json({ list: data, message: "Upload not matching list fetched successfully" });
         })
         .catch(next);
 }

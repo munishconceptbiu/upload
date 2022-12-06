@@ -79,7 +79,7 @@ function model(sequelize) {
         updated_at: { type: DataTypes.DATE, allowNull: true},
         createdAt: { type: DataTypes.DATE, allowNull: true},
         updatedAt: { type: DataTypes.DATE, allowNull: true},
-
+        upload_id: { type: DataTypes.INTEGER, allowNull: true },
         // impact: { type: DataTypes.STRING, allowNull: true },
         // total_format_weightage: { type: DataTypes.STRING, allowNull: true },
         // tag_wtg: { type: DataTypes.STRING, allowNull: true },

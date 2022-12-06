@@ -1,26 +1,16 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import AsyncSelect from 'react-select/async';
-import swal from 'sweetalert';
-import AppHeader from '../../components/AppHeader'
+import AppHeader from '../../../components/AppHeader'
 
-import { ProgressBar } from "react-bootstrap"
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
 import axios from 'axios';
-import { get, post } from "../../services/CommanService";
-import myData from '../../assets/geoJson/client.json';
-import { store } from '../../store/store';
+import { get, post } from "../../../services/CommanService";
+import { store } from '../../../store/store';
 import toast from 'react-hot-toast';
 
-import Reorder, {
-  reorder,
-  reorderImmutable,
-  reorderFromTo,
-  reorderFromToImmutable
-} from "react-reorder";
-import move from "lodash-move";
 
 
 const graphType = [
@@ -62,7 +52,7 @@ const graphType = [
   // }
 
 ]
-const Dashboard = () => {
+const Upload = () => {
   const state = store.getState();
   
   const [client_id, setClientId] = useState()
@@ -106,7 +96,7 @@ const Dashboard = () => {
     formData.append('client_name', client.label);
     formData.append('start_date', moment(startDate).format('L'))
     formData.append('end_date', moment(endDate).format('L'))
-    formData.append('username', state.auth.auth.first_name + ' ' + state.auth.auth.last_name);
+    formData.append('username', state.auth.auth.username);
     formData.append('email', state.auth.auth.email);
     formData.append('user_id', state.auth.auth.id)
     formData.append('ip_address', ip)
@@ -119,7 +109,7 @@ const Dashboard = () => {
         selectRef.clearValue();
         setClientName();
         setClientId()
-        resolve("Article upload processing");
+        resolve(response.data.message);
       }).catch((err) => {
         console.log('err', err.response.data.error)
         setFile('')
@@ -178,14 +168,14 @@ const Dashboard = () => {
 
               <div className="col-6">
                 <div className='client-section'>
-                  <label for="country" className="form-label">Client</label>
+                  <label htmlFor="country" className="form-label">Client</label>
                   <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} isClearable={true} ref={(ref) => {
                     selectRef = ref;
                   }} />
                 </div>
               </div>
               <div className="col-6">
-                <label for="state" className="form-label">Start Date & End Date</label>
+                <label htmlFor="state" className="form-label">Start Date & End Date</label>
 
                 <DatePicker
                   selectsRange={true}
@@ -203,8 +193,8 @@ const Dashboard = () => {
 
 
               <div className="col-6 ">
-                <label for="zip" className="form-label">Document</label>
-                <input type="file" className="form-control" id="zip" onChange={onFileChange} placeholder="" required />
+                <label htmlFor="zip" className="form-label">Document</label>
+                <input type="file" className="form-control" id="zip" accept=".xls, .xlsx" onChange={onFileChange} placeholder="" required />
                 <div className="mt-10 img-note">
                   Check the sample file before upload <a href="http://qa.conceptbiu.com//unifiedapi/qualitative/sample_template1666253552888.xlsx" target="_blank">Sample file</a>
                 </div>
@@ -224,5 +214,5 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default Upload
 

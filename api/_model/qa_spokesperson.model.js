@@ -4,7 +4,8 @@ module.exports = model;
 
 function model(sequelize) {
     const attributes = {
-        spokesperson_name: { type: DataTypes.STRING, allowNull: true },
+        spokesperson_name: { type: DataTypes.STRING, allowNull: true  },
+        spokesperson_name_merge: { type: DataTypes.STRING, allowNull: true, unique: true  },
         description: { type: DataTypes.STRING, allowNull: true },
         company_id: { type: DataTypes.INTEGER, allowNull: true },
         is_active: { type: DataTypes.TINYINT, allowNull: true },
@@ -13,7 +14,9 @@ function model(sequelize) {
         created_at: { type: DataTypes.DATE, allowNull: true},
         updated_at: { type: DataTypes.DATE, allowNull: true},
         createdAt: { type: DataTypes.DATE, allowNull: true},
-        updatedAt: { type: DataTypes.DATE, allowNull: true}
+        updatedAt: { type: DataTypes.DATE, allowNull: true},
+        upload_id: { type: DataTypes.INTEGER, allowNull: true },
+        deleted_at: { type: DataTypes.DATE, allowNull: true}
     };
 
     const options = {

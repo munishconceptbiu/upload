@@ -20,7 +20,9 @@ function model(sequelize) {
         created_at: { type: DataTypes.DATE, allowNull: true},
         updated_at: { type: DataTypes.DATE, allowNull: true},
         createdAt: { type: DataTypes.DATE, allowNull: true},
-        updatedAt: { type: DataTypes.DATE, allowNull: true}
+        updatedAt: { type: DataTypes.DATE, allowNull: true},
+        total_article:{ type: DataTypes.INTEGER, allowNull: true },
+        nm_total_article:{ type: DataTypes.INTEGER, allowNull: true },
     };
 
     const options = {

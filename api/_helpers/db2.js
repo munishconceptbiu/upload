@@ -16,7 +16,7 @@ async function initialize() {
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
 
     // connect to db2
-    const sequelize = new Sequelize(database, user, password, { host : host, dialect: 'mysql' , pool: {
+    const sequelize = new Sequelize(database, user, password, { logging: false, host : host, dialect: 'mysql' , pool: {
         max: 20,
         min: 0,
         acquire: 60000000,
@@ -26,7 +26,9 @@ async function initialize() {
     // // init models and add them to the exported db2 object
     db2.OnlineData = require('../_model/online.model')(sequelize);
     db2.PrintData = require('../_model/print.model')(sequelize);
-  
+      
+    db2.sequelize = sequelize;
+    db2.Sequelize = Sequelize;
     // sync all models with database
     await sequelize.sync();
     

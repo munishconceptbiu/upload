@@ -11,7 +11,7 @@ axiosInstance.interceptors.request.use((config) => {
     const token = state.auth.auth.token;
     // config.params = config.params || {};
     // config.params['auth'] = token;
-    config.headers['Authorization'] = token;
+    config.headers['Authorization'] = "Bearer " +token;
     return config;
 });
 
