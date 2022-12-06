@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { DashboardIcon, AnalysisIcon, NotificationsMenuIcon, SocialIcon, LoginIcon, UsersIcon } from "../Icons/icons.component";
+import { DashboardIcon, AnalysisIcon, NotificationsMenuIcon, SocialIcon, LoginIcon, UsersIcon, ProfileIcon } from "../Icons/icons.component";
 import { NavLink, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { logout } from '../store/actions/AuthActions';
@@ -53,10 +53,16 @@ const AppSidebar = (props) => {
         </NavLink>
       </li>
     }
-      <li>
+      {/* <li>
       <NavLink to="/view-social" className="nav-link" title="Setting" data-bs-toggle="tooltip" data-bs-placement="right">
          <span className='menuIcon'><SocialIcon /></span>
          <span className='menuTitle'>Social</span>
+        </NavLink>
+      </li> */}
+      <li>
+      <NavLink to="/profile" className="nav-link" title="Setting" data-bs-toggle="tooltip" data-bs-placement="right">
+         <span className='menuIcon'><ProfileIcon /></span>
+         <span className='menuTitle'>Profile</span>
         </NavLink>
       </li>
      

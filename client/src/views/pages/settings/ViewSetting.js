@@ -153,9 +153,9 @@ const ViewSetting = () => {
               <th>Spokesperson Level</th>
               <th>Profiling Level</th>
               <th>Visibility Level</th> */}
-              <th>Online</th>
-              <th>Print</th>
-              <th>Print and Online</th>
+              <th>Levels</th>
+              {/* <th>Print</th>
+              <th>Print and Online</th> */}
               <th>Action</th>
             </tr>
           </thead>
@@ -164,6 +164,11 @@ const ViewSetting = () => {
               <tr  key={index}>
                 <td>{index + 1}</td>
                 <td>{list.client_name}</td>
+                <td>
+                {setting.levels?.map((level, indexs) => (
+                   <Button key={indexs} className="levelbutton" variant="light">{level.graph_type}</Button>
+                ))}
+                </td>
                 {/* <td>{list.graph_type}</td>
                 <td>{list.entity_level === true ? 'Yes' : 'No'}</td>
                 <td>{list.publication_level === true ? 'Yes' : 'No'}</td>
@@ -174,9 +179,9 @@ const ViewSetting = () => {
                 <td>{list.spokesperson_level === true ? 'Yes' : 'No'}</td>
                 <td>{list.profiling_level === true ? 'Yes' : 'No'}</td>
                 <td>{list.visibility_level === true ? 'Yes' : 'No'}</td> */}
-                <td>{setting.isOnline === true ? 'Yes' : 'No'}</td>
+                {/* <td>{setting.isOnline === true ? 'Yes' : 'No'}</td>
                 <td>{setting.isPrint === true ? 'Yes' : 'No'}</td>
-                <td>{setting.isPrintOnline === true ? 'Yes' : 'No'}</td>
+                <td>{setting.isPrintOnline === true ? 'Yes' : 'No'}</td> */}
                 <td ><NavLink to={`/edit-setting/${list.client_id}`}><EditIcon /></NavLink> <a href="javascript:void(0)" onClick={e => deleteSetting(list.id)} className='deleicon'><DeleteIcon /></a></td>
               </tr>
             ))}

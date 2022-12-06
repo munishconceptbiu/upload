@@ -133,15 +133,15 @@ const ViewUpload = () => {
           <td>{index+1}</td>
           {/* <td>{list.email}</td> */}
           <td>{list.client_name}</td>
-          <td>{list.start_date}</td>
-          <td>{list.end_date}</td>
+          <td>{moment(list.start_date).format('ll')}</td>
+          <td>{moment(list.end_date).format('ll')}</td>
           <td><a href={list.file} target="_blank">{list.filename}</a></td>
           <td>{list.username}</td>
           <td>{moment(list.createdAt).format('lll')}</td>
           <td>{list.total_article}</td>
           <td>{list.nm_total_article === 0 && <span> - </span> } 
           {list.nm_total_article > 0 && <span onClick={e => getNMArticleList(list.id)} title='view' style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline'}}>{list.nm_total_article}</span> } </td>
-          <td > {list.user_id === state.auth.auth.id && <a href="#" onClick={e => deleteUpload(list.id)} className='deleicon'><DeleteIcon /></a> }  {list.user_id !== state.auth.auth.id && <span>-</span>} </td>
+          <td > {state.auth.auth.role === 'admin' && <a href="javascript:void(0)" onClick={e => deleteUpload(list.id)} className='deleicon'><DeleteIcon /></a> }  {state.auth.auth.role !== 'admin' && <span>-</span>} </td>
         </tr>
        ))}
       </tbody>
@@ -150,16 +150,16 @@ const ViewUpload = () => {
     </div>
 
     
-    <Modal show={show} onHide={handleClose}>
+    <Modal size="lg" show={show} onHide={handleClose}>
           <>
             <Modal.Header closeButton>
-              <Modal.Title>Not Matcing Articles</Modal.Title>
+              <Modal.Title>Mismatcing Articles</Modal.Title>
             </Modal.Header>
             <Modal.Body>
 
               <div className="container ">
                 <div className="row">
-                  <div className="col-9">
+                  <div className="col-12">
                   <table className='table'>
       <thead>
         <tr>

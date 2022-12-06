@@ -13,7 +13,7 @@ import move from "lodash-move";
 import { useNavigate, useParams } from 'react-router-dom';
 
 
-const EditUser = () => {
+const Profile = () => {
     const state = store.getState();
     const navigate = useNavigate();
     const params = useParams();
@@ -36,22 +36,22 @@ const EditUser = () => {
             toast.error("Phone can't be empty");
             return false;
         }
-        
+       
+
         const formData = {
             "username": username,
             "email": email,
             "name": username,
             "phone": phone,
-            "role": "moderator"
+            // "role": "admin"
         }
         if (password.trim().length > 0) {
             formData.password = password
         }
         const uploadPromise = new Promise((resolve, reject) => {
 
-            put(`http://qa.conceptbiu.com/unifiedapi/users/updateuser/${params.user_id}`, formData).then((response) => {
-                resolve("User Successfully Upadted");
-                navigate('/view-users')
+            put(`http://qa.conceptbiu.com/unifiedapi/users/updateuser/${state.auth.auth.id}`, formData).then((response) => {
+                resolve("Profile Successfully Upadted");
             }).catch((err) => {
                 reject(err.response.data.error)
             })
@@ -71,8 +71,8 @@ const EditUser = () => {
             }
         );
     }
-    const getSingleUser = (id) => {
-        const cid = id
+    const getSingleUser = () => {
+        const cid = state.auth.auth.id
         get("users/getuser/" + cid).then((response) => {
            setEmail(response.data.user.email)
            setPhone(response.data.user.phone)
@@ -84,15 +84,15 @@ const EditUser = () => {
 
     }
     useEffect(() => {
-        getSingleUser(params.user_id)
-    }, [params.user_id]);
+        getSingleUser()
+    }, []);
 
     return (
         <>
 
             <div className="page-title">
                 <h1 >
-                    Edit User
+                    Add User
                 </h1>
             </div>
             <div className="uqr-contents">
@@ -107,7 +107,7 @@ const EditUser = () => {
 
                             </div>
                             <div className="col-6 ">
-                                <label htmlFor="email" readonly className="form-label">Email </label>
+                                <label htmlFor="email"  readonly className="form-label">Email </label>
                                 <input type="text" className="form-control" id="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="" />
 
                             </div>
@@ -128,7 +128,7 @@ const EditUser = () => {
 
                         <br></br>
 
-                        <button className="btn btn-primary btn-medium" type="button" onClick={e => saveUser()}>Save</button>
+                        <button className="btn btn-primary btn-medium" type="button" onClick={e => saveUser()}>Update</button>
                     </form>
                 </div>
             </div>
@@ -137,5 +137,5 @@ const EditUser = () => {
     )
 }
 
-export default EditUser
+export default Profile
 

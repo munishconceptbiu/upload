@@ -222,7 +222,7 @@ exports.saveArtical = async function (req, res, next) {
     let noinsertlength = 0;
 
     await Promise.all([addUploadDetails,
-        upload =  await articalService.addUploadDetails({
+        upload = await articalService.addUploadDetails({
             username: req.body.username,
             email: req.body.email,
             client_id: req.body.client_id,
@@ -250,7 +250,7 @@ exports.saveArtical = async function (req, res, next) {
                             client_name: req.body.client_name,
                             upload_id: upload?.id
                         })
-                        
+
                     } else {
                         dbdata = dbdata[0]
                         const state_name = states.filter(state => state.city === e['edition']);
@@ -308,10 +308,10 @@ exports.saveArtical = async function (req, res, next) {
                         }
                         qa_data.publication_id = dbdata?.publication_id;
                         qa_data.edition_id = dbdata?.edition_id,
-                        qa_data.publication_type_id = dbdata?.publication_type_id
+                            qa_data.publication_type_id = dbdata?.publication_type_id
                         qa_data.language_id = dbdata?.language_id
                         qa_data.suppliment_id = dbdata?.suppliment_id,
-                        qa_data.source_id = dbdata?.source_id
+                            qa_data.source_id = dbdata?.source_id
                         qa_data.cav_id = dbdata?.cav_id
                         qa_data.entity_id = dbdata?.entity_id
                         qa_data.zone_id = dbdata?.zone_id
@@ -426,15 +426,15 @@ exports.saveArtical = async function (req, res, next) {
                 }
             }
 
-        }) 
-        
-    
-    ]).then((values) => {
-            // console.log('values', values)
-            // res.json({ message: 'Article upload processing', data: {} });
-        }).catch((error) => {
-            res.status(500).json({ error: error });
         })
+
+
+    ]).then((values) => {
+        // console.log('values', values)
+        // res.json({ message: 'Article upload processing', data: {} });
+    }).catch((error) => {
+        res.status(500).json({ error: error });
+    })
 
     // res.json({ message: 'Artical upload processing', data: {} });
 }
@@ -629,19 +629,20 @@ exports.getSettingClientList = async function (req, res, next) {
 }
 
 exports.getUniqueSetting = async function (req, res, next) {
-    articalService.getQualitativeCheck(req.params.client_id)
+articalService.getSetting(req.params.client_id)
         .then(check => {
-            articalService.getUniqueSetting(req.params.client_id)
-                .then(data => {
-                    articalService.getUniqueVerticalSetting(req.params.client_id)
-                        .then(vertical => {
-                            res.json({ settings: data, qualitative: check > 0 ? true : false, isVertical: vertical ? vertical?.isVertical : false, verticals: vertical ? JSON.parse(vertical?.verticals) : [], isIndex: vertical ? vertical?.isIndex : false, isReach: vertical ? vertical?.isReach : false, isOnline: vertical ? vertical?.isOnline : false, isPrint: vertical ? vertical?.isPrint : false, isPrintOnline: vertical ? vertical?.isPrintOnline : false, message: "Client setting fetched successfully" });
-                        })
-                        .catch(next);
+    articalService.getUniqueSetting(req.params.client_id)
+        .then(data => {
+            articalService.getUniqueVerticalSetting(req.params.client_id)
+                .then(vertical => {
+                    res.json({ settings: data, levels: check,  isVertical: vertical ? vertical?.isVertical : false, verticals: vertical ? JSON.parse(vertical?.verticals) : [], isIndex: vertical ? vertical?.isIndex : false, isReach: vertical ? vertical?.isReach : false, isOnline: vertical ? vertical?.isOnline : false, isPrint: vertical ? vertical?.isPrint : false, isPrintOnline: vertical ? vertical?.isPrintOnline : false, message: "Client setting fetched successfully" });
                 })
                 .catch(next);
         })
         .catch(next);
+    })
+    .catch(next);
+    
 }
 
 exports.deleteUpload = async function (req, res, next) {
@@ -654,7 +655,7 @@ exports.deleteUpload = async function (req, res, next) {
 exports.getNMArticleList = async function (req, res, next) {
     articalService.getNMArticleList(req.params.id)
         .then(data => {
-            res.json({ list : data, message: "Upload not matching list fetched successfully" });
+            res.json({ list: data, message: "Upload not matching list fetched successfully" });
         })
         .catch(next);
 }
