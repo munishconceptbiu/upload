@@ -2,7 +2,8 @@ import React, { Component, useState, useEffect } from 'react'
 import AsyncSelect from 'react-select/async';
 import swal from 'sweetalert';
 import AppHeader from '../../components/AppHeader'
-
+import { DeleteIcon } from '../../Icons/icons.component';
+import { EditIcon } from '../../Icons/icons.component';
 import { ProgressBar } from "react-bootstrap"
 import DatePicker from "react-datepicker";
 
@@ -417,22 +418,23 @@ const AddSetting = () => {
                                 // }
                                 >
                                     {setting?.map((e, index) => (
-                                        <div className="card" key={index} style={{ width: "18rem", cursor: "pointer" }}>
+                                        <div className="card graph-float" key={index} style={{ width: "18rem", cursor: "pointer" }}>
                                             <div className="card-body">
                                                 <h5 className="">Order : {index + 1}</h5>
                                                 <h5 className="card-title">{e.graph_type}</h5>
                                                 {/* <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
-                                                {e.entity_level === true && <p className="card-text">Entity Level :  Yes</p>}
-                                                {e.publication_level === true && <p className="card-text">Publication Level : Yes</p>}
-                                                {e.journalist_level === true && <p className="card-text">Journalist Level :  Yes</p>}
-                                                {e.city_level === true && <p className="card-text">City Level : Yes</p>}
-                                                {e.keyword_level === true && <p className="card-text">Keyword Level :  Yes</p>}
+
+                                                {e.entity_level === true && <p className="card-text">Entity Level </p>}
+                                                {e.publication_level === true && <p className="card-text">Publication Level</p>}
+                                                {e.journalist_level === true && <p className="card-text">Journalist Level</p>}
+                                                {e.city_level === true && <p className="card-text">City Level</p>}
+                                                {e.keyword_level === true && <p className="card-text">Keyword Level</p>}
                                                 {e.topic_level === true && <p className="card-text">Topic Level :  Yes</p>}
-                                                {e.spokesperson_level === true && <p className="card-text">Spokesperson Level :  Yes</p>}
-                                                {e.profiling_level === true && <p className="card-text">Profiling Level :  Yes</p>}
-                                                {e.visibility_level === true && <p className="card-text">Visibility Level :  Yes</p>}
-                                                <a href="javascript:void(0)" onClick={e => deleteLevel(index)} className="card-link">Remove</a>
-                                                <a href="javascript:void(0)" onClick={e => editLevel(index)} className="card-link">Edit</a>
+                                                {e.spokesperson_level === true && <p className="card-text">Spokesperson Level</p>}
+                                                {e.profiling_level === true && <p className="card-text">Profiling Level</p>}
+                                                {e.visibility_level === true && <p className="card-text">Visibility Level</p>}
+                                                <a href="javascript:void(0)" onClick={e => deleteLevel(index)} className="card-link"><DeleteIcon/></a>
+                                                <a href="javascript:void(0)" onClick={e => editLevel(index)} className="card-link"><EditIcon/></a>
                                             </div>
                                         </div>
                                     ))}
