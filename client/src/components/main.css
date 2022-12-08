@@ -228,7 +228,7 @@ ul.nav-pills li a.active svg{
 input:disabled {opacity: 0.5;}
 .journalist-details{margin-top:20px}
 
-.graph-float{float: left; margin: 10px; min-height: 500px;}
+.graph-float{float: left !important; margin: 10px; min-height: 500px;}
 .analysisoptions span{margin-right: 15px;}
 .analysisoptions span .icon{margin: 10px;}
 .analysis-options{border-bottom: 1px solid #d7d7d7; margin-top:20px; padding-bottom: 10px;}

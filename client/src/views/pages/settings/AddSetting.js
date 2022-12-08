@@ -1,9 +1,9 @@
 import React, { Component, useState, useEffect } from 'react'
 import AsyncSelect from 'react-select/async';
 import swal from 'sweetalert';
-import AppHeader from '../../components/AppHeader'
-import { DeleteIcon } from '../../Icons/icons.component';
-import { EditIcon } from '../../Icons/icons.component';
+import AppHeader from '../../../components/AppHeader'
+import { DeleteIcon } from '../../../Icons/icons.component';
+import { EditIcon } from '../../../Icons/icons.component';
 import { ProgressBar } from "react-bootstrap"
 import DatePicker from "react-datepicker";
 
@@ -455,7 +455,6 @@ const AddSetting = () => {
                                             <div className="card-body">
                                                 <h5 className="">Order : {index + 1}</h5>
                                                 <h5 className="card-title">{e.graph_type}</h5>
-<<<<<<< HEAD:client/src/views/dashboard/AddSetting.js
                                                 {/* <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
 
                                                 {e.entity_level === true && <p className="card-text">Entity Level </p>}
@@ -469,48 +468,6 @@ const AddSetting = () => {
                                                 {e.visibility_level === true && <p className="card-text">Visibility Level</p>}
                                                 <a href="javascript:void(0)" onClick={e => deleteLevel(index)} className="card-link"><DeleteIcon/></a>
                                                 <a href="javascript:void(0)" onClick={e => editLevel(index)} className="card-link"><EditIcon/></a>
-=======
-                                               {/* <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
-                                               {e.entity_level === true && 
-                                                // <p className="card-text">Entity Level :  Yes</p>
-                                                <><Button className="levelbutton" variant="light">Entity</Button>{' '}</>
-                                                }
-                                                {e.publication_level === true && 
-                                                // <p className="card-text">Publication Level : Yes</p>
-                                                <><Button className="levelbutton"  variant="light">Publication</Button>{' '}</>
-                                                }
-                                                {e.journalist_level === true && 
-                                                // <p className="card-text">Journalist Level :  Yes</p>
-                                               <><Button className="levelbutton"  variant="light">Journalist</Button>{' '}</>
-                                                }
-                                                {e.city_level === true &&
-                                                //  <p className="card-text">City Level : Yes</p>
-                                                 <><Button className="levelbutton"  variant="light">City</Button>{' '}</>
-                                                 }
-                                                {e.keyword_level === true && 
-                                                // <p className="card-text">Keyword Level :  Yes</p>
-                                                <><Button className="levelbutton"  variant="light">Keyword</Button>{' '}</>
-                                                }
-                                                {e.topic_level === true && 
-                                                // <p className="card-text">Topic Level :  Yes</p>
-                                                <><Button className="levelbutton"  variant="light">Topic</Button>{' '}</>
-                                                }
-                                                {e.spokesperson_level === true && 
-                                                // <p className="card-text">Spokesperson Level :  Yes</p>
-                                                <><Button className="levelbutton"  variant="light">Spokesperson</Button>{' '}</>
-                                                }
-                                                {e.profiling_level === true && 
-                                                <><Button className="levelbutton"  variant="light">Profiling</Button>{' '}</>
-                                                // <p className="card-text">Profiling Level :  Yes</p>
-                                                }
-                                                {e.visibility_level === true && 
-                                                // <p className="card-text">Visibility Level :  Yes</p>
-                                                <><Button className="levelbutton"  variant="light">Visibility</Button>{' '}</>
-                                                }
-                                                <br></br>
-                                                <a href="javascript:void(0)" onClick={event => deleteLevel(index, e)} className="card-link">Remove</a>
-                                                <a href="javascript:void(0)" onClick={e => editLevel(index)} className="card-link">Edit</a>
->>>>>>> 6d09f3355b3f684229f0a460fd23f1c4dfd92d43:client/src/views/pages/settings/AddSetting.js
                                             </div>
                                         </div>
                                     ))}
