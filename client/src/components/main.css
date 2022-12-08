@@ -210,7 +210,13 @@ ul.nav-pills li a.active svg{
     margin-right:8px!important;
     border-radius: 29px;
 }
+.graph-float{float: left; margin: 10px;}
+.editdelete-btns{position:absolute;  top: 10px; right: 10px;}
+input[type=text]{border:0 !important; outline: 0 !important; box-shadow: none; border-radius: 0 !important; border-bottom: 3px solid #c4c4c4 !important;}
+select.form-select{border:0 !important; outline: 0 !important; box-shadow: none; border-radius: 0 !important; border-bottom: 3px solid #c4c4c4 !important;}
+input[type=password]{border:0 !important; outline: 0 !important; box-shadow: none; border-radius: 0 !important; border-bottom: 3px solid #c4c4c4 !important;}
 
-
-
-
+input[type=text]:focus{border-bottom: 3px solid #080fef !important;}
+input[type=password]:focus{border-bottom: 3px solid #080fef !important;}
+select.form-select:focus{border-bottom: 3px solid #080fef !important;}
+.EditIcon{border-radius: 50%; padding: 7px; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;}
