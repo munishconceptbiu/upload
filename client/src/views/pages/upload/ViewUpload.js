@@ -95,7 +95,7 @@ const ViewUpload = () => {
         <>
         <div className="page-title">
             <h1 >
-              View Upload
+              Uploads
             </h1>
             </div>
             <div style={{ margin: "25px 20px 0 35px", marginTop: "80px" }}>

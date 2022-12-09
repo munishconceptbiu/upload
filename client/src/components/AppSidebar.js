@@ -1,12 +1,12 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { DashboardIcon, AnalysisIcon, NotificationsMenuIcon, SocialIcon, LoginIcon, UsersIcon, ProfileIcon } from "../Icons/icons.component";
+import { DashboardIcon, AnalysisIcon, NotificationsMenuIcon, SocialIcon, LoginIcon, UsersIcon, ProfileIcon, EyeIcon } from "../Icons/icons.component";
 import { NavLink, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { logout } from '../store/actions/AuthActions';
 import { store } from '../store/store';
 
-import './sidebars.css'
+import './sidebars.sass'
 const AppSidebar = (props) => {
   const state = store.getState();
 
@@ -30,19 +30,19 @@ const AppSidebar = (props) => {
       <li className="nav-item">
         <NavLink to="/dashboard" className="nav-link " aria-current="page" title="Home" data-bs-toggle="tooltip" data-bs-placement="right">
           <span className='menuIcon'><DashboardIcon /></span>
-          <span className='menuTitle'>Upload</span>
+          <span className='menuTitle'>Dashboard</span>
         </NavLink>
       </li>
        <li>
         <NavLink to="/view-upload" className="nav-link" title="View Upload" data-bs-toggle="tooltip" data-bs-placement="right">
-        <span className='menuIcon'><AnalysisIcon /></span>
-        <span className='menuTitle'>View Upload</span>
+        <span className='menuIcon'><EyeIcon /></span>
+        <span className='menuTitle'>Uploads</span>
         </NavLink>
       </li>
       <li>
       <NavLink to="/view-setting" className="nav-link" title="Setting" data-bs-toggle="tooltip" data-bs-placement="right">
          <span className='menuIcon'><NotificationsMenuIcon /></span>
-         <span className='menuTitle'>Setting</span>
+         <span className='menuTitle'>Settings</span>
         </NavLink>
       </li>
       {state?.auth?.auth?.role === 'admin' && 

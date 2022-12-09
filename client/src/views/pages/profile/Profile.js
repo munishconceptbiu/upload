@@ -92,7 +92,7 @@ const Profile = () => {
 
             <div className="page-title">
                 <h1 >
-                    Add User
+                    Profile
                 </h1>
             </div>
             <div className="uqr-contents">
@@ -100,7 +100,9 @@ const Profile = () => {
                 <div className="container-fluid">
                     <form className="needs-validation" noValidate>
                         <div className="row g-3">
-
+                            <div>
+                                <h5>Add User</h5>
+                            </div>
                             <div className="col-6 ">
                                 <label htmlFor="username" className="form-label">Username </label>
                                 <input type="text" className="form-control" id="username" value={username} onChange={e => setUsername(e.target.value)} placeholder="" />

@@ -122,11 +122,11 @@ const ViewSetting = () => {
       {/* <Toaster /> */}
       <div className="page-title">
         <h1 >
-          View Setting
+          Settings
         </h1>
       </div>
-      <div style={{ margin: "25px 20px 0 35px", marginTop: "80px" }}>
-        <div style={{ "padding": "4px 4px 32px" }}>      <button className="btn btn-success pull-right" style={{ float: "right" }} onClick={addSetting}>Add Setting</button>
+      <div className='add-setting'>
+        <div className='add-setting-button'>      <button className="btn btn-success pull-right" style={{ float: "right" }} onClick={addSetting}>Add Setting</button>
         </div>
 
         <div className='client-section'>
@@ -153,7 +153,7 @@ const ViewSetting = () => {
               <th>Spokesperson Level</th>
               <th>Profiling Level</th>
               <th>Visibility Level</th> */}
-              <th>Levels</th>
+              <th>Categories</th>
               {/* <th>Print</th>
               <th>Print and Online</th> */}
               <th>Action</th>

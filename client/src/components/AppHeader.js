@@ -11,7 +11,7 @@ const AppHeader = () => {
           <div className="container-fluid">
             <div className="page-title">
             <h1 >
-              Upload Qualitative Report
+              Dashboard
             </h1>
             </div>
             <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
