@@ -27,7 +27,7 @@ const routes = [
   { path: '/add-user', name: 'Add User', element: AddUser },
   { path: '/edit-user/:user_id', name: 'Edit User', element: EditUser },
   { path: '/profile', name: 'Profile', element: Profile },
-  { path: '/article', name: 'articlelist', element: Articlelist }
+  { path: '/Articlelist', name: 'Articlelist', element: Articlelist }
 ]
 
 export default routes

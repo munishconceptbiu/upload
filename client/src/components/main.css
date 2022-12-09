@@ -219,4 +219,13 @@ input[type=password]{border:0 !important; outline: 0 !important; box-shadow: non
 input[type=text]:focus{border-bottom: 3px solid #080fef !important;}
 input[type=password]:focus{border-bottom: 3px solid #080fef !important;}
 select.form-select:focus{border-bottom: 3px solid #080fef !important;}
-
+.content-box{ box-shadow: 0 4px 30px -8px rgb(125 112 188 / 30%); border-left: 1px solid rgba(106,75,255,.1); margin: 25px;
+    padding: 25px; background-color: #fff;}
+.article-list-form input{width: 100%; border-bottom: 1px solid #c4c4c4;}
+.article-list-form{border-bottom: 1px solid #dcdcdc; padding-bottom: 25px;}
+.article-list{margin-top: 25px;}
+.article-list-form button{margin-left: 20px;}
+.article-list table .HandIcon{fill: #ffffff;}
+.tabicon{    background-color: #0036b9;  padding: 5px; border-radius: 50%; display: flex;  width: 30px;  height: 30px; justify-content: center;
+    align-items: center;}
+.article-list table .nav-link{padding: 0;}
