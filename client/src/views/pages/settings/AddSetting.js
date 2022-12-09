@@ -3,7 +3,8 @@ import AsyncSelect from 'react-select/async';
 import swal from 'sweetalert';
 import AppHeader from '../../../components/AppHeader'
 import Button from 'react-bootstrap/Button';
-
+import { EditIcon } from '../../../Icons/icons.component';
+import { CloseIcon } from '../../../Icons/icons.component';
 import { ProgressBar } from "react-bootstrap"
 import DatePicker from "react-datepicker";
 
@@ -453,6 +454,10 @@ const AddSetting = () => {
                                     {setting?.map((e, index) => (
                                         <div className="card graph-float" key={index} style={{ width: "18rem", cursor: "pointer" }}>
                                             <div className="card-body">
+                                                <div className='editdelete-btns'>
+                                                    <a href="javascript:void(0)" onClick={e => editLevel(index)} className="card-link"><EditIcon/></a>
+                                                    <a href="javascript:void(0)" onClick={event => deleteLevel(index, e)} className="card-link"><CloseIcon/></a>
+                                                </div>
                                                 <h5 className="">Order : {index + 1}</h5>
                                                 <h5 className="card-title">{e.graph_type}</h5>
                                                {/* <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
@@ -493,8 +498,7 @@ const AddSetting = () => {
                                                 <><Button className="levelbutton"  variant="light">Visibility</Button>{' '}</>
                                                 }
                                                 <br></br>
-                                                <a href="javascript:void(0)" onClick={event => deleteLevel(index, e)} className="card-link">Remove</a>
-                                                <a href="javascript:void(0)" onClick={e => editLevel(index)} className="card-link">Edit</a>
+                                                
                                             </div>
                                         </div>
                                     ))}
