@@ -1,11 +1,10 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { DashboardIcon, AnalysisIcon, NotificationsMenuIcon, SocialIcon, LoginIcon, UsersIcon, ProfileIcon } from "../Icons/icons.component";
+import { DashboardIcon, AnalysisIcon, NotificationsMenuIcon, ArticleIcon, SocialIcon, LoginIcon, UsersIcon, ProfileIcon } from "../Icons/icons.component";
 import { NavLink, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { logout } from '../store/actions/AuthActions';
 import { store } from '../store/store';
-
 import './sidebars.css'
 const AppSidebar = (props) => {
   const state = store.getState();
@@ -65,7 +64,12 @@ const AppSidebar = (props) => {
          <span className='menuTitle'>Profile</span>
         </NavLink>
       </li>
-     
+      <li>
+      <NavLink to="/Articlelist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
+         <span className='menuIcon'><ArticleIcon /></span>
+         <span className='menuTitle'>Article List</span>
+        </NavLink>
+      </li>
        
      <li>
       
