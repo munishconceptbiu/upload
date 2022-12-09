@@ -93,21 +93,20 @@ const ViewUpload = () => {
       }, []);
     return (
       <div className="uqr-contents">
+        <div className="component-title">
+            <h5>
+              Previous Uploads
+            </h5>
+          </div>
       <div className="container-fluid">
-        <div className="page-title">
-            <h1 >
-              Uploads
-            </h1>
-            </div>
-            <div style={{ margin: "25px 20px 0 35px", marginTop: "80px" }}>
         {/* <div style={{ "padding": "4px 4px 32px" }}>      <button className="btn btn-success pull-right" style={{ float: "right" }} onClick={addSetting}>Add Setting</button>
         </div> */}
 
-        <div className='client-section'>
+        <div className='client-select client-section'>
           <label htmlFor="country" className="form-label">Select Client</label>
           <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => clientChange(e)} />
         </div>
-      <div className="view-setting">
+      {uploadList.length > 0 && <div className="view-setting">
         
         <table className='table'>
       <thead>
@@ -144,8 +143,8 @@ const ViewUpload = () => {
        ))}
       </tbody>
     </table>
-    </div>
-    </div>
+    </div>}
+    {!uploadList.length && <div className='empty-message'>No data for selected client</div>}
     </div>
 
     
