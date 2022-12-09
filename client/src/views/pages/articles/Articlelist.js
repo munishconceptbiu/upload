@@ -1,17 +1,17 @@
 import React from 'react'
-import { useNavigate, useParams } from 'react-router-dom';
-
+import { HandIcon } from '../../../Icons/icons.component'
+import { NavLink, useNavigate } from 'react-router-dom';
 function Articlelist(){
     return(
         <>
-            <h3>Articles Lists</h3>
-            <div className='row'>
-                <div className='col-4'><input type='text' placeholder='Select Client'/></div>
-                <div className='col-4'><input type='text' placeholder='Select Client'/></div>
-                <div className='col-4'><input type='text' placeholder='Select Client'/></div>
-                <div className='col-4'><button className='btn btn-success pull-right'>Submit</button></div>
+            <div className='content-box'>
+            <div className='row article-list-form'>
+                <div className='col-4 mt-10'><input type='text' placeholder='Select Client'/></div>
+                <div className='col-4 mt-10'><input type='text' placeholder='Select Client'/></div>
+                <div className='col-4 d-flex'><input type='text' placeholder='Select Client'/> <button className='btn btn-primary btn-medium'>Search</button></div>
+                
             </div>
-            <div className='row'>
+            <div className='row article-list'>
             <table class="table">
     <thead>
       <tr>
@@ -32,12 +32,25 @@ function Articlelist(){
         <td>Deccan Herald</td>
         <td>Banglore</td>
         <td>Barkha Dutt</td>
-        <td>Action</td>
+        <td><NavLink to="/Articlelist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><HandIcon /></span></NavLink></td>
+      </tr>
+
+      <tr>
+        <td>1</td>
+        <td>barkhadutt456</td>
+        <td>Shreyas treble spurs blue star </td>
+        <td>Deccan Herald</td>
+        <td>Banglore</td>
+        <td>Barkha Dutt</td>
+        <td><NavLink to="/Articlelist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><HandIcon /></span></NavLink></td>
 
       </tr>
+
+      
       
     </tbody>
   </table>
+            </div>
             </div>
         </>
     )
