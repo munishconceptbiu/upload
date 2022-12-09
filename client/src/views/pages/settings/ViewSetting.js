@@ -118,24 +118,19 @@ const ViewSetting = () => {
   return (
     <>
 
-
-      {/* <Toaster /> */}
-      <div className="page-title">
-        <h1 >
-          Settings
-        </h1>
-      </div>
-      <div className='add-setting'>
-        <div className='add-setting-button'>      <button className="btn btn-success pull-right" style={{ float: "right" }} onClick={addSetting}>Add Setting</button>
+      
+      <div className='add-setting-button uqr-contents'>      <button className="btn btn-success pull-right" onClick={addSetting}>Add Setting</button>
         </div>
+      {/* <Toaster /> */}
+      <div className="uqr-contents">
+      <div className='add-setting'>
 
-        <div className='client-section'>
+        <div className='client-select'>
           <label htmlFor="country" className="form-label">Select Client</label>
           <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => clientChange(e)} />
         </div>
 
       </div>
-      <div className="view-setting">
 
         <table className='table'>
           <thead>
