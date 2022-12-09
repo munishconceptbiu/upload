@@ -92,7 +92,8 @@ const ViewUpload = () => {
         getUploadList();
       }, []);
     return (
-        <>
+      <div className="uqr-contents">
+      <div className="container-fluid">
         <div className="page-title">
             <h1 >
               Uploads
@@ -106,9 +107,6 @@ const ViewUpload = () => {
           <label htmlFor="country" className="form-label">Select Client</label>
           <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => clientChange(e)} />
         </div>
-
-      </div>
-    <div className="">
       <div className="view-setting">
         
         <table className='table'>
@@ -146,12 +144,12 @@ const ViewUpload = () => {
        ))}
       </tbody>
     </table>
-      </div>
+    </div>
+    </div>
     </div>
 
     
     <Modal size="lg" show={show} onHide={handleClose}>
-          <>
             <Modal.Header closeButton>
               <Modal.Title>Mismatcing Articles</Modal.Title>
             </Modal.Header>
@@ -191,15 +189,15 @@ const ViewUpload = () => {
               </div>
 
             </Modal.Body>
-          </>
+          
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
          
         </Modal.Footer>
-      </Modal>
-  </>
+    </Modal>
+    </div>
 
     )
 }

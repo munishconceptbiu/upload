@@ -1,6 +1,7 @@
 import React from 'react'
 const Dashboard = React.lazy(() => import('./views/pages/upload/Upload'))
 const ViewUpload = React.lazy(() => import('./views/pages/upload/ViewUpload'))
+const Uploads = React.lazy(() => import('./views/pages/upload/Uploads'))
 const ViewSetting = React.lazy(() => import('./views/pages/settings/ViewSetting'))
 const AddSetting = React.lazy(() => import('./views/pages/settings/AddSetting'))
 const EditSetting = React.lazy(() => import('./views/pages/settings/EditSetting'))
@@ -16,8 +17,9 @@ const Profile = React.lazy(() => import('./views/pages/profile/Profile'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
-  { path: '/dashboard', name: 'Dashboard', element: Dashboard },
-  { path: '/view-upload', name: 'View Upload', element: ViewUpload },
+  // { path: '/dashboard', name: 'Dashboard', element: Dashboard },
+  // { path: '/view-upload', name: 'View Upload', element: ViewUpload },
+  { path: '/uploads', name: 'Uploads', element: Uploads },
   { path: '/view-setting', name: 'View Setting', element: ViewSetting },
   { path: '/view-social', name: 'View Social', element: Social },
   { path: '/add-setting', name: 'Add Setting', element: AddSetting },
