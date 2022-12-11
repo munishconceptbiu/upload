@@ -1,3 +1,5 @@
+@import '../_variables.sass'
+
 .appContainer 
 	display: block 
 	margin-left: 5.3rem 
@@ -31,6 +33,28 @@
 	display: block
 .add-setting 
 	display: block
+
+.settings-display
+	display: grid
+	grid-template-columns: repeat(2, auto)
+	grid-template-rows: repeat(3, auto)
+	.card
+		margin: 7px
+		min-height: 177px
+		border-radius: 11px
+		.card-body
+			h5
+				font-size: medium
+			.card-title
+				margin-top: 3px
+				color: $blue
+			.editdelete-btns
+				width: fit-content
+				display: inline-block
+				float: right
+
+	
+
 .view-setting 
 	margin: 22px 
 	padding: 0 44px 
@@ -248,4 +272,7 @@ ul
 .levelbutton 
 	margin-bottom: 12px!important 
 	margin-right: 8px!important 
-	border-radius: 29px 
+	border-radius: 11px
+	font-size: small
+	box-shadow: 0px 5px 6px 2px rgba(166,166,166,0.88)
+	

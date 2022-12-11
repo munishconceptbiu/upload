@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { Component, useState, useEffect, useRef } from 'react'
 import AsyncSelect from 'react-select/async';
 import swal from 'sweetalert';
 import AppHeader from '../../../components/AppHeader'
@@ -95,6 +95,7 @@ const AddSetting = () => {
     const [isPrintOnline, setIsPrintOnline] = useState(false);
 
     let selectRef = React.useRef();
+    const scrollRef = useRef();
 
     const saveSetting = async () => {
 
@@ -260,6 +261,7 @@ const AddSetting = () => {
         setSetting(newSetting);
     }
     const editLevel = (index) => {
+        scrollRef.current.scrollIntoView({behavior: "smooth"});
         let editsetting = setting[index];
         setGraphTypeName(editsetting.graph_type);
         setGraphTypeId(editsetting.graph_id)
@@ -331,16 +333,9 @@ const AddSetting = () => {
             // handleLoginFailure({ status: UNAUTHORIZED });
           })
       }
-  
     return (
         <>
-
-            <div className="page-title">
-                <h1 >
-                    Add Setting
-                </h1>
-            </div>
-            <div className="uqr-contents">
+            <div className="uqr-contents" ref={scrollRef} >
 
                 <div className="container-fluid">
                     <form className="needs-validation" noValidate>
@@ -432,12 +427,12 @@ const AddSetting = () => {
                             )}
                             <div className="col-12 ">
                                 {setting.length > 0 && <span>Use Drag and Drop Arrange the Order </span>}
-                                <Reorder
+                                    <Reorder
                                     reorderId="my-list" // Unique ID that is used internally to track this list (required)
                                     reorderGroup="reorder-group" // A group ID that allows items to be dragged between lists of the same group (optional)
                                     // getRef={this.storeRef.bind(this)} // Function that is passed a reference to the root node when mounted (optional)
                                     component="div" // Tag name or Component to be used for the wrapping element (optional), defaults to 'div'
-                                    // placeholderClassName="placeholder" // className name to be applied to placeholder elements (optional), defaults to 'placeholder'
+                                    className="settings-display" // className name to be applied to placeholder elements (optional), defaults to 'placeholder'
                                     draggedClassName="dragged" // className name to be applied to dragged elements (optional), defaults to 'dragged'
                                     lock="horizontal" // Lock the dragging direction (optional): vertical, horizontal (do not use with groups)
                                     holdTime={500} // Default hold time before dragging begins (mouse & touch) (optional), defaults to 0
@@ -447,10 +442,11 @@ const AddSetting = () => {
                                     autoScroll={true} // Enable auto-scrolling when the pointer is close to the edge of the Reorder component (optional), defaults to true
                                     disabled={false} // Disable reordering (optional), defaults to false
                                     disableContextMenus={true} // Disable context menus when holding on touch devices (optional), defaults to true
-                                // placeholder={
-                                //   <div className="col-3" /> // Custom placeholder element (optional), defaults to clone of dragged element
-                                // }
+                                    // placeholder={
+                                    //     <div className='settings-display' /> // Custom placeholder element (optional), defaults to clone of dragged element
+                                    // }
                                 >
+                                    
                                     {setting?.map((e, index) => (
                                         <div className="card graph-float" key={index} style={{ width: "18rem", cursor: "pointer" }}>
                                             <div className="card-body">

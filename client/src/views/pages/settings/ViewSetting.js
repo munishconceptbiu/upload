@@ -7,6 +7,8 @@ import { get, put, deleteMethod } from "../../../services/CommanService";
 import toast from 'react-hot-toast';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { store } from '../../../store/store';
+import { DynamicModal } from './DynamicModal';
+import AddSetting from './AddSetting';
 
 const ViewSetting = () => {
   let navigate = useNavigate();
@@ -26,6 +28,7 @@ const ViewSetting = () => {
   }
 
   const [show, setShow] = useState(false);
+  const [showAddSettings, setShowAddSettings] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -98,9 +101,13 @@ const ViewSetting = () => {
     setClientId(e.value)
     getSettingList(e.value);
   }
-
+  const addSettingComp = {
+    title : "Add New Settings",
+    component: <AddSetting />,
+  }
   const addSetting = () => {
-    navigate("/add-setting");
+    setShowAddSettings(true);
+    // navigate("/add-setting");
     // toast.promise(
     //   getSettingList(1),
     //    {
@@ -110,10 +117,12 @@ const ViewSetting = () => {
     //    }
     //  );
   }
+  const closeAddSetting = () => {
+    setShowAddSettings(false);
+  }
   useEffect(() => {
     getSettingList();
   }, []);
-
 
   return (
     <>
@@ -273,6 +282,7 @@ const ViewSetting = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      {showAddSettings && <DynamicModal show={showAddSettings} handleClose={closeAddSetting} comp={addSettingComp} />}
     </>
 
   )
