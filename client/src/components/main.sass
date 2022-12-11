@@ -9,7 +9,7 @@
 	margin-top: 5px !important 
 .mt-10 
 	margin-top: 10px !important 
-.uqr-contents 
+.uqr-contents
 	padding: 11px
 	background: white 
 	margin: 22px 11px
@@ -18,6 +18,7 @@
 	position: relative 
 	.component-title
 		width: fit-content
+		color: $blue
 		h5
 			margin: 0
 			padding: 0
@@ -29,8 +30,16 @@
 		font-weight: 600
 	.client-select
 		padding: 20px
-.add-setting-button
-	display: block
+	.article-list-form
+		input
+			margin: 1rem
+			width: 333px
+			height: 33px
+		button
+			height:33px
+			align-self: center
+.add-settings-btn
+	float: right
 .add-setting 
 	display: block
 
@@ -53,7 +62,9 @@
 				display: inline-block
 				float: right
 
-	
+.action-btns
+	a
+		margin: 5px
 
 .view-setting 
 	margin: 22px 
@@ -61,7 +72,7 @@
 	background-color: #fff 
 	table 
 		th 
-			color: #938fa9 
+			color: $blue
 			font-weight: 400 
 			border: none 
 			padding: 16px 
@@ -69,6 +80,10 @@
 			vertical-align: middle 
 		td 
 			padding: 14px 
+			a
+				color: $gray
+			a:hover
+				color: $blue
 .graph-options 
 	background-color: rgb(234, 234, 234) 
 	margin: 10px 
@@ -234,7 +249,8 @@ form
 .page-title 
 	background-color: #fff 
 	padding: 15px 40px 8px 
-	position: fixed 
+	// position: fixed 
+	display: block
 	z-index: 9 
 	top: 0 
 	width: 100% 

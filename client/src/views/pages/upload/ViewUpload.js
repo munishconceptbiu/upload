@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import moment from 'moment';
 import { store } from '../../../store/store';
-import { DeleteIcon } from "../../../Icons/icons.component";
+import { CloseIcon } from "../../../Icons/icons.component";
 
 import { get , deleteMethod } from "../../../services/CommanService";
 import toast from 'react-hot-toast';
@@ -132,13 +132,13 @@ const ViewUpload = () => {
           <td>{list.client_name}</td>
           <td>{moment(list.start_date).format('ll')}</td>
           <td>{moment(list.end_date).format('ll')}</td>
-          <td><a href={list.file} target="_blank">{list.filename}</a></td>
+          <td><a href={list.file} target="_blank">Download File</a></td>
           <td>{list.username}</td>
           <td>{moment(list.createdAt).format('lll')}</td>
           <td>{list.total_article}</td>
           <td>{list.nm_total_article === 0 && <span> - </span> } 
           {list.nm_total_article > 0 && <span onClick={e => getNMArticleList(list.id)} title='view' style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline'}}>{list.nm_total_article}</span> } </td>
-          <td > {state.auth.auth.role === 'admin' && <a href="javascript:void(0)" onClick={e => deleteUpload(list.id)} className='deleicon'><DeleteIcon /></a> }  {state.auth.auth.role !== 'admin' && <span>-</span>} </td>
+          <td > {state.auth.auth.role === 'admin' && <a href="javascript:void(0)" onClick={e => deleteUpload(list.id)} className='deleicon'><CloseIcon /></a> }  {state.auth.auth.role !== 'admin' && <span>-</span>} </td>
         </tr>
        ))}
       </tbody>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
-export const DynamicModal = ({show, handleClose, comp}) => {
+export const DynamicModal = ({show, handleClose, comp, compProps}) => {
   return (
     <Modal size="lg" show={show} onHide={handleClose}>
             <Modal.Header closeButton>
@@ -10,7 +10,7 @@ export const DynamicModal = ({show, handleClose, comp}) => {
             <Modal.Body>
 
               <div className="container ">
-                {comp.component}
+                {<comp.component {...compProps}></comp.component>}
               </div>
 
             </Modal.Body>

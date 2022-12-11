@@ -4,11 +4,16 @@ import { NavLink, useNavigate } from 'react-router-dom';
 function Articlelist(){
     return(
         <>
-            <div className='content-box'>
+        <div className="page-title">
+        <h1 >
+          Article List
+        </h1>
+      </div>
+            <div className='uqr-contents'>
             <div className='row article-list-form'>
                 <div className='col-4 mt-10'><input type='text' placeholder='Select Client'/></div>
                 <div className='col-4 mt-10'><input type='text' placeholder='Select Client'/></div>
-                <div className='col-4 d-flex'><input type='text' placeholder='Select Client'/> <button className='btn btn-primary btn-medium'>Search</button></div>
+                <div className='col-4 d-flex mt-10'><input type='text' placeholder='Select Client'/> <button className='btn btn-primary btn-medium'>Search</button></div>
                 
             </div>
             <div className='row article-list'>

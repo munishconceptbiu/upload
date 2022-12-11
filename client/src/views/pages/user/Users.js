@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import AsyncSelect from 'react-select/async';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { EditIcon, DeleteIcon } from "../../../Icons/icons.component";
+import { EditIcon, CloseIcon } from "../../../Icons/icons.component";
 import { get, put, deleteMethod } from "../../../services/CommanService";
 import toast from 'react-hot-toast';
 import { useNavigate, NavLink } from 'react-router-dom';
@@ -98,7 +98,7 @@ const Users = () => {
                 <td>{list.username}</td>
                <td>{list.email}</td>
                <td>{list.phone}</td>
-                <td ><NavLink to={`/edit-user/${list.id}`}><EditIcon /></NavLink> <a href="javascript:void(0)" onClick={e => deleteUser(list.id)} className='deleicon'><DeleteIcon /></a></td>
+                <td ><NavLink to={`/edit-user/${list.id}`}><EditIcon /></NavLink> <a href="javascript:void(0)" onClick={e => deleteUser(list.id)} className='deleicon'><CloseIcon /></a></td>
               </tr>
             ))}
             {userList.length === 0 &&

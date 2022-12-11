@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react'
 import AsyncSelect from 'react-select/async';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { EditIcon, DeleteIcon } from "../../../Icons/icons.component";
+import { EditIcon, DeleteIcon, CloseIcon } from "../../../Icons/icons.component";
 import { get, put, deleteMethod } from "../../../services/CommanService";
 import toast from 'react-hot-toast';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { store } from '../../../store/store';
 import { DynamicModal } from './DynamicModal';
 import AddSetting from './AddSetting';
+import EditSetting from './EditSetting';
 
 const ViewSetting = () => {
   let navigate = useNavigate();
@@ -29,6 +30,8 @@ const ViewSetting = () => {
 
   const [show, setShow] = useState(false);
   const [showAddSettings, setShowAddSettings] = useState(false);
+  const [showEditSettings, setShowEditSettings] = useState(false);
+  const [editSettingsProps, setEditSettingsProps] = useState({clientId: null});
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -103,22 +106,25 @@ const ViewSetting = () => {
   }
   const addSettingComp = {
     title : "Add New Settings",
-    component: <AddSetting />,
+    component: AddSetting,
+  }
+  const editSettingComp = {
+    title : "Edit Settings",
+    component: EditSetting,
   }
   const addSetting = () => {
     setShowAddSettings(true);
-    // navigate("/add-setting");
-    // toast.promise(
-    //   getSettingList(1),
-    //    {
-    //      loading: 'Saving...',
-    //      success: <b>Settings saved!</b>,
-    //      error: <b>Could not save.</b>,
-    //    }
-    //  );
   }
   const closeAddSetting = () => {
     setShowAddSettings(false);
+  }
+  const editSetting = (clientId) => {
+    console.log(clientId)
+    setEditSettingsProps({clientId});
+    setShowEditSettings(true);
+  }
+  const closeEditSetting = () => {
+    setShowEditSettings(false);
   }
   useEffect(() => {
     getSettingList();
@@ -126,12 +132,15 @@ const ViewSetting = () => {
 
   return (
     <>
-
       
-      <div className='add-setting-button uqr-contents'>      <button className="btn btn-success pull-right" onClick={addSetting}>Add Setting</button>
-        </div>
+      <div className="page-title">
+        <h1 >
+          Settings
+        </h1>
+      </div>
       {/* <Toaster /> */}
       <div className="uqr-contents">
+      <button className="btn btn-success pull-right add-settings-btn" onClick={addSetting}>Add New Settings</button>
       <div className='add-setting'>
 
         <div className='client-select'>
@@ -186,7 +195,7 @@ const ViewSetting = () => {
                 {/* <td>{setting.isOnline === true ? 'Yes' : 'No'}</td>
                 <td>{setting.isPrint === true ? 'Yes' : 'No'}</td>
                 <td>{setting.isPrintOnline === true ? 'Yes' : 'No'}</td> */}
-                <td ><NavLink to={`/edit-setting/${list.client_id}`}><EditIcon /></NavLink> <a href="javascript:void(0)" onClick={e => deleteSetting(list.id)} className='deleicon'><DeleteIcon /></a></td>
+                <td className='action-btns'><a  href="javascript:void(0)"onClick={e => editSetting(list.client_id)}><EditIcon /></a> <a href="javascript:void(0)" onClick={e => deleteSetting(list.id)} className='deleicon'><CloseIcon /></a></td>
               </tr>
             ))}
             {settingList.length === 0 &&
@@ -283,6 +292,7 @@ const ViewSetting = () => {
         </Modal.Footer>
       </Modal>
       {showAddSettings && <DynamicModal show={showAddSettings} handleClose={closeAddSetting} comp={addSettingComp} />}
+      {showEditSettings && <DynamicModal show={showEditSettings} handleClose={closeEditSetting} comp={editSettingComp} compProps={editSettingsProps}/>}
     </>
 
   )

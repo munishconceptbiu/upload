@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 import Button from 'react-bootstrap/Button';
 
@@ -6,6 +6,10 @@ import Button from 'react-bootstrap/Button';
 import "react-datepicker/dist/react-datepicker.css";
 import { get, post, deleteMethod } from "../../../services/CommanService";
 import { store } from '../../../store/store';
+
+import { EditIcon } from '../../../Icons/icons.component';
+import { CloseIcon } from '../../../Icons/icons.component';
+
 import toast from 'react-hot-toast';
 
 import Reorder, {
@@ -53,7 +57,7 @@ const graphType = [
     // }
 
 ]
-const AddSetting = () => {
+const EditSetting = ({clientId}) => {
     const state = store.getState();
     const params = useParams();
 
@@ -84,6 +88,9 @@ const AddSetting = () => {
     const [isPrint, setIsPrint] = useState(false);
     const [isPrintOnline, setIsPrintOnline] = useState(false);
 
+    console.log(clientId);
+    
+    const scrollRef = useRef();
 
     const saveSetting = async () => {
 
@@ -107,7 +114,7 @@ const AddSetting = () => {
         }
 
         const formData = {
-            client_id: params.client_id,
+            client_id: clientId,
             client_name: client_name,
             username: state.auth.auth.first_name + ' ' + state.auth.auth.last_name,
             email: state.auth.auth.email,
@@ -242,6 +249,7 @@ const AddSetting = () => {
         setSetting(newSetting);
     }
     const editLevel = (index) => {
+        scrollRef.current.scrollIntoView({behavior: "smooth"});
         let editsetting = setting[index];
         setGraphTypeName(editsetting.graph_type);
         setGraphTypeId(editsetting.graph_id)
@@ -296,7 +304,7 @@ const AddSetting = () => {
     const deleteSetting = (id) => {
         deleteMethod("artical/delete-setting/" + id).then((response) => {
             //   swal("Success!", "Setting successfully deleted", "success");
-            getSettingList(params.client_id)
+            getSettingList(clientId)
         })
             .catch(() => {
                 // handleLoginFailure({ status: UNAUTHORIZED });
@@ -304,18 +312,12 @@ const AddSetting = () => {
     }
 
     useEffect(() => {
-        getSettingList(params.client_id)
-    }, [params.client_id]);
+        getSettingList(clientId)
+    }, [clientId]);
 
     return (
         <>
-
-            <div className="page-title">
-                <h1 >
-                    Edit Setting
-                </h1>
-            </div>
-            <div className="uqr-contents">
+            <div className="uqr-contents" ref={scrollRef}>
 
                 <div className="container-fluid">
                     <form className="needs-validation" noValidate>
@@ -403,6 +405,7 @@ const AddSetting = () => {
                                     reorderGroup="reorder-group" // A group ID that allows items to be dragged between lists of the same group (optional)
                                     // getRef={this.storeRef.bind(this)} // Function that is passed a reference to the root node when mounted (optional)
                                     component="div" // Tag name or Component to be used for the wrapping element (optional), defaults to 'div'
+                                    className="settings-display"
                                     // placeholderClassName="placeholder" // className name to be applied to placeholder elements (optional), defaults to 'placeholder'
                                     draggedClassName="dragged" // className name to be applied to dragged elements (optional), defaults to 'dragged'
                                     lock="horizontal" // Lock the dragging direction (optional): vertical, horizontal (do not use with groups)
@@ -420,6 +423,10 @@ const AddSetting = () => {
                                     {setting?.map((e, index) => (
                                         <div className="card" key={index} style={{ width: "18rem", cursor: "pointer" }}>
                                             <div className="card-body graph-float">
+                                                <div className='editdelete-btns'>
+                                                    <a href="javascript:void(0)" onClick={e => editLevel(index)} className="card-link"><EditIcon/></a>
+                                                    <a href="javascript:void(0)" onClick={event => deleteLevel(index, e)} className="card-link"><CloseIcon/></a>
+                                                </div>
                                                 <h5 className="">Order : {index + 1}</h5>
                                                 <h5 className="card-title">{e.graph_type}</h5>
                                                 {/* <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
@@ -460,8 +467,6 @@ const AddSetting = () => {
                                                 <><Button className="levelbutton"  variant="light">Visibility</Button>{' '}</>
                                                 }
                                                 <br></br>
-                                                <a href="javascript:void(0)" onClick={event => deleteLevel(index, e)} className="card-link">Remove</a>
-                                                <a href="javascript:void(0)" onClick={e => editLevel(index)} className="card-link">Edit</a>
                                             </div>
                                         </div>
                                     ))}
@@ -553,5 +558,5 @@ const AddSetting = () => {
     )
 }
 
-export default AddSetting
+export default EditSetting
 
