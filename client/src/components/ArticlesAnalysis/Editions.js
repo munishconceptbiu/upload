@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import '../components/main.css'
-import EditionMumbai from './EditionDetails';
+import '../../../src/components/main.css'
+import EditionMumbai from '../ArticlesAnalysis/EditionDetails';
 
 function Editions(){
     const [edition, setEdition]=useState(0);

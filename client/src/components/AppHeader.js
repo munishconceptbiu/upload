@@ -9,11 +9,7 @@ const AppHeader = () => {
   return (
     <div className="navbar navbar-expand-lg navbar-light 0">
           <div className="container-fluid">
-            <div className="page-title">
-            <h1 >
-              Upload Qualitative Report
-            </h1>
-            </div>
+
             <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
               <ul className="navbar-nav ml-auto">
                 <li className="nav-item">

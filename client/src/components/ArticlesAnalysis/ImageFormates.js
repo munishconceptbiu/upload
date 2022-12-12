@@ -1,5 +1,5 @@
 import React from "react";
-
+import '../../components/main.css'
 function ImageFormates(){
     return(
         <>

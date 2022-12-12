@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import '../components/main.css'
-import FormOne from '../AnalysisForms/FormOne';
-import FormTwo from '../AnalysisForms/FormTwo';
-import FormThree from '../AnalysisForms/FormThree';
-import FormFour from '../AnalysisForms/FormFour';
+import '../../../src/components/main.css'
+import FormOne from '../../../src/components/ArticlesAnalysis/AnalysisForms/FormOne';
+import FormTwo from '../../../src/components/ArticlesAnalysis/AnalysisForms/FormTwo';
+import FormThree from '../../../src/components/ArticlesAnalysis/AnalysisForms/FormThree';
+import FormFour from '../../../src/components/ArticlesAnalysis/AnalysisForms/FormFour';
 
 
 export default function Tabs(){
@@ -11,10 +11,10 @@ export default function Tabs(){
     return(
         <div className="qualitatxive-form container">
             <div className='tab-nav'>
-                <div className='tabhead col-3' onClick={()=>{setIndex(0)}}><span>1</span><br></br> Form </div>
-                <div className='tabhead col-3' onClick={()=>{setIndex(1)}}> <span>2</span><br></br> Form </div>
-                <div className='tabhead col-3' onClick={()=>{setIndex(2)}}> <span>3</span><br></br> Form </div>
-                <div className='tabhead col-3' onClick={()=>{setIndex(3)}}> <span>4</span><br></br> Form </div>
+                <div className='tabhead col-3' onClick={()=>{setIndex(0)}}><span>1</span> Form </div>
+                <div className='tabhead col-3' onClick={()=>{setIndex(1)}}> <span>2</span> Form </div>
+                <div className='tabhead col-3' onClick={()=>{setIndex(2)}}> <span>3</span> Form </div>
+                <div className='tabhead col-3' onClick={()=>{setIndex(3)}}> <span>4</span> Form </div>
             </div>
             <div className='tabcontent' hidden={index !=0}>
             <FormOne/>  

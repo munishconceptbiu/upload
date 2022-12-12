@@ -1,9 +1,16 @@
 import React from 'react'
 import { HandIcon } from '../../../Icons/icons.component'
 import { NavLink, useNavigate } from 'react-router-dom';
+import '../../../components/main.css'
+
 function Articlelist(){
     return(
         <>
+        <div className="page-title">
+                <h1 >
+                    Article List
+                </h1>
+            </div>
             <div className='content-box'>
             <div className='row article-list-form'>
                 <div className='col-4 mt-10'><input type='text' placeholder='Select Client'/></div>
@@ -32,7 +39,7 @@ function Articlelist(){
         <td>Deccan Herald</td>
         <td>Banglore</td>
         <td>Barkha Dutt</td>
-        <td><NavLink to="/Articlelist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><HandIcon /></span></NavLink></td>
+        <td><NavLink to="/Qualitative" className="nav-link" title="Qualitative" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><HandIcon /></span></NavLink></td>
       </tr>
 
       <tr>

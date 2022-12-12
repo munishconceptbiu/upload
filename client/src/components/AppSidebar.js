@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { DashboardIcon, AnalysisIcon, NotificationsMenuIcon, ArticleIcon, SocialIcon, LoginIcon, UsersIcon, ProfileIcon } from "../Icons/icons.component";
+import { DashboardIcon, AnalysisIcon, NotificationsMenuIcon, ArticleIcon, SocialIcon, LoginIcon,UserssIcon, UsersIcon, ProfileIcon } from "../Icons/icons.component";
 import { NavLink, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { logout } from '../store/actions/AuthActions';
@@ -46,8 +46,8 @@ const AppSidebar = (props) => {
       </li>
       {state?.auth?.auth?.role === 'admin' && 
          <li>
-      <NavLink to="/view-users" className="nav-link" title="Users" data-bs-toggle="tooltip" data-bs-placement="right">
-         <span className='menuIcon'><UsersIcon /></span>
+      <NavLink to="/view-users" className="nav-link" title="Userss" data-bs-toggle="tooltip" data-bs-placement="right">
+         <span className='menuIcon'><UserssIcon /></span>
          <span className='menuTitle'>Users</span>
         </NavLink>
       </li>
