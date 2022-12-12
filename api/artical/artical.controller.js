@@ -282,7 +282,7 @@ exports.saveArtical = async function (req, res, next) {
                             publish_date: moment(e['publish date']).format('YYYY-MM-DD'),
                             mav: typeof e['mav'] === 'number' ? e['mav'] : 0,
                             ccm: typeof e['ccm'] === 'number' ? e['ccm'] : 0,
-                            word_count: e['word count'],
+                            word_count: typeof e['word count'] === 'number' ? e['word count'] : 0,
                             press_release: e['press release'],
                             page_no: e['page no'],
                             circlation: e['circulation'],

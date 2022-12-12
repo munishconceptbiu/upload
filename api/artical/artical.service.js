@@ -264,7 +264,7 @@ async function addSetting(params) {
 
 async function addVerticalSetting(params) {
     const [row, created] = await db.QaVerticalSetting.findOrCreate({ where: { client_id: params.client_id }, defaults: params });
-    if (created === true) {
+    if (created === false) {
         await db.QaVerticalSetting.update(params, { where: { id: row.id } });
     }
     return created;
