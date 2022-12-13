@@ -317,8 +317,10 @@ async function getSettingAll(client_id) {
             "keyword_level",
             "spokesperson_level",
             "profiling_level",
-            "visibility_level", "topic_level", "client_name", "graph_id", "order_id"]
-    });
+            "visibility_level", "topic_level", "client_name", "graph_id", "order_id"],
+            group: "client_id",
+    },
+    );
     return result;
 }
 

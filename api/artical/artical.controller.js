@@ -593,10 +593,12 @@ exports.getQualitativeCheck = async function (req, res, next) {
 }
 
 exports.getSettingAll = async function (req, res, next) {
-    articalService.getSettingAll()
+
+    const getSettingAll = new Promise((resolve, reject) => {
+        articalService.getSettingAll()
         .then(data => {
             let settings = []
-            data && data.length && data.forEach(async setting => {
+            data && data.length && data.forEach(async (setting, index) => {
                 const saveData = {
                     'id': setting.id,
                     'client_id': setting.client_id,
@@ -604,8 +606,11 @@ exports.getSettingAll = async function (req, res, next) {
                     levels: articalService.getSetting(setting.client_id)
                 }
                 settings.push(saveData);
+                if(data.length === index + 1){
+                    resolve(settings)
+                }
             })
-            res.json({ settings: settings,  message: "Client setting fetched successfully" });
+           
             // articalService.getSetting(data && data.length ? data[0].client_id : req.params.client_id)
             //     .then(check => {
             //         articalService.getUniqueVerticalSetting(data && data.length ? data[0].client_id : req.params.client_id)
@@ -617,6 +622,15 @@ exports.getSettingAll = async function (req, res, next) {
             //     .catch(next);
         })
         .catch(next);
+       
+    });
+    Promise.all([getSettingAll]).then((values) => {
+        console.log('values', values)
+        res.json({ message: 'Setting sucessfully updated', data: values });
+    }).catch((error) => {
+        res.status(500).json({ error: error });
+    })
+   
 
 }
 
