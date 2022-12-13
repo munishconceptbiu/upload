@@ -595,9 +595,18 @@ exports.getQualitativeCheck = async function (req, res, next) {
 exports.getSettingAll = async function (req, res, next) {
     articalService.getSettingAll()
         .then(data => {
-            res.json({ settings: data, message: "Client setting fetched successfully" });
+            articalService.getSetting(data && data.length ? data[0].client_id : req.params.client_id)
+                .then(check => {
+                    articalService.getUniqueVerticalSetting(data && data.length ? data[0].client_id : req.params.client_id)
+                        .then(vertical => {
+                            res.json({ settings: data, levels: check, isVertical: vertical ? vertical?.isVertical : false, verticals: vertical ? JSON.parse(vertical?.verticals) : [], isIndex: vertical ? vertical?.isIndex : false, isReach: vertical ? vertical?.isReach : false, isOnline: vertical ? vertical?.isOnline : false, isPrint: vertical ? vertical?.isPrint : false, isPrintOnline: vertical ? vertical?.isPrintOnline : false, message: "Client setting fetched successfully" });
+                        })
+                        .catch(next);
+                })
+                .catch(next);
         })
         .catch(next);
+
 }
 
 exports.updateSetting = async function (req, res, next) {
@@ -636,18 +645,18 @@ exports.getUniqueSetting = async function (req, res, next) {
 
     articalService.getUniqueSetting(req.params.client_id)
         .then(data => {
-    articalService.getSetting(data && data.length ? data[0].client_id : req.params.client_id)
-        .then(check => {
-            articalService.getUniqueVerticalSetting(data && data.length ? data[0].client_id : req.params.client_id)
-                .then(vertical => {
-                    res.json({ settings: data, levels: check,  isVertical: vertical ? vertical?.isVertical : false, verticals: vertical ? JSON.parse(vertical?.verticals) : [], isIndex: vertical ? vertical?.isIndex : false, isReach: vertical ? vertical?.isReach : false, isOnline: vertical ? vertical?.isOnline : false, isPrint: vertical ? vertical?.isPrint : false, isPrintOnline: vertical ? vertical?.isPrintOnline : false, message: "Client setting fetched successfully" });
+            articalService.getSetting(data && data.length ? data[0].client_id : req.params.client_id)
+                .then(check => {
+                    articalService.getUniqueVerticalSetting(data && data.length ? data[0].client_id : req.params.client_id)
+                        .then(vertical => {
+                            res.json({ settings: data, levels: check, isVertical: vertical ? vertical?.isVertical : false, verticals: vertical ? JSON.parse(vertical?.verticals) : [], isIndex: vertical ? vertical?.isIndex : false, isReach: vertical ? vertical?.isReach : false, isOnline: vertical ? vertical?.isOnline : false, isPrint: vertical ? vertical?.isPrint : false, isPrintOnline: vertical ? vertical?.isPrintOnline : false, message: "Client setting fetched successfully" });
+                        })
+                        .catch(next);
                 })
                 .catch(next);
         })
         .catch(next);
-    })
-    .catch(next);
-    
+
 }
 
 exports.deleteUpload = async function (req, res, next) {
