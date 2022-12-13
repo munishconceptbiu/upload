@@ -595,15 +595,26 @@ exports.getQualitativeCheck = async function (req, res, next) {
 exports.getSettingAll = async function (req, res, next) {
     articalService.getSettingAll()
         .then(data => {
-            articalService.getSetting(data && data.length ? data[0].client_id : req.params.client_id)
-                .then(check => {
-                    articalService.getUniqueVerticalSetting(data && data.length ? data[0].client_id : req.params.client_id)
-                        .then(vertical => {
-                            res.json({ settings: data, levels: check, isVertical: vertical ? vertical?.isVertical : false, verticals: vertical ? JSON.parse(vertical?.verticals) : [], isIndex: vertical ? vertical?.isIndex : false, isReach: vertical ? vertical?.isReach : false, isOnline: vertical ? vertical?.isOnline : false, isPrint: vertical ? vertical?.isPrint : false, isPrintOnline: vertical ? vertical?.isPrintOnline : false, message: "Client setting fetched successfully" });
-                        })
-                        .catch(next);
-                })
-                .catch(next);
+            let settings = []
+            data && data.length && data.forEach(async setting => {
+                const saveData = {
+                    'id': setting.id,
+                    'client_id': setting.client_id,
+                    'client_name' : await setting.client_name,
+                    levels: articalService.getSetting(setting.client_id)
+                }
+                settings.push(saveData);
+            })
+            res.json({ settings: settings,  message: "Client setting fetched successfully" });
+            // articalService.getSetting(data && data.length ? data[0].client_id : req.params.client_id)
+            //     .then(check => {
+            //         articalService.getUniqueVerticalSetting(data && data.length ? data[0].client_id : req.params.client_id)
+            //             .then(vertical => {
+            //                 res.json({ settings: data, levels: check, isVertical: vertical ? vertical?.isVertical : false, verticals: vertical ? JSON.parse(vertical?.verticals) : [], isIndex: vertical ? vertical?.isIndex : false, isReach: vertical ? vertical?.isReach : false, isOnline: vertical ? vertical?.isOnline : false, isPrint: vertical ? vertical?.isPrint : false, isPrintOnline: vertical ? vertical?.isPrintOnline : false, message: "Client setting fetched successfully" });
+            //             })
+            //             .catch(next);
+            //     })
+            //     .catch(next);
         })
         .catch(next);
 
