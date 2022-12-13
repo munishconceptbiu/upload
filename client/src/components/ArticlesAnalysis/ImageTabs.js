@@ -1,6 +1,6 @@
 import ImageFormates from "./ImageFormates";
 import React, { useState } from 'react'
-import '../../components/main.css'
+import '../../../src/components/main.css'
 export default function ImageTabs(){
     const [articleImage, setArticleImage]=useState(0);
     return(

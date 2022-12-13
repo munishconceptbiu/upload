@@ -17,6 +17,7 @@ const Profile = React.lazy(() => import('./views/pages/profile/Profile'))
 const Articlelist = React.lazy(() => import('./views/pages/articles/Articlelist'))
 
 const Qualitative = React.lazy(() => import('./views/pages/articles/Qualitative'))
+const Journalist = React.lazy(() => import('./views/pages/articles/Journalist'))
 
 
 const routes = [
@@ -32,7 +33,8 @@ const routes = [
   { path: '/edit-user/:user_id', name: 'Edit User', element: EditUser },
   { path: '/profile', name: 'Profile', element: Profile },
   { path: '/Articlelist', name: 'Articlelist', element: Articlelist },
-  { path: '/Qualitative', name: 'Qualitative', element: Qualitative }
+  { path: '/Qualitative', name: 'Qualitative', element: Qualitative },
+  { path: '/Journalist', name: 'Journalist', element: Journalist }
 
 
 ]

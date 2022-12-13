@@ -1,7 +1,8 @@
 import React from 'react'
-import { HandIcon } from '../../../Icons/icons.component'
+import { CalendarIcon, HandIcon } from '../../../Icons/icons.component'
 import { NavLink, useNavigate } from 'react-router-dom';
 import '../../../components/main.css'
+
 
 function Articlelist(){
     return(
@@ -14,8 +15,8 @@ function Articlelist(){
             <div className='content-box'>
             <div className='row article-list-form'>
                 <div className='col-4 mt-10'><input type='text' placeholder='Select Client'/></div>
-                <div className='col-4 mt-10'><input type='text' placeholder='Select Client'/></div>
-                <div className='col-4 d-flex'><input type='text' placeholder='Select Client'/> <button className='btn btn-primary btn-medium'>Search</button></div>
+                <div className='col-4 mt-10'><input type='text' placeholder='Select Entity'/></div>
+                <div className='col-4 d-flex'><span className='d-flex aldatepicker'><input type='text' placeholder='Date Range'/><CalendarIcon/> </span> <button className='btn btn-primary btn-medium'>Search</button></div>
                 
             </div>
             <div className='row article-list'>
@@ -43,15 +44,47 @@ function Articlelist(){
       </tr>
 
       <tr>
-        <td>1</td>
+        <td>2</td>
+        <td>amit675</td>
+        <td>CM Presented FIH mens hockey world </td>
+        <td>Dumani Mail</td>
+        <td>Mumbai</td>
+        <td>Barkha Dutt</td>
+        <td><NavLink to="/Articlelist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><HandIcon /></span></NavLink></td>
+
+      </tr>
+
+      <tr>
+        <td>3</td>
+        <td>conceptbiu436</td>
+        <td>CM Purchases Hockey</td>
+        <td>Free Press</td>
+        <td>Delhi</td>
+        <td>Barkha Dutt</td>
+        <td><NavLink to="/Articlelist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><HandIcon /></span></NavLink></td>
+
+      </tr>
+      <tr>
+        <td>4</td>
         <td>barkhadutt456</td>
-        <td>Shreyas treble spurs blue star </td>
-        <td>Deccan Herald</td>
+        <td>Ticket TO WC</td>
+        <td>Orissa Post</td>
         <td>Banglore</td>
         <td>Barkha Dutt</td>
         <td><NavLink to="/Articlelist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><HandIcon /></span></NavLink></td>
 
       </tr>
+      <tr>
+        <td>5</td>
+        <td>amit675</td>
+        <td>Shreyas treble spurs blue star </td>
+        <td>Orissa Post</td>
+        <td>Delhi</td>
+        <td>Barkha Dutt</td>
+        <td><NavLink to="/Articlelist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><HandIcon /></span></NavLink></td>
+
+      </tr>
+
 
       
       

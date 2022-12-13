@@ -12,7 +12,7 @@ const Qualitative = () => {
                     <AnalysisDetails/>
                 </div>
                 <div className='col-6 '>
-                    <h3 className='text-center'>Qualitative Form</h3>
+                    
                     <Tabs/>
                 </div>
             </div>

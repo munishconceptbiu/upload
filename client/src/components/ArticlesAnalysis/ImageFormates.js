@@ -1,9 +1,10 @@
 import React from "react";
 import '../../components/main.css'
+import Newspaper from '../../assets/images/new-paper.jpg';
 function ImageFormates(){
     return(
         <>
-            <h3>fdk</h3>
+            <img src={Newspaper} alt="New Paper Image"/>
         </>
     )
 }
