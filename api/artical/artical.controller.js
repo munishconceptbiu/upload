@@ -54,7 +54,11 @@ exports.getList = async function (req, res, next) {
         res.json({ data: data, message: 'Artical successful' })
     })
 }
-
+exports.getUpload = async function (req, res, next) {
+    articalService.getUpload().then((data) => {
+        res.json({ data: data, message: 'Upload list successful' })
+    })
+}
 
 const addSpokesPersonAndData = async (e, q_articles, upload) => {
     const spokesman = Object.entries(e).filter((e, v) => e[0].match(/spokesperson [0-9]/g) && e[1] !== 0)[0]?.map(e => ({

@@ -39,7 +39,8 @@ module.exports = {
     getUniqueVerticalSetting,
     updateUploadCount,
     addNotMatchingArticle,
-    getNMArticleList
+    getNMArticleList,
+    getUpload
 };
 
 
@@ -423,5 +424,10 @@ async function getNMArticleList(id) {
         where: { upload_id: id
         }
     });
+    return result;
+}
+
+async function getUpload() {
+    const result = await db.QaUploadDetail.findAll();
     return result;
 }
