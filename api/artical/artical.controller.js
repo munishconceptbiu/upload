@@ -602,8 +602,8 @@ exports.getSettingAll = async function (req, res, next) {
                 const saveData = {
                     'id': setting.id,
                     'client_id': setting.client_id,
-                    'client_name' : await setting.client_name,
-                    levels: articalService.getSetting(setting.client_id)
+                    'client_name' :  setting.client_name,
+                    'levels': await articalService.getSetting(setting.client_id)
                 }
                 settings.push(saveData);
                 if(data.length === index + 1){
