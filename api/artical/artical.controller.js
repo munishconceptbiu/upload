@@ -626,7 +626,7 @@ exports.getSettingAll = async function (req, res, next) {
     });
     Promise.all([getSettingAll]).then((values) => {
         console.log('values', values)
-        res.json({ message: 'Setting sucessfully updated', data: values });
+        res.json({ message: 'Setting sucessfully updated', settings: values[0] });
     }).catch((error) => {
         res.status(500).json({ error: error });
     })
@@ -699,7 +699,7 @@ exports.getUniqueSetting = async function (req, res, next) {
     });
     Promise.all([getSettingAll]).then((values) => {
         console.log('values', values)
-        res.json({ message: 'Setting sucessfully updated', data: values });
+        res.json({ message: 'Setting sucessfully updated', settings: values[0] });
     }).catch((error) => {
         res.status(500).json({ error: error });
     })
