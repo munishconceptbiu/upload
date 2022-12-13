@@ -54,7 +54,11 @@ exports.getList = async function (req, res, next) {
         res.json({ data: data, message: 'Artical successful' })
     })
 }
-
+exports.getUpload = async function (req, res, next) {
+    articalService.getUpload().then((data) => {
+        res.json({ data: data, message: 'Upload list successful' })
+    })
+}
 
 const addSpokesPersonAndData = async (e, q_articles, upload) => {
     const spokesman = Object.entries(e).filter((e, v) => e[0].match(/spokesperson [0-9]/g) && e[1] !== 0)[0]?.map(e => ({
@@ -282,7 +286,7 @@ exports.saveArtical = async function (req, res, next) {
                             publish_date: moment(e['publish date']).format('YYYY-MM-DD'),
                             mav: typeof e['mav'] === 'number' ? e['mav'] : 0,
                             ccm: typeof e['ccm'] === 'number' ? e['ccm'] : 0,
-                            word_count: e['word count'],
+                            word_count: typeof e['word count'] === 'number' ? e['word count'] : 0,
                             press_release: e['press release'],
                             page_no: e['page no'],
                             circlation: e['circulation'],
