@@ -54,7 +54,11 @@ exports.getList = async function (req, res, next) {
         res.json({ data: data, message: 'Artical successful' })
     })
 }
-
+exports.getUpload = async function (req, res, next) {
+    articalService.getUpload().then((data) => {
+        res.json({ data: data, message: 'Upload list successful' })
+    })
+}
 
 const addSpokesPersonAndData = async (e, q_articles, upload) => {
     const spokesman = Object.entries(e).filter((e, v) => e[0].match(/spokesperson [0-9]/g) && e[1] !== 0)[0]?.map(e => ({
@@ -282,7 +286,7 @@ exports.saveArtical = async function (req, res, next) {
                             publish_date: moment(e['publish date']).format('YYYY-MM-DD'),
                             mav: typeof e['mav'] === 'number' ? e['mav'] : 0,
                             ccm: typeof e['ccm'] === 'number' ? e['ccm'] : 0,
-                            word_count: e['word count'],
+                            word_count: typeof e['word count'] === 'number' ? e['word count'] : 0,
                             press_release: e['press release'],
                             page_no: e['page no'],
                             circlation: e['circulation'],
@@ -589,11 +593,45 @@ exports.getQualitativeCheck = async function (req, res, next) {
 }
 
 exports.getSettingAll = async function (req, res, next) {
-    articalService.getSettingAll()
+
+    const getSettingAll = new Promise((resolve, reject) => {
+        articalService.getSettingAll()
         .then(data => {
-            res.json({ settings: data, message: "Client setting fetched successfully" });
+            let settings = []
+            data && data.length && data.forEach(async (setting, index) => {
+                const saveData = {
+                    'id': setting.id,
+                    'client_id': setting.client_id,
+                    'client_name' :  setting.client_name,
+                    'levels': await articalService.getSetting(setting.client_id)
+                }
+                settings.push(saveData);
+                if(data.length === index + 1){
+                    resolve(settings)
+                }
+            })
+           
+            // articalService.getSetting(data && data.length ? data[0].client_id : req.params.client_id)
+            //     .then(check => {
+            //         articalService.getUniqueVerticalSetting(data && data.length ? data[0].client_id : req.params.client_id)
+            //             .then(vertical => {
+            //                 res.json({ settings: data, levels: check, isVertical: vertical ? vertical?.isVertical : false, verticals: vertical ? JSON.parse(vertical?.verticals) : [], isIndex: vertical ? vertical?.isIndex : false, isReach: vertical ? vertical?.isReach : false, isOnline: vertical ? vertical?.isOnline : false, isPrint: vertical ? vertical?.isPrint : false, isPrintOnline: vertical ? vertical?.isPrintOnline : false, message: "Client setting fetched successfully" });
+            //             })
+            //             .catch(next);
+            //     })
+            //     .catch(next);
         })
         .catch(next);
+       
+    });
+    Promise.all([getSettingAll]).then((values) => {
+        console.log('values', values)
+        res.json({ message: 'Setting sucessfully updated', settings: values[0] });
+    }).catch((error) => {
+        res.status(500).json({ error: error });
+    })
+   
+
 }
 
 exports.updateSetting = async function (req, res, next) {
@@ -629,21 +667,57 @@ exports.getSettingClientList = async function (req, res, next) {
 }
 
 exports.getUniqueSetting = async function (req, res, next) {
-
-    articalService.getUniqueSetting(req.params.client_id)
+    const getSettingAll = new Promise((resolve, reject) => {
+        articalService.getUniqueSetting(req.params.client_id)
         .then(data => {
-    articalService.getSetting(data && data.length ? data[0].client_id : req.params.client_id)
-        .then(check => {
-            articalService.getUniqueVerticalSetting(data && data.length ? data[0].client_id : req.params.client_id)
-                .then(vertical => {
-                    res.json({ settings: data, levels: check,  isVertical: vertical ? vertical?.isVertical : false, verticals: vertical ? JSON.parse(vertical?.verticals) : [], isIndex: vertical ? vertical?.isIndex : false, isReach: vertical ? vertical?.isReach : false, isOnline: vertical ? vertical?.isOnline : false, isPrint: vertical ? vertical?.isPrint : false, isPrintOnline: vertical ? vertical?.isPrintOnline : false, message: "Client setting fetched successfully" });
-                })
-                .catch(next);
+            let settings = []
+            data && data.length && data.forEach(async (setting, index) => {
+                const saveData = {
+                    'id': setting.id,
+                    'client_id': setting.client_id,
+                    'client_name' :  setting.client_name,
+                    'levels': await articalService.getSetting(setting.client_id)
+                }
+                settings.push(saveData);
+                if(data.length === index + 1){
+                    resolve(settings)
+                }
+            })
+           
+            // articalService.getSetting(data && data.length ? data[0].client_id : req.params.client_id)
+            //     .then(check => {
+            //         articalService.getUniqueVerticalSetting(data && data.length ? data[0].client_id : req.params.client_id)
+            //             .then(vertical => {
+            //                 res.json({ settings: data, levels: check, isVertical: vertical ? vertical?.isVertical : false, verticals: vertical ? JSON.parse(vertical?.verticals) : [], isIndex: vertical ? vertical?.isIndex : false, isReach: vertical ? vertical?.isReach : false, isOnline: vertical ? vertical?.isOnline : false, isPrint: vertical ? vertical?.isPrint : false, isPrintOnline: vertical ? vertical?.isPrintOnline : false, message: "Client setting fetched successfully" });
+            //             })
+            //             .catch(next);
+            //     })
+            //     .catch(next);
         })
         .catch(next);
+       
+    });
+    Promise.all([getSettingAll]).then((values) => {
+        console.log('values', values)
+        res.json({ message: 'Setting sucessfully updated', settings: values[0] });
+    }).catch((error) => {
+        res.status(500).json({ error: error });
     })
-    .catch(next);
-    
+
+    // articalService.getUniqueSetting(req.params.client_id)
+    //     .then(data => {
+    //         articalService.getSetting(data && data.length ? data[0].client_id : req.params.client_id)
+    //             .then(check => {
+    //                 articalService.getUniqueVerticalSetting(data && data.length ? data[0].client_id : req.params.client_id)
+    //                     .then(vertical => {
+    //                         res.json({ settings: data, levels: check, isVertical: vertical ? vertical?.isVertical : false, verticals: vertical ? JSON.parse(vertical?.verticals) : [], isIndex: vertical ? vertical?.isIndex : false, isReach: vertical ? vertical?.isReach : false, isOnline: vertical ? vertical?.isOnline : false, isPrint: vertical ? vertical?.isPrint : false, isPrintOnline: vertical ? vertical?.isPrintOnline : false, message: "Client setting fetched successfully" });
+    //                     })
+    //                     .catch(next);
+    //             })
+    //             .catch(next);
+    //     })
+    //     .catch(next);
+
 }
 
 exports.deleteUpload = async function (req, res, next) {

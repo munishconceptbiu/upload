@@ -16,8 +16,9 @@ const ViewUpload = () => {
     const [client_id, setClientId] = useState()
 
     const getUploadList = (cid) => {
-      const id = cid || client_id || ""
-      get("artical/viewlist/"+ state?.auth?.auth?.id +"/?client_id="+ id).then((response) => {
+      const id = cid || ""
+      const url = state?.auth?.auth?.role === 'admin' && cid === undefined ?  'artical/get-upload' : "artical/viewlist/"+ state?.auth?.auth?.id +"/?client_id="+ id
+      get(url).then((response) => {
         console.log('response', response)
         setUploadList(response.data.data)
           })
@@ -31,7 +32,7 @@ const ViewUpload = () => {
     new Promise((resolve) => {
       inputValue = inputValue || 'a'
 
-      get("artical/getclientlist/" + inputValue).then((response) => {
+      get("artical/get-setting-clientlist/" + inputValue).then((response) => {
         resolve(response.data.client.map((e) => ({
           value: e.id,
           label: e.client_name

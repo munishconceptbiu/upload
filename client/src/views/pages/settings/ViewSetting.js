@@ -17,8 +17,9 @@ const ViewSetting = () => {
   const [settingList, setSettingList] = useState([]);
   const [setting, setSetting] = useState({})
   const getSettingList = (id) => {
-    const cid = id || client_id ||  state.auth.auth.id
-    get("artical/get-unique-setting/" + cid).then((response) => {
+    const cid = id ||  state.auth.auth.id;
+    const url = state?.auth?.auth?.role === 'admin' && id === undefined ? "artical/get-setting" : "artical/get-unique-setting/" + cid
+    get(url).then((response) => {
       setSettingList(response.data.settings)
       setSetting(response.data)
     })
@@ -178,7 +179,7 @@ const ViewSetting = () => {
                 <td>{index + 1}</td>
                 <td>{list.client_name}</td>
                 <td>
-                {setting.levels?.map((level, indexs) => (
+                {list.levels?.map((level, indexs) => (
                    <Button key={indexs} className="levelbutton" variant="light">{level.graph_type}</Button>
                 ))}
                 </td>
