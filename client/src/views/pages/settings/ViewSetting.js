@@ -196,7 +196,7 @@ const ViewSetting = () => {
                 {/* <td>{setting.isOnline === true ? 'Yes' : 'No'}</td>
                 <td>{setting.isPrint === true ? 'Yes' : 'No'}</td>
                 <td>{setting.isPrintOnline === true ? 'Yes' : 'No'}</td> */}
-                <td className='action-btns'><a  href="javascript:void(0)"onClick={e => editSetting(list.client_id)}><EditIcon /></a> <a href="javascript:void(0)" onClick={e => deleteSetting(list.id)} className='deleicon'><CloseIcon /></a></td>
+                <td className='action-btns'><a  href="javascript:void(0)"onClick={e => editSetting(list.client_id)}><EditIcon /></a> <a href="javascript:void(0)" onClick={e => deleteSetting(list.id)} className='deleicon'><DeleteIcon /></a></td>
               </tr>
             ))}
             {settingList.length === 0 &&
