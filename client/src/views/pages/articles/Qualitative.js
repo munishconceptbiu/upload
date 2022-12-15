@@ -12,7 +12,6 @@ const Qualitative = () => {
                     <AnalysisDetails/>
                 </div>
                 <div className='col-6 '>
-                    
                     <Tabs/>
                 </div>
             </div>
