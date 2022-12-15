@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react'
 import AsyncSelect from 'react-select/async';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { EditIcon, DeleteIcon } from "../../../Icons/icons.component";
+import { EditIcon, DeleteIcon, CloseIcon } from "../../../Icons/icons.component";
 import { get, put, deleteMethod } from "../../../services/CommanService";
 import toast from 'react-hot-toast';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { store } from '../../../store/store';
+import { DynamicModal } from './DynamicModal';
+import AddSetting from './AddSetting';
+import EditSetting from './EditSetting';
 
 const ViewSetting = () => {
   let navigate = useNavigate();
@@ -14,8 +17,9 @@ const ViewSetting = () => {
   const [settingList, setSettingList] = useState([]);
   const [setting, setSetting] = useState({})
   const getSettingList = (id) => {
-    const cid = id || client_id ||  state.auth.auth.id
-    get("artical/get-unique-setting/" + cid).then((response) => {
+    const cid = id ||  state.auth.auth.id;
+    const url = state?.auth?.auth?.role === 'admin' && id === undefined ? "artical/get-setting" : "artical/get-unique-setting/" + cid
+    get(url).then((response) => {
       setSettingList(response.data.settings)
       setSetting(response.data)
     })
@@ -26,6 +30,9 @@ const ViewSetting = () => {
   }
 
   const [show, setShow] = useState(false);
+  const [showAddSettings, setShowAddSettings] = useState(false);
+  const [showEditSettings, setShowEditSettings] = useState(false);
+  const [editSettingsProps, setEditSettingsProps] = useState({clientId: null});
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -98,44 +105,51 @@ const ViewSetting = () => {
     setClientId(e.value)
     getSettingList(e.value);
   }
-
+  const addSettingComp = {
+    title : "Add New Settings",
+    component: AddSetting,
+  }
+  const editSettingComp = {
+    title : "Edit Settings",
+    component: EditSetting,
+  }
   const addSetting = () => {
-    navigate("/add-setting");
-    // toast.promise(
-    //   getSettingList(1),
-    //    {
-    //      loading: 'Saving...',
-    //      success: <b>Settings saved!</b>,
-    //      error: <b>Could not save.</b>,
-    //    }
-    //  );
+    setShowAddSettings(true);
+  }
+  const closeAddSetting = () => {
+    setShowAddSettings(false);
+  }
+  const editSetting = (clientId) => {
+    console.log(clientId)
+    setEditSettingsProps({clientId});
+    setShowEditSettings(true);
+  }
+  const closeEditSetting = () => {
+    setShowEditSettings(false);
   }
   useEffect(() => {
     getSettingList();
   }, []);
 
-
   return (
     <>
-
-
-      {/* <Toaster /> */}
+      
       <div className="page-title">
         <h1 >
-          View Setting
+          Settings
         </h1>
       </div>
-      <div style={{ margin: "25px 20px 0 35px", marginTop: "80px" }}>
-        <div style={{ "padding": "4px 4px 32px" }}>      <button className="btn btn-success pull-right" style={{ float: "right" }} onClick={addSetting}>Add Setting</button>
-        </div>
+      {/* <Toaster /> */}
+      <div className="uqr-contents">
+      <button className="btn btn-success pull-right add-settings-btn" onClick={addSetting}>Add New Settings</button>
+      <div className='add-setting'>
 
-        <div className='client-section'>
+        <div className='client-select'>
           <label htmlFor="country" className="form-label">Select Client</label>
           <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => clientChange(e)} />
         </div>
 
       </div>
-      <div className="view-setting">
 
         <table className='table'>
           <thead>
@@ -153,7 +167,7 @@ const ViewSetting = () => {
               <th>Spokesperson Level</th>
               <th>Profiling Level</th>
               <th>Visibility Level</th> */}
-              <th>Levels</th>
+              <th>Categories</th>
               {/* <th>Print</th>
               <th>Print and Online</th> */}
               <th>Action</th>
@@ -165,7 +179,7 @@ const ViewSetting = () => {
                 <td>{index + 1}</td>
                 <td>{list.client_name}</td>
                 <td>
-                {setting.levels?.map((level, indexs) => (
+                {list.levels?.map((level, indexs) => (
                    <Button key={indexs} className="levelbutton" variant="light">{level.graph_type}</Button>
                 ))}
                 </td>
@@ -182,7 +196,7 @@ const ViewSetting = () => {
                 {/* <td>{setting.isOnline === true ? 'Yes' : 'No'}</td>
                 <td>{setting.isPrint === true ? 'Yes' : 'No'}</td>
                 <td>{setting.isPrintOnline === true ? 'Yes' : 'No'}</td> */}
-                <td ><NavLink to={`/edit-setting/${list.client_id}`}><EditIcon /></NavLink> <a href="javascript:void(0)" onClick={e => deleteSetting(list.id)} className='deleicon'><DeleteIcon /></a></td>
+                <td className='action-btns'><a  href="javascript:void(0)"onClick={e => editSetting(list.client_id)}><EditIcon /></a> <a href="javascript:void(0)" onClick={e => deleteSetting(list.id)} className='deleicon'><DeleteIcon /></a></td>
               </tr>
             ))}
             {settingList.length === 0 &&
@@ -278,6 +292,8 @@ const ViewSetting = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      {showAddSettings && <DynamicModal show={showAddSettings} handleClose={closeAddSetting} comp={addSettingComp} />}
+      {showEditSettings && <DynamicModal show={showEditSettings} handleClose={closeEditSetting} comp={editSettingComp} compProps={editSettingsProps}/>}
     </>
 
   )

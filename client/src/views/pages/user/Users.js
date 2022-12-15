@@ -65,7 +65,7 @@ const Users = () => {
       {/* <Toaster /> */}
       <div className="page-title">
         <h1 >
-          View Users
+          Users
         </h1>
       </div>
       <div style={{ margin: "25px 20px 0 35px", marginTop: "80px" }}>
@@ -98,7 +98,7 @@ const Users = () => {
                 <td>{list.username}</td>
                <td>{list.email}</td>
                <td>{list.phone}</td>
-                <td ><NavLink to={`/edit-user/${list.id}`}><EditIcon /></NavLink> <a href="javascript:void(0)" onClick={e => deleteUser(list.id)} className='deleicon'><DeleteIcon /></a></td>
+                <td className='action-btns'><NavLink to={`/edit-user/${list.id}`}><EditIcon /></NavLink> <a href="javascript:void(0)" onClick={e => deleteUser(list.id)} className='deleicon'><DeleteIcon /></a></td>
               </tr>
             ))}
             {userList.length === 0 &&

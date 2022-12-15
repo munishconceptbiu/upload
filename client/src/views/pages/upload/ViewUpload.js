@@ -16,8 +16,9 @@ const ViewUpload = () => {
     const [client_id, setClientId] = useState()
 
     const getUploadList = (cid) => {
-      const id = cid || client_id || ""
-      get("artical/viewlist/"+ state?.auth?.auth?.id +"/?client_id="+ id).then((response) => {
+      const id = cid || ""
+      const url = state?.auth?.auth?.role === 'admin' && cid === undefined ?  'artical/get-upload' : "artical/viewlist/"+ state?.auth?.auth?.id +"/?client_id="+ id
+      get(url).then((response) => {
         console.log('response', response)
         setUploadList(response.data.data)
           })
@@ -31,7 +32,7 @@ const ViewUpload = () => {
     new Promise((resolve) => {
       inputValue = inputValue || 'a'
 
-      get("artical/getclientlist/" + inputValue).then((response) => {
+      get("artical/get-setting-clientlist/" + inputValue).then((response) => {
         resolve(response.data.client.map((e) => ({
           value: e.id,
           label: e.client_name
@@ -92,24 +93,21 @@ const ViewUpload = () => {
         getUploadList();
       }, []);
     return (
-        <>
-        <div className="page-title">
-            <h1 >
-              View Upload
-            </h1>
-            </div>
-            <div style={{ margin: "25px 20px 0 35px", marginTop: "80px" }}>
+      <div className="uqr-contents">
+        <div className="component-title">
+            <h5>
+              Previous Uploads
+            </h5>
+          </div>
+      <div className="container-fluid">
         {/* <div style={{ "padding": "4px 4px 32px" }}>      <button className="btn btn-success pull-right" style={{ float: "right" }} onClick={addSetting}>Add Setting</button>
         </div> */}
 
-        <div className='client-section'>
+        <div className='client-select client-section'>
           <label htmlFor="country" className="form-label">Select Client</label>
           <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => clientChange(e)} />
         </div>
-
-      </div>
-    <div className="">
-      <div className="view-setting">
+      {uploadList.length > 0 && <div className="view-setting">
         
         <table className='table'>
       <thead>
@@ -135,23 +133,23 @@ const ViewUpload = () => {
           <td>{list.client_name}</td>
           <td>{moment(list.start_date).format('ll')}</td>
           <td>{moment(list.end_date).format('ll')}</td>
-          <td><a href={list.file} target="_blank">{list.filename}</a></td>
+          <td><a href={list.file} target="_blank">Download File</a></td>
           <td>{list.username}</td>
           <td>{moment(list.createdAt).format('lll')}</td>
           <td>{list.total_article}</td>
           <td>{list.nm_total_article === 0 && <span> - </span> } 
           {list.nm_total_article > 0 && <span onClick={e => getNMArticleList(list.id)} title='view' style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline'}}>{list.nm_total_article}</span> } </td>
-          <td > {state.auth.auth.role === 'admin' && <a href="javascript:void(0)" onClick={e => deleteUpload(list.id)} className='deleicon'><DeleteIcon /></a> }  {state.auth.auth.role !== 'admin' && <span>-</span>} </td>
+          <td className='action-btns'> {state.auth.auth.role === 'admin' && <a href="javascript:void(0)" onClick={e => deleteUpload(list.id)} className='deleicon'><DeleteIcon /></a> }  {state.auth.auth.role !== 'admin' && <span>-</span>} </td>
         </tr>
        ))}
       </tbody>
     </table>
-      </div>
+    </div>}
+    {!uploadList.length && <div className='empty-message'>No data for selected client</div>}
     </div>
 
     
     <Modal size="lg" show={show} onHide={handleClose}>
-          <>
             <Modal.Header closeButton>
               <Modal.Title>Mismatcing Articles</Modal.Title>
             </Modal.Header>
@@ -191,15 +189,15 @@ const ViewUpload = () => {
               </div>
 
             </Modal.Body>
-          </>
+          
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
          
         </Modal.Footer>
-      </Modal>
-  </>
+    </Modal>
+    </div>
 
     )
 }

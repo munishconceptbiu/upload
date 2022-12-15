@@ -8,6 +8,7 @@ function Articlelist(){
     return(
         <>
         <div className="page-title">
+<<<<<<< HEAD
                 <h1 >
                     Article List
                 </h1>
@@ -17,6 +18,17 @@ function Articlelist(){
                 <div className='col-4 mt-10'><input type='text' placeholder='Select Client'/></div>
                 <div className='col-4 mt-10'><input type='text' placeholder='Select Entity'/></div>
                 <div className='col-4 d-flex'><span className='d-flex aldatepicker'><input type='text' placeholder='Date Range'/><CalendarIcon/> </span> <button className='btn btn-primary btn-medium'>Search</button></div>
+=======
+        <h1 >
+          Article List
+        </h1>
+      </div>
+            <div className='uqr-contents'>
+            <div className='row article-list-form'>
+                <div className='col-4 mt-10'><input type='text' placeholder='Select Client'/></div>
+                <div className='col-4 mt-10'><input type='text' placeholder='Select Client'/></div>
+                <div className='col-4 d-flex mt-10'><input type='text' placeholder='Select Client'/> <button className='btn btn-primary btn-medium'>Search</button></div>
+>>>>>>> 3ccd09ded76f7ebefc765287bbc25b820c1b834e
                 
             </div>
             <div className='row article-list'>

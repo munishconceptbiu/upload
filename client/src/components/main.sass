@@ -1,0 +1,300 @@
+@import '../_variables.sass'
+
+.appContainer 
+	display: block 
+	margin-left: 5.3rem 
+.mt-0 
+	margin-top: 0 
+.mt-5 
+	margin-top: 5px !important 
+.mt-10 
+	margin-top: 10px !important 
+.uqr-contents
+	padding: 11px
+	background: white 
+	margin: 22px 11px
+	box-shadow: 0 4px 30px -8px rgb(125 112 188 / 30%) 
+	border-left: 1px solid rgba(106,75,255,.1) 
+	position: relative 
+	.component-title
+		width: fit-content
+		color: $blue
+		h5
+			margin: 0
+			padding: 0
+			margin-left: 5px
+			padding: 9px
+	.empty-message
+		width: fit-content
+		margin: 11px auto
+		font-weight: 600
+	.client-select
+		padding: 20px
+	.article-list-form
+		input
+			margin: 1rem
+			width: 333px
+			height: 33px
+		button
+			height:33px
+			align-self: center
+.add-settings-btn
+	float: right
+.add-setting 
+	display: block
+
+.settings-display
+	display: grid
+	grid-template-columns: repeat(2, auto)
+	grid-template-rows: repeat(3, auto)
+	.card
+		margin: 7px
+		min-height: 177px
+		border-radius: 11px
+		.card-body
+			h5
+				font-size: medium
+			.card-title
+				margin-top: 3px
+				color: $blue
+			.editdelete-btns
+				width: fit-content
+				display: inline-block
+				float: right
+
+.action-btns
+	a
+		width: 14px
+		height: 14px
+		border: 1px solid $gray
+		padding: 4px
+		margin: 2px
+		color: $black
+		border-radius: 4px
+
+.view-setting 
+	margin: 22px 
+	padding: 0 44px 
+	background-color: #fff 
+	table 
+		th 
+			color: $blue
+			font-weight: 400 
+			border: none 
+			padding: 16px 
+			font-size: 14px 
+			vertical-align: middle 
+		td 
+			padding: 14px 
+			a
+				color: $gray
+			a:hover
+				color: $blue
+.graph-options 
+	background-color: rgb(234, 234, 234) 
+	margin: 10px 
+	padding: 15px 
+.img-note 
+	font-size: 14px 
+	color: #938fa9 
+.css-1s2u09g-control 
+	height: 36px 
+	border: 1px solid rgba(106,75,255,.2) 
+	border-color: rgba(106,75,255,.2) !important 
+	background-color: #fff 
+	color: #0036b9 !important 
+	font-size: 12px 
+	font-family: 'Manrope', sans-serif 
+	input 
+		color: #0036b9 !important 
+.heading 
+	color: #0036b9 
+	span 
+		color: #dc0000 
+.form-select 
+	height: 36px 
+	box-shadow: 0 4px 24px -8px rgb(125 112 188 / 20%) 
+	border: 1px solid rgba(106,75,255,.2) 
+	background-color: #fff 
+	color: #0036b9 
+	font-size: 12px 
+	font-family: 'Manrope', sans-serif 
+	&:focus 
+		height: 36px 
+		box-shadow: 0 4px 24px -8px rgb(125 112 188 / 20%) 
+		border: 1px solid rgba(106,75,255,.2) 
+		background-color: #fff 
+		color: #0036b9 
+.form-control 
+	height: 36px 
+	box-shadow: 0 4px 24px -8px rgb(125 112 188 / 20%) 
+	border: 1px solid rgba(106,75,255,.2) 
+	background-color: #fff 
+	color: #0036b9 
+	&:focus 
+		height: 36px 
+		box-shadow: 0 4px 24px -8px rgb(125 112 188 / 20%) 
+		border: 1px solid rgba(106,75,255,.2) 
+		background-color: #fff 
+		color: #0036b9 
+form 
+	&.needs-validation 
+		padding: 20px 
+		label 
+			font-size: 14px 
+			font-weight: 600 
+			font-family: 'Manrope', sans-serif 
+.css-319lph-ValueContainer 
+	height: 36px 
+	box-shadow: 0 4px 24px -8px rgb(125 112 188 / 20%) 
+	background-color: #fff 
+	color: #0036b9 
+.leftNavigationMenu 
+	li 
+		a 
+			.menuIcon 
+				width: 20px 
+				border-radius: 50% 
+				-ms-flex-pack: center 
+				justify-content: center 
+				-ms-flex: 0 0 40px 
+				flex: 0 0 40px 
+.nav-pills 
+	.nav-link 
+		text-align: left 
+		background-color: transparent 
+		display: flex 
+.menuTitle 
+	display: none 
+.leftNavigationWrap 
+	&:hover 
+		width: 250px !important 
+		span 
+			&.menuTitle 
+				display: block 
+				color: #393939 
+				margin: 8px 
+				font-weight: normal 
+		.nav-link 
+			&.active 
+				color: #fff 
+				background-color: #0036b9 
+				padding: 0 
+				width: 100% 
+		li 
+			&:hover 
+				span 
+					&.menuIcon 
+						background-color: #0036b9 !important 
+						width: 40px 
+						height: 40px 
+						fill: #fff 
+						text-align: center 
+						border-radius: 50% 
+				a 
+					svg 
+						fill: #fff 
+						&.eyeIcon 
+							g 
+								g 
+									stroke: #fff 
+		sapn 
+			&.menu-Icon 
+				width: 40px 
+				height: 40px 
+				text-align: center 
+				border-radius: 50% 
+	li 
+		margin: 5px 0 
+		&:hover 
+			.menuIcon 
+				background-color: #0036b9 
+				width: 40px 
+				height: 40px 
+				border-radius: 50% 
+				display: flex 
+				justify-content: center 
+				align-items: center 
+	a 
+		&.active 
+			span 
+				&.menuTitle 
+					color: #fff 
+				&.menuIcon 
+					background-color: #0036b9 !important 
+					width: 40px 
+					height: 40px 
+					fill: #fff 
+					display: flex 
+					justify-content: center 
+					align-items: center 
+					border-radius: 50% 
+	span 
+		&.menuIcon 
+			background-color: #fff !important 
+			width: 40px 
+			height: 40px 
+			fill: #0036b9 
+			text-align: center 
+			display: flex 
+			justify-content: center 
+			align-items: center 
+			border-radius: 50% 
+.filter 
+	background-color: #fff 
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link 
+	background-color: transparent 
+.btn-primary 
+	background-color: #0036b9 
+.nav-flush 
+	.nav-link 
+		padding: 0 
+.table 
+	& > :not(:first-child) 
+		border-top: 1px solid #d7d7d7 
+.page-title 
+	background-color: #fff 
+	padding: 15px 40px 8px 
+	// position: fixed 
+	display: block
+	z-index: 9 
+	top: 0 
+	width: 100% 
+	h1 
+		font-size: 24px 
+svg 
+	&.DeleteIcon 
+		fill: #dc0000 
+a 
+	&.DeleteIcon 
+		color: #dc0000 
+.main-logo 
+	padding: 13px 
+	img 
+		width: 57px 
+.menuIcon 
+	margin-left: 22px 
+ul 
+	&.nav-pills 
+		li 
+			a 
+				svg 
+					fill: #0036b9 
+					&.eyeIcon 
+						g 
+							g 
+								stroke: #0036b9 
+				&.active 
+					svg 
+						fill: #ffffff 
+						&.eyeIcon 
+							g 
+								g 
+									stroke: #ffffff 
+.levelbutton 
+	margin-bottom: 12px!important 
+	margin-right: 8px!important 
+	border-radius: 11px
+	font-size: small
+	box-shadow: 0px 5px 6px 2px rgba(166,166,166,0.88)
+	

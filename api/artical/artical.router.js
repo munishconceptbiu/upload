@@ -23,6 +23,7 @@ router.get('/get-unique-setting/:client_id',  articalController.getUniqueSetting
 router.get('/check-qualitative/:client_id',  articalController.getQualitativeCheck);
 router.get('/viewlist/:client_id',  articalController.getList);
 router.get('/view-not-matching-upload-list/:id',  articalController.getNMArticleList);
+router.get('/get-upload',  articalController.getUpload);
 
 router.get('/get-setting',  articalController.getSettingAll);
 

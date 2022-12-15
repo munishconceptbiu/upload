@@ -10,6 +10,8 @@ import axios from 'axios';
 import { get, post } from "../../../services/CommanService";
 import { store } from '../../../store/store';
 import toast from 'react-hot-toast';
+import { UploadingDocumentAction } from '../../../store/actions/UploadingDocumentAction';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 
@@ -63,6 +65,11 @@ const Upload = () => {
   const [dateRange, setDateRange] = useState([null, null]);
   const [startDate, endDate] = dateRange;
 
+  const uploadingDocument = useSelector((state) => state.upload.uploadingDocument);
+  const dispatch = useDispatch();
+
+  useEffect(()=>console.log(uploadingDocument), [uploadingDocument]);
+
   //creating function to load ip address from the API
   const getData = async () => {
     const res = await axios.get('https://geolocation-db.com/json/')
@@ -70,22 +77,27 @@ const Upload = () => {
     setIP(res.data.IPv4)
   }
   const upload = async () => {
+    dispatch(UploadingDocumentAction(true));
     const client = selectRef.getValue()[0]
     if (client === "" || client === undefined || client === null) {
       toast.error("Client id can't be empty");
+    dispatch(UploadingDocumentAction(false));
       return false;
     }
     if (startDate === "" || startDate === null) {
       toast.error("Start Date can't be empty");
+    dispatch(UploadingDocumentAction(false));
       return false;
     }
     if (endDate === "" || endDate === null) {
       toast.error("End Date can't be empty");
+    dispatch(UploadingDocumentAction(false));
       return false;
     }
 
     if (file === "" || file === undefined) {
       toast.error("File can't be empty");
+    dispatch(UploadingDocumentAction(false));
       return false;
     }
 
@@ -103,20 +115,22 @@ const Upload = () => {
    
 
     const uploadPromise = new Promise((resolve, reject) => {
-
       post(`http://qa.conceptbiu.com/unifiedapi/artical`, formData).then((response) => {
         setFile('')
-        selectRef.clearValue();
+        selectRef && selectRef.clearValue();
         setClientName();
-        setClientId()
+        setClientId();
+        console.log(response);
         resolve(response.data.message);
+        dispatch(UploadingDocumentAction(false));
       }).catch((err) => {
-        console.log('err', err.response.data.error)
+        console.log('err', err);
         setFile('')
-        selectRef.clearValue();
+        selectRef && selectRef.clearValue();
         setClientName();
         setClientId()
         reject(err.response.data.error)
+        dispatch(UploadingDocumentAction(false));
       })
     });
     toast.promise(
@@ -158,14 +172,13 @@ const Upload = () => {
   }, []);
   return (
     <>
-
-      <AppHeader />
       <div className="uqr-contents">
-
+        <div className='component-title'>
+          <h5>Upload Qualitative Report</h5>
+        </div>
         <div className="container-fluid">
           <form className="needs-validation" noValidate>
             <div className="row g-3">
-
               <div className="col-6">
                 <div className='client-section'>
                   <label htmlFor="country" className="form-label">Client</label>
@@ -205,7 +218,7 @@ const Upload = () => {
             {/* {isLoading && <h5 className="loading">uploading</h5>}
             <p ref={statusRef}></p> */}
 
-            <button className="btn btn-primary btn-medium" type="button" onClick={e => upload()}>Upload</button>
+            <button disabled={uploadingDocument} className="btn btn-primary btn-medium" type="button" onClick={e => upload()}>Upload</button>
           </form>
         </div>
       </div>

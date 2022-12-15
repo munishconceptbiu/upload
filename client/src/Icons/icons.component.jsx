@@ -1620,11 +1620,14 @@ export const EyeIcon = () => {
     >
       <g
         fill="none"
+      >
+      {/* <g
+        fill="none"
         fillRule="evenodd"
         stroke-linecap="round"
         stroke-linejoin="round"
-      >
-        <g stroke="#938FA9" stroke-width="2">
+      > */}
+        <g stroke-width="2">
           <g transform="translate(-938 -438) translate(445 164) translate(24 224) translate(0 36) translate(470 15)">
             <path d="M0 5.5S2.91 0 8 0s8 5.5 8 5.5S13.09 11 8 11 0 5.5 0 5.5z" />
             <ellipse cx="8" cy="5.5" rx="2.182" ry="2.063" />

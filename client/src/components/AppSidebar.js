@@ -1,11 +1,16 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+<<<<<<< HEAD
 import { DashboardIcon, AnalysisIcon, NotificationsMenuIcon, ArticleIcon, SocialIcon, LoginIcon,UserssIcon, UsersIcon, ProfileIcon } from "../Icons/icons.component";
+=======
+import { DashboardIcon, AnalysisIcon, NotificationsMenuIcon, ArticleIcon, SocialIcon, LoginIcon, UsersIcon, ProfileIcon, EyeIcon } from "../Icons/icons.component";
+>>>>>>> 3ccd09ded76f7ebefc765287bbc25b820c1b834e
 import { NavLink, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { logout } from '../store/actions/AuthActions';
 import { store } from '../store/store';
-import './sidebars.css'
+
+import './sidebars.sass'
 const AppSidebar = (props) => {
   const state = store.getState();
 
@@ -26,22 +31,28 @@ const AppSidebar = (props) => {
       <img src='https://www.conceptbiu.com/images/logo.svg'></img>
     </a>
     <ul className="nav nav-pills nav-flush flex-column mb-auto text-center">
-      <li className="nav-item">
-        <NavLink to="/dashboard" className="nav-link " aria-current="page" title="Home" data-bs-toggle="tooltip" data-bs-placement="right">
+      {/*<li className="nav-item">
+         <NavLink to="/dashboard" className="nav-link " aria-current="page" title="Home" data-bs-toggle="tooltip" data-bs-placement="right">
           <span className='menuIcon'><DashboardIcon /></span>
-          <span className='menuTitle'>Upload</span>
+          <span className='menuTitle'>Dashboard</span>
         </NavLink>
       </li>
        <li>
         <NavLink to="/view-upload" className="nav-link" title="View Upload" data-bs-toggle="tooltip" data-bs-placement="right">
-        <span className='menuIcon'><AnalysisIcon /></span>
-        <span className='menuTitle'>View Upload</span>
+        <span className='menuIcon'><EyeIcon /></span>
+        <span className='menuTitle'>Uploads</span>
+        </NavLink>
+      </li> */}
+       <li>
+        <NavLink to="/uploads" className="nav-link" title="Uploads" data-bs-toggle="tooltip" data-bs-placement="right">
+        <span className='menuIcon'><EyeIcon /></span>
+        <span className='menuTitle'>Uploads</span>
         </NavLink>
       </li>
       <li>
       <NavLink to="/view-setting" className="nav-link" title="Setting" data-bs-toggle="tooltip" data-bs-placement="right">
          <span className='menuIcon'><NotificationsMenuIcon /></span>
-         <span className='menuTitle'>Setting</span>
+         <span className='menuTitle'>Settings</span>
         </NavLink>
       </li>
       {state?.auth?.auth?.role === 'admin' && 
@@ -64,12 +75,12 @@ const AppSidebar = (props) => {
          <span className='menuTitle'>Profile</span>
         </NavLink>
       </li>
-      <li>
+      {/* <li>
       <NavLink to="/Articlelist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
          <span className='menuIcon'><ArticleIcon /></span>
          <span className='menuTitle'>Article List</span>
         </NavLink>
-      </li>
+      </li> */}
        
      <li>
       
