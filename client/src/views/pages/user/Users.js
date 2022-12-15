@@ -69,7 +69,7 @@ const Users = () => {
         </h1>
       </div>
       <div style={{ margin: "25px 20px 0 35px", marginTop: "80px" }}>
-        <div style={{ "padding": "4px 4px 32px" }}>      <button className="btn btn-success pull-right" style={{ float: "right" }} onClick={addUser}>Add User</button>
+        <div style={{ "padding": "4px 4px 32px" }}>      <button className="btn btn-primary pull-right" style={{ float: "right" }} onClick={addUser}>Add User</button>
         </div>
 
         {/* <div className='client-section'>

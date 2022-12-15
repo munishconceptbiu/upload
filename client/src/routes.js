@@ -1,4 +1,5 @@
 import React from 'react'
+import QualitativeReport from './views/pages/articles/Qualitative'
 const Dashboard = React.lazy(() => import('./views/pages/upload/Upload'))
 const ViewUpload = React.lazy(() => import('./views/pages/upload/ViewUpload'))
 const Uploads = React.lazy(() => import('./views/pages/upload/Uploads'))
@@ -16,6 +17,10 @@ const Profile = React.lazy(() => import('./views/pages/profile/Profile'))
 
 const Articlelist = React.lazy(() => import('./views/pages/articles/Articlelist'))
 
+const Qualitative = React.lazy(() => import('./views/pages/articles/Qualitative'))
+const Journalist = React.lazy(() => import('./views/pages/articles/Journalist'))
+
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   // { path: '/dashboard', name: 'Dashboard', element: Dashboard },
@@ -29,7 +34,11 @@ const routes = [
   { path: '/add-user', name: 'Add User', element: AddUser },
   { path: '/edit-user/:user_id', name: 'Edit User', element: EditUser },
   { path: '/profile', name: 'Profile', element: Profile },
-  { path: '/Articlelist', name: 'Articlelist', element: Articlelist }
+  { path: '/Articlelist', name: 'Articlelist', element: Articlelist },
+  { path: '/Qualitative', name: 'Qualitative', element: Qualitative },
+  { path: '/Journalist', name: 'Journalist', element: Journalist }
+
+
 ]
 
 export default routes
