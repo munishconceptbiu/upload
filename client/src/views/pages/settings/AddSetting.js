@@ -3,7 +3,7 @@ import AsyncSelect from 'react-select/async';
 import swal from 'sweetalert';
 import AppHeader from '../../../components/AppHeader'
 import Button from 'react-bootstrap/Button';
-import { EditIcon } from '../../../Icons/icons.component';
+import { DeleteIcon,EditIcon } from '../../../Icons/icons.component';
 import { CloseIcon } from '../../../Icons/icons.component';
 import { ProgressBar } from "react-bootstrap"
 import DatePicker from "react-datepicker";
@@ -460,7 +460,6 @@ const AddSetting = () => {
                                                 </div>
                                                 <h5 className="">Order : {index + 1}</h5>
                                                 <h5 className="card-title">{e.graph_type}</h5>
-<<<<<<< HEAD
                                                {/* <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
                                                {e.entity_level === true && 
                                                 // <p className="card-text">Entity Level :  Yes</p>
@@ -500,7 +499,6 @@ const AddSetting = () => {
                                                 }
                                                 <br></br>
                                                 
-=======
                                                 {/* <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
 
                                                 {e.entity_level === true && <p className="card-text">Entity Level </p>}
@@ -514,7 +512,6 @@ const AddSetting = () => {
                                                 {e.visibility_level === true && <p className="card-text">Visibility Level</p>}
                                                 <a href="javascript:void(0)" onClick={e => deleteLevel(index)} className="card-link"><DeleteIcon/></a>
                                                 <a href="javascript:void(0)" onClick={e => editLevel(index)} className="card-link"><EditIcon/></a>
->>>>>>> ee13881b7e782b4df8a711897e289c968d957f15
                                             </div>
                                         </div>
                                     ))}
