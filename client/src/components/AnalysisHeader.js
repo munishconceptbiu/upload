@@ -6,26 +6,35 @@ import { UsersIcon } from "../Icons/icons.component";
 import { CalendarIcon } from "../Icons/icons.component";
 import EntityDetails from "./ArticlesAnalysis/EntityDetails";
 
+import Options from "./Options";
+
+
+
+
 function AnalysisHeader(){
     return(
         <>
-        {/* <div className="row">
-            <div className="col-10"> <h3>10k villagers troop into city from last 
-local train stop
-</h3></div>
-            <div className="col-2 share-icons">
-                <span><ShareIcon/></span>
-                <span><DownloadIcon/></span>
+            <div className="ashead">
+                <h3>10k villagers troop into city from last<br/> local train stop</h3>
+                <div className="journalist-details">
+                    <div className="row">
+                    <div className="col-4">
+                       <JounalistIcon/> The Times of India
+                    </div>
+                    <div className="col-4">
+                    <UsersIcon/>Barkha Dutt
+                    </div>
+                    <div className="col-4">
+                    <CalendarIcon/>16 November 2022
+                    </div>
+                    </div>
+                </div>
+                <div className="analysis-options">
+                    <Options/>
+                </div>
             </div>
-        </div> */}
-        <div className="row article-details">
-            <div className="col-4"><JounalistIcon/>The Times of India</div>
-            <div className="col-4"><UsersIcon/>Barkha Dutt</div>
-            <div className="col-4"><CalendarIcon/>16 November 2022</div>
-        </div>
-        <EntityDetails/>
+
         </>
     )
 }
-
 export default AnalysisHeader

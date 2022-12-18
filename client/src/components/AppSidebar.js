@@ -78,6 +78,12 @@ const AppSidebar = (props) => {
          <span className='menuTitle'>Logout</span>
         </NavLink>
       </li>
+      <li className="nav-item">
+        <NavLink to="/qualitative" className="nav-link " aria-current="page" title="Home" data-bs-toggle="tooltip" data-bs-placement="right">
+          <span className='menuIcon'><DashboardIcon /></span>
+          <span className='menuTitle'>qualitative</span>
+        </NavLink>
+      </li>
       {/* <li>
         <a href="#" className="nav-link py-3 " title="Customers" data-bs-toggle="tooltip" data-bs-placement="right">
           <svg className="bi" width="24" height="24" role="img" aria-label="Customers"><use xlinkHref="#people-circle"/></svg>

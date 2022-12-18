@@ -460,6 +460,7 @@ const AddSetting = () => {
                                                 </div>
                                                 <h5 className="">Order : {index + 1}</h5>
                                                 <h5 className="card-title">{e.graph_type}</h5>
+<<<<<<< HEAD
                                                {/* <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
                                                {e.entity_level === true && 
                                                 // <p className="card-text">Entity Level :  Yes</p>
@@ -499,6 +500,21 @@ const AddSetting = () => {
                                                 }
                                                 <br></br>
                                                 
+=======
+                                                {/* <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
+
+                                                {e.entity_level === true && <p className="card-text">Entity Level </p>}
+                                                {e.publication_level === true && <p className="card-text">Publication Level</p>}
+                                                {e.journalist_level === true && <p className="card-text">Journalist Level</p>}
+                                                {e.city_level === true && <p className="card-text">City Level</p>}
+                                                {e.keyword_level === true && <p className="card-text">Keyword Level</p>}
+                                                {e.topic_level === true && <p className="card-text">Topic Level :  Yes</p>}
+                                                {e.spokesperson_level === true && <p className="card-text">Spokesperson Level</p>}
+                                                {e.profiling_level === true && <p className="card-text">Profiling Level</p>}
+                                                {e.visibility_level === true && <p className="card-text">Visibility Level</p>}
+                                                <a href="javascript:void(0)" onClick={e => deleteLevel(index)} className="card-link"><DeleteIcon/></a>
+                                                <a href="javascript:void(0)" onClick={e => editLevel(index)} className="card-link"><EditIcon/></a>
+>>>>>>> ee13881b7e782b4df8a711897e289c968d957f15
                                             </div>
                                         </div>
                                     ))}
