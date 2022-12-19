@@ -522,13 +522,13 @@ const AddSetting = () => {
                                     </div>
                                 </div>
                             )}
-                            <div className="col-12 addverticle">
+                            <div className="col-12 ">
                                 {verticals?.map((e, index) => (
-                                    <div className="card " key={index} style={{ width: "18rem" }}>
+                                    <div className="card" key={index} style={{ width: "18rem" }}>
                                         <div className="card-body">
                                             <h5 className="card-title">{e}</h5>
 
-                                            <a href="javascript:void(0)" onClick={e => deleteVertical(index)} className="card-link"><CloseIcon/></a>
+                                            <a href="javascript:void(0)" onClick={e => deleteVertical(index)} className="card-link">Remove</a>
                                         </div>
                                     </div>
                                 ))}
