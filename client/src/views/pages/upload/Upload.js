@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import AsyncSelect from 'react-select/async';
 import AppHeader from '../../../components/AppHeader'
-
+import ProgressBar from 'react-bootstrap/ProgressBar';
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -217,7 +217,11 @@ const Upload = () => {
             <br></br>
             {/* {isLoading && <h5 className="loading">uploading</h5>}
             <p ref={statusRef}></p> */}
-
+            {uploadingDocument && <>
+              <ProgressBar animated now={100} /> 
+              <h6 className='upload-text'>Please wait, uploading in progress</h6>
+            </>}
+            <br></br>
             <button disabled={uploadingDocument} className="btn btn-primary btn-medium" type="button" onClick={e => upload()}>Upload</button>
           </form>
         </div>
