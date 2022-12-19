@@ -1,13 +1,15 @@
 import React from "react";
-import { StarIcon, Smiley, AngledownIcon, SmileyIcon } from "../../Icons/icons.component";
+import { Star } from "../Icons/icons.component";
+import { Smiley } from "../Icons/icons.component";
+import { AngleDown } from "../Icons/icons.component";
 
 function Options(){
     return(
         <>
             <div className="analysisoptions">
-                <span>Theme<AngledownIcon/></span>
-                <span><SmileyIcon/>Sentiment<AngledownIcon/></span>
-                <span><StarIcon/></span>
+                <span>Theme<AngleDown/></span>
+                <span><Smiley/>Sentiment<AngleDown/></span>
+                <span><Star/></span>
             </div>
         </>
     )
