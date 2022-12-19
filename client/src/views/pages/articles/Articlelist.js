@@ -5,11 +5,11 @@ function Articlelist(){
     return(
         <>
         <div className="page-title">
-        <h1 >
-          Article List
-        </h1>
-      </div>
-            <div className='uqr-contents'>
+          <h1 >
+            Article List
+          </h1>
+        </div>
+          <div className='uqr-contents'>
             <div className='row article-list-form'>
                 <div className='col-4 mt-10'><input type='text' placeholder='Select Client'/></div>
                 <div className='col-4 mt-10'><input type='text' placeholder='Select Client'/></div>
@@ -17,46 +17,46 @@ function Articlelist(){
                 
             </div>
             <div className='row article-list'>
-            <table class="table">
-    <thead>
-      <tr>
-        <th>No</th>
-        <th>Article</th>
-        <th>Headline</th>
-        <th>Publication</th>
-        <th>Edition</th>
-        <th>Journalist</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td>barkhadutt456</td>
-        <td>Shreyas treble spurs blue star </td>
-        <td>Deccan Herald</td>
-        <td>Banglore</td>
-        <td>Barkha Dutt</td>
-        <td><NavLink to="/Articlelist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><HandIcon /></span></NavLink></td>
-      </tr>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Article</th>
+                    <th>Headline</th>
+                    <th>Publication</th>
+                    <th>Edition</th>
+                    <th>Journalist</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>barkhadutt456</td>
+                    <td>Shreyas treble spurs blue star </td>
+                    <td>Deccan Herald</td>
+                    <td>Banglore</td>
+                    <td>Barkha Dutt</td>
+                    <td><NavLink to="/Articlelist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><HandIcon /></span></NavLink></td>
+                  </tr>
 
-      <tr>
-        <td>1</td>
-        <td>barkhadutt456</td>
-        <td>Shreyas treble spurs blue star </td>
-        <td>Deccan Herald</td>
-        <td>Banglore</td>
-        <td>Barkha Dutt</td>
-        <td><NavLink to="/Articlelist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><HandIcon /></span></NavLink></td>
+                  <tr>
+                    <td>1</td>
+                    <td>barkhadutt456</td>
+                    <td>Shreyas treble spurs blue star </td>
+                    <td>Deccan Herald</td>
+                    <td>Banglore</td>
+                    <td>Barkha Dutt</td>
+                    <td><NavLink to="/Articlelist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><HandIcon /></span></NavLink></td>
 
-      </tr>
+                  </tr>
 
-      
-      
-    </tbody>
-  </table>
+                  
+                  
+                </tbody>
+              </table>
             </div>
-            </div>
+          </div>
         </>
     )
 }

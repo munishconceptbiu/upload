@@ -13,7 +13,9 @@ const ViewUpload = () => {
   const state = store.getState();
   
     const [uploadList, setUploadList] = useState([]);
-    const [client_id, setClientId] = useState()
+    const [client_id, setClientId] = useState();
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [selectedUploadId, setSelectedUploadId] = useState(null);
 
     const getUploadList = (cid) => {
       const id = cid || ""
@@ -45,7 +47,7 @@ const ViewUpload = () => {
     setClientId(e.value)
     getUploadList(e.value);
   }
-    
+  
   const deleteUpload= (id) => {
       const uploadPromise = new Promise((resolve, reject) => {
 
@@ -70,6 +72,16 @@ const ViewUpload = () => {
 
         }
     );
+  }
+
+  const startDeleteUpload = (id) => {
+    setSelectedUploadId(id);
+    setShowDeleteModal(true);
+  }
+
+  const cancelDelete = () => {
+    setSelectedUploadId(null);
+    setShowDeleteModal(false);
   }
 
   const [show, setShow] = useState(false);
@@ -139,7 +151,7 @@ const ViewUpload = () => {
           <td>{list.total_article}</td>
           <td>{list.nm_total_article === 0 && <span> - </span> } 
           {list.nm_total_article > 0 && <span onClick={e => getNMArticleList(list.id)} title='view' style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline'}}>{list.nm_total_article}</span> } </td>
-          <td className='action-btns'> {state.auth.auth.role === 'admin' && <a href="javascript:void(0)" onClick={e => deleteUpload(list.id)} className='deleicon'><DeleteIcon /></a> }  {state.auth.auth.role !== 'admin' && <span>-</span>} </td>
+          <td className='action-btns'> {state.auth.auth.role === 'admin' && <a href="javascript:void(0)" onClick={e => startDeleteUpload(list.id)} className='deleicon'><DeleteIcon /></a> }  {state.auth.auth.role !== 'admin' && <span>-</span>} </td>
         </tr>
        ))}
       </tbody>
@@ -148,7 +160,27 @@ const ViewUpload = () => {
     {!uploadList.length && <div className='empty-message'>No data for selected client</div>}
     </div>
 
-    
+    <Modal size="med" show={showDeleteModal} onHide={()=>cancelDelete()}>
+      <Modal.Header closeButton>
+        <Modal.Title>Confirm Delete</Modal.Title>
+      </Modal.Header>
+              <Modal.Body>
+                <div className='container'>
+                  <h6>Are you sure you want to delete?</h6>
+                </div>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="danger" onClick={() => {
+                  deleteUpload(selectedUploadId);
+                  cancelDelete();
+                }}>
+                  Yes
+                </Button>
+                <Button variant="warning" onClick={() => cancelDelete()}>
+                  No
+                </Button>
+              </Modal.Footer>
+    </Modal>
     <Modal size="lg" show={show} onHide={handleClose}>
             <Modal.Header closeButton>
               <Modal.Title>Mismatcing Articles</Modal.Title>
