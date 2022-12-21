@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import AsyncSelect from 'react-select/async';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import moment from 'moment';
 import { store } from '../../../store/store';
 import { DeleteIcon } from "../../../Icons/icons.component";
+import WidgetPagination from '../../../components/WidgetPagination';
 
 import { get , deleteMethod } from "../../../services/CommanService";
 import toast from 'react-hot-toast';
+
 
 const ViewUpload = () => {
   const state = store.getState();
@@ -17,12 +19,44 @@ const ViewUpload = () => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [selectedUploadId, setSelectedUploadId] = useState(null);
 
+    const [perPage, setPerPage] = useState(10);
+    const [uploadListLength, setUploadListLength] = useState(0);
+    const [selectedPageIndex, setSelectedPageIndex] = useState(0);
+    const [uploadListPages, setUploadListPages] = useState([]);
+
+    const scrollRef = useRef();
+
+    useEffect(() => {
+      // console.log(selectedPageIndex);
+      scrollRef.current && scrollRef.current.scrollIntoView({behavior: "smooth"});
+      uploadListPages.length && setUploadList(uploadListPages[selectedPageIndex]);
+    }, [uploadListPages, selectedPageIndex]);
+
+    const formatAndSetUploadList = (list) => {
+      const sorted = list.sort((a, b) => a.createdAt > b.createdAt ? -1 : a.createdAt === b.createdAt ?  0 : 1);
+      setUploadListLength(sorted.length);
+      const pagesLength = Math.ceil(sorted.length / perPage);
+      const pagesArr = [];
+      for(let i = 0; i < pagesLength; i++) {
+        const currPage = [];
+        const currItemIdx = i * perPage;
+        list.filter((v,idx) => idx >= currItemIdx && idx < currItemIdx + perPage).forEach((elm, idx) => {
+          currPage.push(elm);
+        });
+        pagesArr.push(currPage);
+      }
+      setUploadListPages(pagesArr);
+      // console.log(pagesArr);
+      // setUploadList(pagesArr[selectedPageIndex]);
+    }
+
     const getUploadList = (cid) => {
       const id = cid || ""
       const url = state?.auth?.auth?.role === 'admin' && cid === undefined ?  'artical/get-upload' : "artical/viewlist/"+ state?.auth?.auth?.id +"/?client_id="+ id
       get(url).then((response) => {
         console.log('response', response)
-        setUploadList(response.data.data)
+        formatAndSetUploadList(response.data.data);
+        // setUploadList(upList);
           })
           .catch(() => {
             // handleLoginFailure({ status: UNAUTHORIZED });
@@ -105,7 +139,7 @@ const ViewUpload = () => {
         getUploadList();
       }, []);
     return (
-      <div className="uqr-contents">
+      <div className="uqr-contents" ref={scrollRef}>
         <div className="component-title">
             <h5>
               Previous Uploads
@@ -140,7 +174,7 @@ const ViewUpload = () => {
       <tbody>
         {uploadList?.map((list, index) => (
         <tr  key={index}>
-          <td>{index+1}</td>
+          <td>{index + 1 + (selectedPageIndex*perPage)}</td>
           {/* <td>{list.email}</td> */}
           <td>{list.client_name}</td>
           <td>{moment(list.start_date).format('ll')}</td>
@@ -156,6 +190,7 @@ const ViewUpload = () => {
        ))}
       </tbody>
     </table>
+    <WidgetPagination datasetLength={uploadListPages.length} selectedIndex={selectedPageIndex} onSelectPage={(i) => setSelectedPageIndex(--i)}/>
     </div>}
     {!uploadList.length && <div className='empty-message'>No data for selected client</div>}
     </div>
