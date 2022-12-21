@@ -29,9 +29,7 @@ function AnalysisHeader(){
                     </div>
                     </div>
                 </div>
-                <div className="analysis-options">
-                    <Options/>
-                </div>
+
             </div>
 
         </>

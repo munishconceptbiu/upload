@@ -19,6 +19,7 @@ function Articlelist(){
                 <div className='col-4 d-flex'><span className='d-flex aldatepicker'><input type='text' placeholder='Date Range'/><CalendarIcon/> </span> <button className='btn btn-primary btn-medium'>Search</button></div>
                 
             </div>
+      
             <div className='row article-list'>
             <table class="table">
     <thead>
@@ -96,3 +97,4 @@ function Articlelist(){
     )
 }
 export default Articlelist
+
