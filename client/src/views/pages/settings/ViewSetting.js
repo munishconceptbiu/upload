@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import AsyncSelect from 'react-select/async';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -10,17 +10,52 @@ import { store } from '../../../store/store';
 import { DynamicModal } from './DynamicModal';
 import AddSetting from './AddSetting';
 import EditSetting from './EditSetting';
+import WidgetPagination from '../../../components/WidgetPagination';
 
 const ViewSetting = () => {
   let navigate = useNavigate();
   const state = store.getState();
   const [settingList, setSettingList] = useState([]);
-  const [setting, setSetting] = useState({})
+  const [setting, setSetting] = useState({});
+
+  
+  const [perPage, setPerPage] = useState(10);
+  const [settingListLength, setSettingListLength] = useState(0);
+  const [selectedPageIndex, setSelectedPageIndex] = useState(0);
+  const [settingListPages, setSettingListPages] = useState([]);
+
+  const scrollRef = useRef();
+
+  useEffect(() => {
+    // console.log(selectedPageIndex);
+    scrollRef.current && scrollRef.current.scrollIntoView({behavior: "smooth"});
+    settingListPages.length && setSettingList(settingListPages[selectedPageIndex]);
+  }, [settingListPages, selectedPageIndex]);
+
+  const formatAndSetSettingList = (list) => {
+    const sorted = list.sort((a, b) => a.createdAt > b.createdAt ? -1 : a.createdAt === b.createdAt ?  0 : 1);
+    setSettingListLength(sorted.length);
+    const pagesLength = Math.ceil(sorted.length / perPage);
+    const pagesArr = [];
+    for(let i = 0; i < pagesLength; i++) {
+      const currPage = [];
+      const currItemIdx = i * perPage;
+      list.filter((v,idx) => idx >= currItemIdx && idx < currItemIdx + perPage).forEach((elm, idx) => {
+        currPage.push(elm);
+      });
+      pagesArr.push(currPage);
+    }
+    setSettingListPages(pagesArr);
+    // console.log(pagesArr);
+    // setUploadList(pagesArr[selectedPageIndex]);
+  }
+
   const getSettingList = (id) => {
     const cid = id ||  state.auth.auth.id;
     const url = state?.auth?.auth?.role === 'admin' && id === undefined ? "artical/get-setting" : "artical/get-unique-setting/" + cid
     get(url).then((response) => {
-      setSettingList(response.data.settings)
+      // setSettingList(response.data.settings);
+      formatAndSetSettingList(response.data.settings);
       setSetting(response.data)
     })
       .catch(() => {
@@ -36,9 +71,9 @@ const ViewSetting = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [editData, setEditData] = useState({})
-  const [editMode, setEditMode] = useState(false)
-  const [client_id, setClientId] = useState()
+  const [editData, setEditData] = useState({});
+  const [editMode, setEditMode] = useState(false);
+  const [client_id, setClientId] = useState();
 
   const editOpen = (editData) => {
     handleShow()
@@ -151,7 +186,7 @@ const ViewSetting = () => {
 
       </div>
 
-        <table className='table'>
+        <table className='table' ref={scrollRef}>
           <thead>
             <tr>
               <th>#</th>
@@ -176,7 +211,7 @@ const ViewSetting = () => {
           <tbody>
             {settingList?.map((list, index) => (
               <tr  key={index}>
-                <td>{index + 1}</td>
+                <td>{index + 1 + (selectedPageIndex*perPage)}</td>
                 <td>{list.client_name}</td>
                 <td>
                 {list.levels?.map((level, indexs) => (
@@ -206,6 +241,7 @@ const ViewSetting = () => {
             }
           </tbody>
         </table>
+        {settingList.length > 0 && <WidgetPagination datasetLength={settingListPages.length} selectedIndex={selectedPageIndex} onSelectPage={(i) => setSelectedPageIndex(--i)}/>}
       </div>
 
 
