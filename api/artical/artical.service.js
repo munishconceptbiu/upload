@@ -40,7 +40,8 @@ module.exports = {
     updateUploadCount,
     addNotMatchingArticle,
     getNMArticleList,
-    getUpload
+    getUpload,
+    getUploadCount
 };
 
 
@@ -431,5 +432,13 @@ async function getNMArticleList(id) {
 
 async function getUpload() {
     const result = await db.QaUploadDetail.findAll();
+    return result;
+}
+
+async function getUploadCount(id) {
+    const result = await db.QaUploadDetail.count({
+        where: { "upload_id": id }
+    });
+    console.log('result', result)
     return result;
 }

@@ -50,13 +50,63 @@ exports.getArtical = async function (req, res, next) {
     res.json({ edition: edition, message: 'Edition successful' })
 }
 exports.getList = async function (req, res, next) {
-    articalService.getAllListUpload(req.params.client_id, req.query.client_id).then((data) => {
-        res.json({ data: data, message: 'Artical successful' })
+    // articalService.getAllListUpload(req.params.client_id, req.query.client_id).then((data) => {
+    //     res.json({ data: data, message: 'Artical successful' })
+    // })
+
+    const getListAll = new Promise((resolve, reject) => {
+        articalService.getAllListUpload(req.params.client_id, req.query.client_id)
+        .then(data => {
+            let settings = []
+            data && data.length && data.forEach(async (setting, index) => {
+                const saveData = {
+                   ...setting,
+                   total_count : await articalService.getUploadCount(setting.id)
+                }
+                settings.push(saveData);
+                if(data.length === index + 1){
+                    resolve(settings)
+                }
+            })
+        })
+        .catch(next);
+       
+    });
+    Promise.all([getListAll]).then((values) => {
+        console.log('values', values)
+        res.json({ message: 'List sucessfully updated', data: values[0] });
+    }).catch((error) => {
+        res.status(500).json({ error: error });
     })
 }
 exports.getUpload = async function (req, res, next) {
-    articalService.getUpload().then((data) => {
-        res.json({ data: data, message: 'Upload list successful' })
+    // articalService.getUpload().then((data) => {
+    //     res.json({ data: data, message: 'Upload list successful' })
+    // })
+
+    const getListAll = new Promise((resolve, reject) => {
+        articalService.getUpload()
+        .then(data => {
+            let settings = []
+            data && data.length && data.forEach(async (setting, index) => {
+                const saveData = {
+                   ...setting,
+                   total_count : await articalService.getUploadCount(setting.id)
+                }
+                settings.push(saveData);
+                if(data.length === index + 1){
+                    resolve(settings)
+                }
+            })
+        })
+        .catch(next);
+       
+    });
+    Promise.all([getListAll]).then((values) => {
+        console.log('values', values)
+        res.json({ message: 'List sucessfully updated', data: values[0] });
+    }).catch((error) => {
+        res.status(500).json({ error: error });
     })
 }
 
@@ -295,7 +345,7 @@ exports.saveArtical = async function (req, res, next) {
                             website_url: e['undefined'],
                             month_name: e['month'],
                             monthly_visits: e['monthly visitors*'],
-                            total_CCMs: e['total ccms'],
+                            total_CCMs: typeof e['total ccms'] === 'number' ? e['total ccms'] : 0,
                             client_article_type: e['article type'],
                             photo_weightage: typeof e['photo weightage'] === 'number' ? e['photo weightage'] : 0,
                             headline_weightage: typeof e['headline weightage'] === 'number' ? e['headline weightage'] : 0,
