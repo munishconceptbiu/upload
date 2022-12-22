@@ -436,7 +436,7 @@ async function getUpload() {
 }
 
 async function getUploadCount(id) {
-    const result = await db.QaUploadDetail.count({
+    const result = await db.QaData.count({
         where: { "upload_id": id }
     });
     console.log('result', result)
