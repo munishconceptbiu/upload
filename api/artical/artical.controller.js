@@ -401,18 +401,19 @@ exports.saveArtical = async function (req, res, next) {
                                         const product = {
                                             product_name: p[1],
                                             upload_id: upload?.id,
-                                            product_name_merge: s[1].replace(/[^a-zA-Z0-9]/g, '_').trim()
+                                            product_name_merge: p[1].replace(/[^a-zA-Z0-9]/g, '_').trim()
                                         }
                                         await articalService.findProductOne(product).then(async (products) => {
                                             // const [products, created] = pro;
-
-                                            const productdata = {
-                                                product_id: products.id,
-                                                q_article_id: q_articles?.id,
-                                                upload_id: upload?.id
+                                            if(products){
+                                                const productdata = {
+                                                    product_id: products.id,
+                                                    q_article_id: q_articles?.id,
+                                                    upload_id: upload?.id
+                                                }
+                                                const res = await articalService.createQaDataProduct(productdata);
+                                                return productdata;
                                             }
-                                            const res = await articalService.createQaDataProduct(productdata);
-                                            return productdata;
                                         })
 
                                     })
