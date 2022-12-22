@@ -405,7 +405,6 @@ exports.saveArtical = async function (req, res, next) {
                                         }
                                         await articalService.findProductOne(product).then(async (products) => {
                                             // const [products, created] = pro;
-
                                             const productdata = {
                                                 product_id: products.id,
                                                 q_article_id: q_articles?.id,
