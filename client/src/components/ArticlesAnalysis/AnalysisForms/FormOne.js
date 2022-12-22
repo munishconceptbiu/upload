@@ -17,7 +17,7 @@ function FormOne(){
                     <div className='col-4'><input type="text" className='qa-input' placeholder='Mumbai' disabled></input></div>
                     <div className='col-4'><input type="text" className='qa-input' placeholder='English' disabled></input></div>
                     <div className='col-4'><input type="text" className='qa-input' placeholder='10k Villegers ' disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Journalist, Byline, Newsw,,,' disabled></input></div>
+                    {/* <div className='col-4'><input type="text" className='qa-input' placeholder='Journalist, Byline, Newsw,,,' disabled></input></div>
                     <div className='col-4'><input type="text" className='qa-input' placeholder='Barkha Dutt' disabled></input></div>
                     <div className='col-4'><input type="text" className='qa-input' placeholder='Unique Story by Journalist'></input></div>
                     <div className='col-4'><input type="text" className='qa-input' placeholder='Journalist, Byline, Newswi...'></input></div>
@@ -28,7 +28,7 @@ function FormOne(){
                     <div className='col-4'><input type="text" className='qa-input' placeholder='Circulation'></input></div>
                     <div className='col-4'><input type="text" className='qa-input' placeholder='Ad Value'></input></div>
                     <div className='col-4'><input type="text" className='qa-input' placeholder='Readership'></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Press Release tags'></input></div>   
+                    <div className='col-4'><input type="text" className='qa-input' placeholder='Press Release tags'></input></div>    */}
                 </div>
         
         </>
