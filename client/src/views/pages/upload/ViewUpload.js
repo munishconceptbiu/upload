@@ -182,8 +182,8 @@ const ViewUpload = () => {
           <td><a href={list.file} target="_blank">Download File</a></td>
           <td>{list.username}</td>
           <td>{moment(list.createdAt).format('lll')}</td>
-          <td>{list.total_article}</td>
-          <td>{list.nm_total_article === 0 && <span> - </span> } 
+          <td>{ list.total_count === 0 || list.total_count === null ? '-' : list.total_count}</td>
+          <td>{list.nm_total_article === 0 || list.nm_total_article === null && <span> - </span> } 
           {list.nm_total_article > 0 && <span onClick={e => getNMArticleList(list.id)} title='view' style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline'}}>{list.nm_total_article}</span> } </td>
           <td className='action-btns'> {state.auth.auth.role === 'admin' && <a href="javascript:void(0)" onClick={e => startDeleteUpload(list.id)} className='deleicon'><DeleteIcon /></a> }  {state.auth.auth.role !== 'admin' && <span>-</span>} </td>
         </tr>
