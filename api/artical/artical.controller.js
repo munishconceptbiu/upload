@@ -60,7 +60,7 @@ exports.getList = async function (req, res, next) {
             let settings = []
             data && data.length && data.forEach(async (setting, index) => {
                 const saveData = {
-                   ...setting,
+                   ...setting.dataValues,
                    total_count : await articalService.getUploadCount(setting.id)
                 }
                 settings.push(saveData);
@@ -90,7 +90,7 @@ exports.getUpload = async function (req, res, next) {
             let settings = []
             data && data.length && data.forEach(async (setting, index) => {
                 const saveData = {
-                   ...setting,
+                   ...setting.dataValues,
                    total_count : await articalService.getUploadCount(setting.id)
                 }
                 settings.push(saveData);
