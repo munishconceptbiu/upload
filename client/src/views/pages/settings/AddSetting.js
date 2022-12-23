@@ -65,7 +65,7 @@ const graphType = [
     // }
 
 ]
-const AddSetting = () => {
+const AddSetting = ({setFetchList, fetchList, handleClose}) => {
     const state = store.getState();
     const navigate = useNavigate()
     const [setting, setSetting] = useState([])
@@ -165,7 +165,9 @@ const AddSetting = () => {
                 selectRef.clearValue();
                 setClientName();
                 setClientId()
+                handleClose()
                 resolve("Setting Successfully Saved");
+                setFetchList(fetchList === true ? false : true);
                 navigate('/view-setting')
             }).catch((err) => {
                 console.log('err', err.response.data.error)
@@ -177,7 +179,9 @@ const AddSetting = () => {
                 setVertical('');
                 selectRef.clearValue();
                 setClientName();
+                handleClose()
                 setClientId()
+                setFetchList(fetchList === true ? false : true);
                 reject(err.response.data.error)
             })
         });

@@ -17,7 +17,7 @@ const ViewSetting = () => {
   const state = store.getState();
   const [settingList, setSettingList] = useState([]);
   const [setting, setSetting] = useState({});
-
+  const [fetchList, setFetchList] = useState(false);
   
   const [perPage, setPerPage] = useState(10);
   const [settingListLength, setSettingListLength] = useState(0);
@@ -163,8 +163,9 @@ const ViewSetting = () => {
     setShowEditSettings(false);
   }
   useEffect(() => {
+    console.log('fetchList', fetchList)
     getSettingList();
-  }, []);
+  }, [fetchList]);
 
   return (
     <>
@@ -328,8 +329,8 @@ const ViewSetting = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      {showAddSettings && <DynamicModal show={showAddSettings} handleClose={closeAddSetting} comp={addSettingComp} />}
-      {showEditSettings && <DynamicModal show={showEditSettings} handleClose={closeEditSetting} comp={editSettingComp} compProps={editSettingsProps}/>}
+      {showAddSettings && <DynamicModal show={showAddSettings} handleClose={closeAddSetting} comp={addSettingComp} setFetchList={setFetchList} fetchList={fetchList} />}
+      {showEditSettings && <DynamicModal show={showEditSettings} handleClose={closeEditSetting} comp={editSettingComp} compProps={editSettingsProps} setFetchList={setFetchList} fetchList={fetchList} />}
     </>
 
   )

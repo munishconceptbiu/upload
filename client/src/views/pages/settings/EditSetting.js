@@ -57,7 +57,7 @@ const graphType = [
     // }
 
 ]
-const EditSetting = ({clientId}) => {
+const EditSetting = ({clientId,setFetchList, fetchList, handleClose}) => {
     const state = store.getState();
     const params = useParams();
 
@@ -155,8 +155,10 @@ const EditSetting = ({clientId}) => {
                 setVertical('')
                 setClientName();
                 setClientId()
+                handleClose()
                 resolve("Setting Successfully Saved");
-                navigate('/view-setting')
+                setFetchList(fetchList === true ? false : true);
+                // navigate('/view-setting')
             }).catch((err) => {
                 console.log('err', err)
                 setGraphTypeName('');
@@ -166,7 +168,9 @@ const EditSetting = ({clientId}) => {
                 setVerticals([])
                 setVertical('');
                 setClientName();
+                handleClose()
                 setClientId()
+                setFetchList(fetchList === true ? false : true);
                 reject(err.response.data.error)
             })
         });

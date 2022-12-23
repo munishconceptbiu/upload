@@ -11,7 +11,7 @@ import { get , deleteMethod } from "../../../services/CommanService";
 import toast from 'react-hot-toast';
 
 
-const ViewUpload = () => {
+const ViewUpload = ({ fetchList }) => {
   const state = store.getState();
   
     const [uploadList, setUploadList] = useState([]);
@@ -30,7 +30,7 @@ const ViewUpload = () => {
       // console.log(selectedPageIndex);
       scrollRef.current && scrollRef.current.scrollIntoView({behavior: "smooth"});
       uploadListPages.length && setUploadList(uploadListPages[selectedPageIndex]);
-    }, [uploadListPages, selectedPageIndex]);
+    }, [uploadListPages, selectedPageIndex, fetchList]);
 
     const formatAndSetUploadList = (list) => {
       const sorted = list.sort((a, b) => a.createdAt > b.createdAt ? -1 : a.createdAt === b.createdAt ?  0 : 1);
@@ -136,8 +136,8 @@ const ViewUpload = () => {
   }
 
     useEffect(() => {
-        getUploadList();
-      }, []);
+      getUploadList();
+      }, [fetchList]);
     return (
       <div className="uqr-contents" ref={scrollRef}>
         <div className="component-title">

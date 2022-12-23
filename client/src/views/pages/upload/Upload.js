@@ -54,7 +54,7 @@ const graphType = [
   // }
 
 ]
-const Upload = () => {
+const Upload = ({ setFetchList, fetchList }) => {
   const state = store.getState();
   
   const [client_id, setClientId] = useState()
@@ -123,6 +123,7 @@ const Upload = () => {
         console.log(response);
         resolve(response.data.message);
         dispatch(UploadingDocumentAction(false));
+        setFetchList( fetchList === true ? false : true)
       }).catch((err) => {
         console.log('err', err);
         setFile('')
@@ -131,6 +132,7 @@ const Upload = () => {
         setClientId()
         reject(err.response.data.error)
         dispatch(UploadingDocumentAction(false));
+        setFetchList(fetchList === true ? false : true)
       })
     });
     toast.promise(

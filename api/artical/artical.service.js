@@ -155,7 +155,7 @@ async function createQaData(params) {
         if (count === 1) {
             return updateQaData(params, rows[0])
         }
-    } 
+    }
 
 }
 
@@ -319,7 +319,7 @@ async function getSettingAll(client_id) {
             "spokesperson_level",
             "profiling_level",
             "visibility_level", "topic_level", "client_name", "graph_id", "order_id"],
-            group: "client_id",
+        group: "client_id",
     },
     );
     return result;
@@ -424,7 +424,8 @@ async function addNotMatchingArticle(params) {
 
 async function getNMArticleList(id) {
     const result = await db.QaNMArticleSetting.findAll({
-        where: { upload_id: id
+        where: {
+            upload_id: id
         }
     });
     return result;
