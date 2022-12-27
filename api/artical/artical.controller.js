@@ -181,8 +181,6 @@ exports.saveArtical = async function (req, res, next) {
         data.shift();
         data.shift();
     });
-    console.log('data', data);
-    return false
     let upload;
     const addUploadDetails = new Promise(async (resolve, reject) => {
         if (req.body.isIndex === 'true') {
@@ -308,7 +306,6 @@ exports.saveArtical = async function (req, res, next) {
 
                     } else {
                         dbdata = dbdata[0];
-                        console.log('date', moment(new Date(e['publish date'])).format('YYYY-MM-DD') ,e['publish date'] )
                         const state_name = states.filter(state => state.city === e['edition']);
                         const edition = e['media type'] === "Print" ? await articalService.getEdition(e['edition']) : { id: null };
                         qa_data = {
