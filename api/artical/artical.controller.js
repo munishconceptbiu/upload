@@ -140,7 +140,7 @@ const addProductAndData = async (e, q_articles, upload) => {
 exports.saveArtical = async function (req, res, next) {
     console.log('files', req.body)
     var f = req.body.upload; // <input type="file" id="upload" name="upload">
-    var workbook = XLSX.readFile(f.path, { 'type': 'base64', cellDates: true, raw: false });
+    var workbook = XLSX.readFile(f.path, { 'type': 'base64', cellDates: false, raw: true });
     var data = [];
     var sheetHeader;
     var sheet_name_list1 = workbook.SheetNames;
