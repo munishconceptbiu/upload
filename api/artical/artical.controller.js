@@ -306,7 +306,8 @@ exports.saveArtical = async function (req, res, next) {
                         })
 
                     } else {
-                        dbdata = dbdata[0]
+                        dbdata = dbdata[0];
+                        console.log('date', moment(new Date(e['publish date'])).format('YYYY-MM-DD'))
                         const state_name = states.filter(state => state.city === e['edition']);
                         const edition = e['media type'] === "Print" ? await articalService.getEdition(e['edition']) : { id: null };
                         qa_data = {
