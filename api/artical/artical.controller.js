@@ -144,7 +144,7 @@ const addProductAndData = async (e, q_articles, upload) => {
 exports.saveArtical = async function (req, res, next) {
     console.log('files', req.body)
     var f = req.body.upload; // <input type="file" id="upload" name="upload">
-    var workbook = XLSX.readFile(f.path, { 'type': 'base64', cellDates: true, raw: true });
+    var workbook = XLSX.readFile(f.path, { 'type': 'base64', cellDates: true, raw: true, dateNF: 'yyyy"/"mm"/"dd' });
     var data = [];
     var sheetHeader;
     var sheet_name_list1 = workbook.SheetNames;
@@ -168,7 +168,6 @@ exports.saveArtical = async function (req, res, next) {
             };
             var col = z.substring(0, tt);
             var row = parseInt(z.substring(tt));
-            console.log('worksheet[z].v', worksheet[z].v)
             var value = worksheet[z].v === 'Link' ? worksheet[z].l?.Target : worksheet[z].v;
             //store header names
             if (row == 1 && value) {
@@ -308,7 +307,7 @@ exports.saveArtical = async function (req, res, next) {
 
                     } else {
                         dbdata = dbdata[0];
-                        // console.log('date', moment(new Date(e['publish date'])).format('YYYY-MM-DD') ,e['publish date'] )
+                        console.log('date', moment(new Date(e['publish date'])).format('YYYY-MM-DD') ,e['publish date'] )
                         const state_name = states.filter(state => state.city === e['edition']);
                         const edition = e['media type'] === "Print" ? await articalService.getEdition(e['edition']) : { id: null };
                         qa_data = {
