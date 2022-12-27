@@ -333,7 +333,7 @@ exports.saveArtical = async function (req, res, next) {
                             circulation_web_weightage: e["cir ('000) & web wtg"],
                             co_score: e['co score'],
                             edition: e['edition'],
-                            publish_date: moment(e['publish date']).format('YYYY-MM-DD'),
+                            publish_date: moment(new Date(e['publish date'])).format('YYYY-MM-DD'),
                             mav: typeof e['mav'] === 'number' ? e['mav'] : 0,
                             ccm: typeof e['ccm'] === 'number' ? e['ccm'] : 0,
                             word_count: typeof e['word count'] === 'number' ? e['word count'] : 0,
