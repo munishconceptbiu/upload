@@ -152,9 +152,6 @@ exports.saveArtical = async function (req, res, next) {
         var headers = {};
         // var data = [];
         var result = [];
-        console.log('worksheet', worksheet)
-        worksheet = XLSX.utils.sheet_to_json(worksheet);
-        console.log('worksheet d', worksheet)
         for (z in worksheet) {
             if (z[0] === '!') continue;
             //parse out the column, row, and value
@@ -168,6 +165,9 @@ exports.saveArtical = async function (req, res, next) {
             var col = z.substring(0, tt);
             var row = parseInt(z.substring(tt));
             var value = worksheet[z].v === 'Link' ? worksheet[z].l?.Target : worksheet[z].v;
+            if(worksheet[z].t === 'd'){
+                value = worksheet[z].w
+            }
             //store header names
             if (row == 1 && value) {
                 headers[col] = value.toLowerCase();
