@@ -140,7 +140,7 @@ const addProductAndData = async (e, q_articles, upload) => {
 exports.saveArtical = async function (req, res, next) {
     console.log('files', req.body)
     var f = req.body.upload; // <input type="file" id="upload" name="upload">
-    var workbook = XLSX.readFile(f.path, { 'type': 'base64', cellDates: true, raw: false, dateNF: 'dd/MM/yyyy' });
+    var workbook = XLSX.readFile(f.path, { 'type': 'base64', cellDates: true, raw: true, });
     var data = [];
     var sheetHeader;
     var sheet_name_list1 = workbook.SheetNames;
@@ -152,6 +152,9 @@ exports.saveArtical = async function (req, res, next) {
         var headers = {};
         // var data = [];
         var result = [];
+        console.log('worksheet', worksheet)
+        worksheet = XLSX.utils.sheet_to_json(worksheet);
+        console.log('worksheet d', worksheet)
         for (z in worksheet) {
             if (z[0] === '!') continue;
             //parse out the column, row, and value
