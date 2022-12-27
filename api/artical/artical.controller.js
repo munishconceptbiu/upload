@@ -168,6 +168,7 @@ exports.saveArtical = async function (req, res, next) {
             };
             var col = z.substring(0, tt);
             var row = parseInt(z.substring(tt));
+            console.log('worksheet[z].v', worksheet[z].v)
             var value = worksheet[z].v === 'Link' ? worksheet[z].l?.Target : worksheet[z].v;
             //store header names
             if (row == 1 && value) {
@@ -307,7 +308,7 @@ exports.saveArtical = async function (req, res, next) {
 
                     } else {
                         dbdata = dbdata[0];
-                        console.log('date', moment(new Date(e['publish date'])).format('YYYY-MM-DD') ,e['publish date'] )
+                        // console.log('date', moment(new Date(e['publish date'])).format('YYYY-MM-DD') ,e['publish date'] )
                         const state_name = states.filter(state => state.city === e['edition']);
                         const edition = e['media type'] === "Print" ? await articalService.getEdition(e['edition']) : { id: null };
                         qa_data = {
