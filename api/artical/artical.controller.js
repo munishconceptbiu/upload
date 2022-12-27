@@ -1,12 +1,8 @@
 const express = require('express');
-const reader = require('xlsx')
 const articalService = require('./artical.service');
 const moment = require('moment');
-
 const multer = require('multer')
-const XLSXWriteStream = require('xlsx-write-stream');
 const storageCustom = require('./customStorageEngine')
-
 var XLSX = require('xlsx');
 const states = [
     { id: 0, city: "National", state: "National" },
@@ -144,7 +140,7 @@ const addProductAndData = async (e, q_articles, upload) => {
 exports.saveArtical = async function (req, res, next) {
     console.log('files', req.body)
     var f = req.body.upload; // <input type="file" id="upload" name="upload">
-    var workbook = XLSX.readFile(f.path, { 'type': 'base64', cellDates: true, raw: true, dateNF: 'yyyy"/"mm"/"dd' });
+    var workbook = XLSX.readFile(f.path, { 'type': 'base64', cellDates: true, raw: false });
     var data = [];
     var sheetHeader;
     var sheet_name_list1 = workbook.SheetNames;
@@ -182,6 +178,8 @@ exports.saveArtical = async function (req, res, next) {
         data.shift();
         data.shift();
     });
+    console.log('data', data);
+    return false
     let upload;
     const addUploadDetails = new Promise(async (resolve, reject) => {
         if (req.body.isIndex === 'true') {
