@@ -338,7 +338,7 @@ exports.saveArtical = async function (req, res, next) {
                             word_count: typeof e['word count'] === 'number' ? e['word count'] : 0,
                             press_release: e['press release'],
                             page_no: e['page no'],
-                            circlation: e['circulation'],
+                            circlation: typeof e['circulation'] === 'number' ? e['circlation'] : 0,
                             zone: e['zone'],
                             link: e['undefined'],
                             website_url: e['undefined'],

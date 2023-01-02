@@ -407,9 +407,9 @@ async function getUniqueVerticalSetting(client_id) {
 async function deleteUpload(id) {
     await db.QaUploadDetail.destroy({ where: { id: id } });
     await db.QaData.destroy({ where: { upload_id: id } });
-    await db.QaClientProduct.destroy({ where: { upload_id: id } });
+    // await db.QaClientProduct.destroy({ where: { upload_id: id } });
     await db.QaDataProduct.destroy({ where: { upload_id: id } });
-    await db.QaSpokesPerson.destroy({ where: { upload_id: id } });
+    // await db.QaSpokesPerson.destroy({ where: { upload_id: id } });
     await db.QaDataSpokesPerson.destroy({ where: { upload_id: id } });
 }
 
