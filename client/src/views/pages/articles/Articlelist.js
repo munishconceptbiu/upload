@@ -1,5 +1,5 @@
 import React from 'react'
-import { CalendarIcon, HandIcon, DownAngleIcon } from '../../../Icons/icons.component'
+import { CalendarIcon, HandIcon } from '../../../Icons/icons.component'
 import { NavLink, useNavigate } from 'react-router-dom';
 import '../../../components/main.css'
 import ReactDatePicker from 'react-datepicker';
@@ -14,11 +14,10 @@ function Articlelist(){
             </div>
             <div className='content-box'>
             <div className='row article-list-form'>
-            <div className='col-3'><span className='aldatepicker'><input type='text' className='form-control react-datepicker-ignore-onclickoutside' placeholder='Date Range'/><CalendarIcon/> </span> </div>
+            <div className='col-3'><span className='aldatepicker'><input type='text' className=' react-datepicker-ignore-onclickoutside' placeholder='Date Range'/><CalendarIcon/> </span> </div>
                 <div className='col-3'>
-                <DownAngleIcon/> 
-                <select name="clients"  class=" form-control">
                 
+                <select name="clients"  class=" form-select">
                                         <option value="">Select Client</option>
                                                                                     <option value="7685">Adani Group(Cement)</option>
                                                                                     <option value="4445">Adani Transmission Ltd</option>
@@ -211,8 +210,8 @@ function Articlelist(){
                                                                             </select>
                 </div>
                 <div className='col-3'>
-                <DownAngleIcon/> 
-                    <select className='form-control'>
+                
+                    <select className='form-select'>
                       <option>
                         Select Entity
                       </option>
@@ -228,8 +227,8 @@ function Articlelist(){
 
                 </div>
                 <div className='col-3'>
-                <DownAngleIcon/> 
-                    <select className='form-control'>
+                
+                    <select className='form-select'>
                       <option>
                         Media Type
                       </option>
@@ -241,8 +240,8 @@ function Articlelist(){
 
                 </div>
                 <div className='col-3'>
-                <DownAngleIcon/> 
-                    <select className='form-control'>
+                
+                    <select className='form-select'>
                       <option>
                         Zone
                       </option>
@@ -254,8 +253,8 @@ function Articlelist(){
 
                 </div>
                 <div className='col-3'>
-                <DownAngleIcon/> 
-                    <select className='form-control'>
+                
+                    <select className='form-select'>
                       <option value="">Edition</option>
                                                                                     <option value="408">Adilabad</option>
                                                                                     <option value="249">Agartala</option>
@@ -985,41 +984,44 @@ function Articlelist(){
                 </div>
                
                 <div className='col-3'>
-                <DownAngleIcon/> 
-                  <select className='form-control'>
+                
+                  <select className='form-select'>
                     <option>Publication</option>
                   </select>
                 </div>
                 <div className='col-3'>
-                <DownAngleIcon/> 
-                  <select className='form-control'>
+                
+                  <select className='form-select'>
                     <option>Jounalist</option>
                   </select>
                 </div>
+                <div className='col-12'>
+        <button type='submit' className='btn btn-primary'>Search</button>
+      </div>
             </div>
-      
+   
             <div className='row article-list'>
             <table class="table">
     <thead>
       <tr>
         <th>No</th>
-        <th>Entity Name</th>
-        <th>Media Type</th>
         <th>Headline</th>
-        <th>Publication</th>
+        <th>Entity</th>
+        <th>Media Type</th>
         <th>Edition</th>
-        <th>Journalist</th>
+        <th>Publication</th>
+        <th>Publish Date</th>
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>1</td>
+        <td>Tata Motors Article</td>
         <td>Tata Motors</td>
-        <td>barkhadutt456</td>
         <td>Shreyas treble spurs blue star </td>
         <td>Deccan Herald</td>
-        <td>Banglore</td>
+        <td>Mainline</td>
         <td>Barkha Dutt</td>
         <td><NavLink to="/Qualitative" className="nav-link" title="Qualitative" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><HandIcon /></span></NavLink></td>
       </tr>
@@ -1030,7 +1032,7 @@ function Articlelist(){
         <td>amit675</td>
         <td>CM Presented FIH mens hockey world </td>
         <td>Dumani Mail</td>
-        <td>Mumbai</td>
+        <td>Regional</td>
         <td>Barkha Dutt</td>
         <td><NavLink to="/Articlelist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><HandIcon /></span></NavLink></td>
 
@@ -1042,7 +1044,7 @@ function Articlelist(){
         <td>conceptbiu436</td>
         <td>CM Purchases Hockey</td>
         <td>Free Press</td>
-        <td>Delhi</td>
+        <td>Financial</td>
         <td>Barkha Dutt</td>
         <td><NavLink to="/Articlelist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><HandIcon /></span></NavLink></td>
 
@@ -1053,7 +1055,7 @@ function Articlelist(){
         <td>barkhadutt456</td>
         <td>Ticket TO WC</td>
         <td>Orissa Post</td>
-        <td>Banglore</td>
+        <td>Online</td>
         <td>Barkha Dutt</td>
         <td><NavLink to="/Articlelist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><HandIcon /></span></NavLink></td>
 
@@ -1064,7 +1066,7 @@ function Articlelist(){
         <td>amit675</td>
         <td>Shreyas treble spurs blue star </td>
         <td>Orissa Post</td>
-        <td>Delhi</td>
+        <td>Periodical</td>
         <td>Barkha Dutt</td>
         <td><NavLink to="/Articlelist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><HandIcon /></span></NavLink></td>
 

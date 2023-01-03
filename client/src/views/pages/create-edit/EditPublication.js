@@ -14,6 +14,7 @@ export default function EditPublication(){
                 <div className="col-3"><input className="form-control" type="text" placeholder="Circulation" /></div>
                 <div className="col-3"><input className="form-control" type="text" placeholder="Readership" /></div>
                 <div className="col-3"><input className="form-control" type="text" placeholder="Media House" /></div>
+                <div className="col-3"><input className="form-control" type="text" placeholder="Media House" /></div>
             </div>
             <div className="row mt-20">
                 <div className="col-12">

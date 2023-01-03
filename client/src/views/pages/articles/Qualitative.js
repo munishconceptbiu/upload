@@ -5,8 +5,7 @@ import AnalysisDetails from '../../../components/ArticlesAnalysis/AnalysisDetail
 const Qualitative = () => {
     return (
         <>
-        <div class="page-title"><h1>Upload Qualitative Report</h1></div>
-        <div className="content-box">
+        <div className="content-box mt-0">
             <div className='row'>
                 <div className='col-6'>
                     <AnalysisDetails/>

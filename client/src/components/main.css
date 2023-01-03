@@ -1,3 +1,7 @@
+body{
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+}
 .appContainer{
     width: calc(100% - 72px);
     float: right;
@@ -222,7 +226,7 @@ ul.nav-pills li a.active svg{
 }
 .graph-float{float: left; margin: 10px;}
 .editdelete-btns{position:absolute;  top: 10px; right: 10px;}
-input[type=text], .form-control{border:0 !important; outline: 0 !important;     padding: 0 0 10px 0; box-shadow: none; border-radius: 0 !important; border-bottom: 3px solid #c4c4c4 !important;}
+input[type=text], .form-control{border:0 !important; outline: 0 !important;      box-shadow: none; border-radius: 0 !important; border-bottom: 3px solid #c4c4c4 !important;}
 
 select.form-select{border:0 !important; outline: 0 !important; box-shadow: none; border-radius: 0 !important; border-bottom: 3px solid #c4c4c4 !important;}
 input[type=password]{border:0 !important; outline: 0 !important; box-shadow: none; border-radius: 0 !important; border-bottom: 3px solid #c4c4c4 !important;}
@@ -235,10 +239,11 @@ select.form-select:focus{border-bottom: 3px solid #080fef !important;}
 .article-list-form input{width: 100%; }
 .article-list-form{border-bottom: 1px solid #dcdcdc; padding-bottom: 25px;}
 .article-list{margin-top: 25px;}
-.article-list-form button{margin-left: 20px;}
+.article-list-form button{ float: right;}
 .article-list table .HandIcon{fill: #ffffff;}
 .article-list-form .col-3{position: relative; margin-bottom: 20px;}
 .article-list-form .col-3 .DownAngleIcon{position: absolute; right: 10px;}
+
 .tabicon{background-color: #0036b9;  padding: 5px; border-radius: 50%; display: flex;  width: 30px;  height: 30px; justify-content: center;
     align-items: center;}
 .article-list table .nav-link{padding: 0;}
@@ -252,8 +257,7 @@ select.form-select:focus{border-bottom: 3px solid #080fef !important;}
 .qualitatxive-form .tabcontent .col-4 input{padding: 5px 0;}
 .image-tab{margin-top:20px;}
 .qualitatxive-form .tab-nav{position: relative;}
-.qualitatxive-form h3{margin-bottom:25px;}
-.qualitatxive-form{background-color: #fff; box-shadow: 0 4px 30px -8px rgb(125 112 188 / 30%); padding: 25px;}
+.qualitatxive-form{background-color: #fff; box-shadow: 0 4px 30px -8px rgb(125 112 188 / 30%); padding: 15px;}
 .qualitatxive-form .tab-nav::before{border-top:1px solid #d7d7d7;  position: absolute;   top: 15px;  content: "";  width: 100%;}
 .addverticle {display: flex;}
 .image-tab .tabcontent img{width: 90%;}
@@ -275,26 +279,25 @@ select.form-select:focus{border-bottom: 3px solid #080fef !important;}
     right: 0;
     top: 0px;}
 .aldatepicker input{padding-bottom: 10px;}
-.edition-tab{    margin-top: 35px;     padding-top: 17px;}
 .suggestions h5{color: #0036b9; font-size: 16px;}
 .edetails span{margin-right: 15px; color: #acabab; font-size: 14px; font-weight: normal;}
 .qualitatxive-form .tab-content h3{font-size: 20px;}
 .leftNavigationWrap .nav-link.active{border-bottom: 0 !important;}
-.nav-pills .nav-link.active, .nav-pills .show>.nav-link{background-color: #fff; border-radius: 0; border-bottom: 3px solid #0036b9; color: #0036b9; }
-.nav-pills .nav-link{color: #393939;}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link{background-color: #fff;  border-radius: 0; border-bottom: 3px solid #0036b9; color: #0036b9; }
+.nav-pills .nav-link{color: #393939; font-size: 16px;}
 .nav-justified .nav-item, .nav-justified>.nav-link{flex-basis: auto; flex-grow: 0;}
 .tab-content .row{    padding: 10px 7px 0 0;}
 .nav-pills{border-bottom: 1px solid #d3d3d3;}
 .suggestions h5, .suggestions p {padding-left: 0;}
 .entity-tab {padding: 0px 10px 0; margin-top:25px;}
-.image-tab{margin-top:0; padding: 0 10px;}
-.tab-nav{display: flex;     margin-top: 50px;}
+.tab-nav{display: flex;     margin-top:40px;}
 .tabhead{
     text-align: center;
     cursor: pointer;
 }
-.tabcontent h3{border-bottom: 1px solid #dcdcdc; text-align: center; padding: 20px 0; font-size: 20px;}
-.tabcontent .qa-input{border:0 ; outline: 0; border-bottom: 1px solid #999999;     margin: 10px 0;}
+.tabcontent h3{border-bottom: 1px solid #dcdcdc; text-align: center;     padding: 20px 0 15px; font-size: 20px;}
+.tabcontent .qa-input{border:0 ; outline: 0; border-bottom: 1px solid #999999; width: 100%;    ;}
+.qa-input{ width: 100%}
 input:disabled {opacity: 0.5;}
 .journalist-details{margin-top:20px}
 
@@ -313,4 +316,24 @@ input:disabled {opacity: 0.5;}
 .add-delete{display: flex;}
 .edit-pubication .col-3{margin: 10px 0;}
 .ep-info input{margin: 15px 0;}
-.ep-info{margin-top:50px;}
+.ep-info{margin-top: 50px;}
+.download-formates{
+    min-height: 550px;
+}
+.download-formates img{
+    width: 100%;
+    margin-top: 30px;
+    height: 480px;
+}
+.form-details .btn{float: right;}
+.form-details .col-4{position: relative;}
+.form-details .CalendarIcon{    top: 8px; right: 14px;}
+.form-details svg{float: right; position: absolute; right: 10px; fill: #b4b4b4;}
+.form-select {color: #999999; font-size: 14px;     padding: 5px;}
+.mt-20{margin-top: 20px;}
+
+.form-details .col-6{position: relative;}
+.qualitatxive-form h3{margin: 20px 0;}
+.image-tab .tab-content{padding: 0;}
+button.btn-gray, button.btn-gray:hover{background-color: #888888; color: #fff; margin-right: 5px;}
+.keyword-topic{border-top: 1px solid #c4c4c4;     margin-top: 40px;}

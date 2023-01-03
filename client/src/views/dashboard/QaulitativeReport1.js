@@ -149,10 +149,10 @@ const qualitative = () => {
         
         <div className="container-list">
             <div className='row'>
-                <div className='col-6'>
+                <div className='col-5'>
                     <AnalysisDetails/>
                 </div>
-                <div className='col-6 '>
+                <div className='col-7 '>
                     <h3 className='text-center'>Qualitative Form</h3>
                     <Tabs/>
                 </div>
