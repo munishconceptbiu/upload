@@ -244,8 +244,8 @@ select.form-select:focus{border-bottom: 3px solid #080fef !important;}
 .article-list-form .col-3{position: relative; margin-bottom: 20px;}
 .article-list-form .col-3 .DownAngleIcon{position: absolute; right: 10px;}
 
-.tabicon{background-color: #0036b9;  padding: 5px; border-radius: 50%; display: flex;  width: 30px;  height: 30px; justify-content: center;
-    align-items: center;}
+/* .tabicon{  padding: 5px; border-radius: 50%; display: flex;  width: 30px;  height: 30px; justify-content: center;
+    align-items: center;} */
 .article-list table .nav-link{padding: 0;}
 .uqr-form{position: relative; top: 15px;}
 
@@ -327,7 +327,7 @@ input:disabled {opacity: 0.5;}
 }
 .form-details .btn{float: right;}
 .form-details .col-4{position: relative;}
-.form-details .CalendarIcon{    top: 8px; right: 14px;}
+.form-details .CalendarIcon{     right: 14px;}
 .form-details svg{float: right; position: absolute; right: 10px; fill: #b4b4b4;}
 .form-select {color: #999999; font-size: 14px;     padding: 5px;}
 .mt-20{margin-top: 20px;}
@@ -337,3 +337,23 @@ input:disabled {opacity: 0.5;}
 .image-tab .tab-content{padding: 0;}
 button.btn-gray, button.btn-gray:hover{background-color: #888888; color: #fff; margin-right: 5px;}
 .keyword-topic{border-top: 1px solid #c4c4c4;     margin-top: 40px;}
+.qa-tab .nav-link{border-radius:50%; border:1px solid #b4b4b4;}
+.qa-tab .nav-link.active{background-color: #0036b9; border:1px solid #0036b9 !important; border-radius:50%; border: 0;  color: #ffffff;  }
+.qa-tab .nav-link::before{ content: "Step"; position: absolute;  top: 40px;left: 0;}
+.qa-tab .nav-link{position: relative;}
+.qa-tab .nav-link.active::before{color: #0036b9;}
+.form-details{margin-top: 20px;}
+.qa-tab .nav-pills{border: 0;}
+.qa-tab ul li{margin: 0 auto;}
+
+.qa-tab .tab-content{margin-top: 45px; border-top: 1px solid #ccc;}
+/* .step1, .step2, .step3, .step4{position: relative;}
+.step2 span{ left: 84px; right: 0;}
+.step3 span{ left: 120px; right: 0;}
+.step4 span{ left: 170px; right: 0;}
+.step1 span{ position: absolute; left: 10px; right: 0;}
+.step span{  background-color: #0036b9; width: 30px; border-radius: 50%; color: #fff; text-align: center; padding: 5px; position: absolute;
+ top: -66px; z-index: 99;} */
+    
+
+
