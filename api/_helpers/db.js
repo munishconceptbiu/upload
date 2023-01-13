@@ -16,7 +16,7 @@ async function initialize() {
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
 
     // connect to db
-    const sequelize = new Sequelize(database, user, password, {logging: true, host : host, dialect: 'mysql' , pool: {
+    const sequelize = new Sequelize(database, user, password, {logging: false, host : host, dialect: 'mysql' , pool: {
         max: 20,
         min: 0,
         acquire: 60000000,
