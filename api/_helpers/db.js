@@ -38,6 +38,7 @@ async function initialize() {
     db.QaVerticalSetting = require('../_model/qa_vertical_setting.model')(sequelize);
     db.QaNMArticleSetting = require('../_model/nm_article.model')(sequelize);
 
+    db.Journalist = require('../_model/m_journalist.model')(sequelize);
     // sync all models with database
     await sequelize.sync();
     
