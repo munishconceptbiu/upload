@@ -1,8 +1,13 @@
 import React from 'react'
 import { CalendarIcon, HandIcon } from '../../../Icons/icons.component'
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, } from 'react-router-dom';
 import '../../../components/main.css'
 import ReactDatePicker from 'react-datepicker';
+
+import { render } from '@testing-library/react';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css'; // optional
+
 
 function Articlelist(){
     return(
@@ -992,7 +997,16 @@ function Articlelist(){
                 <div className='col-3'>
                 
                   <select className='form-select'>
-                    <option>Jounalist</option>
+                    <option>Tonality</option>
+                  </select>
+                </div>
+                <div className='col-3'>
+                
+                  <select className='form-select'>
+                  <option>Tonality</option>
+                    <option>Informative</option>
+                    <option>Positive</option>
+                    <option>Negative</option>
                   </select>
                 </div>
                 <div className='col-12'>
@@ -1004,81 +1018,298 @@ function Articlelist(){
             <table class="table">
     <thead>
       <tr>
-        <th>No</th>
-        <th>Headline</th>
+        <th>Article No</th>
         <th>Entity</th>
-        <th>Media Type</th>
-        <th>Edition</th>
-        <th>Publication</th>
         <th>Publish Date</th>
-        <th>Action</th>
+        <th>Publication</th>
+        <th>Suppliment</th>
+        <th>Edition</th>
+        <th>Media Type</th>
+        <th>Language</th>
+        <th>Headline</th>
+        <th>Link</th>
+        <th>Publication Type</th>
+        <th>Journalist</th>
+        <th>Page No</th>
+        <th>CCM</th>
+        <th>MAV</th>
+        <th>Circulation</th>
+        <th>Zone</th>
+        <th>WC Wtg</th>
+        <th>Monthly Vis</th>
+        <th>Daily Vis/Cir</th>
+        <th>Priority</th>
+        <th>Priority WTg</th>
+        <th>Push/Pull</th>
+        <th>Theme</th>
+        <th>Keyword Level_1</th>
+        <th>Topic</th>
+        <th>Article Type</th>
+        <th>Shared Exclusive</th>
+        <th>Tonality</th>
+        <th>Key Message</th>
+        <th>B CCM</th>
+        <th>N CCM</th>
+        <th>A CCM</th>
+        <th>Totat CCM</th>
+        <th>Photo Weightag</th>
+        <th>Headline Weightag</th>
+        <th>Sh/Ex Weightag</th>
+        <th>Co Score</th>
+        <th>Visibility</th>
+        <th>Index</th>
+        <th>Spokesperson 1</th>
+        <th>Spokesperson 1 Summary</th>
+        <th>Spokesperson 2 Summary</th>
+        <th>Spokesperson 3</th>
+        <th>Spokesperson 3 Summary</th>
+        <th>Client Article Value's ID</th>
+        <th>Entity Articles ID's</th>
+        <th>Client ID</th>
+        <th>Entity ID</th>
+        <th>Photo</th>
+        <th>Headline</th>
+        <th colSpan={3}>Action</th>
       </tr>
     </thead>
     <tbody>
+      <tr className='search-td'>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td>
+        <input type="text" className='qa-input' placeholder='Search'></input>
+        </td>
+        <td colSpan={3}>
+ 
+        </td>
+
+      </tr>
       <tr>
-        <td>1</td>
-        <td>Tata Motors Article</td>
-        <td>Tata Motors</td>
-        <td>Shreyas treble spurs blue star </td>
-        <td>Deccan Herald</td>
-        <td>Mainline</td>
-        <td>Barkha Dutt</td>
+        <td>374592467</td>
+        <td>Air India</td>
+        <td>06 October 22</td>
+        <td>The Print</td>
+        <td>-</td>
+        <td>Online/Web</td>
+        <td>Online</td>
+        <td>English</td>
+        <td>A pet-friendly airline<Tippy content='A pet-friendly airline: Akasa Air to allow furry friends on board from November'><span>...</span></Tippy>
+        
+</td>
+<td>-</td>
+<td>Online</td>
+<td>Bureau</td>
+<td>13</td>
+<td>16.46</td>
+<td>111599</td>
+<td>279110</td>
+<td>Online</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Corporate</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Indirective</td>
+<td>Positive</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>2.2E+14</td>
+<td></td>
+<td></td>
+<td></td>
+<td>No</td>
+<td>No</td>
         <td><NavLink to="/Qualitative" className="nav-link" title="Qualitative" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><HandIcon /></span></NavLink></td>
       </tr>
-
-      <tr>
-        <td>2</td>
-        <td>Apollo Healthcare</td>
-        <td>amit675</td>
-        <td>CM Presented FIH mens hockey world </td>
-        <td>Dumani Mail</td>
-        <td>Regional</td>
-        <td>Barkha Dutt</td>
-        <td><NavLink to="/Articlelist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><HandIcon /></span></NavLink></td>
-
-      </tr>
-
-      <tr>
-        <td>3</td>
-        <td>HDFC Bank</td>
-        <td>conceptbiu436</td>
-        <td>CM Purchases Hockey</td>
-        <td>Free Press</td>
-        <td>Financial</td>
-        <td>Barkha Dutt</td>
-        <td><NavLink to="/Articlelist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><HandIcon /></span></NavLink></td>
-
-      </tr>
-      <tr>
-        <td>4</td>
-        <td>Essar Ports</td>
-        <td>barkhadutt456</td>
-        <td>Ticket TO WC</td>
-        <td>Orissa Post</td>
-        <td>Online</td>
-        <td>Barkha Dutt</td>
-        <td><NavLink to="/Articlelist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><HandIcon /></span></NavLink></td>
-
-      </tr>
-      <tr>
-        <td>5</td>
-        <td>ICICI Bank</td>
-        <td>amit675</td>
-        <td>Shreyas treble spurs blue star </td>
-        <td>Orissa Post</td>
-        <td>Periodical</td>
-        <td>Barkha Dutt</td>
-        <td><NavLink to="/Articlelist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><HandIcon /></span></NavLink></td>
-
-      </tr>
-
-
-      
       
     </tbody>
   </table>
+
             </div>
+            <div className='row mt-20 article-list-pagination'>
+  <div className='col-6'>Showing 1 to 3 of 12 entries</div>
+  <div className='col-6 text-right'>
+  <ul class="pagination">
+    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+  </ul>
+  </div>
+  </div>
+
             </div>
+            
         </>
     )
 }

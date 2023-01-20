@@ -81,16 +81,15 @@ import React from 'react'
 import {Container, Row, Tabs, Tab} from  'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import FormOne from './AnalysisForms/FormOne';
+// import FormTwo from './AnalysisForms/FormTwo';
 import FormTwo from './AnalysisForms/FormTwo';
 import FormThree from './AnalysisForms/FormThree';
-import FormFour from './AnalysisForms/FormFour';
 export default function QaTabs() {
   return (
     <Container className='qa-tab'>
       <Row className='justfy-content-center'>
         <Tabs justify variant='pills' defaultActiveKey="tab-1" className='mb-1 p-0'>
           <Tab eventKey="tab-1" title="1" className='step1 step'>
-          {/* <div class="row suggestions"><h5>Suggestions:</h5><p>Article been given qualitative with kotak.</p></div> */}
                 <FormOne/>
           </Tab>
           <Tab eventKey="tab-2" title="2" className='step2 step'>
@@ -99,9 +98,9 @@ export default function QaTabs() {
           <Tab eventKey="tab-3" title="3" className='step3 step'>
                  <FormThree/>
           </Tab>
-          <Tab eventKey="tab-4" title="4" className='step4 step'>
+          {/* <Tab eventKey="tab-3" title="3" className='step3 step'>
                 <FormFour/>
-          </Tab>
+          </Tab> */}
         </Tabs>
       </Row>
     </Container>
