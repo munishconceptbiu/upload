@@ -3,7 +3,7 @@ import AsyncSelect from 'react-select/async';
 import swal from 'sweetalert';
 import AppHeader from '../../../components/AppHeader'
 import Button from 'react-bootstrap/Button';
-import { EditIcon } from '../../../Icons/icons.component';
+import { DeleteIcon,EditIcon } from '../../../Icons/icons.component';
 import { CloseIcon } from '../../../Icons/icons.component';
 import { ProgressBar } from "react-bootstrap"
 import DatePicker from "react-datepicker";
@@ -499,6 +499,19 @@ const AddSetting = ({setFetchList, fetchList, handleClose}) => {
                                                 }
                                                 <br></br>
                                                 
+                                                {/* <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
+
+                                                {e.entity_level === true && <p className="card-text">Entity Level </p>}
+                                                {e.publication_level === true && <p className="card-text">Publication Level</p>}
+                                                {e.journalist_level === true && <p className="card-text">Journalist Level</p>}
+                                                {e.city_level === true && <p className="card-text">City Level</p>}
+                                                {e.keyword_level === true && <p className="card-text">Keyword Level</p>}
+                                                {e.topic_level === true && <p className="card-text">Topic Level :  Yes</p>}
+                                                {e.spokesperson_level === true && <p className="card-text">Spokesperson Level</p>}
+                                                {e.profiling_level === true && <p className="card-text">Profiling Level</p>}
+                                                {e.visibility_level === true && <p className="card-text">Visibility Level</p>}
+                                                <a href="javascript:void(0)" onClick={e => deleteLevel(index)} className="card-link"><DeleteIcon/></a>
+                                                <a href="javascript:void(0)" onClick={e => editLevel(index)} className="card-link"><EditIcon/></a>
                                             </div>
                                         </div>
                                     ))}

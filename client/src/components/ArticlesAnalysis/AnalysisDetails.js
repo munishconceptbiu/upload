@@ -1,13 +1,18 @@
 import React from "react";
-import AnalysisHeader from "./AnalysisHeader";
-import Editions from "./Editions";
-import ImageTabs from "./ImageTabs";
+import ImageTabs from "./Tabs/ImageTabs";
+import Options from "../../components/ArticlesAnalysis/Options";
+import '../../../src/components/main.css'
+import AnalysisHeader from "../AnalysisHeader";
+import EntityTab from "./Tabs/EntityTab";
 function AnalysisDetails(){
     return(
         <>
+        {/* <div class="page-title"><h1>Upload Qualitative Report</h1></div> */}
+        <ImageTabs/>
             <AnalysisHeader/>
-            <Editions/>
-            <ImageTabs/>
+            {/* <Options/> */}
+            <EntityTab/>
+            
         </>
     )
 }

@@ -1,34 +1,37 @@
 import React from "react";
-
+import { DownAngleIcon } from "../../../Icons/icons.component";
 function FormFour(){
     return(
         <>
-        <h3>Form Details 4</h3>
-            <div className='row'>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='142' disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='#343534'disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Tata Motors'disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='12/06/2022'disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Tata Motors'disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Tata Motors'disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='The Times of India'disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Mumbai, Maharashtra' disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Mumbai' disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Mumbai' disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='English' disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='10k Villegers ' disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Journalist, Byline, Newsw,,,' disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Barkha Dutt' disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Unique Story by Journalist'></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Journalist, Byline, Newswi...'></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Unique ID of Articles'></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Page no. of Articles'></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='CCMs & Sq. CM of over ...'></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Upeer side, Lowerside of...'></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Circulation'></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Ad Value'></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Readership'></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Press Release tags'></input></div>   
+            <div className='row form-details'>
+            <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Spokesperson Opportunity'></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Positive CCMs'></input></div>
+            <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Neutral CCMs'></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Negative CCMs'></input></div> 
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Total CCMs'></input></div>
+                    
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Photo Presence'></input></div>  
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Photo Type'></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Photo Keyword'></input></div>
+
+
+
+
+
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Photo Tonality' ></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Headline/Sub headline Presence'></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Headline/Sub headline Visibility'></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Headline/Sub headline Keyword'></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Headline/Sub headline Tonality'></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Front Page/Business Page/Industry Page/Edit Page Presence'></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Key Messages Presnce'></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Key Messages' ></input></div>
+                    <div className="col-12 text-right mt-10">
+                    
+                        <button className='btn btn-primary btn-medium'>Submit</button>
+                        <button className='btn btn-gray btn-medium'>Previous</button>
+                    </div>
+                 
                 </div>
         
         </>

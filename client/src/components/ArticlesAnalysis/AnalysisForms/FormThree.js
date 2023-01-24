@@ -3,32 +3,33 @@ import React from "react";
 function FormThree(){
     return(
         <>
-        <h3>Form Details 3</h3>
-            <div className='row'>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='142' disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='#343534'disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Tata Motors'disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='12/06/2022'disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Tata Motors'disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Tata Motors'disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='The Times of India'disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Mumbai, Maharashtra' disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Mumbai' disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Mumbai' disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='English' disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='10k Villegers ' disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Journalist, Byline, Newsw,,,' disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Barkha Dutt' disabled></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Unique Story by Journalist'></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Journalist, Byline, Newswi...'></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Unique ID of Articles'></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Page no. of Articles'></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='CCMs & Sq. CM of over ...'></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Upeer side, Lowerside of...'></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Circulation'></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Ad Value'></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Readership'></input></div>
-                    <div className='col-4'><input type="text" className='qa-input' placeholder='Press Release tags'></input></div>   
+            <div className='row form-details'>
+                
+            <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Product Keyword'></input></div>
+            <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Product Category'></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Product Profiling'></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Product Event'></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Product Attribute'></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Article Type' disabled></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Prominence' disabled></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Hit & Missed for Client'></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Push & Pull'></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Tonality' disabled></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Spokesperson'></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Spokesperson topics'></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Spokesperson Headline'></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Spokesperson 1 Summary'></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Spokesperson Profiling'></input></div>
+                    <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='Spokeperson Attribute'></input></div>
+
+                    <div className="col-12 text-right mt-10">
+                    
+                        <button className='btn btn-primary btn-medium'>Next</button>
+                        <button className='btn btn-gray btn-medium'>Previous</button>
+                    </div>
+
+                  
+                   
                 </div>
         
         </>
