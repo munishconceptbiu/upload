@@ -19,6 +19,8 @@ const Articlelist = React.lazy(() => import('./views/pages/articles/Articlelist'
 
 const Journalist = React.lazy(() => import('./views/pages/journalist/Journalist'))
 
+const AddJournalist = React.lazy(() => import('./views/pages/journalist/Add'))
+
 
 
 const routes = [
@@ -35,7 +37,8 @@ const routes = [
   { path: '/edit-user/:user_id', name: 'Edit User', element: EditUser },
   { path: '/profile', name: 'Profile', element: Profile },
   { path: '/Articlelist', name: 'Articlelist', element: Articlelist },
-  { path: '/journalist', name: 'list', element: Journalist }
+  { path: '/journalist', name: 'list', element: Journalist },
+  { path: '/add-journalist', name: 'add', element: AddJournalist }
 ]
 
 export default routes
