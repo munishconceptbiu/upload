@@ -64,14 +64,14 @@ async function getAll(client_id, article_id, entity_name, media_type) {
     let result;
     if (media_type === 'Print') {
 
-        console.log(`SELECT cav.id AS cav_id,cav.client_id,cav.article_id,cav.entity_id
-        ,a.publication_id,a.edition_id,a.publication_type_id,a.language_id,a.suppliment_id,a.source_id
-        ,e1.zone_id,cav.prominent_id,a.section_id
-      FROM client_article_values cav 
-        INNER JOIN entities e ON e.id=cav.entity_id
-        INNER JOIN articles a ON a.id=cav.article_id
-        LEFT JOIN editions e1 ON a.edition_id = e1.id
-      WHERE cav.article_id=${article_id} AND e.entity_name=${entity_name} AND cav.client_id=${client_id}`)
+    //     console.log(`SELECT cav.id AS cav_id,cav.client_id,cav.article_id,cav.entity_id
+    //     ,a.publication_id,a.edition_id,a.publication_type_id,a.language_id,a.suppliment_id,a.source_id
+    //     ,e1.zone_id,cav.prominent_id,a.section_id
+    //   FROM client_article_values cav 
+    //     INNER JOIN entities e ON e.id=cav.entity_id
+    //     INNER JOIN articles a ON a.id=cav.article_id
+    //     LEFT JOIN editions e1 ON a.edition_id = e1.id
+    //   WHERE cav.article_id=${article_id} AND e.entity_name=${entity_name} AND cav.client_id=${client_id}`)
 
         result = await db2.sequelize.query(
             `SELECT cav.id AS cav_id,cav.client_id,cav.article_id,cav.entity_id
@@ -87,6 +87,7 @@ async function getAll(client_id, article_id, entity_name, media_type) {
                 type: QueryTypes.SELECT
             }
         );
+        console.log('results', result)
         // result = await db2.PrintData.findAll({
         //     where: { [Op.or]: [{ client_id: client_id, article_id: article_id, entity_name: entity_name }, {  article_id: article_id, entity_name: entity_name }] }, attributes: [
         //         'id', 'publication_id', 'publication_type_id', 'language_id', 'suppliment_id', 'source_id', 'cav_id', 'entity_id', 'zone_id', 'prominent_id', 'section_id' // We had to list all attributes...
@@ -94,13 +95,13 @@ async function getAll(client_id, article_id, entity_name, media_type) {
         // });
     }
     if (media_type === 'Online') {
-        console.log(`SELECT cav.id AS cav_id,cav.client_id,cav.article_id,cav.entity_id
-        ,a.publication_id,a.publication_type_id,a.language_id,a.source_id
-        ,cav.prominent_id
-      FROM online_client_article_values cav 
-        INNER JOIN entities e ON e.id=cav.entity_id
-        INNER JOIN online_articles a ON a.id=cav.article_id
-      WHERE cav.article_id=${article_id} AND e.entity_name=${entity_name} AND cav.client_id=${client_id}`)
+    //     console.log(`SELECT cav.id AS cav_id,cav.client_id,cav.article_id,cav.entity_id
+    //     ,a.publication_id,a.publication_type_id,a.language_id,a.source_id
+    //     ,cav.prominent_id
+    //   FROM online_client_article_values cav 
+    //     INNER JOIN entities e ON e.id=cav.entity_id
+    //     INNER JOIN online_articles a ON a.id=cav.article_id
+    //   WHERE cav.article_id=${article_id} AND e.entity_name=${entity_name} AND cav.client_id=${client_id}`)
         result = await db2.sequelize.query(
             `SELECT cav.id AS cav_id,cav.client_id,cav.article_id,cav.entity_id
             ,a.publication_id,a.publication_type_id,a.language_id,a.source_id
@@ -114,6 +115,7 @@ async function getAll(client_id, article_id, entity_name, media_type) {
                 type: QueryTypes.SELECT
             }
         );
+        console.log('result1', result)
         // result = await db2.OnlineData.findAll({
         //     where: {
         //         [Op.or]: [{ client_id: client_id, article_id: article_id, entity_name: entity_name }, {  article_id: article_id, entity_name: entity_name }] }, attributes: [
@@ -121,7 +123,6 @@ async function getAll(client_id, article_id, entity_name, media_type) {
         //     ]
         // });
     }
-    console.log('result', result)
     return result;
 
 }
