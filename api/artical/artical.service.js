@@ -107,6 +107,7 @@ async function getAll(client_id, article_id, entity_name, media_type) {
         //     ]
         // });
     }
+    console.log('result', result)
     return result;
 
 }
