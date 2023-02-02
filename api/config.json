@@ -21,6 +21,13 @@
         "password": "xchange123",
         "database": "clients"
     },
+    "database4": {
+        "host": "localhost",
+        "port": 3306,
+        "user": "root",
+        "password": "xchange123",
+        "database": "qualitative"
+    },
     "livedatabase": {
         "host": "192.168.0.175",
         "port": 3306,

@@ -71,13 +71,44 @@ const AppSidebar = (props) => {
          <span className='menuTitle'>Profile</span>
         </NavLink>
       </li>
-      {/* <li>
-      <NavLink to="/Articlelist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
+      <li>
+      <NavLink to="/publications" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
          <span className='menuIcon'><ArticleIcon /></span>
-         <span className='menuTitle'>Article List</span>
+         <span className='menuTitle'>Publication</span>
         </NavLink>
-      </li> */}
-       
+      </li>
+
+      <li>
+      <NavLink to="/spokepersons" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
+         <span className='menuIcon'><ArticleIcon /></span>
+         <span className='menuTitle'>SpokePerson</span>
+        </NavLink>
+      </li>
+
+      <li>
+      <NavLink to="/journalist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
+         <span className='menuIcon'><ArticleIcon /></span>
+         <span className='menuTitle'>Journalist</span>
+        </NavLink>
+      </li>
+      <li>
+      <NavLink to="/themes" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
+         <span className='menuIcon'><ArticleIcon /></span>
+         <span className='menuTitle'>Theme</span>
+        </NavLink>
+      </li>
+      <li>
+      <NavLink to="/keywords" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
+         <span className='menuIcon'><ArticleIcon /></span>
+         <span className='menuTitle'>Keyword</span>
+        </NavLink>
+      </li>
+      <li>
+      <NavLink to="/topics" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
+         <span className='menuIcon'><ArticleIcon /></span>
+         <span className='menuTitle'>Topic</span>
+        </NavLink>
+      </li>
      <li>
       
      <NavLink to="/#" onClick={onLogout} className="nav-link" title="Logout" data-bs-toggle="tooltip" data-bs-placement="right">

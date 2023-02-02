@@ -2,14 +2,17 @@ const config = require('config.json');
 const mysql = require('mysql2/promise');
 const { Sequelize } = require('sequelize');
 
-module.exports = db3 = {};
+module.exports = db4 = {};
 
 initialize();
 
 async function initialize() {
     // create db2 if it doesn't already exist
-    const { host, port, user, password, database } = config.database3;
+    const { host, port, user, password, database } = config.database4;
     const connection = await mysql.createConnection({ host, port, user, password });
+
+    ///console.log(JSON.stringify(connection)); exist;
+
     // const connection = await mysql.createConnection({host: host, user: user, database: database});
     
 
@@ -24,10 +27,22 @@ async function initialize() {
       }});
 
     // // init models and add them to the exported db2 object
-    db3.Client = require('../_model/clients.model')(sequelize);
-    db3.sequelize = sequelize;
-    db3.Sequelize = Sequelize;
-    // sync all models with database
+    //db4.Client = require('../_model/clients.model')(sequelize);
+    db4.MPublications = require('../_model/m_publications.model')(sequelize); 
+
+    db4.MSuppliments = require('../_model/m_suppliments.model')(sequelize);
+
+    db4.MSpokespersons = require('../_model/qa_spokesperson.model')(sequelize);
+
+    db4.MThemeKeywordTopics = require('../_model/m_theme_keyword_topics.model')(sequelize);
+
+    db4.MThemeKeywords = require('../_model/m_theme_keywords.model')(sequelize);
+
+    db4.MThemes = require('../_model/m_themes.model')(sequelize);
+
+    db4.sequelize = sequelize;    
+    // sync all models with database  
+
     await sequelize.sync();
     
 }

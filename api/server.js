@@ -20,6 +20,11 @@ app.use('/qualitative', express.static(`${__dirname}/public`));
 app.use('/users', require('./users/user.router'));
 app.use('/artical', require('./artical/artical.router'));
 
+app.use('/dataprocess', require('./dataprocess/dataprocess.router'));
+app.use('/editions', require('./editions/edition.router'));
+app.use('/keywords', require('./keywords/keyword.router'));
+app.use('/themes', require('./themes/themes.router'));
+
 // global error handler
 app.use(errorHandler);
 
