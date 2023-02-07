@@ -35,6 +35,13 @@
         "password": "X@h52K!k#Ap$qfCaT",
         "database": "concept_niqx_2022"
     },
+    "livedatabase23": {
+        "host": "101.53.146.125",
+        "port": 3306,
+        "user": "root",
+        "password": "X@h52K!k#Ap$qfCaT",
+        "database": "concept_niqx_2023"
+    },
     "livedatabase3": {
         "host": "101.53.146.125",
         "port": 3306,
