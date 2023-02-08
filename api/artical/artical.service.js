@@ -61,7 +61,7 @@ async function getAllListUpload(user_id, client_id) {
     return result;
 }
 async function getAll(client_id, article_id, entity_name, media_type, cdate) {
-    console.log('moment(cdate).year() === 2023', moment(cdate).year() === 2023)
+    console.log('moment(cdate).year() === 2023', moment(cdate).year() === 2023,  moment(cdate).year())
     if (moment(cdate).year() === 2023) {
 
         if (media_type === 'Print') {
