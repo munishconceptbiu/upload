@@ -1,8 +1,8 @@
 
 const db = require('_helpers/db');
-const db2022 = require('_helpers/db2');
+const db2 = require('_helpers/db2');
 const db3 = require('_helpers/db3');
-const db2023 = require('_helpers/db23');
+const db23 = require('_helpers/db23');
 
 const moment = require('moment');
 
@@ -74,7 +74,7 @@ async function getAll(client_id, article_id, entity_name, media_type, cdate) {
             INNER JOIN articles a ON a.id=cav.article_id
             LEFT JOIN editions e1 ON a.edition_id = e1.id
           WHERE cav.article_id=${article_id} AND e.entity_name=${entity_name} AND cav.client_id=${client_id}`)
-            return await db2023.sequelize.query(
+            return await db23.sequelize.query(
                 `SELECT cav.id AS cav_id,cav.client_id,cav.article_id,cav.entity_id
     ,a.publication_id,a.edition_id,a.publication_type_id,a.language_id,a.suppliment_id,a.source_id
     ,e1.zone_id,cav.prominent_id,a.section_id
@@ -102,7 +102,7 @@ async function getAll(client_id, article_id, entity_name, media_type, cdate) {
           WHERE cav.article_id=${article_id} AND e.entity_name=${entity_name} AND cav.client_id=${client_id}`)
          
 
-            return await db2023.sequelize.query(
+            return await db23.sequelize.query(
                 `SELECT cav.id AS cav_id,cav.client_id,cav.article_id,cav.entity_id
             ,a.publication_id,a.publication_type_id,a.language_id,a.source_id
             ,cav.prominent_id
@@ -132,7 +132,7 @@ async function getAll(client_id, article_id, entity_name, media_type, cdate) {
             LEFT JOIN editions e1 ON a.edition_id = e1.id
           WHERE cav.article_id=${article_id} AND e.entity_name=${entity_name} AND cav.client_id=${client_id}`)
          
-            return await db2022.sequelize.query(
+            return await db2.sequelize.query(
                 `SELECT cav.id AS cav_id,cav.client_id,cav.article_id,cav.entity_id
     ,a.publication_id,a.edition_id,a.publication_type_id,a.language_id,a.suppliment_id,a.source_id
     ,e1.zone_id,cav.prominent_id,a.section_id
@@ -158,7 +158,7 @@ async function getAll(client_id, article_id, entity_name, media_type, cdate) {
             LEFT JOIN editions e1 ON a.edition_id = e1.id
           WHERE cav.article_id=${article_id} AND e.entity_name=${entity_name} AND cav.client_id=${client_id}`)
          
-            return await db2022.sequelize.query(
+            return await db2.sequelize.query(
                 `SELECT cav.id AS cav_id,cav.client_id,cav.article_id,cav.entity_id
             ,a.publication_id,a.publication_type_id,a.language_id,a.source_id
             ,cav.prominent_id
