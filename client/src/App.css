@@ -48,7 +48,10 @@
   /* ascii code for the ellipsis character */
   width: 0px;
 }
-
+.article-list-table th{background-color: #c3c3c3; }
+.article-list-table th span{font-weight: bold;}
+tr.search-filter td{background-color: #dcdcdc; border-right: 1px solid #b6b6b6;}
+tr.search-filter input{padding: 8px; width: 100%;}
 @keyframes ellipsis {
   to {
     width: 40px;

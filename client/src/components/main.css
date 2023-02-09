@@ -382,3 +382,17 @@ button.btn-gray, button.btn-gray:hover{background-color: #888888; color: #fff; m
 .page-link{color: #0036b9;}
 .article-list-pagination .pagination{float: right;}
 .readmore{font-size: 24px; text-decoration: none;}
+span.tolltip:hover p{background-color: #fff; box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; 
+color: #000; position: absolute; z-index: 9999; display: block; width: 300px; padding: 15px;}
+
+span.tolltip p{display: none;}
+.tolltip h5{color: #0036b9;}
+.punch-btn{background-color: #0036b9; color: #fff; padding: 10px 9px; border-radius: 50%;}
+.punch-btn svg{fill: #fff;}
+.rdt_TableCol_Sortable{font-weight: bold;}
+.article-list-table{overflow-x: scroll;}
+.article-list-table th{white-space: nowrap; padding: 12px; background-color: #c5c5c5; border-right: 1px solid #9c9c9c;}
+.table-search{background-color: #e5e5e5;}
+.table-search td{border-right: 1px solid #b7b7b7;}
+.article-pagination{float: right; margin-top: 15px;}
+.article-pagination{display: inline-block;}
