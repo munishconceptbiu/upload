@@ -7,6 +7,7 @@ import { get, put, deleteMethod } from "../../../services/CommanService";
 import toast from 'react-hot-toast';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { store } from '../../../store/store';
+import { CSmartTable } from '@coreui/react-pro'
 
 const Users = () => {
   let navigate = useNavigate();
@@ -57,6 +58,33 @@ const Users = () => {
     getUserList();
   }, []);
 
+  const columns = [
+    {
+      key: 'id',
+      label: '#',
+      filter: false,
+      sorter: false,
+    },
+    {
+      key: 'username',
+      label: 'User Name',
+    },
+    {
+      key: 'email',
+      label: 'Email',
+     
+    },
+    {
+      key: 'phone',
+      label: 'Phone',
+    },
+    {
+      key: 'action',
+      label: 'Action',
+      filter: false,
+      sorter: false,
+    },
+  ]
 
   return (
     <>
@@ -80,7 +108,26 @@ const Users = () => {
       </div>
       <div className="view-setting">
 
-        <table className='table'>
+      <CSmartTable
+      columns={columns}
+      columnFilter
+      columnSorter
+      items={userList.map((e, index) => ({
+        id: index + 1,
+        ...e
+      }))}
+      scopedColumns={{
+        action: (list) => (
+          <td className='action-btns'><NavLink to={`/edit-user/${list.id}`}><EditIcon /></NavLink> <a href="javascript:void(0)" onClick={e => deleteUser(list.id)} className='deleicon'><DeleteIcon /></a></td>
+        ),
+      }}
+      pagination
+      tableProps={{
+        hover: true,
+        responsive: true,
+      }}
+    />
+        {/* <table className='table'>
           <thead>
             <tr>
               <th>#</th>
@@ -107,7 +154,7 @@ const Users = () => {
               </tr>
             }
           </tbody>
-        </table>
+        </table> */}
       </div>
 
 
