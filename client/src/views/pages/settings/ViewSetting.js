@@ -11,6 +11,7 @@ import { DynamicModal } from './DynamicModal';
 import AddSetting from './AddSetting';
 import EditSetting from './EditSetting';
 import WidgetPagination from '../../../components/WidgetPagination';
+import { CSmartTable } from '@coreui/react-pro'
 
 const ViewSetting = () => {
   let navigate = useNavigate();
@@ -29,7 +30,7 @@ const ViewSetting = () => {
   useEffect(() => {
     // console.log(selectedPageIndex);
     scrollRef.current && scrollRef.current.scrollIntoView({behavior: "smooth"});
-    settingListPages.length && setSettingList(settingListPages[selectedPageIndex]);
+    settingListPages.length && setSettingList(settingListPages);
   }, [settingListPages, selectedPageIndex]);
 
   const formatAndSetSettingList = (list) => {
@@ -55,8 +56,8 @@ const ViewSetting = () => {
     const url = state?.auth?.auth?.role === 'admin' && id === undefined ? "artical/get-setting" : "artical/get-unique-setting/" + cid
     get(url).then((response) => {
       // setSettingList(response.data.settings);
-      formatAndSetSettingList(response.data.settings);
-      setSetting(response.data)
+      setSettingList(response.data.settings);
+      // setSetting(response.data)
     })
       .catch(() => {
         // handleLoginFailure({ status: UNAUTHORIZED });
@@ -167,6 +168,27 @@ const ViewSetting = () => {
     getSettingList();
   }, [fetchList]);
 
+  
+  const columns = [
+    {
+      key: 'client_name',
+      label: 'Client Name',
+    },
+    {
+      key: 'levels',
+      label: 'Categories',
+      filter: false,
+      sorter: false,
+    },
+    {
+      key: 'action',
+      label: 'Action',
+      filter: false,
+      sorter: false,
+    },
+  ]
+
+
   return (
     <>
       
@@ -180,6 +202,42 @@ const ViewSetting = () => {
       <button className="btn btn-success pull-right add-settings-btn" onClick={addSetting}>Add New Settings</button>
       <div className='add-setting'>
 
+        {/* <div className='client-select'>
+          <label htmlFor="country" className="form-label">Select Client</label>
+          <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => clientChange(e)} />
+        </div> */}
+
+      </div>
+      <br /> <br />
+      <CSmartTable
+      columns={columns}
+      columnFilter
+      columnSorter
+      items={settingList.map((e, index) => ({
+        id: index,
+        ...e
+      }))}
+      pagination
+      scopedColumns={{
+        action: (list) => (
+          <td className='action-btns'><a  href="javascript:void(0)"onClick={e => editSetting(list.client_id)}><EditIcon /></a> <a href="javascript:void(0)" onClick={e => deleteSetting(list.id)} className='deleicon'><DeleteIcon /></a></td>
+        ),
+        levels: (list) => (
+          <td>
+                {list.levels?.map((level, indexs) => (
+                   <Button key={indexs} className="levelbutton" variant="light">{level.graph_type}</Button>
+                ))}
+                </td>
+        )
+       }}
+      tableProps={{
+        hover: true,
+        responsive: true,
+      }}
+    />
+    </div>
+      {/* <div className='add-setting'>
+
         <div className='client-select'>
           <label htmlFor="country" className="form-label">Select Client</label>
           <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => clientChange(e)} />
@@ -192,7 +250,7 @@ const ViewSetting = () => {
             <tr>
               <th>#</th>
 
-              <th>Client Name</th>
+              <th>Client Name</th> */}
               {/* <th>Grpah Type</th>
               <th>Entity Level</th>
               <th>Publication Level</th>
@@ -203,11 +261,11 @@ const ViewSetting = () => {
               <th>Spokesperson Level</th>
               <th>Profiling Level</th>
               <th>Visibility Level</th> */}
-              <th>Categories</th>
+              {/* <th>Categories</th> */}
               {/* <th>Print</th>
               <th>Print and Online</th> */}
-              <th>Action</th>
-            </tr>
+              {/* <th>Action</th> */}
+            {/* </tr>
           </thead>
           <tbody>
             {settingList?.map((list, index) => (
@@ -218,7 +276,7 @@ const ViewSetting = () => {
                 {list.levels?.map((level, indexs) => (
                    <Button key={indexs} className="levelbutton" variant="light">{level.graph_type}</Button>
                 ))}
-                </td>
+                </td> */}
                 {/* <td>{list.graph_type}</td>
                 <td>{list.entity_level === true ? 'Yes' : 'No'}</td>
                 <td>{list.publication_level === true ? 'Yes' : 'No'}</td>
@@ -232,7 +290,7 @@ const ViewSetting = () => {
                 {/* <td>{setting.isOnline === true ? 'Yes' : 'No'}</td>
                 <td>{setting.isPrint === true ? 'Yes' : 'No'}</td>
                 <td>{setting.isPrintOnline === true ? 'Yes' : 'No'}</td> */}
-                <td className='action-btns'><a  href="javascript:void(0)"onClick={e => editSetting(list.client_id)}><EditIcon /></a> <a href="javascript:void(0)" onClick={e => deleteSetting(list.id)} className='deleicon'><DeleteIcon /></a></td>
+                {/* <td className='action-btns'><a  href="javascript:void(0)"onClick={e => editSetting(list.client_id)}><EditIcon /></a> <a href="javascript:void(0)" onClick={e => deleteSetting(list.id)} className='deleicon'><DeleteIcon /></a></td>
               </tr>
             ))}
             {settingList.length === 0 &&
@@ -242,8 +300,7 @@ const ViewSetting = () => {
             }
           </tbody>
         </table>
-        {settingList.length > 0 && <WidgetPagination datasetLength={settingListPages.length} selectedIndex={selectedPageIndex} onSelectPage={(i) => setSelectedPageIndex(--i)}/>}
-      </div>
+        {settingList.length > 0 && <WidgetPagination datasetLength={settingListPages.length} selectedIndex={selectedPageIndex} onSelectPage={(i) => setSelectedPageIndex(--i)}/>} */}
 
 
       <Modal show={show} onHide={handleClose}>
