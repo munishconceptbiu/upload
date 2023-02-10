@@ -33,6 +33,7 @@ const EditWtgMaster = React.lazy(() => import('./views/pages/create-edit/EditWtg
 const EditClient = React.lazy(() => import('./views/pages/create-edit/EditClient'))
 const Client = React.lazy(() => import('./views/pages/articles/Client'))
 const Product = React.lazy(() => import('./views/pages/articles/Product'))
+const Theme = React.lazy(() => import('./views/pages/Theme'))
 
 
 
@@ -65,7 +66,8 @@ const routes = [
   { path: '/EditWtgMaster', name: 'Spoke Person', element: EditWtgMaster },
   { path: '/EditClient', name: 'Spoke Person', element: EditClient },
   { path: '/Client', name: 'Spoke Person', element: Client },
-  { path: '/Product', name: 'Spoke Person', element: Product }
+  { path: '/Product', name: 'Spoke Person', element: Product },
+  { path: '/theme', name: 'Spoke Person', element: Theme }
   
 
 

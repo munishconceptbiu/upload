@@ -396,3 +396,5 @@ span.tolltip p{display: none;}
 .table-search td{border-right: 1px solid #b7b7b7;}
 .article-pagination{float: right; margin-top: 15px;}
 .article-pagination{display: inline-block;}
+.theme-details{margin-top:30px;}
+.theme-details th{padding: 10px ; background-color: #c5c5c5; border-right: 1px solid #a2a2a2;}
