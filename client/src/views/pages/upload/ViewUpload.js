@@ -229,6 +229,11 @@ const ViewUpload = ({ fetchList }) => {
       columnSorter
       items={uploadList}
       pagination
+      sorter
+      // columnFilterValue={{
+      //   createdAt: (date) =>
+      //     new Date(Date.parse(date))
+      // }}
       scopedColumns={{
         action: (item) => (
           <td className='action-btns'> {state.auth.auth.role === 'admin' && <a href="javascript:void(0)" onClick={e => startDeleteUpload(item.id)} className='deleicon'><DeleteIcon /></a> }  {state.auth.auth.role !== 'admin' && <span>-</span>} </td>
@@ -241,16 +246,16 @@ const ViewUpload = ({ fetchList }) => {
           <td>{ list.total_count === 0 || list.total_count === null ? '-' : list.total_count}</td>
         ),
         start_date: (list) => (
-          <td>{moment(list.start_date).format('ll')}</td>
+          <td>{moment(list.start_date).format('YYYY-MM-DD')}</td>
         ),
         end_date: (list) => (
-          <td>{moment(list.end_date).format('ll')}</td>
+          <td>{moment(list.end_date).format('YYYY-MM-DD')}</td>
         ),
         file: (list) => (
           <td><a href={list.file} target="_blank">Download File</a></td>
         ),
         createdAt: (list) => (
-          <td>{moment(list.createdAt).format('lll')}</td>
+          <td>{moment(list.createdAt).format('YYYY-MM-DD HH:MM A')}</td>
         )
       }}
       tableProps={{
