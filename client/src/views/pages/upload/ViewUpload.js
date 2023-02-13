@@ -9,6 +9,7 @@ import WidgetPagination from '../../../components/WidgetPagination';
 
 import { get , deleteMethod } from "../../../services/CommanService";
 import toast from 'react-hot-toast';
+import { CSmartTable } from '@coreui/react-pro'
 
 
 const ViewUpload = ({ fetchList }) => {
@@ -26,10 +27,53 @@ const ViewUpload = ({ fetchList }) => {
 
     const scrollRef = useRef();
 
+
+  const columns = [
+    {
+      key: 'client_name',
+      label: 'Client Name',
+    },
+    {
+      key: 'start_date',
+      label: 'Report Start Date',
+    },
+    {
+      key: 'end_date',
+      label: 'Report End Date',
+    },
+    {
+      key: 'file',
+      label: 'File Link',
+    },
+    {
+      key: 'username',
+      label: 'Uploaded By',
+    },
+    {
+      key: 'createdAt',
+      label: 'Uploaded At',
+    },
+    {
+      key: 'total_article',
+      label: 'Uploaded Article Count',
+    },
+    {
+      key: 'nm_total_article',
+      label: 'Mismatch Article Count',
+    },
+    {
+      key: 'action',
+      label: 'Action',
+      filter: false,
+    sorter: false,
+    },
+  ]
+
+ 
     useEffect(() => {
       // console.log(selectedPageIndex);
       scrollRef.current && scrollRef.current.scrollIntoView({behavior: "smooth"});
-      uploadListPages.length && setUploadList(uploadListPages[selectedPageIndex]);
+      uploadListPages.length && setUploadList(uploadListPages);
     }, [uploadListPages, selectedPageIndex, fetchList]);
 
     const formatAndSetUploadList = (list) => {
@@ -55,7 +99,10 @@ const ViewUpload = ({ fetchList }) => {
       const url = state?.auth?.auth?.role === 'admin' && cid === undefined ?  'artical/get-upload' : "artical/viewlist/"+ state?.auth?.auth?.id +"/?client_id="+ id
       get(url).then((response) => {
         console.log('response', response)
-        formatAndSetUploadList(response.data.data);
+        setUploadList(response.data.data.map((e, index) => ({
+          id: index,
+          ...e
+        })));
         // setUploadList(upList);
           })
           .catch(() => {
@@ -138,6 +185,35 @@ const ViewUpload = ({ fetchList }) => {
     useEffect(() => {
       getUploadList();
       }, [fetchList]);
+
+      const columnsNm = [
+        {
+          key: 'id',
+          label: '#',
+          filter: false,
+          sorter: false,
+        },
+        {
+          key: 'client_name',
+          label: 'Client Name',
+          filter: false,
+          sorter: false,
+        },
+        {
+          key: 'client_id',
+          label: 'Client Id',
+          filter: false,
+          sorter: false,
+        },
+        {
+          key: 'entity_name',
+          label: 'Entity Name',
+          filter: false,
+          sorter: false,
+        },
+      ]
+
+      
     return (
       <div className="uqr-contents" ref={scrollRef}>
         <div className="component-title">
@@ -146,10 +222,51 @@ const ViewUpload = ({ fetchList }) => {
             </h5>
           </div>
       <div className="container-fluid">
+
+      <CSmartTable
+      columns={columns}
+      columnFilter
+      columnSorter
+      items={uploadList}
+      pagination
+      sorter
+      // columnFilterValue={{
+      //   createdAt: (date) =>
+      //     new Date(Date.parse(date))
+      // }}
+      scopedColumns={{
+        action: (item) => (
+          <td className='action-btns'> {state.auth.auth.role === 'admin' && <a href="javascript:void(0)" onClick={e => startDeleteUpload(item.id)} className='deleicon'><DeleteIcon /></a> }  {state.auth.auth.role !== 'admin' && <span>-</span>} </td>
+        ),
+        nm_total_article: (list) => (
+          <td>{list.nm_total_article === 0 || list.nm_total_article === null && <span> - </span> } 
+          {list.nm_total_article > 0 && <span onClick={e => getNMArticleList(list.id)} title='view' style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline'}}>{list.nm_total_article}</span> } </td>
+        ),
+        total_article: (list) => (
+          <td>{ list.total_count === 0 || list.total_count === null ? '-' : list.total_count}</td>
+        ),
+        start_date: (list) => (
+          <td>{moment(list.start_date).format('YYYY-MM-DD')}</td>
+        ),
+        end_date: (list) => (
+          <td>{moment(list.end_date).format('YYYY-MM-DD')}</td>
+        ),
+        file: (list) => (
+          <td><a href={list.file} target="_blank">Download File</a></td>
+        ),
+        createdAt: (list) => (
+          <td>{moment(list.createdAt).format('YYYY-MM-DD HH:MM A')}</td>
+        )
+      }}
+      tableProps={{
+        hover: true,
+        responsive: true,
+      }}
+    />
         {/* <div style={{ "padding": "4px 4px 32px" }}>      <button className="btn btn-success pull-right" style={{ float: "right" }} onClick={addSetting}>Add Setting</button>
         </div> */}
 
-        <div className='client-select client-section'>
+        {/* <div className='client-select client-section'>
           <label htmlFor="country" className="form-label">Select Client</label>
           <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => clientChange(e)} />
         </div>
@@ -158,9 +275,9 @@ const ViewUpload = ({ fetchList }) => {
         <table className='table'>
       <thead>
         <tr>
-          <th>#</th>
+          <th>#</th> */}
           {/* <th>Email</th> */}
-          <th>Client Name</th>
+          {/* <th>Client Name</th>
           <th>Report Start Date</th>
           <th>Report End Date</th>
           <th>File Link</th>
@@ -174,9 +291,9 @@ const ViewUpload = ({ fetchList }) => {
       <tbody>
         {uploadList?.map((list, index) => (
         <tr  key={index}>
-          <td>{index + 1 + (selectedPageIndex*perPage)}</td>
+          <td>{index + 1 + (selectedPageIndex*perPage)}</td> */}
           {/* <td>{list.email}</td> */}
-          <td>{list.client_name}</td>
+          {/* <td>{list.client_name}</td>
           <td>{moment(list.start_date).format('ll')}</td>
           <td>{moment(list.end_date).format('ll')}</td>
           <td><a href={list.file} target="_blank">Download File</a></td>
@@ -192,7 +309,7 @@ const ViewUpload = ({ fetchList }) => {
     </table>
     <WidgetPagination datasetLength={uploadListPages.length} selectedIndex={selectedPageIndex} onSelectPage={(i) => setSelectedPageIndex(--i)}/>
     </div>}
-    {!uploadList.length && <div className='empty-message'>No data for selected client</div>}
+    {!uploadList.length && <div className='empty-message'>No data for selected client</div>} */}
     </div>
 
     <Modal size="med" show={showDeleteModal} onHide={()=>cancelDelete()}>
@@ -225,11 +342,25 @@ const ViewUpload = ({ fetchList }) => {
               <div className="container ">
                 <div className="row">
                   <div className="col-12">
-                  <table className='table'>
+                  <CSmartTable
+      columns={columnsNm}
+      columnFilter
+      columnSorter
+      items={uploadNMArticleList.map((e, index) => ({
+        id: index + 1,
+        ...e
+      }))}
+      pagination
+      tableProps={{
+        hover: true,
+        responsive: true,
+      }}
+    />
+                  {/* <table className='table'>
       <thead>
         <tr>
           <th>#</th>
-          {/* <th>Email</th> */}
+          <th>Email</th>
           <th>Client Name</th>
           <th>Client Id</th>
           <th>Article Id</th>
@@ -248,7 +379,7 @@ const ViewUpload = ({ fetchList }) => {
         </tr>
        ))}
       </tbody>
-    </table>
+    </table> */}
 
                   </div>
 

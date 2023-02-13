@@ -292,7 +292,8 @@ exports.saveArtical = async function (req, res, next) {
             const art = parseInt(e['article id']);
             if (art !== 0 && !isNaN(art)) {
 
-                await articalService.getAll(req.body.client_id, e['article id'], e['company name'], e['media type']).then(async (dbdata) => {
+                await articalService.getAll(req.body.client_id, e['article id'], e['company name'], e['media type'], req.body.start_date).then(async (dbdata) => {
+                    console.log('dbdata', dbdata)
                     if (dbdata.length === 0) {
                         noinsertlength = noinsertlength + 1;
                         await articalService.addNotMatchingArticle({

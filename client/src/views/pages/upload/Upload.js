@@ -12,6 +12,7 @@ import { store } from '../../../store/store';
 import toast from 'react-hot-toast';
 import { UploadingDocumentAction } from '../../../store/actions/UploadingDocumentAction';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router'
 
 
 
@@ -56,6 +57,10 @@ const graphType = [
 ]
 const Upload = ({ setFetchList, fetchList }) => {
   const state = store.getState();
+
+  const navigate = useNavigate()
+
+// refresh
   
   const [client_id, setClientId] = useState()
   const [client_name, setClientName] = useState()
@@ -77,6 +82,7 @@ const Upload = ({ setFetchList, fetchList }) => {
     setIP(res.data.IPv4)
   }
   const upload = async () => {
+
     dispatch(UploadingDocumentAction(true));
     const client = selectRef.getValue()[0]
     if (client === "" || client === undefined || client === null) {
@@ -124,6 +130,8 @@ const Upload = ({ setFetchList, fetchList }) => {
         resolve(response.data.message);
         dispatch(UploadingDocumentAction(false));
         setFetchList( fetchList === true ? false : true)
+        navigate(0)
+
       }).catch((err) => {
         console.log('err', err);
         setFile('')
@@ -133,6 +141,8 @@ const Upload = ({ setFetchList, fetchList }) => {
         reject(err.response.data.error)
         dispatch(UploadingDocumentAction(false));
         setFetchList(fetchList === true ? false : true)
+        navigate(0)
+
       })
     });
     toast.promise(
