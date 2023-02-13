@@ -21,6 +21,7 @@ router.get('/get-singlesuppliments/:id',  dataprocessController.getUniquesupplim
 
 router.post('/add-suppliments',  dataprocessController.addsuppliments);
 
+
 //suppliments routes
 router.get('/get-supplimentslist',  dataprocessController.getsupplimentsAll);
 

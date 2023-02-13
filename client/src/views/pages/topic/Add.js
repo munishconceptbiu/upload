@@ -81,26 +81,28 @@ const getTopicList = () => {
       })
 
   }
-
+  const [title, setTitle] = useState('Add')
   useEffect(() => {
     if(params.tid){
-        getTopicList()
+        getTopicList();
+        setTitle('Edit')
     }
   }, []);
 
     return(
         <>
         <div class="page-title">
-              <h1>Add/Edit Topic</h1>
+              <h1>{title} Topic</h1>
         </div>
         <div className="content-box edit-pubication">
             <div className="row">
-                <div className="col-3"><input className="form-control" type="text" placeholder="Topic Name"   value={topic_name} onChange={e => setTopicName(e.target.value)}  /></div>
-
-                <div className="col-3">
-                <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => keywordChange(e)} />
+            <div className="col-3">
+                <AsyncSelect placeholder="Select Keyword" cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => keywordChange(e)} />
 
                 </div>
+                <div className="col-3"><input className="form-control" type="text" placeholder="Topic Name"   value={topic_name} onChange={e => setTopicName(e.target.value)}  /></div>
+
+                
                 {/* <div className="col-3"><input className="form-control" type="text" placeholder="Their Designation"  value={designation} onChange={e => setDesignation(e.target.value)}  /></div> */}
                 {/* <div className="col-3"><input className="form-control" type="text" placeholder="Member for Industry Platforms"  value={company_id} onChange={e => setCompanyId(e.target.value)}  /></div> */}
                 {/* <div className="col-3">

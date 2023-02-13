@@ -79,16 +79,17 @@ export default function AddKeyword(){
     return(
         <>
         <div class="page-title">
-              <h1>Add/Edit Keyword</h1>
+              <h1>Add Keyword</h1>
         </div>
         <div className="content-box edit-pubication">
             <div className="row">
-                <div className="col-3"><input className="form-control" type="text" placeholder="Keyword"   value={keyword} onChange={e => setKeyword(e.target.value)}  /></div>
-
-                <div className="col-3">
-                <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => themeChange(e)} />
+            <div className="col-3">
+                <AsyncSelect placeholder="Select Theme" cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => themeChange(e)} />
 
                 </div>
+                <div className="col-3"><input className="form-control" type="text" placeholder="Keyword"   value={keyword} onChange={e => setKeyword(e.target.value)}  /></div>
+
+                
                 {/* <div className="col-3"><input className="form-control" type="text" placeholder="Their Designation"  value={designation} onChange={e => setDesignation(e.target.value)}  /></div> */}
                 {/* <div className="col-3"><input className="form-control" type="text" placeholder="Member for Industry Platforms"  value={company_id} onChange={e => setCompanyId(e.target.value)}  /></div> */}
                 {/* <div className="col-3">

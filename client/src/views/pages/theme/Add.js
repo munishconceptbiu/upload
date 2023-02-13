@@ -80,17 +80,18 @@ const getThemeList = () => {
       })
 
   }
-
+  const [title, setTitle] = useState('Add')
   useEffect(() => {
     if(params.tid){
         getThemeList()
+        setTitle('Edit')
     }
   }, []);
 
     return(
         <>
         <div class="page-title">
-              <h1>Add/Edit Theme</h1>
+              <h1>{title} Theme</h1>
         </div>
         <div className="content-box edit-pubication">
             <div className="row">

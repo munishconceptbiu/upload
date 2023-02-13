@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { DashboardIcon, AnalysisIcon, NotificationsMenuIcon, ArticleIcon, SocialIcon, LoginIcon, UsersIcon, ProfileIcon, EyeIcon } from "../Icons/icons.component";
+import { DashboardIcon, AnalysisIcon, NotificationsMenuIcon, ArticleIcon, SocialIcon, LoginIcon, UsersIcon, ProfileIcon, EyeIcon, JounalistIcon, OrganizationInfoIcon, WidgetBuildingIcon, ListningIcon } from "../Icons/icons.component";
 import { NavLink, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { logout } from '../store/actions/AuthActions';
@@ -73,33 +73,33 @@ const AppSidebar = (props) => {
       </li>
       <li>
       <NavLink to="/publications" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
-         <span className='menuIcon'><ArticleIcon /></span>
+         <span className='menuIcon'><AnalysisIcon /></span>
          <span className='menuTitle'>Publication</span>
         </NavLink>
       </li>
 
       <li>
       <NavLink to="/spokepersons" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
-         <span className='menuIcon'><ArticleIcon /></span>
+         <span className='menuIcon'><SocialIcon /></span>
          <span className='menuTitle'>SpokePerson</span>
         </NavLink>
       </li>
 
-      <li>
+      {/* <li>
       <NavLink to="/journalist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
-         <span className='menuIcon'><ArticleIcon /></span>
+         <span className='menuIcon'><JounalistIcon /></span>
          <span className='menuTitle'>Journalist</span>
         </NavLink>
-      </li>
+      </li> */}
       <li>
       <NavLink to="/themes" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
-         <span className='menuIcon'><ArticleIcon /></span>
+         <span className='menuIcon'><OrganizationInfoIcon /></span>
          <span className='menuTitle'>Theme</span>
         </NavLink>
       </li>
       <li>
       <NavLink to="/keywords" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
-         <span className='menuIcon'><ArticleIcon /></span>
+         <span className='menuIcon'><ListningIcon /></span>
          <span className='menuTitle'>Keyword</span>
         </NavLink>
       </li>

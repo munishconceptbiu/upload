@@ -98,27 +98,29 @@ export default function AddSpokePerson(){
       })
 
   }
-
+  const [title, setTitle] = useState('Add')
   useEffect(() => {
     if(params.sid){
         getSpokepersonList()
+        setTitle('Edit')
     }
   }, []);
 
     return(
         <>
         <div class="page-title">
-              <h1>Add/Edit Spoke Person</h1>
+              <h1>{title} Spoke Person</h1>
         </div>
         <div className="content-box edit-pubication">
             <div className="row">
+            <div className="col-3">
+                <AsyncSelect placeholder="Select Client" cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => clientChange(e)} />
+
+                </div>
                 <div className="col-3"><input className="form-control" type="text" placeholder="Spokesperson Name"   value={spokesperson_name} onChange={e => setSpokesperson(e.target.value)}  /></div>
                 <div className="col-3"><input className="form-control" type="text" placeholder="Their Designation"  value={designation} onChange={e => setDesignation(e.target.value)}  /></div>
                 {/* <div className="col-3"><input className="form-control" type="text" placeholder="Member for Industry Platforms"  value={company_id} onChange={e => setCompanyId(e.target.value)}  /></div> */}
-                <div className="col-3">
-                <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => clientChange(e)} />
-
-                </div>
+                
                 {/* <div className="col-3"><input className="form-control" type="text" placeholder="Client or Team update"  value={spokesperson_name} onChange={e => setSpokesperson(e.target.value)}  /></div> */}
             </div>
             <div className="row mt-20">

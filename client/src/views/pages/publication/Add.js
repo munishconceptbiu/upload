@@ -125,26 +125,28 @@ export default function AddPublication(){
       })
 
   }
-
+  const [title, setTitle] = useState('Add')
   useEffect(() => {
     if(params.pid){
         getPublicationList()
+        setTitle('Edit')
     }
   }, []);
 
     return(
         <>
         <div class="page-title d-flex justify-content-between">
-              <h1>Add/Edit Publication</h1>
+              <h1> {title} Publication</h1>
         </div>
         <div className="content-box edit-pubication">
             <div className="row">
-                <div className="col-3"><input className="form-control" type="text" placeholder="Publication" value={publication} onChange={e => setPublication(e.target.value)} /></div>
-                <div className="col-3">
-                <AsyncSelect  cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => editionChange(e)} />
+            <div className="col-3">
+                <AsyncSelect placeholder="Select Client"  cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => editionChange(e)} />
 
                     
                 </div>
+                <div className="col-3"><input className="form-control" type="text" placeholder="Publication" value={publication} onChange={e => setPublication(e.target.value)} /></div>
+               
                 <div className="col-3"><input className="form-control" type="text" placeholder="Webname" value={webname} onChange={e => setWebName(e.target.value)} /></div>
                 <div className="col-3"><input className="form-control" type="text" placeholder="Circulation" value={circlation} onChange={e => setCirclation(e.target.value)} /></div>
                 <div className="col-3"><input className="form-control" type="text" placeholder="Readership" value={readership} onChange={e => setReadership(e.target.value)} /></div>
