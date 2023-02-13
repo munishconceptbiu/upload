@@ -191,10 +191,10 @@ exports.addPublication = async function (req, res, next) {
         if(suppliment_id == '' || typeof suppliment_id == 'undefined'){ suppliment_id = 0; }
 
         var pe_sample_media = req.body.pe_sample_media;
-        if(pe_sample_media == '' || typeof pe_sample_media == 'undefined'){ pe_sample_media = ""; }
+        if(pe_sample_media == '' || typeof pe_sample_media == 'undefined'){ pe_sample_media = 0; }
 
         var sample_media = req.body.sample_media;
-        if(sample_media == '' || typeof sample_media == 'undefined'){ sample_media = ""; }
+        if(sample_media == '' || typeof sample_media == 'undefined'){ sample_media = 0; }
 
         var biunew_publication_edition_id = req.body.biunew_publication_edition_id;
         if(biunew_publication_edition_id == '' || typeof biunew_publication_edition_id == 'undefined'){ biunew_publication_edition_id = 0; }
