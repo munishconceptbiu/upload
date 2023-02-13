@@ -176,7 +176,7 @@ exports.addPublication = async function (req, res, next) {
         if(biunew_publication_id == '' || typeof biunew_publication_id == 'undefined' ){ biunew_publication_id = "0"; }
 
         var language_id = req.body.language_id;
-        if(language_id == '' || typeof language_id == 'undefined'){ language_id = ""; }
+        if(language_id == '' || typeof language_id == 'undefined'){ language_id = 0; }
 
         var webname = req.body.webname;
         if(webname == '' || typeof webname == 'undefined'){ webname = ""; }
@@ -185,10 +185,10 @@ exports.addPublication = async function (req, res, next) {
         if(website == '' || typeof website == 'undefined'){ website = ""; }
 
         var website_type_id = req.body.website_type_id;
-        if(website_type_id == '' || typeof website_type_id == 'undefined'){ website_type_id = ""; }
+        if(website_type_id == '' || typeof website_type_id == 'undefined'){ website_type_id = 0; }
 
         var suppliment_id = req.body.suppliment_id;
-        if(suppliment_id == '' || typeof suppliment_id == 'undefined'){ suppliment_id = ""; }
+        if(suppliment_id == '' || typeof suppliment_id == 'undefined'){ suppliment_id = 0; }
 
         var pe_sample_media = req.body.pe_sample_media;
         if(pe_sample_media == '' || typeof pe_sample_media == 'undefined'){ pe_sample_media = ""; }
@@ -197,7 +197,7 @@ exports.addPublication = async function (req, res, next) {
         if(sample_media == '' || typeof sample_media == 'undefined'){ sample_media = ""; }
 
         var biunew_publication_edition_id = req.body.biunew_publication_edition_id;
-        if(biunew_publication_edition_id == '' || typeof biunew_publication_edition_id == 'undefined'){ biunew_publication_edition_id = "0"; }
+        if(biunew_publication_edition_id == '' || typeof biunew_publication_edition_id == 'undefined'){ biunew_publication_edition_id = 0; }
 
             dataprocessService.addPublication({
                 publication: req.body.publication,
