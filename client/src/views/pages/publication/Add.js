@@ -141,7 +141,7 @@ export default function AddPublication(){
         <div className="content-box edit-pubication">
             <div className="row">
             <div className="col-3">
-                <AsyncSelect placeholder="Select Client"  cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => editionChange(e)} />
+                <AsyncSelect placeholder="Select Edition"  cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => editionChange(e)} />
 
                     
                 </div>
