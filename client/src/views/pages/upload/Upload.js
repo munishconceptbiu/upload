@@ -121,7 +121,7 @@ const Upload = ({ setFetchList, fetchList }) => {
    
 
     const uploadPromise = new Promise((resolve, reject) => {
-      post(`http://qa.conceptbiu.com/unifiedapi/artical`, formData).then((response) => {
+      post(`http://qa-dev.conceptbiu.com/unifiedapi/artical`, formData).then((response) => {
         setFile('')
         selectRef && selectRef.clearValue();
         setClientName();
@@ -221,7 +221,7 @@ const Upload = ({ setFetchList, fetchList }) => {
                 <label htmlFor="zip" className="form-label">Document</label>
                 <input type="file" className="form-control" id="zip" accept=".xls, .xlsx" onChange={onFileChange} placeholder="" required />
                 <div className="mt-10 img-note">
-                  Check the sample file before upload <a href="http://qa.conceptbiu.com//unifiedapi/qualitative/sample_template1666253552888.xlsx" target="_blank">Sample file</a>
+                  Check the sample file before upload <a href="http://qa-dev.conceptbiu.com//unifiedapi/qualitative/sample_template1666253552888.xlsx" target="_blank">Sample file</a>
                 </div>
               </div>
             </div>
