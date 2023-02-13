@@ -200,7 +200,8 @@ exports.addPublication = async function (req, res, next) {
         if(biunew_publication_edition_id == '' || typeof biunew_publication_edition_id == 'undefined'){ biunew_publication_edition_id = "0"; }
 
             dataprocessService.addPublication({
-                biunew_publication_id: biunew_publication_id,
+                publication: req.body.publication,
+                biunew_publication_id: 0,
                 language_id: language_id,
                 website: website,
                 webname: webname,
