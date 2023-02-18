@@ -10,101 +10,8 @@ import Reorder, {
 import move from "lodash-move";
 import { useNavigate, useParams } from 'react-router-dom';
 
-export default function AddSpokePerson(){
-    const navigate = useNavigate();
-    const params = useParams();
-    const [spokesperson_name, setSpokesperson] = useState('');
-    const [designation, setDesignation] = useState('');
-    const [company_id, setCompanyId] = useState('');
-    const [company_name, setCompanyName] = useState('');
-
-    const saveSpokeperson = async () => {
-
-        if (spokesperson_name === "" || spokesperson_name.trim().length === 0) {
-            toast.error("spokesperson_name can't be empty");
-            return false;
-        }
-        if (designation === "" || designation.trim().length === 0) {
-            toast.error("designation can't be empty");
-            return false;
-        }
-        if (company_id === "") {
-            toast.error("company_id can't be empty");
-            return false;
-        }
-        if (company_name === "" || company_name.trim().length === 0) {
-            toast.error("company_name can't be empty");
-            return false;
-        }
-
-        const formData = {
-            "company_name": company_name,
-            "company_id": company_id,
-            "designation": designation,
-            "spokesperson_name": spokesperson_name,
-        }
-        const uploadPromise = new Promise((resolve, reject) => {
-
-            post(`dataprocess/add-spokespersons`, formData).then((response) => {
-                resolve("Spokessperson Successfully Saved");
-                navigate('/spokepersons')
-            }).catch((err) => {
-                reject(err.response.data.error)
-            })
-        });
-        toast.promise(
-            uploadPromise,
-            {
-                loading: 'saving ...',
-                success: (data) => `${data}`,
-                error: (err) => `This just happened: ${err}`,
-            },
-            {
-                style: {
-                    minWidth: '250px',
-                },
-
-            }
-        );
-    }
-
-    const promiseOptions = (inputValue) =>
-    new Promise((resolve) => {
-      inputValue = inputValue || 'a'
-
-      get("artical/get-setting-clientlist/" + inputValue).then((response) => {
-        resolve(response.data.client.map((e) => ({
-          value: e.id,
-          label: e.client_name
-        })));
-      })
-
-    });
-
-  const clientChange = (e) => {
-    setCompanyId(e.value)
-    setCompanyName(e.label);
-  }
-
-  const getSpokepersonList = () => {
-    get("dataprocess/get-singlespokespersons/"+params.sid).then((response) => {
-        setSpokesperson(response.data.spokespersonslist[0].spokesperson_name);
-        setDesignation(response.data.spokespersonslist[0].designation)
-        setCompanyId(response.data.spokespersonslist[0].company_id)
-        setCompanyName(response.data.publicationlist[0].company_name)
-    })
-      .catch(() => {
-        // handleLoginFailure({ status: UNAUTHORIZED });
-      })
-
-  }
-  const [title, setTitle] = useState('Add')
-  useEffect(() => {
-    if(params.sid){
-        getSpokepersonList()
-        setTitle('Edit')
-    }
-  }, []);
+export default function AddSpokePerson({ title,clientChange, promiseOptions, setSpokesperson, setCompanyName, setDesignation, setCompanyId,  saveSpokeperson, spokesperson_name, designation, company_id, company_name }){
+    
 
     return(
         <>
@@ -114,7 +21,7 @@ export default function AddSpokePerson(){
         <div className="content-box edit-pubication">
             <div className="row">
             <div className="col-3">
-                <AsyncSelect placeholder="Select Client" cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => clientChange(e)} />
+                <AsyncSelect value={company_id} placeholder="Select Client" cacheOptions defaultOptions loadOptions={promiseOptions} onChange={e => clientChange(e)} />
 
                 </div>
                 <div className="col-3"><input className="form-control" type="text" placeholder="Spokesperson Name"   value={spokesperson_name} onChange={e => setSpokesperson(e.target.value)}  /></div>

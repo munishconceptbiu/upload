@@ -10,7 +10,8 @@ import './sidebars.sass'
 const AppSidebar = (props) => {
   const state = store.getState();
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const [showMaster, setShowMaster] = React.useState(false)
   let navigate = useNavigate();
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
@@ -72,50 +73,66 @@ const AppSidebar = (props) => {
         </NavLink>
       </li>
       <li>
+      <NavLink to={"#"} onClick={ e => setShowMaster(showMaster === true ? false : true)} className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
+         <span className='menuIcon'><AnalysisIcon /></span>
+         <span className='menuTitle'>Master</span>
+        </NavLink>
+      </li>
+      {showMaster === true &&
+      <ul style={{ marginLeft: "-34px" }}>
+      <li style={{ padding: "1px 22px", fontSize: "14px" }}>
       <NavLink to="/publications" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
          <span className='menuIcon'><AnalysisIcon /></span>
          <span className='menuTitle'>Publication</span>
         </NavLink>
       </li>
 
-      <li>
+      <li style={{ padding: "1px 22px", fontSize: "14px" }}>
       <NavLink to="/spokepersons" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
          <span className='menuIcon'><SocialIcon /></span>
          <span className='menuTitle'>SpokePerson</span>
         </NavLink>
       </li>
 
-      {/* <li>
+      {/* <li style={{ padding: "1px 22px", fontSize: "14px" }}>
       <NavLink to="/journalist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
          <span className='menuIcon'><JounalistIcon /></span>
          <span className='menuTitle'>Journalist</span>
         </NavLink>
       </li> */}
-      <li>
+      <li style={{ padding: "1px 22px", fontSize: "14px" }}>
       <NavLink to="/themes" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
          <span className='menuIcon'><OrganizationInfoIcon /></span>
          <span className='menuTitle'>Theme</span>
         </NavLink>
       </li>
-      <li>
+      <li style={{ padding: "1px 22px", fontSize: "14px" }}>
       <NavLink to="/keywords" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
          <span className='menuIcon'><ListningIcon /></span>
          <span className='menuTitle'>Keyword</span>
         </NavLink>
       </li>
-      <li>
+      <li style={{ padding: "1px 22px", fontSize: "14px" }}>
       <NavLink to="/topics" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
          <span className='menuIcon'><ArticleIcon /></span>
          <span className='menuTitle'>Topic</span>
         </NavLink>
       </li>
+      </ul>
+      }
      <li>
-      
+      <NavLink to={"/Articlelist"}  className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
+         <span className='menuIcon'><AnalysisIcon /></span>
+         <span className='menuTitle'>Artical List</span>
+        </NavLink>
+      </li>
+      <li>
      <NavLink to="/#" onClick={onLogout} className="nav-link" title="Logout" data-bs-toggle="tooltip" data-bs-placement="right">
         <span className='menuIcon'><LoginIcon /></span>
          <span className='menuTitle'>Logout</span>
         </NavLink>
       </li>
+      
       {/* <li>
         <a href="#" className="nav-link py-3 " title="Customers" data-bs-toggle="tooltip" data-bs-placement="right">
           <svg className="bi" width="24" height="24" role="img" aria-label="Customers"><use xlinkHref="#people-circle"/></svg>

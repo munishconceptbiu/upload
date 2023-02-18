@@ -3,6 +3,7 @@ import AddKeyword from './views/pages/keyword/Add'
 import Keyword from './views/pages/keyword/Keyword'
 import AddSpokePerson from './views/pages/spokesperson/Add'
 import Spokeperson from './views/pages/spokesperson/Spokesperson'
+import ViewSpokeperson from './views/pages/spokesperson/View'
 import AddTheme from './views/pages/theme/Add'
 import Theme from './views/pages/theme/Theme'
 import AddTopic from './views/pages/topic/Add'
@@ -31,7 +32,7 @@ const AddJournalist = React.lazy(() => import('./views/pages/journalist/Add'))
 
 
 
-const Publication = React.lazy(() => import('./views/pages/publication/Publication'))
+const ViewPublication = React.lazy(() => import('./views/pages/publication/View'))
 
 const AddPublication = React.lazy(() => import('./views/pages/publication/Add'))
 
@@ -55,13 +56,13 @@ const routes = [
   { path: '/journalist', name: 'list', element: Journalist },
   { path: '/add-journalist', name: 'add', element: AddJournalist },
 
-  { path: '/publications', name: 'list', element: Publication },
-  { path: '/add-publication', name: 'add', element: AddPublication },
-  { path: '/edit-publication/:pid', name: 'edit', element: AddPublication },
+  { path: '/publications', name: 'list', element: ViewPublication },
+  // { path: '/add-publication', name: 'add', element: AddPublication },
+  // { path: '/edit-publication/:pid', name: 'edit', element: AddPublication },
 
-  { path: '/spokepersons', name: 'list', element: Spokeperson },
-  { path: '/add-spokeperson', name: 'add', element: AddSpokePerson },
-  { path: '/edit-spokeperson/:sid', name: 'edit', element: AddSpokePerson },
+  { path: '/spokepersons', name: 'list', element: ViewSpokeperson },
+  // { path: '/add-spokeperson', name: 'add', element: AddSpokePerson },
+  // { path: '/edit-spokeperson/:sid', name: 'edit', element: AddSpokePerson },
   
   { path: '/themes', name: 'list', element: Theme },
   { path: '/add-theme', name: 'add', element: AddTheme },

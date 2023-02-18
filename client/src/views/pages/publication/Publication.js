@@ -9,44 +9,29 @@ import toast from 'react-hot-toast';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { store } from '../../../store/store';
 
-export default function PublicationList(){
+export default function PublicationList({ publicationList, setPublication, setCirclation, setEdition, setMediaType, setPublicationTypeId, setReadership, setWebName }){
 
-
-  let navigate = useNavigate();
-  const state = store.getState();
-  const [publicationList, setPublicationList] = useState([]);
-  const getPublicationList = () => {
-    get("dataprocess/get-publicationlist/").then((response) => {
-      setPublicationList(response.data.publicationlist)
+  const getPublicationSingleList = (id) => {
+    get("dataprocess/get-singlepublications/"+id).then((response) => {
+        setPublication(response.data.publicationlist[0].publication);
+        setCirclation(response.data.publicationlist[0].circlation)
+        setEdition(response.data.publicationlist[0].edition_id)
+        setMediaType(response.data.publicationlist[0].media_type_id)
+        setPublicationTypeId(response.data.publicationlist[0].publication_type_id)
+        setReadership(response.data.publicationlist[0].readership)
+        setWebName(response.data.publicationlist[0].webname)
     })
       .catch(() => {
         // handleLoginFailure({ status: UNAUTHORIZED });
       })
 
   }
-
-  const deletePublication = (id) => {
-    deleteMethod("users/deleteuser/" + id).then((response) => {
-      toast.success("User successfully deleted");
-      getPublicationList()
-    })
-      .catch(() => {
-        // handleLoginFailure({ status: UNAUTHORIZED });
-      })
-  }
-
-
-  const addPublication = () => {
-    navigate("/add-publication");
-  }
-  useEffect(() => {
-    getPublicationList();
-  }, []);
     return(
         <>
             <div class="page-title d-flex justify-content-between">
               <h1>Publication List</h1>
-              <button onClick={addPublication} className="btn btn-primary btn-medium">Add Publication</button></div>
+              {/* <button onClick={addPublication} className="btn btn-primary btn-medium">Add Publication</button> */}
+              </div>
             <div className="content-box">
             <table class="table">
     <thead>
@@ -74,7 +59,7 @@ export default function PublicationList(){
         <td>{list.media_type === 1 ? 'print' : 'online'}</td>
        
         <td className="add-delete">
-            <NavLink to={`/edit-publication/${list.id}`} className="nav-link" title="PublilcationList" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><EditIcon /></span></NavLink>
+            <NavLink to="" onClick={e => getPublicationSingleList(list.id)} className="nav-link" title="PublilcationList" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><EditIcon /></span></NavLink>
             <NavLink to="" className="nav-link" title="PublicationList" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><DeleteIcon /></span></NavLink>
         </td>
       </tr>

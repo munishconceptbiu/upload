@@ -9,44 +9,26 @@ import { useNavigate, NavLink } from 'react-router-dom';
 import { store } from '../../../store/store';
 
 
-export default function Spokeperson(){
+export default function Spokeperson({ spokepersonList, setSpokesperson, setDesignation , setCompanyId, setCompanyName}){
 
-
-  let navigate = useNavigate();
-  const state = store.getState();
-  const [spokepersonList, setSpokepersonList] = useState([]);
-  const getSpokepersonList = () => {
-    get("dataprocess/get-spokespersonslist/").then((response) => {
-        setSpokepersonList(response.data.spokespersonslist)
+  const getSpokepersonSingleList = (id) => {
+    get("dataprocess/get-singlespokespersons/"+id).then((response) => {
+        setSpokesperson(response.data.spokespersonslist[0].spokesperson_name);
+        setDesignation(response.data.spokespersonslist[0].designation)
+        setCompanyId(response.data.spokespersonslist[0].company_id)
+        setCompanyName(response.data.publicationlist[0].company_name)
     })
       .catch(() => {
         // handleLoginFailure({ status: UNAUTHORIZED });
       })
 
   }
-
-  const deleteSpokeperson = (id) => {
-    deleteMethod("users/deleteuser/" + id).then((response) => {
-      toast.success("User successfully deleted");
-      getSpokepersonList()
-    })
-      .catch(() => {
-        // handleLoginFailure({ status: UNAUTHORIZED });
-      })
-  }
-
-
-  const addSpokeperson = () => {
-    navigate("/add-spokeperson");
-  }
-  useEffect(() => {
-    getSpokepersonList();
-  }, []);
     return(
         <>
             <div class="page-title d-flex justify-content-between">
               <h1>Spoke Person List</h1>
-              <button onClick={addSpokeperson} className="btn btn-primary btn-medium">Add Spoke person</button></div>
+              {/* <button onClick={addSpokeperson} className="btn btn-primary btn-medium">Add Spoke person</button> */}
+              </div>
             <div className="content-box">
             <table class="table">
     <thead>
