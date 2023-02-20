@@ -1,4 +1,5 @@
 import React from 'react'
+import ViewJornalist from './views/pages/journalist/View'
 import AddKeyword from './views/pages/keyword/Add'
 import Keyword from './views/pages/keyword/Keyword'
 import AddSpokePerson from './views/pages/spokesperson/Add'
@@ -53,7 +54,7 @@ const routes = [
   { path: '/profile', name: 'Profile', element: Profile },
   { path: '/Articlelist', name: 'Articlelist', element: Articlelist },
 
-  { path: '/journalist', name: 'list', element: Journalist },
+  { path: '/journalist', name: 'list', element: ViewJornalist },
   { path: '/add-journalist', name: 'add', element: AddJournalist },
 
   { path: '/publications', name: 'list', element: ViewPublication },

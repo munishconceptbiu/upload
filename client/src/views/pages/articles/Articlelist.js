@@ -38,7 +38,7 @@ function Articlelist() {
     },
     
     {
-      key: 'entity',
+      key: 'entity_name',
       label: 'Entity',
       // filter: false,
       // sorter: false,
@@ -56,12 +56,7 @@ function Articlelist() {
       // filter: false,
       // sorter: false,
     },
-    {
-      key: 'readership',
-      label: 'Readership',
-      // filter: false,
-      // sorter: false,
-    },
+   
     {
       key: 'publication',
       label: 'Publication',

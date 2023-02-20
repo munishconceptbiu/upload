@@ -73,7 +73,7 @@ const AppSidebar = (props) => {
         </NavLink>
       </li>
       <li>
-      <NavLink to={"#"} onClick={ e => setShowMaster(showMaster === true ? false : true)} className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
+      <NavLink to={"/#"} onClick={ e => setShowMaster(showMaster === true ? false : true)} className="nav-link" title="Master" data-bs-toggle="tooltip" data-bs-placement="right">
          <span className='menuIcon'><AnalysisIcon /></span>
          <span className='menuTitle'>Master</span>
         </NavLink>
@@ -81,39 +81,39 @@ const AppSidebar = (props) => {
       {showMaster === true &&
       <ul style={{ marginLeft: "-34px" }}>
       <li style={{ padding: "1px 22px", fontSize: "14px" }}>
-      <NavLink to="/publications" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
+      <NavLink to="/publications" className="nav-link" title="Publication" data-bs-toggle="tooltip" data-bs-placement="right">
          <span className='menuIcon'><AnalysisIcon /></span>
          <span className='menuTitle'>Publication</span>
         </NavLink>
       </li>
 
       <li style={{ padding: "1px 22px", fontSize: "14px" }}>
-      <NavLink to="/spokepersons" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
+      <NavLink to="/spokepersons" className="nav-link" title="SpokePerson" data-bs-toggle="tooltip" data-bs-placement="right">
          <span className='menuIcon'><SocialIcon /></span>
          <span className='menuTitle'>SpokePerson</span>
         </NavLink>
       </li>
 
-      {/* <li style={{ padding: "1px 22px", fontSize: "14px" }}>
-      <NavLink to="/journalist" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
+      <li style={{ padding: "1px 22px", fontSize: "14px" }}>
+      <NavLink to="/journalist" className="nav-link" title="Journalist" data-bs-toggle="tooltip" data-bs-placement="right">
          <span className='menuIcon'><JounalistIcon /></span>
          <span className='menuTitle'>Journalist</span>
         </NavLink>
-      </li> */}
+      </li>
       <li style={{ padding: "1px 22px", fontSize: "14px" }}>
-      <NavLink to="/themes" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
+      <NavLink to="/themes" className="nav-link" title="Theme" data-bs-toggle="tooltip" data-bs-placement="right">
          <span className='menuIcon'><OrganizationInfoIcon /></span>
          <span className='menuTitle'>Theme</span>
         </NavLink>
       </li>
       <li style={{ padding: "1px 22px", fontSize: "14px" }}>
-      <NavLink to="/keywords" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
+      <NavLink to="/keywords" className="nav-link" title="Keyword" data-bs-toggle="tooltip" data-bs-placement="right">
          <span className='menuIcon'><ListningIcon /></span>
          <span className='menuTitle'>Keyword</span>
         </NavLink>
       </li>
       <li style={{ padding: "1px 22px", fontSize: "14px" }}>
-      <NavLink to="/topics" className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
+      <NavLink to="/topics" className="nav-link" title="Topic" data-bs-toggle="tooltip" data-bs-placement="right">
          <span className='menuIcon'><ArticleIcon /></span>
          <span className='menuTitle'>Topic</span>
         </NavLink>

@@ -9,7 +9,7 @@ export default function Journalist(){
         <>
             <div class="page-title d-flex justify-content-between">
               <h1>Journalist List</h1>
-              <NavLink to="/add-journalist" className="btn btn-primary btn-medium"  title="Journalist" data-bs-toggle="tooltip" >Add Journalist</NavLink>
+              {/* <NavLink to="/add-journalist" className="btn btn-primary btn-medium"  title="Journalist" data-bs-toggle="tooltip" >Add Journalist</NavLink> */}
               {/* <button className="btn btn-primary btn-medium">Add Journalist</button> */}
               </div>
             <div className="content-box">

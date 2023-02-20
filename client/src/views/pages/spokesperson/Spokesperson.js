@@ -7,6 +7,7 @@ import { get, put, deleteMethod } from "../../../services/CommanService";
 import toast from 'react-hot-toast';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { store } from '../../../store/store';
+import { CSmartTable } from '@coreui/react-pro'
 
 
 export default function Spokeperson({ spokepersonList, setSpokesperson, setDesignation , setCompanyId, setCompanyName}){
@@ -23,6 +24,58 @@ export default function Spokeperson({ spokepersonList, setSpokesperson, setDesig
       })
 
   }
+
+
+  const columns = [
+    {
+      key: 'id',
+      label: 'No',
+    },
+    {
+      key: 'spokesperson_name',
+      label: 'Spokesperson Name',
+      // filter: false,
+      // sorter: false,
+    },
+    
+    {
+      key: 'designation',
+      label: 'Their Designation',
+      // filter: false,
+      // sorter: false,
+    },
+
+    {
+      key: 'company_name',
+      label: 'Client or Team update',
+      // filter: false,
+      // sorter: false,
+    },
+    // {
+    //   key: 'circlation',
+    //   label: 'Circulation',
+    //   // filter: false,
+    //   // sorter: false,
+    // },
+    // {
+    //   key: 'readership',
+    //   label: 'Readership',
+    //   // filter: false,
+    //   // sorter: false,
+    // },
+    // {
+    //   key: 'media_type',
+    //   label: 'Media House',
+    //   // filter: false,
+    //   // sorter: false,
+    // },
+    {
+      key: 'action',
+      label: 'Action',
+      filter: false,
+      sorter: false,
+    },
+  ]
     return(
         <>
             <div class="page-title d-flex justify-content-between">
@@ -30,48 +83,34 @@ export default function Spokeperson({ spokepersonList, setSpokesperson, setDesig
               {/* <button onClick={addSpokeperson} className="btn btn-primary btn-medium">Add Spoke person</button> */}
               </div>
             <div className="content-box">
-            <table class="table">
-    <thead>
-      <tr>
-        <th>No</th>
-        <th>Spokesperson Name</th>
-        <th>Their Designation</th>
-        <th>Member for Industry Platforms</th>
-        <th>Suggested by whom</th>
-        <th>Client or Team update</th>
-        <th>Created On</th>
-        <th>Created By</th>
-        <th>Last Modified On</th>
-        <th>Last Modified By</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-    {spokepersonList?.map((list, index) => (
-      <tr key={index}>
-        <td>{index + 1}</td>
-        <td>{list.spokesperson_name}</td>
-        <td>{list.designation}</td>
-        <td>Mainline</td>
-        <td>Shreya Nandi</td>
-        <td>{list.company_name}</td>
-        <td>NA</td>
-        <td>NA</td>
-        <td>NA</td>
-        <td>NA</td>
-        <td className="add-delete">
-            <NavLink to={`/edit-spokeperson/${list.id}`} className="nav-link" title="edit" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><EditIcon /></span></NavLink>
-            <NavLink to="" className="nav-link" title="delete" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><DeleteIcon /></span></NavLink>
-        </td>
-      </tr>
-  ))}
-  {spokepersonList.length === 0 &&
-    <tr>
-      <td colSpan={13}> No Spokesperson found</td>
-    </tr>
-  }
-    </tbody>
-  </table>
+            <CSmartTable
+      columns={columns}
+      columnFilter
+      columnSorter
+      items={spokepersonList.map((e, index) => ({
+        id: index,
+        ...e
+      }))}
+      pagination
+      scopedColumns={{
+        action: (list) => (
+          <td className='action-btns'><a  href="javascript:void(0)"onClick={e => getSpokepersonSingleList(list.id)}><EditIcon /></a> <a href="javascript:void(0)"  className='deleicon'><DeleteIcon /></a></td>
+        ),
+        // media_type: (list) => (
+        //   <td>{list.media_type === 1 ? 'print' : 'online'}</td>
+        // ),
+        // readership: (list) => (
+        //   <td>{list.readership || 'NA'}</td>
+        // ),
+        // genre: (list) => (
+        //   <td>{list.genre || 'NA'}</td>
+        // )
+       }}
+      tableProps={{
+        hover: true,
+        responsive: true,
+      }}
+    />
             </div>
         </>
     )

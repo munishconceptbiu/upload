@@ -81,7 +81,7 @@ export default function Add() {
             />
           </div>
         </div>
-        <div className='row ep-info'>
+        {/* <div className='row ep-info'>
           <div className='col-6 '>
             <h6>Additional Info : </h6>
             <input
@@ -166,7 +166,7 @@ export default function Add() {
               placeholder='Till Date'
             />
           </div>
-        </div>
+        </div> */}
         <div className='row mt-20'>
           <div className='col-12'>
             <button class='btn btn-gray'>Save</button>
