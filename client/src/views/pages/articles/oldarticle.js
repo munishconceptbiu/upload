@@ -2,86 +2,74 @@ import { CalendarIcon, HandIcon } from '../../../Icons/icons.component'
 import { NavLink, useNavigate } from 'react-router-dom';
 import '../../../components/main.css'
 import ReactDatePicker from 'react-datepicker';
-import React, { useCallback, useMemo, useEffect, useState } from 'react';
-import { EditIcon, DeleteIcon } from "../../../Icons/icons.component";
-import { get, post, deleteMethod } from "../../../services/CommanService";
+import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { render } from 'react-dom';
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-enterprise';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
 
-import { CSmartTable } from '@coreui/react-pro'
+const getServerSideDatasource = (data) => {
+  return {
+    getRows: (params) => {
+      console.log('[Datasource] - rows requested by grid: ', params.request);
+      // var response = server.getData(params.request);
+      // adding delay to simulate real server call
+      setTimeout(function () {
+        // if (response.success) {
+          // call the success callback
+          params.success({
+            rowData: data.filter((e, i) => i < 10 ),
+            rowCount: data.length,
+          });
+        // } else {
+        //   // inform the grid request failed
+        //   params.fail();
+        // }
+      }, 200);
+    },
+  };
+};
 
 function Articlelist() {
 
-  const [articleList, setArticleList] = useState([])
-  const getArticleList = () => {
-    post("dataprocess/get-articlesrowlist", {"client_id":"5193","media_type":"2","page":"1","fromDate":"2022-12-15","toDate":"2022-12-16"}
-    ).then((response) => {
-      setArticleList(response.data.articlesrowlist)
-    })
-      .catch(() => {
-        // handleLoginFailure({ status: UNAUTHORIZED });
-      })
+   const containerStyle = useMemo(() => ({ width: '100%', height: '100%' }), []);
+  const gridStyle = useMemo(() => ({ height: '100%', width: '100%' }), []);
 
-  }
-  useEffect(() => {
-    getArticleList();
+  const [columnDefs, setColumnDefs] = useState([
+    { field: 'id', maxWidth: 75 },
+    { field: 'athlete', minWidth: 190 },
+    { field: 'age' },
+    { field: 'year' },
+    { field: 'gold' },
+    { field: 'silver' },
+    { field: 'bronze' },
+  ]);
+  const defaultColDef = useMemo(() => {
+    return {
+      flex: 1,
+      minWidth: 90,
+      resizable: true,
+    };
   }, []);
-  
-  const columns = [
-    {
-      key: 'id',
-      label: 'No',
-    },
-    {
-      key: 'headline',
-      label: 'Headline',
-      // filter: false,
-      // sorter: false,
-    },
-    
-    {
-      key: 'entity',
-      label: 'Entity',
-      // filter: false,
-      // sorter: false,
-    },
 
-    {
-      key: 'media_type',
-      label: 'Media Type',
-      // filter: false,
-      // sorter: false,
-    },
-    {
-      key: 'edition',
-      label: 'Edition',
-      // filter: false,
-      // sorter: false,
-    },
-    {
-      key: 'readership',
-      label: 'Readership',
-      // filter: false,
-      // sorter: false,
-    },
-    {
-      key: 'publication',
-      label: 'Publication',
-      // filter: false,
-      // sorter: false,
-    },
-    {
-      key: 'publish_date',
-      label: 'Publish Date',
-      // filter: false,
-      // sorter: false,
-    },
-    
-    {
-      key: 'action',
-      label: 'Action',
-      filter: false,
-      sorter: false,
-    },
-  ]
+  const onGridReady = useCallback((params) => {
+    fetch('https://www.ag-grid.com/example-assets/olympic-winners.json')
+      .then((resp) => resp.json())
+      .then((data) => {
+        // add id to data
+        var idSequence = 1;
+        data.forEach(function (item) {
+          item.id = idSequence++;
+        });
+        // setup the fake server with entire dataset
+        // create datasource with a reference to the fake server
+        var datasource = getServerSideDatasource(data);
+        console.log('datasource', datasource)
+        // register the datasource with the grid
+        params.api.setServerSideDatasource(datasource);
+      });
+  }, []);
 
   return (
     <>
@@ -1079,28 +1067,20 @@ function Articlelist() {
         </div>
 
         <div className='row article-list'>
-        <CSmartTable
-      columns={columns}
-      columnFilter
-      columnSorter
-      items={articleList.map((e, index) => ({
-        id: index,
-        ...e
-      }))}
-      pagination
-      scopedColumns={{
-        action: (list) => (
-          <td className='action-btns'><a  href="javascript:void(0)"><EditIcon /></a> <a href="javascript:void(0)"  className='deleicon'><DeleteIcon /></a></td>
-        ),
-        media_type: (list) => (
-          <td>{list.media_type === 1 ? 'print' : 'online'}</td>
-        ),
-       }}
-      tableProps={{
-        hover: true,
-        responsive: true,
-      }}
-    />
+        <div style={containerStyle}>
+      <div style={gridStyle} className="ag-theme-alpine-dark">
+        <AgGridReact
+          columnDefs={columnDefs}
+          defaultColDef={defaultColDef}
+          rowModelType={'serverSide'}
+          pagination={true}
+          paginationPageSize={10}
+          cacheBlockSize={10}
+          animateRows={true}
+          onGridReady={onGridReady}
+        ></AgGridReact>
+      </div>
+    </div>
         </div>
       </div>
     </>

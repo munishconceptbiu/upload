@@ -176,7 +176,7 @@ exports.addPublication = async function (req, res, next) {
         if(biunew_publication_id == '' || typeof biunew_publication_id == 'undefined' ){ biunew_publication_id = "0"; }
 
         var language_id = req.body.language_id;
-        if(language_id == '' || typeof language_id == 'undefined'){ language_id = 0; }
+        if(language_id == '' || typeof language_id == 'undefined'){ language_id = ""; }
 
         var webname = req.body.webname;
         if(webname == '' || typeof webname == 'undefined'){ webname = ""; }
@@ -185,23 +185,22 @@ exports.addPublication = async function (req, res, next) {
         if(website == '' || typeof website == 'undefined'){ website = ""; }
 
         var website_type_id = req.body.website_type_id;
-        if(website_type_id == '' || typeof website_type_id == 'undefined'){ website_type_id = 0; }
+        if(website_type_id == '' || typeof website_type_id == 'undefined'){ website_type_id = ""; }
 
         var suppliment_id = req.body.suppliment_id;
-        if(suppliment_id == '' || typeof suppliment_id == 'undefined'){ suppliment_id = 0; }
+        if(suppliment_id == '' || typeof suppliment_id == 'undefined'){ suppliment_id = ""; }
 
         var pe_sample_media = req.body.pe_sample_media;
-        if(pe_sample_media == '' || typeof pe_sample_media == 'undefined'){ pe_sample_media = 0; }
+        if(pe_sample_media == '' || typeof pe_sample_media == 'undefined'){ pe_sample_media = ""; }
 
         var sample_media = req.body.sample_media;
-        if(sample_media == '' || typeof sample_media == 'undefined'){ sample_media = 0; }
+        if(sample_media == '' || typeof sample_media == 'undefined'){ sample_media = ""; }
 
         var biunew_publication_edition_id = req.body.biunew_publication_edition_id;
-        if(biunew_publication_edition_id == '' || typeof biunew_publication_edition_id == 'undefined'){ biunew_publication_edition_id = 0; }
+        if(biunew_publication_edition_id == '' || typeof biunew_publication_edition_id == 'undefined'){ biunew_publication_edition_id = "0"; }
 
             dataprocessService.addPublication({
-                publication: req.body.publication,
-                biunew_publication_id: 0,
+                biunew_publication_id: biunew_publication_id,
                 language_id: language_id,
                 website: website,
                 webname: webname,
@@ -1311,4 +1310,587 @@ exports.addthemekeywordtopic = async function (req, res, next) {
         }
         res.status(500).json({ error: error });
     })
+}
+
+
+// Row Article Data functions 
+
+exports.getarticlesrowAll = async function (req, res, next) {
+
+    var msg = params = page = ''; 
+
+    const getarticlesrowAll = new Promise((resolve, reject) => {     
+        
+        //dataprocessService.getarticlesrowAll(req.body.client_id,req.body.media_type,moment(new Date(req.body.fromDate)).format('YYYY-MM-DD'),moment(new Date(req.body.toDate)).format('YYYY-MM-DD'),page,req) 
+        dataprocessService.getarticlesrowAllcustom(req.body.client_id,moment(new Date(req.body.fromDate)).format('YYYY-MM-DD'),moment(new Date(req.body.toDate)).format('YYYY-MM-DD'),page,req.body) 
+        .then(data => { 
+            //console.log(JSON.stringify(data)); exist;             
+            let articlesrowlist = []
+            if(data.length > 0){
+                data && data.length && data.forEach(async (articlesrow, index) => {
+
+                    const pullData = {
+                        "id" : articlesrow.id,
+                        "cav_id" : articlesrow.cav_id,
+                        "category_id" : articlesrow.category_id,       
+                        "category" : articlesrow.category,
+                        "client_id" : articlesrow.client_id,    
+                        "article_id" : articlesrow.article_id,    
+                        "entity_id" : articlesrow.entity_id,    
+                        "entity_name" : articlesrow.entity_name,
+                        "press_release_id" : articlesrow.press_release_id,
+                        "press_release" : articlesrow.press_release,
+                        "tonality" : articlesrow.tonality,
+                        "headline_mention" : articlesrow.headline_mention,
+                        "prominent_id" : articlesrow.prominent_id,    
+                        "prominent" : articlesrow.prominent,
+                        "word_count" : articlesrow.word_count,    
+                        "website_url" : articlesrow.website_url,
+                        "publish_date" : articlesrow.publish_date,   
+                        "publication_id" : articlesrow.publication_id,   
+                        "publication" : articlesrow.publication,
+                        "edition_id" : articlesrow.edition_id,    
+                        "edition" : articlesrow.edition,
+                        "suppliment_id" : articlesrow.suppliment_id,    
+                        "suppliment" : articlesrow.suppliment,
+                        "language_id" : articlesrow.language_id,    
+                        "language" : articlesrow.language,
+                        "publication_type_id" : articlesrow.publication_type_id,    
+                        "publication_type" : articlesrow.publication_type,
+                        "headline" : articlesrow.headline,
+                        "journalist_id" : articlesrow.journalist_id,    
+                        "journalist" : articlesrow.journalist,
+                        "agency_id" : articlesrow.agency_id,    
+                        "agency" : articlesrow.agency,
+                        "author_id" : articlesrow.author_id, 
+                        "mav" : articlesrow.mav,
+                        "ccm" : articlesrow.ccm,
+                        "page_no" : articlesrow.page_no,
+                        "merge_unmerge_key" : articlesrow.merge_unmerge_key,
+                        "media_type_id" : articlesrow.media_type_id,   
+                        "article_created_on" : articlesrow.article_created_on,  
+                        "created_on" : articlesrow.created_on,  
+                        "created_by" : articlesrow.created_by,
+                        "last_modified_by" : articlesrow.last_modified_by,
+                        "last_modified_on" : articlesrow.last_modified_on,    
+                        "column_name" : articlesrow.column_name, 
+                        "bureau" : articlesrow.bureau, 
+                        "state_id" : articlesrow.state_id, 
+                        "state" : articlesrow.state,
+                        "is_unique_story" : articlesrow.is_unique_story, 
+                        "journalist_type" : articlesrow.journalist_type,
+                        "article_location" : articlesrow.article_location,
+                        "article_summary" : articlesrow.article_summary,
+                        "article_type" : articlesrow.article_type,
+                        "hit_miss" : articlesrow.hit_miss,
+                        "push_pull" : articlesrow.push_pull,
+                        "positive_ccms" : articlesrow.positive_ccms, 
+                        "neutral_ccms" : articlesrow.neutral_ccms, 
+                        "negative_ccms" : articlesrow.negative_ccms, 
+                        "total_ccms" : articlesrow.total_ccms, 
+                        "photo_presence" : articlesrow.photo_presence, 
+                        "photo_type" : articlesrow.photo_type,
+                        "photo_keyword" : articlesrow.photo_keyword,
+                        "photo_tonality" : articlesrow.photo_tonality,
+                        "headline_presence" : articlesrow.headline_presence, 
+                        "headline_visibility" : articlesrow.headline_visibility,
+                        "headline_keyword" : articlesrow.headline_keyword,
+                        "headline_tonality" : articlesrow.headline_tonality,
+                        "frontpage" : articlesrow.frontpage,
+                        "key_messages_presence" : articlesrow.key_messages_presence,
+                        "key_messages" : articlesrow.key_messages,
+                        "photo_weightage" : articlesrow.photo_weightage, 
+                        "headline_weightage" : articlesrow.headline_weightage, 
+                        "shared_ex_weightage" : articlesrow.shared_ex_weightage, 
+                        "co_score" : articlesrow.co_score, 
+                        "visibility_score" : articlesrow.visibility_score,         
+                        "reach" : articlesrow.reach,
+                        "index" : articlesrow.index,
+                        "wordcount_weightage" : articlesrow.wordcount_weightage,   
+                        "monthly_visitor" : articlesrow.monthly_visitor,   
+                        "daily_visitor" : articlesrow.daily_visitor,   
+                        "priority" : articlesrow.priority,
+                        "priority_weightage" : articlesrow.priority_weightage, 
+                        "vertical" : articlesrow.vertical,
+                        "electrical_vehicle" : articlesrow.electrical_vehicle,
+                        "author_name" : articlesrow.author_name,
+                        "topic_id" : articlesrow.topic_id,  
+                        "topic" : articlesrow.topic, 
+                        "zone_id" : articlesrow.zone_id,  
+                        "zone" : articlesrow.zone, 
+                        "keyword_id" : articlesrow.keyword_id, 
+                        "keyword" : articlesrow.keyword, 
+                        "keyword_category" : articlesrow.keyword_category, 
+                        "keyword_category1" : articlesrow.keyword_category1, 
+                        "keyword_category2" : articlesrow.keyword_category2, 
+                        "theme_id" : articlesrow.theme_id, 
+                        "theme" : articlesrow.theme                     
+                    }
+
+                    articlesrowlist.push(pullData);
+                    if(data.length === index + 1){
+                        resolve(articlesrowlist)
+                    }
+                })   
+                msg = 'sucessfully found articles row Data'; 
+            } else {
+                msg = 'Not found articles row Data'; 
+                resolve(articlesrowlist)
+            }     
+            
+        })
+        .catch(next);
+       
+    });
+    Promise.all([getarticlesrowAll]).then((values) => {
+        //console.log('values', values)
+        res.json({ message: msg, articlesrowlist: values[0] });
+    }).catch((error) => {
+        res.status(500).json({ error: error });
+    })
+   
+
+}
+
+exports.getUniquearticlesrow = async function (req, res, next) {
+
+    //console.log(req.params.id); exist;       
+    var msg = ''; 
+    const getUniquearticlesrow = new Promise((resolve, reject) => {
+        dataprocessService.getUniquearticlesrow(req.params.id)
+        .then(data => {
+
+           //console.log("length : "+data.length); exist; 
+
+            let articlesrowlist = []
+
+            if(data.length > 0){
+                data && data.length && data.forEach(async (articlesrow, index) => {
+
+                    const pullData = {
+                        "id" : articlesrow.id,
+                        "cav_id" : articlesrow.cav_id,
+                        "category_id" : articlesrow.category_id,       
+                        "category" : articlesrow.category,
+                        "client_id" : articlesrow.client_id,    
+                        "article_id" : articlesrow.article_id,    
+                        "entity_id" : articlesrow.entity_id,    
+                        "entity_name" : articlesrow.entity_name,
+                        "press_release_id" : articlesrow.press_release_id,
+                        "press_release" : articlesrow.press_release,
+                        "tonality" : articlesrow.tonality,
+                        "headline_mention" : articlesrow.headline_mention,
+                        "prominent_id" : articlesrow.prominent_id,    
+                        "prominent" : articlesrow.prominent,
+                        "word_count" : articlesrow.word_count,    
+                        "website_url" : articlesrow.website_url,
+                        "publish_date" : articlesrow.publish_date,   
+                        "publication_id" : articlesrow.publication_id,   
+                        "publication" : articlesrow.publication,
+                        "edition_id" : articlesrow.edition_id,    
+                        "edition" : articlesrow.edition,
+                        "suppliment_id" : articlesrow.suppliment_id,    
+                        "suppliment" : articlesrow.suppliment,
+                        "language_id" : articlesrow.language_id,    
+                        "language" : articlesrow.language,
+                        "publication_type_id" : articlesrow.publication_type_id,    
+                        "publication_type" : articlesrow.publication_type,
+                        "headline" : articlesrow.headline,
+                        "journalist_id" : articlesrow.journalist_id,    
+                        "journalist" : articlesrow.journalist,
+                        "agency_id" : articlesrow.agency_id,    
+                        "agency" : articlesrow.agency,
+                        "author_id" : articlesrow.author_id, 
+                        "mav" : articlesrow.mav,
+                        "ccm" : articlesrow.ccm,
+                        "page_no" : articlesrow.page_no,
+                        "merge_unmerge_key" : articlesrow.merge_unmerge_key,
+                        "media_type_id" : articlesrow.media_type_id,   
+                        "article_created_on" : articlesrow.article_created_on,  
+                        "created_on" : articlesrow.created_on,  
+                        "created_by" : articlesrow.created_by,
+                        "last_modified_by" : articlesrow.last_modified_by,
+                        "last_modified_on" : articlesrow.last_modified_on,    
+                        "column_name" : articlesrow.column_name, 
+                        "bureau" : articlesrow.bureau, 
+                        "state_id" : articlesrow.state_id, 
+                        "state" : articlesrow.state,
+                        "is_unique_story" : articlesrow.is_unique_story, 
+                        "journalist_type" : articlesrow.journalist_type,
+                        "article_location" : articlesrow.article_location,
+                        "article_summary" : articlesrow.article_summary,
+                        "article_type" : articlesrow.article_type,
+                        "hit_miss" : articlesrow.hit_miss,
+                        "push_pull" : articlesrow.push_pull,
+                        "positive_ccms" : articlesrow.positive_ccms, 
+                        "neutral_ccms" : articlesrow.neutral_ccms, 
+                        "negative_ccms" : articlesrow.negative_ccms, 
+                        "total_ccms" : articlesrow.total_ccms, 
+                        "photo_presence" : articlesrow.photo_presence, 
+                        "photo_type" : articlesrow.photo_type,
+                        "photo_keyword" : articlesrow.photo_keyword,
+                        "photo_tonality" : articlesrow.photo_tonality,
+                        "headline_presence" : articlesrow.headline_presence, 
+                        "headline_visibility" : articlesrow.headline_visibility,
+                        "headline_keyword" : articlesrow.headline_keyword,
+                        "headline_tonality" : articlesrow.headline_tonality,
+                        "frontpage" : articlesrow.frontpage,
+                        "key_messages_presence" : articlesrow.key_messages_presence,
+                        "key_messages" : articlesrow.key_messages,
+                        "photo_weightage" : articlesrow.photo_weightage, 
+                        "headline_weightage" : articlesrow.headline_weightage, 
+                        "shared_ex_weightage" : articlesrow.shared_ex_weightage, 
+                        "co_score" : articlesrow.co_score, 
+                        "visibility_score" : articlesrow.visibility_score,         
+                        "reach" : articlesrow.reach,
+                        "index" : articlesrow.index,
+                        "wordcount_weightage" : articlesrow.wordcount_weightage,   
+                        "monthly_visitor" : articlesrow.monthly_visitor,   
+                        "daily_visitor" : articlesrow.daily_visitor,   
+                        "priority" : articlesrow.priority,
+                        "priority_weightage" : articlesrow.priority_weightage, 
+                        "vertical" : articlesrow.vertical,
+                        "electrical_vehicle" : articlesrow.electrical_vehicle,
+                        "author_name" : articlesrow.author_name,
+                        "topic_id" : articlesrow.topic_id,  
+                        "topic" : articlesrow.topic, 
+                        "zone_id" : articlesrow.zone_id,  
+                        "zone" : articlesrow.zone, 
+                        "keyword_id" : articlesrow.keyword_id, 
+                        "keyword" : articlesrow.keyword, 
+                        "keyword_category" : articlesrow.keyword_category, 
+                        "keyword_category1" : articlesrow.keyword_category1, 
+                        "keyword_category2" : articlesrow.keyword_category2, 
+                        "theme_id" : articlesrow.theme_id, 
+                        "theme" : articlesrow.theme                     
+                    }
+
+                    articlesrowlist.push(pullData);
+                    if(data.length === index + 1){
+                        resolve(articlesrowlist)
+                    }
+                })   
+                msg = 'sucessfully found articles row Data'; 
+            } else {
+                msg = 'Not found articles row Data'; 
+                resolve(articlesrowlist)
+            }      
+            
+        })
+        .catch(next);
+       
+    });
+
+    //console.log(JSON.stringify(getUniquearticlesrow)); exist;
+
+    Promise.all([getUniquearticlesrow]).then((values) => {
+        console.log('values', values)
+        res.json({ message: msg, articlesrowlist: values[0] });
+    }).catch((error) => {
+        console.log('error', error)
+        res.status(500).json({ error: error });
+    })  
+
+}
+
+exports.addarticlesrow = async function (req, res, next) {
+    
+    const addarticlesrow = new Promise((resolve, reject) => {
+        //req.body.addarticlesrow1.map(async (e, index) => {             
+
+        var articletype = req.body.articletype;
+        if(articletype == '' || typeof articletype == 'undefined' ){ 
+            reject('Missing Article Type. Please check'); 
+        }
+
+        var articletage = req.body.articletage;
+        if(articletage == '' || typeof articletage == 'undefined' ){ 
+            reject('Missing Article Tags. Please check');             
+         }
+
+        var prominence_id = req.body.prominence_id;
+
+        var prominence = req.body.prominence;
+        if(prominence == '' || typeof prominence == 'undefined' ){ 
+            reject('Missing Prominence. Please check');                
+         }
+
+        var notrelavant = req.body.notrelavant;
+        if(notrelavant == '' || typeof notrelavant == 'undefined' ){ 
+            reject('Missing Not Relavant Articles. Please check');            
+        }
+
+        var articlesummary = req.body.articlesummary;
+        if(articlesummary == '' || typeof articlesummary == 'undefined' ){ 
+            reject('Missing Article Summary. Please check');
+        }
+
+        var positiveCCM = req.body.positiveCCM;
+        if(positiveCCM == '' || typeof positiveCCM == 'undefined' ){ 
+            reject('Missing Positive CCM. Please check');
+        }
+
+        var neutralCCM = req.body.neutralCCM;
+        if(neutralCCM == '' || typeof neutralCCM == 'undefined' ){ 
+            reject('Missing Neutral CCM. Please check');
+        }
+
+        var negativeCCM = req.body.negativeCCM;
+        if(negativeCCM == '' || typeof negativeCCM == 'undefined' ){ 
+            reject('Missing Negative CCM. Please check');
+        }
+
+        var keywordcategory = req.body.keywordcategory;
+        if(keywordcategory == '' || typeof keywordcategory == 'undefined' ){ 
+
+            reject('Missing Keyword Category. Please check');
+        }
+
+        var productcategory = req.body.productcategory;
+        if(productcategory == '' || typeof productcategory == 'undefined' ){ 
+
+            reject('Missing Product Category. Please check');
+        }
+
+        var recommendationarticle = req.body.recommendationarticle;
+        if(recommendationarticle == '' || typeof recommendationarticle == 'undefined' ){ 
+
+            reject('Missing Recommendation Article. Please check');
+        }
+        
+        var theme_id = req.body.theme_id;
+
+        var theme = req.body.theme;
+        if(theme == '' || typeof theme == 'undefined' ){ 
+            reject('Missing Theme. Please check');
+        }
+
+        var newproductlunch = req.body.newproductlunch;
+        if(newproductlunch == '' || typeof newproductlunch == 'undefined' ){ 
+            reject('Missing New Product Lunch. Please check');
+        }
+
+        var financialplanner = req.body.financialplanner;
+        if(financialplanner == '' || typeof financialplanner == 'undefined' ){ 
+            reject('Missing Financial Planner. Please check');
+        }
+
+        var positiveCCM = req.body.positiveCCM;
+        if(positiveCCM == '' || typeof positiveCCM == 'undefined' ){ 
+            reject('Missing Positive CCM. Please check');
+        }
+
+        var news = req.body.news;
+        if(news == '' || typeof news == 'undefined' ){ 
+            reject('Missing News. Please check');
+        }
+
+        var journalistname = req.body.journalistname;
+        if(journalistname == '' || typeof journalistname == 'undefined' ){ 
+            reject('Missing Journalist Name. Please check');
+        }
+
+        var journalisttype = req.body.journalisttype;
+        if(journalisttype == '' || typeof journalisttype == 'undefined' ){ 
+            reject('Missing Journalist Type. Please check');
+        }
+
+        var journalistdet = req.body.journalistdet;
+        if(journalistdet == '' || typeof journalistdet == 'undefined' ){ 
+            reject('Missing Journalist Details. Please check');
+        }
+
+        var spokespersonname = req.body.spokespersonname;
+        if(spokespersonname == '' || typeof spokespersonname == 'undefined' ){ 
+            reject('Missing Spokesperson Name. Please check');
+        }
+
+        var spokedesignation = req.body.spokedesignation;
+        if(spokedesignation == '' || typeof spokedesignation == 'undefined' ){ 
+            reject('Missing Spokesperson Designation. Please check');
+        }
+
+        var spokeprofile = req.body.spokeprofile;
+        if(spokeprofile == '' || typeof spokeprofile == 'undefined' ){ 
+            reject('Missing Spokesperson Profile. Please check');
+        }
+
+        var spokevisibility  = req.body.spokevisibility;
+        if(spokevisibility == '' || typeof spokevisibility == 'undefined' ){ 
+            reject('Missing Spokesperson Visibility. Please check');
+        }
+
+        var spokecommenton  = req.body.spokecommenton;
+        if(spokecommenton == '' || typeof spokecommenton == 'undefined' ){ 
+            reject('Missing Comments on. Please check');
+        }
+
+        var productname  = req.body.productname;
+        if(productname == '' || typeof productname == 'undefined' ){ 
+            reject('Missing Product Name. Please check');
+        }
+
+        var productcategory  = req.body.productcategory;
+        if(productcategory == '' || typeof productcategory == 'undefined' ){ 
+            reject('Missing Product Category. Please check');
+        }
+
+        var visibilityheadline  = req.body.visibilityheadline;
+        if(visibilityheadline == '' || typeof visibilityheadline == 'undefined' ){ 
+            reject('Missing Visibility Headline. Please check');
+        }
+
+        var visibilityphoto  = req.body.visibilityphoto;
+        if(visibilityphoto == '' || typeof visibilityphoto == 'undefined' ){ 
+            reject('Missing Visibility Photo. Please check');
+        }
+
+        var visibilityanalysis  = req.body.visibilityanalysis;
+        if(visibilityanalysis == '' || typeof visibilityanalysis == 'undefined' ){ 
+            reject('Missing Visibility analysis. Please check');
+        }
+
+        var keymessage  = req.body.keymessage;
+        if(keymessage == '' || typeof keymessage == 'undefined' ){ 
+            reject('Missing Key Message. Please check');
+        }               
+        
+        /*const state_name = states.filter(state => state.city === e['edition']);
+        const edition = e['media type'] === "Print" ? await articalService.getEdition(e['edition']) : { id: null };
+        qa_data = {
+
+            state_name: state_name.length ? state_name[0].state : '',
+            article_id: e['article id'],
+            client_id: req.body.client_id,
+            media_type: e['media type'],
+            photo_mention: e['photo'],
+            headline: e['headline'],
+            headline_mention: e['headline mention'] || false,
+            prominence: e['prominence'],
+            tonality: e['tonality'],
+            vertical: e['vertical'],
+            EV: e['ev'],
+            theme: e['theme'],
+            keyword_level_1: e['keyword_level_1'],
+            Topic: e['topic'],
+            publication_type: e['publication type'],
+            publication: e['publication'],
+            language: e['language'],
+            category_A: e['category'],
+            visibility_score: e['visibility score'] || e['visibility'],
+            circulation_web_weightage: e["cir ('000) & web wtg"],
+            co_score: e['co score'],
+            edition: e['edition'],
+            publish_date: moment(new Date(e['publish date'])).format('YYYY-MM-DD'),
+            mav: typeof e['mav'] === 'number' ? e['mav'] : 0,
+            ccm: typeof e['ccm'] === 'number' ? e['ccm'] : 0,
+            word_count: typeof e['word count'] === 'number' ? e['word count'] : 0,
+            press_release: e['press release'],
+            page_no: e['page no'],
+            circlation: typeof e['circulation'] === 'number' ? e['circlation'] : 0,
+            zone: e['zone'],
+            link: e['undefined'],
+            website_url: e['undefined'],
+            month_name: e['month'],
+            monthly_visits: e['monthly visitors*'],
+            total_CCMs: typeof e['total ccms'] === 'number' ? e['total ccms'] : 0,
+            client_article_type: e['article type'],
+            photo_weightage: typeof e['photo weightage'] === 'number' ? e['photo weightage'] : 0,
+            headline_weightage: typeof e['headline weightage'] === 'number' ? e['headline weightage'] : 0,
+            prominence_weightage: typeof e['prominence weightage'] === 'number' ? e['prominence weightage'] : 0,
+            word_count_weightage: typeof e['word count wtg'] === 'number' ? e['word count wtg'] : 0,
+            front_Page_weightage: typeof e['front page'] === 'number' ? e['front page'] : 0,
+            index_weightage: typeof e['index'] === 'number' ? e['index'] : 0,
+            source_name: e['journalist'],
+            entity_name: e['company name'],
+            prominence: e['prominence'],
+            client_name: req.body.client_name,
+            edition_id: edition?.id,
+            upload_id: upload?.id,
+        }
+        qa_data.publication_id = dbdata?.publication_id;
+        qa_data.edition_id = dbdata?.edition_id,
+            qa_data.publication_type_id = dbdata?.publication_type_id
+        qa_data.language_id = dbdata?.language_id
+        qa_data.suppliment_id = dbdata?.suppliment_id,
+            qa_data.source_id = dbdata?.source_id
+        qa_data.cav_id = dbdata?.cav_id
+        qa_data.entity_id = dbdata?.entity_id
+        qa_data.zone_id = dbdata?.zone_id
+        qa_data.prominent_id = dbdata?.prominent_id
+        qa_data.section_id = dbdata?.section_id
+
+        articalService.createQaData(qa_data).then(async (q_articles) => {
+            // const [q_articles, created] = q_articles;
+            // if(created === false) {
+            //     await articalService.updateQaData(qa_data, q_articles)
+            // }
+            // console.log('q_articles', q_articles.id)
+            if (q_articles) {
+                insertlenth = insertlenth + 1;
+                const result = await addSpokesPersonAndData(e, q_articles, upload);
+
+                const spokesman = Object.entries(e).filter((e, v) => e[0].match(/spokesperson [0-9]/g) && e[1] !== 0)
+                if (spokesman.length !== 0) {
+                    spokesman?.forEach(async (s) => {
+                        const sperson = {
+                            spokesperson_name: s[1].trim(),
+                            spokesperson_name_merge: s[1].replace(/[^a-zA-Z0-9]/g, '_').trim(),
+                            upload_id: upload?.id
+                        };
+                        await articalService.findQaSpokesPerson(sperson).then(async (spokepeople) => {
+                            // const [spokepeople, created] = sps;
+                            if (spokepeople) {
+                                const spersondata = {
+                                    spokesperson_id: spokepeople.id,
+                                    q_article_id: q_articles?.id,
+                                    spokesperson_profiling: e['spokesperson profiling'],
+                                    upload_id: upload?.id
+                                };
+                                const result = await articalService.createQaDataSpokesPerson(spersondata);
+                                return spokepeople
+                            }
+                        });
+
+                    })
+                }
+
+                const results = await addProductAndData(e, q_articles, upload);
+                const productss = Object.entries(e).filter((e, v) => e[0].match(/product name [0-9]/g) && e[1] !== 0)
+                if (productss.length !== 0) {
+                    productss?.filter(async (p) => {
+                        const product = {
+                            product_name: p[1],
+                            upload_id: upload?.id,
+                            product_name_merge: p[1].replace(/[^a-zA-Z0-9]/g, '_').trim()
+                        }
+                        await articalService.findProductOne(product).then(async (products) => {
+                            if(products){
+                                const productdata = {
+                                    product_id: products.id,
+                                    q_article_id: q_articles?.id,
+                                    upload_id: upload?.id
+                                }
+                                const res = await articalService.createQaDataProduct(productdata);
+                                return productdata;
+                            }
+                        })
+
+                    })
+                }
+            }
+        });*/
+        resolve('sucessfully added articles')
+    });
+    
+    Promise.all([addarticlesrow]).then((values) => {
+        //console.log('values 111', values)
+        res.json({ message: 'articles sucessfully updated', data: {} });
+    }).catch((error) => {
+        if(error == ''){
+            error = 'Something went wrong! please try again';
+        }
+        res.status(500).json({ error: error });
+    })
+
 }

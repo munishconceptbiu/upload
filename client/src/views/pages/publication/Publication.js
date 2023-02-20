@@ -8,6 +8,7 @@ import { get, put, deleteMethod } from "../../../services/CommanService";
 import toast from 'react-hot-toast';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { store } from '../../../store/store';
+import { CSmartTable } from '@coreui/react-pro'
 
 export default function PublicationList({ publicationList, setPublication, setCirclation, setEdition, setMediaType, setPublicationTypeId, setReadership, setWebName }){
 
@@ -26,6 +27,58 @@ export default function PublicationList({ publicationList, setPublication, setCi
       })
 
   }
+ 
+  const columns = [
+    {
+      key: 'id',
+      label: 'No',
+    },
+    {
+      key: 'publication',
+      label: 'Publication Name',
+      // filter: false,
+      // sorter: false,
+    },
+    
+    {
+      key: 'edition_id',
+      label: 'Editions',
+      // filter: false,
+      // sorter: false,
+    },
+
+    {
+      key: 'genre',
+      label: 'Genre',
+      // filter: false,
+      // sorter: false,
+    },
+    {
+      key: 'circlation',
+      label: 'Circulation',
+      // filter: false,
+      // sorter: false,
+    },
+    {
+      key: 'readership',
+      label: 'Readership',
+      // filter: false,
+      // sorter: false,
+    },
+    {
+      key: 'media_type',
+      label: 'Media House',
+      // filter: false,
+      // sorter: false,
+    },
+    {
+      key: 'action',
+      label: 'Action',
+      filter: false,
+      sorter: false,
+    },
+  ]
+
     return(
         <>
             <div class="page-title d-flex justify-content-between">
@@ -33,7 +86,35 @@ export default function PublicationList({ publicationList, setPublication, setCi
               {/* <button onClick={addPublication} className="btn btn-primary btn-medium">Add Publication</button> */}
               </div>
             <div className="content-box">
-            <table class="table">
+            <CSmartTable
+      columns={columns}
+      columnFilter
+      columnSorter
+      items={publicationList.map((e, index) => ({
+        id: index,
+        ...e
+      }))}
+      pagination
+      scopedColumns={{
+        action: (list) => (
+          <td className='action-btns'><a  href="javascript:void(0)"onClick={e => getPublicationSingleList(list.id)}><EditIcon /></a> <a href="javascript:void(0)"  className='deleicon'><DeleteIcon /></a></td>
+        ),
+        media_type: (list) => (
+          <td>{list.media_type === 1 ? 'print' : 'online'}</td>
+        ),
+        readership: (list) => (
+          <td>{list.readership || 'NA'}</td>
+        ),
+        genre: (list) => (
+          <td>{list.genre || 'NA'}</td>
+        )
+       }}
+      tableProps={{
+        hover: true,
+        responsive: true,
+      }}
+    />
+            {/* <table class="table">
     <thead>
       <tr>
         <th>No</th>
@@ -70,7 +151,7 @@ export default function PublicationList({ publicationList, setPublication, setCi
     </tr>
   }
     </tbody>
-  </table>
+  </table> */}
             </div>
         </>
     )

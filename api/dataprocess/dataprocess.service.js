@@ -7,6 +7,8 @@ const { Op, QueryTypes } = require("sequelize");
 
 const { func, exist } = require('joi');
 
+//const moment = require('moment');
+
 module.exports = {    
     getpublicationsAll,
     getUniquePublications,
@@ -37,7 +39,11 @@ module.exports = {
     updatethemeData,
     createMTheme,
     createMKeywords,
-    createMTopics
+    createMTopics,
+    getarticlesrowAll,
+    getUniquearticlesrow,
+    addarticlesrow,
+    getarticlesrowAllcustom
 };
 
 //publication Functions 
@@ -407,8 +413,6 @@ async function addtopic(params) {
     return created;
 }
 
-
-
 async function getclienttktAll(client_id) { 
     
 
@@ -671,4 +675,469 @@ async function createMTopics(dataArray) {
         }).catch((error) => {
             console.error('Failed to retrieve data : ', error);
         });    
+}
+
+
+//Articlees Functions 
+async function getarticlesrowAll(client_id,media_type,startdate,enddate,page,params) {  
+
+    console.log("client_id : "+client_id);
+    console.log("media_type : "+media_type);
+    console.log("fromDate : "+startdate);
+    console.log("toDate : "+enddate);
+
+    const result = await db4.QaArticlesRow.findAll({
+        where: {
+            client_id: client_id,
+            media_type_id: media_type,
+            "publish_date": {
+                [Op.and]: {
+                  [Op.gte]: startdate,
+                  [Op.lte]: enddate
+                }
+              },
+              quality_check: '0',  
+        },
+        attributes: ["id",
+        "cav_id",
+        "category_id",       
+        "category",
+        "client_id",    
+        "article_id",    
+        "entity_id",    
+        "entity_name",
+        "press_release_id",
+        "press_release",
+        "tonality",
+        "headline_mention",
+        "prominent_id",    
+        "prominent",
+        "word_count",    
+        "website_url",
+        "publish_date",   
+        "publication_id",   
+        "publication",
+        "edition_id",    
+        "edition",
+        "suppliment_id",    
+        "suppliment",
+        "language_id",    
+        "language",
+        "publication_type_id",    
+        "publication_type",
+        "headline",
+        "journalist_id",    
+        "journalist",
+        "agency_id",    
+        "agency",
+        "author_id", 
+        "mav",
+        "ccm",
+        "page_no",
+        "merge_unmerge_key",
+        "media_type_id",   
+        "article_created_on",  
+        "created_on",  
+        "created_by",
+        "last_modified_by",
+        "last_modified_on",    
+        "column_name", 
+        "bureau", 
+        "state_id", 
+        "state",
+        "is_unique_story", 
+        "journalist_type",
+        "article_location",
+        "article_summary",
+        "article_type",
+        "hit_miss",
+        "push_pull",
+        "positive_ccms", 
+        "neutral_ccms", 
+        "negative_ccms", 
+        "total_ccms", 
+        "photo_presence", 
+        "photo_type",
+        "photo_keyword",
+        "photo_tonality",
+        "headline_presence", 
+        "headline_visibility",
+        "headline_keyword",
+        "headline_tonality",
+        "frontpage",
+        "key_messages_presence",
+        "key_messages",
+        "photo_weightage", 
+        "headline_weightage", 
+        "shared_ex_weightage", 
+        "co_score", 
+        "visibility_score",         
+        "reach",
+        "index",
+        "wordcount_weightage",   
+        "monthly_visitor",   
+        "daily_visitor",   
+        "priority",
+        "priority_weightage", 
+        "vertical",
+        "electrical_vehicle",
+        "author_name",
+        "topic_id",  
+        "topic", 
+        "zone_id",  
+        "zone", 
+        "keyword_id", 
+        "keyword", 
+        "keyword_category", 
+        "keyword_category1", 
+        "keyword_category2", 
+        "theme_id", 
+        "theme"]
+        ,       logging: console.log
+    },
+    );
+    return result;
+}
+
+
+//Articlees Functions 
+async function getarticlesrowAllcustom(client_id,startdate,enddate,page,params) {    
+ 
+
+    var condition = '';
+    
+    if(params.media_type != '' && typeof params.media_type != 'undefined'){
+        condition = condition + " AND media_type_id = "+ params.media_type;
+    }     
+
+    if(params.zone != '' && typeof params.zone != 'undefined'){
+        condition = condition + " AND zone_id = "+ params.zone;
+    }  
+
+    if(params.edition != '' && typeof params.edition != 'undefined'){
+        condition = condition + " AND edition_id = "+ params.edition;
+    }  
+
+    if(params.publication != '' && typeof params.publication != 'undefined'){
+        condition = condition + " AND publication_id = "+ params.publication;
+    }  
+
+    if(params.tonality != '' && typeof params.tonality != 'undefined'){
+        condition = condition + " AND tonality = "+ params.tonality;
+    }   
+    
+    if(params.entities != '' && typeof params.entities != 'undefined'){
+
+        var entityscond = '';
+        var entitys = params.entities;
+
+        let length = entitys.length;
+
+        if(length > 1){
+            entityscond = entitys.join(",");
+        } else {
+            entityscond = entitys;
+        }
+
+        condition = condition + " AND entity_id IN ("+ entityscond+")";
+    } 
+
+    result = await db4.sequelize.query(
+        "SELECT * FROM qa_articles_rows WHERE (client_id = '"+client_id+"' AND publish_date >= '"+startdate+"' AND publish_date <= '"+enddate+"') AND quality_check = '0' "+condition,
+        {            
+            type: QueryTypes.SELECT,
+            logging: console.log
+        }
+    );    
+    return result;
+}
+//Articlees Functions 
+async function getarticlesrowAlltril(page,req) {     
+
+    console.log("req body : "+req.body);
+
+    var atributeval = ["id",
+    "cav_id",
+    "category_id",       
+    "category",
+    "client_id",    
+    "article_id",    
+    "entity_id",    
+    "entity_name",
+    "press_release_id",
+    "press_release",
+    "tonality",
+    "headline_mention",
+    "prominent_id",    
+    "prominent",
+    "word_count",    
+    "website_url",
+    "publish_date",   
+    "publication_id",   
+    "publication",
+    "edition_id",    
+    "edition",
+    "suppliment_id",    
+    "suppliment",
+    "language_id",    
+    "language",
+    "publication_type_id",    
+    "publication_type",
+    "headline",
+    "journalist_id",    
+    "journalist",
+    "agency_id",    
+    "agency",
+    "author_id", 
+    "mav",
+    "ccm",
+    "page_no",
+    "merge_unmerge_key",
+    "media_type_id",   
+    "article_created_on",  
+    "created_on",  
+    "created_by",
+    "last_modified_by",
+    "last_modified_on",    
+    "column_name", 
+    "bureau", 
+    "state_id", 
+    "state",
+    "is_unique_story", 
+    "journalist_type",
+    "article_location",
+    "article_summary",
+    "article_type",
+    "hit_miss",
+    "push_pull",
+    "positive_ccms", 
+    "neutral_ccms", 
+    "negative_ccms", 
+    "total_ccms", 
+    "photo_presence", 
+    "photo_type",
+    "photo_keyword",
+    "photo_tonality",
+    "headline_presence", 
+    "headline_visibility",
+    "headline_keyword",
+    "headline_tonality",
+    "frontpage",
+    "key_messages_presence",
+    "key_messages",
+    "photo_weightage", 
+    "headline_weightage", 
+    "shared_ex_weightage", 
+    "co_score", 
+    "visibility_score",         
+    "reach",
+    "index",
+    "wordcount_weightage",   
+    "monthly_visitor",   
+    "daily_visitor",   
+    "priority",
+    "priority_weightage", 
+    "vertical",
+    "electrical_vehicle",
+    "author_name",
+    "topic_id",  
+    "topic", 
+    "zone_id",  
+    "zone", 
+    "keyword_id", 
+    "keyword", 
+    "keyword_category", 
+    "keyword_category1", 
+    "keyword_category2", 
+    "theme_id", 
+    "theme"];
+
+    let where = {
+        client_id: req.body.client_id,
+        publish_date: {
+            [Op.and]: {
+              [Op.gte]: req.body.fromDate,
+              [Op.lte]: req.body.toDate
+            }
+          },
+          quality_check: '0',  
+    };
+
+
+    console.log("ABC : "+JSON.stringify(where)); 
+
+    if(req.body.media_type != ''){
+        // qa_keydata = {               
+        //     "media_type_id" : req.body.media_type  
+        // };    
+        // condition.push(qa_keydata);
+
+        where.media_type_id = req.body.media_type ;
+    }
+
+    if(req.body.zone != ''){
+        // qa_keydata = {               
+        //     "zone_id" : req.body.zone  
+        // };    
+        // condition.push(qa_keydata);
+        where.zone_id = req.body.zone  ;
+    }
+
+    if(req.body.edition != ''){
+        // qa_keydata = {               
+        //     "edition_id" : req.body.edition  
+        // };    
+        // condition.push(qa_keydata);
+
+        where.edition_id = req.body.edition  ;
+    }
+
+    if(req.body.publication != ''){
+        // qa_keydata = {               
+        //     "publication_id" : req.body.publication
+        // };    
+        // condition.push(qa_keydata);
+
+        where.publication_id = req.body.publication;
+    }
+
+    if(req.body.tonality != ''){
+        // qa_keydata = {               
+        //     "tonality" : req.body.tonality
+        // };    
+        // condition.push(qa_keydata);
+
+        where.tonality = req.body.tonality;
+    }          
+
+    //console.log("In where : "+where);  
+
+    console.log(JSON.stringify(where)); exist;
+
+    const result = await db4.QaArticlesRow.findAll({
+        where: where,
+        attributes: atributeval
+        ,       logging: console.log
+    },
+    );
+    return result;
+}
+
+async function getUniquearticlesrow(id) {
+    
+    const result = await db4.QaArticlesRow.findAll({
+        where: {
+            id: id
+        },
+        attributes: ["id",
+        "cav_id",
+        "category_id",       
+        "category",
+        "client_id",    
+        "article_id",    
+        "entity_id",    
+        "entity_name",
+        "press_release_id",
+        "press_release",
+        "tonality",
+        "headline_mention",
+        "prominent_id",    
+        "prominent",
+        "word_count",    
+        "website_url",
+        "publish_date",   
+        "publication_id",   
+        "publication",
+        "edition_id",    
+        "edition",
+        "suppliment_id",    
+        "suppliment",
+        "language_id",    
+        "language",
+        "publication_type_id",    
+        "publication_type",
+        "headline",
+        "journalist_id",    
+        "journalist",
+        "agency_id",    
+        "agency",
+        "author_id", 
+        "mav",
+        "ccm",
+        "page_no",
+        "merge_unmerge_key",
+        "media_type_id",   
+        "article_created_on",  
+        "created_on",  
+        "created_by",
+        "last_modified_by",
+        "last_modified_on",    
+        "column_name", 
+        "bureau", 
+        "state_id", 
+        "state",
+        "is_unique_story", 
+        "journalist_type",
+        "article_location",
+        "article_summary",
+        "article_type",
+        "hit_miss",
+        "push_pull",
+        "positive_ccms", 
+        "neutral_ccms", 
+        "negative_ccms", 
+        "total_ccms", 
+        "photo_presence", 
+        "photo_type",
+        "photo_keyword",
+        "photo_tonality",
+        "headline_presence", 
+        "headline_visibility",
+        "headline_keyword",
+        "headline_tonality",
+        "frontpage",
+        "key_messages_presence",
+        "key_messages",
+        "photo_weightage", 
+        "headline_weightage", 
+        "shared_ex_weightage", 
+        "co_score", 
+        "visibility_score",         
+        "reach",
+        "index",
+        "wordcount_weightage",   
+        "monthly_visitor",   
+        "daily_visitor",   
+        "priority",
+        "priority_weightage", 
+        "vertical",
+        "electrical_vehicle",
+        "author_name",
+        "topic_id",  
+        "topic", 
+        "zone_id",  
+        "zone", 
+        "keyword_id", 
+        "keyword", 
+        "keyword_category", 
+        "keyword_category1", 
+        "keyword_category2", 
+        "theme_id", 
+        "theme"]
+        ,       logging: console.log
+    },
+    );
+    return result; 
+    
+}
+
+async function addarticlesrow(params) {
+    
+    const [row, created] = await db4.MSpokespersons.findOrCreate({ where: { spokesperson_name: params.spokesperson_name}, defaults: params });
+
+    if (created === false) {
+        await db4.MSpokespersons.update(params, { where: { id: row.id } });
+    }
+
+    return created;
 }

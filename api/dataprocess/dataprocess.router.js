@@ -21,7 +21,6 @@ router.get('/get-singlesuppliments/:id',  dataprocessController.getUniquesupplim
 
 router.post('/add-suppliments',  dataprocessController.addsuppliments);
 
-
 //suppliments routes
 router.get('/get-supplimentslist',  dataprocessController.getsupplimentsAll);
 
@@ -64,3 +63,11 @@ router.get('/get-clienttktsingle/:id',  dataprocessController.getclienttktsingle
 router.post('/add-themekeywordtopic',  dataprocessController.addthemekeywordtopic);
 
 module.exports = router;
+
+//articles routes
+
+router.post('/get-articlesrowlist',  dataprocessController.getarticlesrowAll);
+
+router.get('/get-singlearticlesrow/:id',  dataprocessController.getUniquearticlesrow);
+
+router.post('/add-articlesrow',  dataprocessController.addarticlesrow);

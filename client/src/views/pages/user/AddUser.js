@@ -51,7 +51,7 @@ const AddUser = () => {
         }
         const uploadPromise = new Promise((resolve, reject) => {
 
-            post(`http://qa-dev.conceptbiu.com/unifiedapi/users/adduser`, formData).then((response) => {
+            post(`http://localhost:4001//users/adduser`, formData).then((response) => {
                 resolve("User Successfully Saved");
                 navigate('/view-users')
             }).catch((err) => {
