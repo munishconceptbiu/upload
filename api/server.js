@@ -25,6 +25,7 @@ app.use('/editions', require('./editions/edition.router'));
 app.use('/keywords', require('./keywords/keyword.router'));
 app.use('/themes', require('./themes/themes.router'));
 app.use('/qaarticle', require('./qaarticle/qaarticle.router'));
+app.use('/journalist', require('./journalist/journalist.router'));
 
 // global error handler
 app.use(errorHandler);

@@ -21,7 +21,16 @@ function Articlelist() {
   const [articleList, setArticleList] = useState([]);
   const [dateRange, setDateRange] = useState([null, null]);
   const [startDate, endDate] = dateRange;
+  const [entityList, setEntityList] = useState([]);
+  const [publicationList, setPublicationList] = useState([])
+  const [zoneList, setZoneList] = useState([])
+  const [editionList, setEditionList] = useState([])
+  const [journalistList, setJournalistList] = useState([])
 
+  const [publication, setPublication] = useState()
+  const [zone, setZone] = useState()
+  const [edition, setEdition] = useState()
+  const [journalist, setJournalist] = useState()
   const getArticleList = () => {
     post("dataprocess/get-articlesrowlist", {"client_id":"5193","media_type":"2","page":"1","fromDate":"2022-12-15","toDate":"2022-12-16"}
     ).then((response) => {
@@ -32,8 +41,40 @@ function Articlelist() {
       })
 
   }
+  const getPublicationList = () => {
+    get("dataprocess/get-publicationlist"
+    ).then((response) => {
+      setPublicationList(response.data.publicationlist)
+    })
+      .catch(() => {
+        // handleLoginFailure({ status: UNAUTHORIZED });
+      })
+
+  }
+
+  const getJournalistList = () => {
+    get("journalist"
+    ).then((response) => {
+      setJournalistList(response.data.journalist)
+    })
+      .catch(() => {
+        // handleLoginFailure({ status: UNAUTHORIZED });
+      })
+
+  }
+  const getZoneList = () => {
+    get("zone").then((response) => {
+      setZoneList(response.data.zone)
+    })
+      .catch(() => {
+        // handleLoginFailure({ status: UNAUTHORIZED });
+      })
+
+  }
   useEffect(() => {
-    getArticleList();
+    getPublicationList();
+    getJournalistList();
+    getZoneList();
   }, []);
   
   const columns = [
@@ -217,12 +258,12 @@ function Articlelist() {
       sort: true,
       filter: numberFilter()
     },
-    {
-      dataField: 'index',
-      text: 'Index',
-      sort: true,
-      filter: numberFilter()
-    },
+    // {
+    //   dataField: 'index',
+    //   text: 'Index',
+    //   sort: true,
+    //   filter: numberFilter()
+    // },
     {
       dataField: 'vertical',
       text: 'Vertical',
