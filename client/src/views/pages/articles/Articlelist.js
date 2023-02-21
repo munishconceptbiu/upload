@@ -34,7 +34,7 @@ function Articlelist() {
   const [journalist, setJournalist] = useState();
   const [mediatype, setMediaType] = useState(1)
   const getArticleList = () => {
-    post("dataprocess/get-articlesrowlist", {"client_id": selectRef.getValue()[0] || "5193","media_type":mediatype,"page":"1","fromDate": moment(startDate).format('L') || "2022-12-15","toDate": moment(startDate).format('L') || "2022-12-16"}
+    post("dataprocess/get-articlesrowlist", {"client_id": selectRef.getValue()[0].value || "5193","media_type":mediatype,"page":"1","fromDate": startDate === "" || startDate === null ?  "2022-12-15" : moment(startDate).format('L'),"toDate": endDate === "" || endDate === null ?  "2022-12-16" : moment(endDate).format('L')}
     ).then((response) => {
       setArticleList(response.data.articlesrowlist)
     })
