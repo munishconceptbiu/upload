@@ -9,6 +9,10 @@ const journalistController = require('./journalist.controller')
 
 router.post('/',  journalistController.add);
 router.get('/',  journalistController.getAll);
+router.get('publication/:publicationid',  journalistController.getAllPublicaitonWise);
+
 router.put('/:id',  journalistController.update);
 router.get('/:id',  journalistController.getSingle);
 router.delete('/:id',  journalistController.delete);
+
+module.exports = router;

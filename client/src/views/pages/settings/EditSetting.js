@@ -146,7 +146,7 @@ const EditSetting = ({clientId,setFetchList, fetchList, handleClose}) => {
 
         const uploadPromise = new Promise((resolve, reject) => {
 
-            post(`http://localhost:4001//artical/add-setting`, formData).then((response) => {
+            post(`http://qa-dev.conceptbiu.com/unifiedapi/artical/add-setting`, formData).then((response) => {
                 setGraphTypeName('');
                 setGraphTypeId('')
                 emptyLevel()

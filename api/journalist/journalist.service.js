@@ -8,7 +8,8 @@ module.exports = {
     getById,
     save,
     delete: _delete,
-    update: _update
+    update: _update,
+    getAllPublicaitonWise
 };
 
 
@@ -37,4 +38,9 @@ async function getJournalist(id) {
 async function _update(params, id) {
     await db.Journalist.update(params, { where: { id: id } });
     return await getJournalist(id);
+}
+
+async function getAllPublicaitonWise(id) {
+    const result = await db.Journalist.findAll({where: { publication_id: id}});
+    return result;
 }

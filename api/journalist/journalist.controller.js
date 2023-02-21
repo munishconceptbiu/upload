@@ -24,4 +24,9 @@ exports.update = async function (req, res, next) {
 exports.delete = async function (req, res, next) {
     let journalist = await journalistService.delete(req.params.id);
     res.json({ journalist: {}, message: 'Journalist successful deleted' })
+} 
+
+exports.getAllPublicaitonWise = async function (req, res, next) {
+    let journalist = await journalistService.getAllPublicaitonWise(req.params.publicationid);
+    res.json({ journalist: journalist, message: 'Journalist list successful fetched' })
 }  

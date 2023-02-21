@@ -50,7 +50,7 @@ const Profile = () => {
         }
         const uploadPromise = new Promise((resolve, reject) => {
 
-            put(`http://localhost:4001//users/updateuser/${state.auth.auth.id}`, formData).then((response) => {
+            put(`http://qa-dev.conceptbiu.com/unifiedapi/users/updateuser/${state.auth.auth.id}`, formData).then((response) => {
                 resolve("Profile Successfully Upadted");
             }).catch((err) => {
                 reject(err.response.data.error)

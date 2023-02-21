@@ -8,7 +8,7 @@ initialize();
 
 async function initialize() {
     // create db2 if it doesn't already exist
-    const { host, port, user, password, database } = config.database3;
+    const { host, port, user, password, database } = config.livedatabase3;
     const connection = await mysql.createConnection({ host, port, user, password });
     // const connection = await mysql.createConnection({host: host, user: user, database: database});
     

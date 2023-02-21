@@ -49,7 +49,7 @@ const EditUser = () => {
         }
         const uploadPromise = new Promise((resolve, reject) => {
 
-            put(`http://localhost:4001//users/updateuser/${params.user_id}`, formData).then((response) => {
+            put(`http://qa-dev.conceptbiu.com/unifiedapi/users/updateuser/${params.user_id}`, formData).then((response) => {
                 resolve("User Successfully Upadted");
                 navigate('/view-users')
             }).catch((err) => {

@@ -79,7 +79,7 @@ import AnalysisDetails from '../../../components/ArticlesAnalysis/AnalysisDetail
 
 //     const uploadPromise = new Promise((resolve, reject) => {
 
-//       post(`http://localhost:4001//artical`, formData).then((response) => {
+//       post(`http://qa-dev.conceptbiu.com/unifiedapi/artical`, formData).then((response) => {
 //         setFile('')
 //         selectRef.clearValue();
 //         setClientName();

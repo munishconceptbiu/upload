@@ -17,7 +17,7 @@ export function signUp(name, email, password, confirm_password) {
         returnSecureToken: true,
     };
     return axios.post(
-        `http://localhost:4001/api/v1/register`,
+        `http://qa-dev.conceptbiu.com/unifiedapiapi/v1/register`,
         postData,
     );
 }
@@ -29,7 +29,7 @@ export function login(username, password) {
         // returnSecureToken: true,
     };
     return axios.post(
-        `http://localhost:4001/users/authenticate`,
+        `http://qa-dev.conceptbiu.com/unifiedapiusers/authenticate`,
         postData,
     );
 }

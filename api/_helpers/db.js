@@ -8,7 +8,7 @@ initialize();
 
 async function initialize() {
     // create db if it doesn't already exist
-    const { host, port, user, password, database } = config.database;
+    const { host, port, user, password, database } = config.livedatabase;
     const connection = await mysql.createConnection({ host, port, user, password });
     // const connection = await mysql.createConnection({host: host, user: user, database: database});
     
@@ -37,7 +37,7 @@ async function initialize() {
     db.QaSetting = require('../_model/qa_setting.model')(sequelize);
     db.QaVerticalSetting = require('../_model/qa_vertical_setting.model')(sequelize);
     db.QaNMArticleSetting = require('../_model/nm_article.model')(sequelize);
-    db.Journalist = require('../_model/')(sequelize);
+    db.Journalist = require('../_model/m_journalists.model')(sequelize);
 
     // sync all models with database
     await sequelize.sync();
