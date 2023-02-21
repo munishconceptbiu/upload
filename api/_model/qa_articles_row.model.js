@@ -97,7 +97,9 @@ function model(sequelize) {
         keyword_category1:{ type: DataTypes.STRING, allowNull: false }, 
         keyword_category2:{ type: DataTypes.STRING, allowNull: false }, 
         theme_id:{ type: DataTypes.INTEGER, allowNull: false }, 
-        theme:{ type: DataTypes.STRING, allowNull: false }   
+        theme:{ type: DataTypes.STRING, allowNull: false },
+        createdAt: { type: DataTypes.DATE, allowNull: true},
+        updatedAt: { type: DataTypes.DATE, allowNull: true},   
     };
 
     const options = {
