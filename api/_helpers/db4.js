@@ -19,7 +19,7 @@ async function initialize() {
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
 
     // connect to db2
-    const sequelize = new Sequelize(database, user, password, { logging: false, host : host, dialect: 'mysql' , pool: {
+    const sequelize = new Sequelize(database, user, password, { logging: true, host : host, dialect: 'mysql' , pool: {
         max: 20,
         min: 0,
         acquire: 60000000,
@@ -39,6 +39,9 @@ async function initialize() {
     db4.MThemeKeywords = require('../_model/m_theme_keywords.model')(sequelize);
 
     db4.MThemes = require('../_model/m_themes.model')(sequelize);
+
+    db4.QaArticlesRow = require('../_model/qa_articles_row.model')(sequelize);
+
 
     db4.sequelize = sequelize;    
     // sync all models with database  

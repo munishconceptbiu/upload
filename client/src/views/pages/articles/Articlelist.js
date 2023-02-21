@@ -1,16 +1,27 @@
 import { CalendarIcon, HandIcon } from '../../../Icons/icons.component'
 import { NavLink, useNavigate } from 'react-router-dom';
 import '../../../components/main.css'
-import ReactDatePicker from 'react-datepicker';
+import DatePicker from 'react-datepicker';
 import React, { useCallback, useMemo, useEffect, useState } from 'react';
 import { EditIcon, DeleteIcon } from "../../../Icons/icons.component";
-import { get, post, deleteMethod } from "../../../services/CommanService";
-
+import { get, post, deleteMethod, put } from "../../../services/CommanService";
 import { CSmartTable } from '@coreui/react-pro'
+import BootstrapTable from 'react-bootstrap-table-next';
+import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
+import filterFactory, { textFilter, dateFilter, numberFilter } from 'react-bootstrap-table2-filter';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import toast from 'react-hot-toast';
+import { DateRangePicker } from 'rsuite';
+import AsyncSelect from 'react-select/async';
+
+// import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 
 function Articlelist() {
 
-  const [articleList, setArticleList] = useState([])
+  const [articleList, setArticleList] = useState([]);
+  const [dateRange, setDateRange] = useState([null, null]);
+  const [startDate, endDate] = dateRange;
+
   const getArticleList = () => {
     post("dataprocess/get-articlesrowlist", {"client_id":"5193","media_type":"2","page":"1","fromDate":"2022-12-15","toDate":"2022-12-16"}
     ).then((response) => {
@@ -27,56 +38,283 @@ function Articlelist() {
   
   const columns = [
     {
-      key: 'id',
-      label: 'No',
+      dataField: 'id',
+      text: 'No',
+      sort: true
     },
     {
-      key: 'headline',
-      label: 'Headline',
+      dataField: 'article_id',
+      text: 'Article Id',
+      sort: true,
+      filter: numberFilter(),
+      editable: false,
+      // filter: false,
+      // sorter: false,
+    },
+    {
+      dataField: 'headline',
+      text: 'Headline',
+      sort: true,
+      filter: textFilter(),
+      editor: {
+        type: Type.TEXTAREA
+      },
+      formatter: (cell) => {
+        return cell.length > 15 ? cell.substring(0, 15) +'...' : cell ;
+      },
+      // style: {
+      //   fontWeight: 'bold',
+      //   fontSize: '18px',
+      //   width: '100%',
+      //   backgroundColor: '#20B2AA'
+      // },
+      // editCellStyle: {
+      //   width: '100%',
+      //   backgroundColor: '#20B2AA'
+      // }
       // filter: false,
       // sorter: false,
     },
     
     {
-      key: 'entity_name',
-      label: 'Entity',
+      dataField: 'entity_name',
+      text: 'Entity',
+      sort: true,
+      filter: textFilter()
       // filter: false,
       // sorter: false,
     },
 
     {
-      key: 'media_type',
-      label: 'Media Type',
-      // filter: false,
-      // sorter: false,
+      dataField: 'media_type_id',
+      text: 'Media Type',
+      sort: true,
+      filter: textFilter(),
+      formatter: (cell) => {
+        return cell === 1 ? 'Print' : 'Online';
+      },
+      editor: {
+        type: Type.SELECT,
+        options: [{
+          value: 1,
+          label: 'Print'
+        }, {
+          value: 2,
+          label: 'Online'
+        }]
+      }
     },
     {
-      key: 'edition',
-      label: 'Edition',
+      dataField: 'edition',
+      text: 'Edition',
+      sort: true,
+      filter: textFilter()
       // filter: false,
       // sorter: false,
     },
    
     {
-      key: 'publication',
-      label: 'Publication',
+      dataField: 'publication',
+      text: 'Publication',
+      sort: true,
+      filter: textFilter()
       // filter: false,
       // sorter: false,
     },
     {
-      key: 'publish_date',
-      label: 'Publish Date',
+      dataField: 'publish_date',
+      text: 'Publish Date',
+      sort: true,
+      filter: dateFilter(),
+      formatter: (cell) => {
+        let dateObj = cell;
+        if (typeof cell !== 'object') {
+          dateObj = new Date(cell);
+        }
+        return `${('0' + dateObj.getUTCDate()).slice(-2)}/${('0' + (dateObj.getUTCMonth() + 1)).slice(-2)}/${dateObj.getUTCFullYear()}`;
+      },
+      editor: {
+        type: Type.DATE
+      }
+    },
+    {
+      dataField: 'headline_mention',
+      text: 'Headline Mention',
+      sort: true,
+      filter: textFilter(),
+      editor: {
+        type: Type.CHECKBOX,
+        value: '1:0'
+      }
+    },
+    {
+      dataField: 'ccm',
+      text: 'CCM',
+      sort: true,
+      filter: numberFilter()
       // filter: false,
       // sorter: false,
     },
-    
     {
-      key: 'action',
-      label: 'Action',
-      filter: false,
-      sorter: false,
+      dataField: 'mav',
+      text: 'MAV',
+      sort: true,
+      filter: numberFilter()
+      // filter: false,
+      // sorter: false,
+    },
+    {
+      dataField: 'tonality',
+      text: 'Tonality',
+      sort: true,
+      filter: textFilter(),
+      formatter: (cell) => {
+        return cell === 1 ? 'Postive' : cell === 2 ? 'Netural' : 'Negative';
+      },
+      editor: {
+        type: Type.SELECT,
+        options: [{
+          value: 1,
+          label: 'Postive'
+        }, {
+          value: 2,
+          label: 'Netural'
+        },
+        {
+          value: 3,
+          label: 'Negative'
+        }
+      ]
+      }
+    },
+    {
+      dataField: 'word_count',
+      text: 'Word Count',
+      sort: true,
+      filter: numberFilter()
+    },
+    {
+      dataField: 'zone',
+      text: 'Zone',
+      sort: true,
+      filter: numberFilter()
+    },
+    {
+      dataField: 'co_score',
+      text: 'Co Score',
+      sort: true,
+      filter: numberFilter()
+    },
+    {
+      dataField: 'visibility_score',
+      text: 'Visibility Score',
+      sort: true,
+      filter: numberFilter()
+    },
+    {
+      dataField: 'reach',
+      text: 'Reach',
+      sort: true,
+      filter: numberFilter()
+    },
+    {
+      dataField: 'index',
+      text: 'Index',
+      sort: true,
+      filter: numberFilter()
+    },
+    {
+      dataField: 'vertical',
+      text: 'Vertical',
+      sort: true,
+      filter: textFilter()
+    },
+    {
+      dataField: 'theme',
+      text: 'Theme',
+      sort: true,
+      filter: textFilter()
+    },
+    {
+      dataField: 'total_ccms',
+      text: 'Total ccms',
+      sort: true,
+      filter: numberFilter()
+    },
+    {
+      dataField: 'page_no',
+      text: 'Page No',
+      sort: true,
+      editor: {
+        type: Type.TEXTAREA
+      },
+      filter: numberFilter(),
+      formatter: (cell) => {
+        return cell.length > 15 ? cell.substring(0, 15) +'...' : cell ;
+      },
+    },
+    {
+      dataField: 'language',
+      text: 'Language',
+      sort: true,
+      filter: textFilter()
     },
   ]
+  
+
+  function beforeSaveCell(oldValue, newValue, row, column, done) {
+    setTimeout(() => {
+      if(oldValue === newValue){
+        return false;
+      }
+      const formData = {};
+      formData[column.dataField] = newValue
+    const uploadPromise = new Promise((resolve, reject) => {
+
+        put(`qaarticle/${row.id}`, formData).then((response) => {
+            resolve("Article Successfully Saved");
+            getArticleList()
+        }).catch((err) => {
+            reject(err.response.data.error)
+        })
+    });
+    toast.promise(
+        uploadPromise,
+        {
+            loading: 'saving ...',
+            success: (data) => `${data}`,
+            error: (err) => `This just happened: ${err}`,
+        },
+        {
+            style: {
+                minWidth: '250px',
+            },
+
+        }
+    );
+      }, 0);
+    return { async: true };
+  }
+  
+  const selectRow = {
+    mode: 'checkbox',
+    clickToSelect: true,
+    clickToEdit: true
+  };
+  let selectRef = React.useRef();
+
+  const promiseOptions = (inputValue) =>
+    new Promise((resolve) => {
+      inputValue = inputValue || 'a'
+      get("artical/get-setting-clientlist/" + inputValue).then((response) => {
+        resolve(response.data.client.map((e) => ({
+          value: e.client_id,
+          label: e.client_name
+        })));
+      })
+
+    });
+
 
   return (
     <>
@@ -87,200 +325,21 @@ function Articlelist() {
       </div>
       <div className='content-box'>
         <div className='row article-list-form'>
-          <div className='col-3'><span className='aldatepicker'><input type='text' className=' react-datepicker-ignore-onclickoutside' placeholder='Date Range' /><CalendarIcon /> </span> </div>
+          <div className='col-3'>    <DatePicker
+                  selectsRange={true}
+                  startDate={startDate}
+                  endDate={endDate}
+                  onChange={(update) => {
+                    setDateRange(update);
+                  }}
+                  // isClearable={true}
+                  className="form-control"
+                />
+ </div>
           <div className='col-3'>
-
-            <select name="clients" class=" form-select">
-              <option value="">Select Client</option>
-              <option value="7685">Adani Group(Cement)</option>
-              <option value="4445">Adani Transmission Ltd</option>
-              <option value="6482">Aditya Birla Management Corporation Private Limited</option>
-              <option value="5862">AirAsia India</option>
-              <option value="7278">All Ministries</option>
-              <option value="7935">AMNS India</option>
-              <option value="4684">AP Moller MAERSK Group</option>
-              <option value="1333">Apollo Healthcare</option>
-              <option value="4698">Apple Inc</option>
-              <option value="4868">Apraava India</option>
-              <option value="5135">ASK Group</option>
-              <option value="3405">Aster DM Healthcare</option>
-              <option value="7430">Atlassian</option>
-              <option value="1389">Australian High Commission</option>
-              <option value="1250">Bajaj Allianz General Insurance</option>
-              <option value="5090">Bajaj Allianz Life Insurance</option>
-              <option value="8594">Bajaj Allianz Life Insurance (Test)</option>
-              <option value="668">Bangalore International Airport Limited</option>
-              <option value="5621">Bank of India Investment Managers Private Limited</option>
-              <option value="7688">Bay Capital</option>
-              <option value="2583">Bharti Infratel</option>
-              <option value="2362">Bisleri International Pvt. Ltd.</option>
-              <option value="7832">Boehringer Ingelheim</option>
-              <option value="2700">Cairn India</option>
-              <option value="5350">Cargill India</option>
-              <option value="3376">Chennaiyin FC</option>
-              <option value="3613">Ciena Corporation</option>
-              <option value="7950">CIFF- Transport Decarbonisation Programme</option>
-              <option value="8580">CIL</option>
-              <option value="8837">CIL TOPSTORY</option>
-              <option value="6396">Cloudnine Hospitals</option>
-              <option value="8827">Clover Connect</option>
-              <option value="3135">Coal India Limited</option>
-              <option value="8285">Cordelia Cruise</option>
-              <option value="1922">CRISIL Ltd</option>
-              <option value="4660">Crop Life India</option>
-              <option value="4959">Dainik Bhaskar</option>
-              <option value="8639">Delhi-NCR Open Golf Championship</option>
-              <option value="4997">Dhanuka Agritech Ltd</option>
-              <option value="3614">DP World</option>
-              <option value="8826">DP World India.</option>
-              <option value="7442">Edelweiss General Insurance</option>
-              <option value="8983">Elgi Equipments Limited</option>
-              <option value="5240">Embassy of The United States</option>
-              <option value="7477">ESPNcricinfo</option>
-              <option value="4436">Experian India</option>
-              <option value="5982">Fertilizer Association of India (FAI)</option>
-              <option value="7765">Fidelity Investments India</option>
-              <option value="5681">Fidelity Mutual Funds</option>
-              <option value="524">Ford Foundation</option>
-              <option value="4191">Fortune</option>
-              <option value="8421">Future Generali India Insurance Company</option>
-              <option value="1999">GMR</option>
-              <option value="967">Godrej &amp; Boyce</option>
-              <option value="6733">Godrej Appliances</option>
-              <option value="2719">Godrej Consumer Products Ltd.</option>
-              <option value="3340">Godrej Interio</option>
-              <option value="6735">Godrej Locking Solutions &amp; Systems</option>
-              <option value="3271">Godrej Tyson Foods Ltd</option>
-              <option value="7424">Government of Uttar Pradesh</option>
-              <option value="4519">Green Business Certification Inc. (GBCI)</option>
-              <option value="8940">HEALTHCARE.</option>
-              <option value="2887">Hermes India</option>
-              <option value="3486">Hockey India</option>
-              <option value="6902">Home First Finance Co India Ltd</option>
-              <option value="713">Honeywell</option>
-              <option value="4448">Honor</option>
-              <option value="4697">HP Inc</option>
-              <option value="247">Hyundai Motors</option>
-              <option value="105">IBM</option>
-              <option value="2881">IDC INDIA</option>
-              <option value="5112">IDFC FIRST Bank Limited</option>
-              <option value="2889">India Ratings and Research</option>
-              <option value="6071">India Today TV</option>
-              <option value="6108">India – Australia News</option>
-              <option value="3">Indian Hotels Company Ltd</option>
-              <option value="2218">IRB Infrastructure</option>
-              <option value="79">ITC Hotels</option>
-              <option value="7838">ITC Royal Bengal</option>
-              <option value="2292">Jaguar Land Rover</option>
-              <option value="8887">Jakson Limited</option>
-              <option value="7590">Japan International Cooperation Agency</option>
-              <option value="8598">Jindal Stainless Ltd.</option>
-              <option value="5110">JSW Group</option>
-              <option value="2447">Kalyan Jewellers</option>
-              <option value="7583">Khatabook</option>
-              <option value="2291">Knight Frank</option>
-              <option value="3829">kokilaben Dhirubhai Ambani Hospital</option>
-              <option value="7673">Koo App</option>
-              <option value="6851">Kotak General Insurance</option>
-              <option value="7996">Kotak Institutional Equities</option>
-              <option value="7814">Kotak Investment Advisors</option>
-              <option value="794">Kotak Life Insurance</option>
-              <option value="8001">Kotak Mahindra Bank Ltd</option>
-              <option value="8002">Kotak Mahindra Bank Ltd (Commercial)</option>
-              <option value="5577">Kotak Mahindra Capital Company Ltd</option>
-              <option value="8003">Kotak Mahindra Prime Ltd</option>
-              <option value="5690">Kotak Mutual Fund</option>
-              <option value="5149">Kotak Private </option>
-              <option value="1143">Kotak Securities</option>
-              <option value="2585">KPMG</option>
-              <option value="8934">Kyndryl</option>
-              <option value="1181">Lemon Tree</option>
-              <option value="284">LG Electronics India Pvt Ltd</option>
-              <option value="4803">Liberty General Insurance</option>
-              <option value="2150">LIC Housing Finance</option>
-              <option value="5609">LinkedIn</option>
-              <option value="8795">Maharashtra Natural Gas Limited</option>
-              <option value="5358">Manappuram Finance Limited</option>
-              <option value="8261">MetricStream</option>
-              <option value="7651">Ministry of AYUSH</option>
-              <option value="7896">Ministry of Corporate Affairs</option>
-              <option value="6781">Ministry of Defence </option>
-              <option value="7262">Ministry of Defence (MoD)</option>
-              <option value="7254">Ministry of Health and Family Welfare</option>
-              <option value="7890">Ministry of Heavy Industries and Public Enterprises</option>
-              <option value="8431">Ministry of Railways (MoR)</option>
-              <option value="3878">MullenLowe Lintas Group</option>
-              <option value="2985">NAREDCO</option>
-              <option value="3797">Netflix</option>
-              <option value="8469">Niva Bupa</option>
-              <option value="256">NTPC</option>
-              <option value="7213">Oasis Fertility</option>
-              <option value="2049">Oberoi Mall</option>
-              <option value="6664">Ovum Fertility</option>
-              <option value="185">Panasonic</option>
-              <option value="2044">Panasonic Life Solutions</option>
-              <option value="7624">PG Electroplast Limited</option>
-              <option value="7940">PharmEasy</option>
-              <option value="5771">Piramal Realty</option>
-              <option value="8441">Policy Announcements</option>
-              <option value="7261">Prime Minister's Office</option>
-              <option value="1412">Raymond Group</option>
-              <option value="353">Reliance Industries Ltd.</option>
-              <option value="2233">Reliance Sports</option>
-              <option value="5811">Reserve Bank of India</option>
-              <option value="3024">RMZ Corp</option>
-              <option value="3054">Roche India</option>
-              <option value="2340">Roots Corporations Ltd.</option>
-              <option value="7546">Royal Commission for Al-Ula</option>
-              <option value="8726">Saifee Burhani Upliftment Trust</option>
-              <option value="2530">Shapoorji Pallonji</option>
-              <option value="4946">Shell – Industry and Policy update</option>
-              <option value="8889">Sids Farm</option>
-              <option value="8460">Skoda Auto Volkswagen India Private Limited</option>
-              <option value="2941">South Africa Tourism</option>
-              <option value="662">SpiceJet</option>
-              <option value="5800">Star Bharat</option>
-              <option value="4444">Sterlite Power</option>
-              <option value="3659">Sterlite Technologies Ltd.</option>
-              <option value="1035">Suzlon</option>
-              <option value="2787">Suzlon Group</option>
-              <option value="3417">Swiggy</option>
-              <option value="2250">Tata Asset Management</option>
-              <option value="1132">Tata Capital</option>
-              <option value="10">Tata Chemicals Ltd.</option>
-              <option value="9">Tata Consultancy Services</option>
-              <option value="6">TATA Consumer Products Ltd</option>
-              <option value="1371">Tata Housing Development Company Ltd.</option>
-              <option value="49">Tata International</option>
-              <option value="8">Tata Motors</option>
-              <option value="6631">Tata Motors(PV)</option>
-              <option value="5">Tata Power Company Ltd</option>
-              <option value="2874">Tata Power Delhi Distribution Ltd.</option>
-              <option value="7271">Tata Power.</option>
-              <option value="1">Tata Sons</option>
-              <option value="11">Tata Steel</option>
-              <option value="4">Tata Teleservices</option>
-              <option value="3286">Tata Trusts</option>
-              <option value="5431">TCS iON</option>
-              <option value="2886">TCS world 10k 2014</option>
-              <option value="4261">TCS-Digital</option>
-              <option value="3452">ThyssenKrupp India</option>
-              <option value="20">Titan Company Ltd.</option>
-              <option value="251">Toyota</option>
-              <option value="33">Trent Ltd</option>
-              <option value="6984">UNICA</option>
-              <option value="5193">Unilever</option>
-              <option value="1100">United Breweries Limited</option>
-              <option value="4004">US Embassy</option>
-              <option value="5566">UTI Capital</option>
-              <option value="3206">Valvoline</option>
-              <option value="7806">Varde Partners</option>
-              <option value="7705">Vedanta Group</option>
-              <option value="1995">Volkswagen</option>
-              <option value="881">Wal Mart</option>
-              <option value="8392">Webo Test Client 4</option>
-              <option value="4391">Westside</option>
-            </select>
+          <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} isClearable={true} ref={(ref) => {
+                    selectRef = ref;
+                  }} />
           </div>
           <div className='col-3'>
 
@@ -1074,7 +1133,21 @@ function Articlelist() {
         </div>
 
         <div className='row article-list'>
-        <CSmartTable
+        <BootstrapTable
+    keyField="id"
+    data={ articleList }
+    columns={ columns }
+    cellEdit={ cellEditFactory({
+      mode: 'click',
+      beforeSaveCell
+    }) }
+    filter={ filterFactory() }
+  filterPosition="top"
+    pagination={ paginationFactory() }
+    selectRow={ selectRow }
+    tabIndexCell
+  />
+        {/* <CSmartTable
       columns={columns}
       columnFilter
       columnSorter
@@ -1084,18 +1157,24 @@ function Articlelist() {
       }))}
       pagination
       scopedColumns={{
-        action: (list) => (
-          <td className='action-btns'><a  href="javascript:void(0)"><EditIcon /></a> <a href="javascript:void(0)"  className='deleicon'><DeleteIcon /></a></td>
-        ),
+       
         media_type: (list) => (
           <td>{list.media_type === 1 ? 'print' : 'online'}</td>
         ),
+        headline: (list) => (
+          <>
+          {list.isEdit === false ? (
+          <td onDoubleClick={(e) => addEditInput(e, list.id, list.headline)}>{list.headline}</td> ) :
+            ( <ViewInput id={list.id} value={list.headline} /> )
+          }
+          </>
+        )
        }}
       tableProps={{
         hover: true,
         responsive: true,
       }}
-    />
+    /> */}
         </div>
       </div>
     </>

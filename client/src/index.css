@@ -112,3 +112,9 @@ to {transform:rotate(360deg);}
   -webkit-animation: spin .8s linear infinite;
   animation: spin .8s linear infinite;
 }
+.react-bootstrap-table{
+  overflow-y: scroll !important;
+}
+.sr-only {
+  display: none  !important;
+}
