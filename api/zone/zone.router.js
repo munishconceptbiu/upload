@@ -7,4 +7,6 @@ const zoneController = require('../zone/zone.controller')
 // router
 router.get('/',  zoneController.getZone);
 
+router.get('/editions/:zoneid',  zoneController.getZoneEdition);
+
 module.exports = router;

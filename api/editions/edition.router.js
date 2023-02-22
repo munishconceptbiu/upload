@@ -3,10 +3,9 @@ const Router = require('express').Router;
 const router = Router();
 
 const authorize = require('_middleware/authorize')
-const userController = require('../editions/edition.controller')
+const editionController = require('../editions/edition.controller')
 // router
-router.get('/zone/:zoneid',  userController.getZoneEdition);
 
-router.get('/name/:name',  userController.getEdition);
+router.get('/:name',  editionController.getEdition);
 
 module.exports = router;

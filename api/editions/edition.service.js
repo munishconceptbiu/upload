@@ -6,7 +6,6 @@ const { func } = require('joi');
 
 module.exports = {
     getEdition,
-    getZoneEdition
 };
 
 async function getEdition(name) {
@@ -19,15 +18,6 @@ async function getEdition(name) {
         attributes: ["id",
             "edition_name",
         ]
-    });
-    return edition;
-}
-
-async function getZoneEdition(zoneid) {
-    const edition = await db.Edition.findAll({
-        where: {
-            zone_id:  zoneid
-        }
     });
     return edition;
 }
