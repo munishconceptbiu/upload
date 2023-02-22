@@ -28,15 +28,18 @@ function Articlelist() {
   const [editionList, setEditionList] = useState([])
   const [journalistList, setJournalistList] = useState([])
 
-  const [publication, setPublication] = useState()
-  const [zone, setZone] = useState()
-  const [edition, setEdition] = useState()
-  const [journalist, setJournalist] = useState();
-  const [mediatype, setMediaType] = useState(1)
+  const [publication, setPublication] = useState('')
+  const [zone, setZone] = useState('')
+  const [edition, setEdition] = useState('')
+  const [journalist, setJournalist] = useState('');
+  const [mediatype, setMediaType] = useState(1);
+  const [message, setMessage] = useState('')
   const getArticleList = () => {
-    post("dataprocess/get-articlesrowlist", {"client_id": selectRef.getValue().length ? selectRef.getValue()[0]?.value : "5193","media_type":mediatype,"page":"1","fromDate": startDate === "" || startDate === null ?  "2022-12-15" : moment(startDate).format('L'),"toDate": endDate === "" || endDate === null ?  "2022-12-16" : moment(endDate).format('L')}
+    console.log('selectRef.getValue()[0]', selectRef.getValue()[0])
+    post("dataprocess/get-articlesrowlist", {"client_id": selectRef.getValue().length ? selectRef.getValue()[0]?.value : "5193","media_type":mediatype,"page":"1","fromDate": startDate === "" || startDate === null ?  "2022-12-15" : moment(startDate).format('L'),"toDate": endDate === "" || endDate === null ?  "2022-12-16" : moment(endDate).format('L'),zone: zone, publication: publication, edition: edition, journalist: journalist }
     ).then((response) => {
       setArticleList(response.data.articlesrowlist)
+      setMessage(`<div style="color: rgb(0, 54, 185); margin-top: 5px; margin-bottom: 5px; font-size: 14px;">Total <span className="feed-count-info"><b>${response.data.articlesrowlist.length}</b></span> articles were found from <span class="feed-count-info"><b>${moment(startDate).format('LL')}</b></span> to <span className="feed-count-info"> <b>${moment(endDate).format('LL')}</b></span> <span className="feed-count-info">with selected client <b> ${selectRef.getValue().length ? selectRef.getValue()[0]?.label : ""} </b></span></div>`)
     })
       .catch(() => {
         // handleLoginFailure({ status: UNAUTHORIZED });
@@ -75,7 +78,7 @@ function Articlelist() {
   }
   const getEditionList = (zone) => {
     get("zone/editions/"+zone).then((response) => {
-      setZoneList(response.data.editions)
+      setEditionList(response.data.editions)
     })
       .catch(() => {
         // handleLoginFailure({ status: UNAUTHORIZED });
@@ -85,7 +88,7 @@ function Articlelist() {
   useEffect(() => {
     getPublicationList();
     getZoneList();
-    getArticleList()
+    // getArticleList()
   }, []);
   
   const columns = [
@@ -369,12 +372,12 @@ function Articlelist() {
 
     const changeZone = (id) => {
       setZone(id);
-      getEditionList(id)
+      if(id !== "") getEditionList(id)
     }
 
     const changePublication = (id) => {
       setPublication(id);
-      getJournalistList(id)
+     if(id !==  "") getJournalistList(id)
     }
 
 
@@ -480,6 +483,8 @@ function Articlelist() {
         </div>
 
         <div className='row article-list'>
+           <div dangerouslySetInnerHTML={ { __html: message }}></div>
+          <br /> <br />
         <BootstrapTable
     keyField="id"
     data={ articleList }
