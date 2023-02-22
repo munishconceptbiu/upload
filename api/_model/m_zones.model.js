@@ -17,5 +17,5 @@ function model(sequelize) {
     const options = {
     };
 
-    return sequelize.define('m_suppliments', attributes, options);
+    return sequelize.define('m_zones', attributes, options);
 }
