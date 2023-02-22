@@ -29,7 +29,7 @@ export function login(username, password) {
         // returnSecureToken: true,
     };
     return axios.post(
-        `http://qa-dev.conceptbiu.com/unifiedapiusers/authenticate`,
+        `http://qa-dev.conceptbiu.com/unifiedapi/users/authenticate`,
         postData,
     );
 }

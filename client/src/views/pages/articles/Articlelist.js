@@ -66,7 +66,7 @@ function Articlelist() {
   }
   const getZoneList = () => {
     get("zone").then((response) => {
-      setZoneList(response.data.zone)
+      setZoneList(response.data.zones)
     })
       .catch(() => {
         // handleLoginFailure({ status: UNAUTHORIZED });
@@ -74,7 +74,7 @@ function Articlelist() {
 
   }
   const getEditionList = (zone) => {
-    get("edition/zone/"+zone).then((response) => {
+    get("editions/zone/"+zone).then((response) => {
       setZoneList(response.data.editions)
     })
       .catch(() => {
