@@ -33,7 +33,7 @@ async function initialize() {
     db.QaSpokesPerson = require('../_model/qa_spokesperson.model')(sequelize);
 
     db.QaUploadDetail = require('../_model/qa_upload_details.model')(sequelize);
-    db.Edition = require('../_model/edition.model')(sequelize);
+    db.Edition = require('../_model/m_editions.model')(sequelize);
     db.QaSetting = require('../_model/qa_setting.model')(sequelize);
     db.QaVerticalSetting = require('../_model/qa_vertical_setting.model')(sequelize);
     db.QaNMArticleSetting = require('../_model/nm_article.model')(sequelize);

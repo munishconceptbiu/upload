@@ -34,7 +34,7 @@ function Articlelist() {
   const [journalist, setJournalist] = useState();
   const [mediatype, setMediaType] = useState(1)
   const getArticleList = () => {
-    post("dataprocess/get-articlesrowlist", {"client_id": selectRef.getValue()[0].value || "5193","media_type":mediatype,"page":"1","fromDate": startDate === "" || startDate === null ?  "2022-12-15" : moment(startDate).format('L'),"toDate": endDate === "" || endDate === null ?  "2022-12-16" : moment(endDate).format('L')}
+    post("dataprocess/get-articlesrowlist", {"client_id": selectRef.getValue().length ? selectRef.getValue()[0]?.value : "5193","media_type":mediatype,"page":"1","fromDate": startDate === "" || startDate === null ?  "2022-12-15" : moment(startDate).format('L'),"toDate": endDate === "" || endDate === null ?  "2022-12-16" : moment(endDate).format('L')}
     ).then((response) => {
       setArticleList(response.data.articlesrowlist)
     })
@@ -54,7 +54,7 @@ function Articlelist() {
 
   }
 
-  const getJournalistList = () => {
+  const getJournalistList = (publication) => {
     get("journalist/publication/"+publication
     ).then((response) => {
       setJournalistList(response.data.journalist)
@@ -67,6 +67,15 @@ function Articlelist() {
   const getZoneList = () => {
     get("zone").then((response) => {
       setZoneList(response.data.zone)
+    })
+      .catch(() => {
+        // handleLoginFailure({ status: UNAUTHORIZED });
+      })
+
+  }
+  const getEditionList = (zone) => {
+    get("edition/zone/"+zone).then((response) => {
+      setZoneList(response.data.editions)
     })
       .catch(() => {
         // handleLoginFailure({ status: UNAUTHORIZED });
@@ -358,6 +367,16 @@ function Articlelist() {
 
     });
 
+    const changeZone = (id) => {
+      setZone(id);
+      getEditionList(id)
+    }
+
+    const changePublication = (id) => {
+      setPublication(id);
+      getJournalistList(id)
+    }
+
 
   return (
     <>
@@ -415,7 +434,7 @@ function Articlelist() {
           </div>
           <div className='col-3'>
 
-            <select className='form-select'>
+            <select className='form-select' onChange={e => changeZone(e.target.value)}>
               <option value={""}>
                 Zone
               </option>
@@ -428,7 +447,7 @@ function Articlelist() {
           </div>
           <div className='col-3'>
 
-            <select className='form-select'>
+            <select className='form-select' onChange={e => setEdition(e.target.value)}>
               <option value="">Edition</option>
               {editionList?.map((e, index) => 
               <option key={index} value={e.id}> {e.edition_name}</option>
@@ -439,7 +458,7 @@ function Articlelist() {
 
           <div className='col-3'>
 
-            <select className='form-select'>
+            <select className='form-select' onChange={e => changePublication(e.target.value)}>
               <option value="">Publication</option>
               {publicationList?.map((e, index) => 
               <option key={index} value={e.id}> {e.publication}</option>
@@ -448,7 +467,7 @@ function Articlelist() {
           </div>
           <div className='col-3'>
 
-            <select className='form-select'>
+            <select className='form-select' onChange={e=> setJournalist(e.target.value)}>
               <option>Jounalist</option>
               {journalistList?.map((e, index) => 
               <option key={index} value={e.id}> {e.journalist_name}</option>
