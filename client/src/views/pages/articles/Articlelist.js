@@ -74,7 +74,7 @@ function Articlelist() {
 
   }
   const getEditionList = (zone) => {
-    get("editions/zone/"+zone).then((response) => {
+    get("zone/editions/"+zone).then((response) => {
       setZoneList(response.data.editions)
     })
       .catch(() => {

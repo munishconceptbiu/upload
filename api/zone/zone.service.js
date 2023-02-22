@@ -1,4 +1,5 @@
 const db4 = require('_helpers/db4');
+const db = require('_helpers/db');
 
 const { Op, QueryTypes } = require("sequelize");
 

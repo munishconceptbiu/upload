@@ -7,12 +7,12 @@ const journalistController = require('./journalist.controller')
 // routes
 
 
-router.post('/',  journalistController.add);
-router.get('/',  journalistController.getAll);
-router.get('publication/:publicationid',  journalistController.getAllPublicaitonWise);
+
+router.get('/publication/:publicationid',  journalistController.getAllPublicaitonWise);
 
 router.put('/:id',  journalistController.update);
 router.get('/:id',  journalistController.getSingle);
 router.delete('/:id',  journalistController.delete);
-
+router.post('/',  journalistController.add);
+router.get('/',  journalistController.getAll);
 module.exports = router;

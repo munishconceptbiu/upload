@@ -44,6 +44,7 @@ async function initialize() {
 
     db4.Zone = require('../_model/m_zones.model')(sequelize);
 
+    db4.Edition = require('../_model/m_editions.model')(sequelize);
 
     db4.sequelize = sequelize;    
     // sync all models with database  
