@@ -42,6 +42,8 @@ async function initialize() {
 
     db4.QaArticlesRow = require('../_model/qa_articles_row.model')(sequelize);
 
+    db4.Zone = require('../_model/m_zones.model')(sequelize);
+
 
     db4.sequelize = sequelize;    
     // sync all models with database  
