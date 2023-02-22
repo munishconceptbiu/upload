@@ -73,10 +73,10 @@ const AppSidebar = (props) => {
         </NavLink>
       </li>
       <li>
-      <NavLink to={"#"} onClick={ e => setShowMaster(showMaster === true ? false : true)} className="nav-link" title="Master" data-bs-toggle="tooltip" data-bs-placement="right">
-         <span className='menuIcon'><AnalysisIcon /></span>
+      <a  onClick={ e => setShowMaster(showMaster === true ? false : true)} className="nav-link" title="Master" data-bs-toggle="tooltip" data-bs-placement="right">
+         <span className='menuIcon'><DashboardIcon /></span>
          <span className='menuTitle'>Master</span>
-        </NavLink>
+        </a>
       </li>
       {showMaster === true &&
       <ul style={{ marginLeft: "-34px" }}>

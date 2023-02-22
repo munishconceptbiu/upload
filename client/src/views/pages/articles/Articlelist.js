@@ -101,7 +101,7 @@ function Articlelist() {
       dataField: 'article_id',
       text: 'Article Id',
       sort: true,
-      filter: numberFilter(),
+      filter: textFilter(),
       editable: false,
       // filter: false,
       // sorter: false,
