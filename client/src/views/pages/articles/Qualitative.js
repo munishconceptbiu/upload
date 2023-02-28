@@ -1,6 +1,6 @@
 import React from 'react'
 import Tabs from '../../../components/ArticlesAnalysis/Tabs'
-import AnalysisDetails from '../../../components/AnalysisDetails'
+import AnalysisDetails from '../../../components/ArticlesAnalysis/AnalysisDetails'
 
 const Qualitative = () => {
     return (
