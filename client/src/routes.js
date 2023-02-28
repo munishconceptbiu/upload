@@ -1,4 +1,5 @@
 import React from 'react'
+import Qualitative from './views/pages/articles/Qualitative'
 import ViewJornalist from './views/pages/journalist/View'
 import AddKeyword from './views/pages/keyword/Add'
 import Keyword from './views/pages/keyword/Keyword'
@@ -75,7 +76,9 @@ const routes = [
   
   { path: '/topics', name: 'list', element: Topic },
   { path: '/add-topic', name: 'add', element: AddTopic },
-  { path: '/edit-topic/:tid', name: 'edit', element: AddTopic }
+  { path: '/edit-topic/:tid', name: 'edit', element: AddTopic },
+
+  { path: '/Qualitative', name: 'edit', element: Qualitative }
 ]
 
 export default routes
