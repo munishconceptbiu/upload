@@ -238,7 +238,9 @@ select.form-select:focus{border-bottom: 3px solid #080fef !important;}
     padding: 25px; background-color: #fff;}
 .article-list-form input{width: 100%; }
 .article-list-form{border-bottom: 1px solid #dcdcdc; padding-bottom: 25px;}
-.article-list{margin-top: 25px;}
+.article-list{margin-top: 25px; overflow-x: scroll;}
+.article-list th{white-space: nowrap;}
+.article-list td{border-right: 1px solid #ccc;}
 .article-list-form button{ float: right;}
 .article-list table .HandIcon{fill: #ffffff;}
 .article-list-form .col-3{position: relative; margin-bottom: 20px;}
@@ -297,14 +299,14 @@ select.form-select:focus{border-bottom: 3px solid #080fef !important;}
 }
 .tabcontent h3{border-bottom: 1px solid #dcdcdc; text-align: center;     padding: 20px 0 15px; font-size: 20px;}
 .tabcontent .qa-input{border:0 ; outline: 0; border-bottom: 1px solid #999999; width: 100%;    ;}
-.qa-input{ width: 100%}
+.qa-input{ width: 100%; padding-bottom: 12px;}
 input:disabled {opacity: 0.5;}
 .journalist-details{margin-top:20px}
 
 .graph-float{float: left !important; margin: 10px; min-height: 500px;}
 .analysisoptions span{margin-right: 15px;}
 .analysisoptions span .icon{margin: 10px;}
-.analysis-options{border-bottom: 1px solid #d7d7d7; margin-top:20px; padding-bottom: 10px;}
+.analysis-options{ margin-top:20px; padding-bottom: 10px;}
 .journalist-details svg{fill:#757575 !important; margin:0 7px 0 0;}
 .edition-tab .tab-nav{margin-top: 20px; border-bottom: 1px solid #dcdcdc; padding-bottom: 15px; margin: 20px 0;}
 
@@ -345,7 +347,7 @@ button.btn-gray, button.btn-gray:hover{background-color: #888888; color: #fff; m
 .form-details{margin-top: 20px;}
 .qa-tab .nav-pills{border: 0;}
 .qa-tab ul li{margin: 0 auto;}
-
+.qa-tab {margin-top:30px;}
 .qa-tab .tab-content{margin-top: 45px; border-top: 1px solid #ccc;}
 /* .step1, .step2, .step3, .step4{position: relative;}
 .step2 span{ left: 84px; right: 0;}
@@ -354,4 +356,49 @@ button.btn-gray, button.btn-gray:hover{background-color: #888888; color: #fff; m
 .step1 span{ position: absolute; left: 10px; right: 0;}
 .step span{  background-color: #0036b9; width: 30px; border-radius: 50%; color: #fff; text-align: center; padding: 5px; position: absolute;
  top: -66px; z-index: 99;} */
+ .article-list .tabicon {background-color: #0036b9; border-radius: 50%; width: 30px; height: 30px; display: flex; justify-content: center; align-items: center;}
     
+
+.carousel-item {position: relative;}
+.ourtop-picks .col-md-4 h5{text-align: center;}
+
+.form-details h3{font-size: 18px; font-weight: bold;}
+.textarea textarea{ color: #000; font-size: 16px;}
+.radio-btn{margin-right: 12px;}
+.form-details {margin-left: 5px;}
+.radio-group{margin-top:15px;}
+.radio-group span{margin-right: 10px;}
+.radio-group label{margin-left: 6px;}
+.radio-title{color: rgb(145, 145, 145); font-weight: normal;}
+.analysis-options{min-height: 300px; overflow-y: auto;}
+
+.step3 .mt-20{margin-top: 10px !important;}
+.search-td{background-color: #9d9d9d;}
+.search-td .qa-input{padding-bottom: 0; padding-left: 5px;}
+.article-list tr th{background-color: #7b7b7b; color: #fff; border-right: 1px solid #999999;}
+.article-list tbody{border: 1px solid #9d9d9d;}
+
+.page-item.active .page-link{background-color: #0036b9; border-color: #0036b9;}
+.page-link{color: #0036b9;}
+.article-list-pagination .pagination{float: right;}
+.readmore{font-size: 24px; text-decoration: none;}
+span.tolltip:hover p{background-color: #fff; box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; 
+color: #000; position: absolute; z-index: 9999; display: block; width: 300px; padding: 15px;}
+
+span.tolltip p{display: none;}
+.tolltip h5{color: #0036b9;}
+.punch-btn{background-color: #0036b9; color: #fff; padding: 10px 9px; border-radius: 50%;}
+.punch-btn svg{fill: #fff;}
+.rdt_TableCol_Sortable{font-weight: bold;}
+.article-list-table{overflow-x: scroll;}
+.article-list-table th{white-space: nowrap; padding: 12px; background-color: #c5c5c5; border-right: 1px solid #9c9c9c;}
+.table-search{background-color: #e5e5e5;}
+.table-search td{border-right: 1px solid #b7b7b7;}
+.article-pagination{float: right; margin-top: 15px;}
+.article-pagination{display: inline-block;}
+.theme-details{margin-top:30px;}
+.theme-details th{padding: 10px ; background-color: #c5c5c5; border-right: 1px solid #a2a2a2;}
+.theme-form .btn{float: right;}
+.theme-pagination{    display: flex;
+    justify-content: right;}
+.ecode-form input{width: 100%;}

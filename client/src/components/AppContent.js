@@ -4,7 +4,6 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 // routes config
 import routes from '../routes'
 import '../components/main.css'
-import '../components/main.sass'
 const AppContent = () => {
   return (
     <div className="appContainer" >
@@ -24,7 +23,7 @@ const AppContent = () => {
               )
             )
           })}
-          <Route path="/" element={<Navigate to="uploads" replace />} />
+          <Route path="/" element={<Navigate to="dashboard" replace />} />
         </Routes>
       </Suspense>
     </div>

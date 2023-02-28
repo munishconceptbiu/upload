@@ -4,6 +4,7 @@ import { ShareIcon } from "../Icons/icons.component";
 import { DownloadIcon } from "../Icons/icons.component";
 import { UsersIcon } from "../Icons/icons.component";
 import { CalendarIcon } from "../Icons/icons.component";
+import EntityDetails from "./ArticlesAnalysis/EntityDetails";
 
 import Options from "./Options";
 
