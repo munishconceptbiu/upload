@@ -6,7 +6,7 @@ const authorize = require('_middleware/authorize')
 const qaarticleController = require('../qaarticle/qaarticle.controller')
 // router
 
-router.get('/',  qaarticleController.getArticle);
+router.post('/',  qaarticleController.getArticle);
 
 router.put('/:id',  qaarticleController.updateArticle);
 
