@@ -38,9 +38,10 @@ const Qualitative = () => {
 
 
     const getSingleArticle = () => {
-        post("qaarticle", {"client_id":"8580","article_id":"230707287","entity_id":"8579"}
+        const data = params.aid.split('-')
+        post("qaarticle", {"client_id":data[0],"article_id":data[1],"entity_id":data[2], "media_type": data[3]}
         ).then((response) => {
-            setArticle(response.data.articlesrowlist[0])
+            setArticle(response.data.article.result)
         })
             .catch(() => {
                 // handleLoginFailure({ status: UNAUTHORIZED });

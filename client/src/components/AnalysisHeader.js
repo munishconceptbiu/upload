@@ -12,6 +12,7 @@ import Options from "./Options";
 
 
 function AnalysisHeader({ article }){
+    console.log('article', article)
     return(
         <>
             <div className="ashead">

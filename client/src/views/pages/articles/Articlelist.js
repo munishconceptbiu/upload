@@ -104,7 +104,7 @@ function Articlelist() {
       filter: textFilter(),
       editable: false,
       formatter: (cell, row) => {
-        return (<NavLink  to={`/Qualitative/${row.id}`}  className="nav-link"> {cell} </NavLink>);
+        return (<NavLink  to={`/Qualitative/${row.client_id}-${cell}-${row.entity_id}-${row.media_type_id}`}  className="nav-link"> {cell} </NavLink>);
       },
       // filter: false,
       // sorter: false,

@@ -23,7 +23,7 @@ async function getArticle(con) {
 
   const data = {"client_id": con.client_id,"article_id": con.article_id,"entity_id":con.entity_id,"user_id":"4","rbase_url":"cbiu.weboapps.com"}
   // const url = "http://betadevapi.conceptbiu.com/app/auth/login";
-  const url ="http://betadevapi.conceptbiu.com/app/articles/details";
+  const url = con.media_type === 1 ? "https://clientportal.conceptbiu.com/api/app/online_articles/details" : "http://betadevapi.conceptbiu.com/app/articles/details";
   const config = {
       method: 'post',
       url,
