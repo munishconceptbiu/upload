@@ -36,7 +36,7 @@ function Articlelist() {
   const [message, setMessage] = useState('')
   const getArticleList = () => {
     console.log('selectRef.getValue()[0]', selectRef.getValue()[0])
-    post("dataprocess/get-articlesrowlist", {"client_id": selectRef.getValue().length ? selectRef.getValue()[0]?.value : "5193","media_type":mediatype,"page":"1","fromDate": startDate === "" || startDate === null ?  "2022-12-15" : moment(startDate).format('L'),"toDate": endDate === "" || endDate === null ?  "2022-12-16" : moment(endDate).format('L'),zone: zone, publication: publication, edition: edition, journalist: journalist }
+    post("dataprocess/get-articlesrowlist", { "client_id": selectRef.getValue().length ? selectRef.getValue()[0]?.value : "5193", "media_type": mediatype, "page": "1", "fromDate": startDate === "" || startDate === null ? "2022-12-15" : moment(startDate).format('L'), "toDate": endDate === "" || endDate === null ? "2022-12-16" : moment(endDate).format('L'), zone: zone, publication: publication, edition: edition, journalist: journalist }
     ).then((response) => {
       setArticleList(response.data.articlesrowlist)
       setMessage(`<div style="color: rgb(0, 54, 185); margin-top: 5px; margin-bottom: 5px; font-size: 14px;">Total <span className="feed-count-info"><b>${response.data.articlesrowlist.length}</b></span> articles were found from <span class="feed-count-info"><b>${moment(startDate).format('LL')}</b></span> to <span className="feed-count-info"> <b>${moment(endDate).format('LL')}</b></span> <span className="feed-count-info">with selected client <b> ${selectRef.getValue().length ? selectRef.getValue()[0]?.label : ""} </b></span></div>`)
@@ -58,7 +58,7 @@ function Articlelist() {
   }
 
   const getJournalistList = (publication) => {
-    get("journalist/publication/"+publication
+    get("journalist/publication/" + publication
     ).then((response) => {
       setJournalistList(response.data.journalist)
     })
@@ -77,7 +77,7 @@ function Articlelist() {
 
   }
   const getEditionList = (zone) => {
-    get("zone/editions/"+zone).then((response) => {
+    get("zone/editions/" + zone).then((response) => {
       setEditionList(response.data.editions)
     })
       .catch(() => {
@@ -90,7 +90,7 @@ function Articlelist() {
     getZoneList();
     // getArticleList()
   }, []);
-  
+
   const columns = [
     {
       dataField: 'id',
@@ -103,6 +103,9 @@ function Articlelist() {
       sort: true,
       filter: textFilter(),
       editable: false,
+      formatter: (cell, row) => {
+        return (<NavLink  to={`/Qualitative/${row.id}`}  className="nav-link"> {cell} </NavLink>);
+      },
       // filter: false,
       // sorter: false,
     },
@@ -115,7 +118,7 @@ function Articlelist() {
         type: Type.TEXTAREA
       },
       formatter: (cell) => {
-        return cell.length > 15 ? cell.substring(0, 15) +'...' : cell ;
+        return cell.length > 15 ? cell.substring(0, 15) + '...' : cell;
       },
       // style: {
       //   fontWeight: 'bold',
@@ -130,7 +133,7 @@ function Articlelist() {
       // filter: false,
       // sorter: false,
     },
-    
+
     {
       dataField: 'entity_name',
       text: 'Entity',
@@ -146,16 +149,16 @@ function Articlelist() {
       sort: true,
       filter: textFilter(),
       formatter: (cell) => {
-        return cell === 1 ? 'Print' : 'Online';
+        return cell === 1 ? 'Online' : 'Print';
       },
       editor: {
         type: Type.SELECT,
         options: [{
           value: 1,
-          label: 'Print'
+          label: 'Online'
         }, {
           value: 2,
-          label: 'Online'
+          label: 'Print'
         }]
       }
     },
@@ -167,7 +170,7 @@ function Articlelist() {
       // filter: false,
       // sorter: false,
     },
-   
+
     {
       dataField: 'publication',
       text: 'Publication',
@@ -239,7 +242,7 @@ function Articlelist() {
           value: 3,
           label: 'Negative'
         }
-      ]
+        ]
       }
     },
     {
@@ -305,7 +308,7 @@ function Articlelist() {
       },
       filter: numberFilter(),
       formatter: (cell) => {
-        return cell.length > 15 ? cell.substring(0, 15) +'...' : cell ;
+        return cell.length > 15 ? cell.substring(0, 15) + '...' : cell;
       },
     },
     {
@@ -315,42 +318,42 @@ function Articlelist() {
       filter: textFilter()
     },
   ]
-  
+
 
   function beforeSaveCell(oldValue, newValue, row, column, done) {
     setTimeout(() => {
-      if(oldValue === newValue){
+      if (oldValue === newValue) {
         return false;
       }
       const formData = {};
       formData[column.dataField] = newValue
-    const uploadPromise = new Promise((resolve, reject) => {
+      const uploadPromise = new Promise((resolve, reject) => {
 
         put(`qaarticle/${row.id}`, formData).then((response) => {
-            resolve("Article Successfully Saved");
-            getArticleList()
+          resolve("Article Successfully Saved");
+          getArticleList()
         }).catch((err) => {
-            reject(err.response.data.error)
+          reject(err.response.data.error)
         })
-    });
-    toast.promise(
+      });
+      toast.promise(
         uploadPromise,
         {
-            loading: 'saving ...',
-            success: (data) => `${data}`,
-            error: (err) => `This just happened: ${err}`,
+          loading: 'saving ...',
+          success: (data) => `${data}`,
+          error: (err) => `This just happened: ${err}`,
         },
         {
-            style: {
-                minWidth: '250px',
-            },
+          style: {
+            minWidth: '250px',
+          },
 
         }
-    );
-      }, 0);
+      );
+    }, 0);
     return { async: true };
   }
-  
+
   const selectRow = {
     mode: 'checkbox',
     clickToSelect: true,
@@ -370,41 +373,39 @@ function Articlelist() {
 
     });
 
-    const changeZone = (id) => {
-      setZone(id);
-      if(id !== "") getEditionList(id)
-    }
+  const changeZone = (id) => {
+    setZone(id);
+    if (id !== "") getEditionList(id)
+  }
 
-    const changePublication = (id) => {
-      setPublication(id);
-     if(id !==  "") getJournalistList(id)
-    }
+  const changePublication = (id) => {
+    setPublication(id);
+    if (id !== "") getJournalistList(id)
+  }
 
 
   return (
     <>
-      <div className="page-title">
-        <h1 >
-          Article List
-        </h1>
+      <div class="page-title d-flex justify-content-between">
+        <h1> Article List</h1>
       </div>
-      <div className='content-box'>
-        <div className='row article-list-form'>
-          <div className='col-3'>    <DatePicker
-                  selectsRange={true}
-                  startDate={startDate}
-                  endDate={endDate}
-                  onChange={(update) => {
-                    setDateRange(update);
-                  }}
-                  // isClearable={true}
-                  className="form-control"
-                />
- </div>
+      <div className="content-box edit-pubication">
+        <div className="row">
+          <div className="col-3">  <DatePicker
+            selectsRange={true}
+            startDate={startDate}
+            endDate={endDate}
+            onChange={(update) => {
+              setDateRange(update);
+            }}
+            // isClearable={true}
+            className="form-control"
+          />
+          </div>
           <div className='col-3'>
-          <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} isClearable={true} ref={(ref) => {
-                    selectRef = ref;
-                  }} />
+            <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} isClearable={true} ref={(ref) => {
+              selectRef = ref;
+            }} />
           </div>
           {/* <div className='col-3'>
 
@@ -426,12 +427,12 @@ function Articlelist() {
           <div className='col-3'>
 
             <select className='form-select' onChange={e => setMediaType(e.target.value
-              )}>
+            )}>
               <option>
                 Media Type
               </option>
-              <option value="2"> Online</option>
-              <option value="1"> Print</option>
+              <option value="1"> Online</option>
+              <option value="2"> Print</option>
             </select>
 
           </div>
@@ -441,10 +442,10 @@ function Articlelist() {
               <option value={""}>
                 Zone
               </option>
-              {zoneList?.map((e, index) => 
-              <option key={index} value={e.id}> {e.zone}</option>
+              {zoneList?.map((e, index) =>
+                <option key={index} value={e.id}> {e.zone}</option>
               )}
-            
+
             </select>
 
           </div>
@@ -452,8 +453,8 @@ function Articlelist() {
 
             <select className='form-select' onChange={e => setEdition(e.target.value)}>
               <option value="">Edition</option>
-              {editionList?.map((e, index) => 
-              <option key={index} value={e.id}> {e.edition_name}</option>
+              {editionList?.map((e, index) =>
+                <option key={index} value={e.id}> {e.edition_name}</option>
               )}
             </select>
 
@@ -463,42 +464,42 @@ function Articlelist() {
 
             <select className='form-select' onChange={e => changePublication(e.target.value)}>
               <option value="">Publication</option>
-              {publicationList?.map((e, index) => 
-              <option key={index} value={e.id}> {e.publication}</option>
+              {publicationList?.map((e, index) =>
+                <option key={index} value={e.id}> {e.publication}</option>
               )}
             </select>
           </div>
           <div className='col-3'>
 
-            <select className='form-select' onChange={e=> setJournalist(e.target.value)}>
+            <select className='form-select' onChange={e => setJournalist(e.target.value)}>
               <option>Jounalist</option>
-              {journalistList?.map((e, index) => 
-              <option key={index} value={e.id}> {e.journalist_name}</option>
+              {journalistList?.map((e, index) =>
+                <option key={index} value={e.id}> {e.journalist_name}</option>
               )}
             </select>
           </div>
           <div className='col-12'>
-            <button type='button' onClick={e => getArticleList() } className='btn btn-primary'>Search</button>
+            <button type='button' onClick={e => getArticleList()} className='btn btn-primary'>Search</button>
           </div>
         </div>
-
-        <div className='row article-list'>
-           <div dangerouslySetInnerHTML={ { __html: message }}></div>
-          <br /> <br />
+      </div>
+      <div className="content-box">
+        <div dangerouslySetInnerHTML={{ __html: message }}></div>
+        <br /> <br />
         <BootstrapTable
-    keyField="id"
-    data={ articleList }
-    columns={ columns }
-    cellEdit={ cellEditFactory({
-      mode: 'click',
-      beforeSaveCell
-    }) }
-    filter={ filterFactory() }
-  filterPosition="top"
-    pagination={ paginationFactory() }
-    selectRow={ selectRow }
-    tabIndexCell
-  />
+          keyField="id"
+          data={articleList}
+          columns={columns}
+          cellEdit={cellEditFactory({
+            mode: 'click',
+            beforeSaveCell
+          })}
+          filter={filterFactory()}
+          filterPosition="top"
+          pagination={paginationFactory()}
+          selectRow={selectRow}
+          tabIndexCell
+        />
         {/* <CSmartTable
       columns={columns}
       columnFilter
@@ -527,7 +528,6 @@ function Articlelist() {
         responsive: true,
       }}
     /> */}
-        </div>
       </div>
     </>
   )

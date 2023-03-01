@@ -78,7 +78,7 @@ const routes = [
   { path: '/add-topic', name: 'add', element: AddTopic },
   { path: '/edit-topic/:tid', name: 'edit', element: AddTopic },
 
-  { path: '/Qualitative', name: 'edit', element: Qualitative }
+  { path: '/Qualitative/:aid', name: 'punching', element: Qualitative }
 ]
 
 export default routes
