@@ -1,5 +1,36 @@
-import React from "react";
-function FormThree(){
+import React, { useState, useEffect } from "react";
+import { get, post, deleteMethod, put } from "../../../services/CommanService";
+import toast from 'react-hot-toast';
+
+function FormThree({ articleId, setKey}){
+
+  const [journalistList, setJournalistList] = useState([]);
+  const getJournalistList = () => {
+    get("journalist").then((response) => {
+        setJournalistList(response.data.journalistlist)
+    })
+      .catch(() => {
+        // handleLoginFailure({ status: UNAUTHORIZED });
+      })
+
+  }
+  const [spokepersonList, setSpokepersonList] = useState([]);
+  const getSpokepersonList = () => {
+    get("dataprocess/get-spokespersonslist/").then((response) => {
+        setSpokepersonList(response.data.spokespersonslist)
+    })
+      .catch(() => {
+        // handleLoginFailure({ status: UNAUTHORIZED });
+      })
+
+  }
+
+  useEffect(() => {
+    getSpokepersonList();
+    getJournalistList();
+  }, []);
+
+
     return(
         <>
             <div className='row form-details analysis-options'>
@@ -10,7 +41,9 @@ function FormThree(){
                   <option>
                   Journalist Name
                   </option>
-
+                  {journalistList?.map((t, index) =>
+                            <option value={`${t.id}-${t.keyword}`}> {t.keyword}</option>
+                        )}
                 </select>
 
             </div>
@@ -39,11 +72,14 @@ function FormThree(){
                   <option>
                   Name 
                   </option>
+                  {spokepersonList?.map((t, index) =>
+                            <option value={`${t.id}-${t.keyword}`}> {t.keyword}</option>
+                        )}
                 </select>
 
             </div>
             <div className='col-6 mt-20'>
-                <select className='form-select'>
+                <select className='form-select' disabled>
                   <option>
                   Designation 
                   </option>
@@ -51,15 +87,10 @@ function FormThree(){
 
             </div>
                 <div className='col-6 mt-20'>
-                <select className='form-select'>
+                <select className='form-select' disabled>
                   <option>
                   Profiling 
                   </option>
-                  <option> Interview</option>
-                  <option> Author</option>
-                  <option> Company</option>
-                  <option> Industry</option>
-                  <option> Mention </option>
                 </select>
 
             </div>
@@ -111,7 +142,7 @@ function FormThree(){
                   
                    <div className="col-12 text-right mt-10">
                         <button className='btn btn-primary btn-medium'>Submit</button>
-                        <button className='btn btn-gray btn-medium'>Previous</button>
+                        <button className='btn btn-gray btn-medium' onClick={e => setKey('tab-2')}>Previous</button>
                     </div>
                  
                 </div>

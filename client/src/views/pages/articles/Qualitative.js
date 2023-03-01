@@ -36,10 +36,13 @@ const Qualitative = () => {
 
     }
 
-
+    const [media_type_id, setMediatTypeId] = useState()
+    const [articleId, setArticleId] = useState()
     const getSingleArticle = () => {
         const data = params.aid.split('-')
-        post("qaarticle", {"client_id":data[0],"article_id":data[1],"entity_id":data[2], "media_type": data[3]}
+        setMediatTypeId(data[3] === "1" ? 1 : 2)
+        setArticleId(data[4]);
+        post("qaarticle", {"client_id":data[0],"article_id":data[1],"entity_id":data[2], "media_type": data[3] === "1" ? 1 : 2}
         ).then((response) => {
             setArticle(response.data.article.result)
         })
@@ -90,23 +93,29 @@ const Qualitative = () => {
     useEffect(() => {
         getPublicationList();
         getZoneList();
-
+        console.log('params.aid', params.aid)
         if (params.aid) {
             getSingleArticle();
+            const data = params.aid.split('-');
+            console.log('data', data)
+            setMediatTypeId(data[3] === "1" ? 1 : 2)
+            setArticleId(data[4]);
         }
     }, []);
     return (
         <>
+        {article &&
             <div className="content-box mt-0">
                 <div className='row'>
                     <div className='col-6'>
-                        <AnalysisDetails article = {article} />
+                        <AnalysisDetails article = {article} media_type_id={media_type_id} />
                     </div>
                     <div className='col-6 '>
-                        <Tabs article = {article} />
+                        <Tabs article = {article} articleId={articleId} />
                     </div>
                 </div>
             </div>
+}
         </>
     )
 }

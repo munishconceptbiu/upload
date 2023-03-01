@@ -11,26 +11,26 @@ import Options from "./Options";
 
 
 
-function AnalysisHeader({ article }){
+function AnalysisHeader({ article, media_type_id }){
     console.log('article', article)
     return(
         <>
             <div className="ashead">
-                <h3>{article.headline}</h3>
+                <h3>{article?.article?.headline}</h3>
                 <div className="journalist-details">
                     <div className="row">
-                        {article.media_type_id === 2 ? (
+                        {media_type_id === 2 ? (
                     <div className="col-4" >
-                       <InfoIcon/> {article.publication}
+                       <InfoIcon/> {article?.article?.publication}
                     </div>
                         ) : (  <div className="col-4" >
-                        <JounalistIcon/> {article.journalist}
+                        <JounalistIcon/> {article?.article?.publication}
                      </div> )}
                     <div className="col-4">
-                    <UsersIcon/>{article.agency}
+                    <UsersIcon/>{article?.entity_detail?.entity_display_name}
                     </div>
                     <div className="col-4">
-                    <CalendarIcon/>{moment(article.article_created_on).format('LL')}
+                    <CalendarIcon/>{moment(article?.article?.publish_datetime).format('LL')}
                     </div>
                     </div>
                 </div>

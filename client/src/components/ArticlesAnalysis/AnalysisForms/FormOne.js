@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { CalendarIcon } from "../../../Icons/icons.component";
-
-function FormOne(){
+import { get, post, deleteMethod, put } from "../../../services/CommanService";
+import toast from 'react-hot-toast';
+function FormOne({ article, articleId, setKey }){
 
     const articleTypes = ["Interview", "Author", "Brief", "Column", "Editorial", "Feature", "News/Report"]
     const articleTags = ["Press Release" , "Press Conference" , "Client Articles"];
@@ -15,7 +16,46 @@ function FormOne(){
 
     const [bCCM, setBCCM] = useState('')
     const [nCCM, setNCCM] = useState('')
-    const [aCCM, setACCM] = useState('')
+    const [aCCM, setACCM] = useState('');
+
+    const saveNext = async () => {
+
+      const formData = {
+          "article_tag": articleTag,
+          "article_type": articleType,
+          "article_summary": articleSummary,
+          "prominent": prominences,
+          "positive_ccms": bCCM,
+          "negative_ccms": nCCM,
+          "neutral_ccms": aCCM,
+          "not_relavant": relavantArticle,
+          "quality_check": 4
+      }
+      const uploadPromise = new Promise((resolve, reject) => {
+
+          put(`qaarticle/${articleId}`, formData).then((response) => {
+              resolve("Article Successfully Updated");
+              setKey('tab-2')
+             
+          }).catch((err) => {
+              reject(err.response.data.error)
+          })
+      });
+      toast.promise(
+          uploadPromise,
+          {
+              loading: 'saving ...',
+              success: (data) => `${data}`,
+              error: (err) => `This just happened: ${err}`,
+          },
+          {
+              style: {
+                  minWidth: '250px',
+              },
+
+          }
+      );
+  }
     return(
         <>
         <div className='row form-details'>
@@ -84,7 +124,7 @@ function FormOne(){
             <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='A CCM' onChange={e => setACCM(e.target.value)}></input></div>
                    
             <div className="col-12 text-right mt-10">
-                        <button className='btn btn-primary btn-medium'>Next</button>
+                        <button onClick={e => saveNext()} className='btn btn-primary btn-medium'>Next</button>
                     </div>
 
                 </div>

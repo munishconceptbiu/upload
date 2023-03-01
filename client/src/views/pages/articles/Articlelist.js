@@ -104,7 +104,7 @@ function Articlelist() {
       filter: textFilter(),
       editable: false,
       formatter: (cell, row) => {
-        return (<NavLink  to={`/Qualitative/${row.client_id}-${cell}-${row.entity_id}-${row.media_type_id}`}  className="nav-link"> {cell} </NavLink>);
+        return (<NavLink  to={`/Qualitative/${row.client_id}-${cell}-${row.entity_id}-${row.media_type_id}-${row.id}`}  className="nav-link"> {cell} </NavLink>);
       },
       // filter: false,
       // sorter: false,
@@ -117,8 +117,11 @@ function Articlelist() {
       editor: {
         type: Type.TEXTAREA
       },
-      formatter: (cell) => {
-        return cell.length > 15 ? cell.substring(0, 15) + '...' : cell;
+      // formatter: (cell) => {
+      //   return cell.length > 15 ? cell.substring(0, 15) + '...' : cell;
+      // },
+      formatter: (cell, row) => {
+        return (<div style={{padding : "25px 13px 43px"}}> {cell} </div>);
       },
       // style: {
       //   fontWeight: 'bold',
