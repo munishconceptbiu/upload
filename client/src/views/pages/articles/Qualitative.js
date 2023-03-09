@@ -7,7 +7,6 @@ import moment from 'moment';
 const Qualitative = () => {
     const params = useParams();
     const [article, setArticle] = useState({});
-    const [articleList, setArticleList] = useState([]);
     const [dateRange, setDateRange] = useState([null, null]);
     const [startDate, endDate] = dateRange;
     const [entityList, setEntityList] = useState([]);
@@ -24,18 +23,7 @@ const Qualitative = () => {
     const [mediatype, setMediaType] = useState(1);
     const [message, setMessage] = useState('');
     const [isLoad, setIsLoad] = useState(true);
-    const getArticleList = () => {
-        console.log('selectRef.getValue()[0]', selectRef.getValue()[0])
-        post("dataprocess/get-articlesrowlist", { "client_id": selectRef.getValue().length ? selectRef.getValue()[0]?.value : "5193", "media_type": mediatype, "page": "1", "fromDate": startDate === "" || startDate === null ? "2022-12-15" : moment(startDate).format('L'), "toDate": endDate === "" || endDate === null ? "2022-12-16" : moment(endDate).format('L'), zone: zone, publication: publication, edition: edition, journalist: journalist }
-        ).then((response) => {
-            setArticleList(response.data.articlesrowlist)
-            setMessage(`<div style="color: rgb(0, 54, 185); margin-top: 5px; margin-bottom: 5px; font-size: 14px;">Total <span className="feed-count-info"><b>${response.data.articlesrowlist.length}</b></span> articles were found from <span class="feed-count-info"><b>${moment(startDate).format('LL')}</b></span> to <span className="feed-count-info"> <b>${moment(endDate).format('LL')}</b></span> <span className="feed-count-info">with selected client <b> ${selectRef.getValue().length ? selectRef.getValue()[0]?.label : ""} </b></span></div>`)
-        })
-            .catch(() => {
-                // handleLoginFailure({ status: UNAUTHORIZED });
-            })
-
-    }
+    
 
     const [media_type_id, setMediatTypeId] = useState()
     const [articleId, setArticleId] = useState()
@@ -95,8 +83,8 @@ const Qualitative = () => {
     }
     const data = params.aid.split('-');
     useEffect(() => {
-        getPublicationList();
-        getZoneList();
+        // getPublicationList();
+        // getZoneList();
         console.log('params.aid', params.aid)
         if (params.aid) {
             getSingleArticle();
@@ -107,16 +95,38 @@ const Qualitative = () => {
             setArticleId(data[4]);
         }
     }, []);
+
+    const [simallerArticleCount, setSimllerArticleCount] = useState(0);
+    const [articleList, setArticleList] = useState([]);
+
+    const [checkArticleList, setCheckedArticleList] = useState([]);
+
+    const getSimllerArticleList = () => {
+        post("dataprocess/get-relarticlesrowlist", { "client_id": article?.article?.client_id, "media_type": media_type_id, "page": "1" , "headline": article?.article?.headline}
+        ).then((response) => {
+          setArticleList(response.data.articlesrowlist)
+          setSimllerArticleCount(response.data.articlesrowlist.length)
+        console.log('response.data.articlesrowlist.length', response.data.articlesrowlist.length)
+        })
+          .catch(() => {
+            // handleLoginFailure({ status: UNAUTHORIZED });
+          })
+    
+      }
+
+      useEffect(() => {
+        if(article?.article?.id) getSimllerArticleList()
+      }, [article?.article]);
     return (
         <>
         {article &&
             <div className="content-box mt-0">
                 <div className='row'>
                     <div className='col-7'>
-                        <AnalysisDetails article = {article} media_type_id={media_type_id} clientId={clientId} entityId={data[2]} isLoad={isLoad} />
+                        <AnalysisDetails simallerArticleCount={simallerArticleCount} articleList={articleList} article = {article} media_type_id={media_type_id} clientId={clientId} entityId={data[2]} isLoad={isLoad} setCheckedArticleList={setCheckedArticleList} />
                     </div>
                     <div className='col-5 '>
-                        <Tabs article = {article} articleId={articleId} clientId={data[0]} />
+                        <Tabs articleList={articleList} checkArticleList={checkArticleList} article={article} articleId={articleId} clientId={data[0]} simallerArticleCount={simallerArticleCount} />
                     </div>
                 </div>
             </div>

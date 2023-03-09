@@ -25,7 +25,16 @@ export default function PublicationList({ publicationList, setPublication, setCi
       .catch(() => {
         // handleLoginFailure({ status: UNAUTHORIZED });
       })
+  }
 
+  const deletepublications = (id) => {
+    
+    get("dataprocess/get-singlepubdelete/"+id).then((response) => {
+      toast.success("Publication successfully deleted");      
+    })
+      .catch(() => {
+        // handleLoginFailure({ status: UNAUTHORIZED });
+      })
   }
  
   const columns = [
@@ -66,10 +75,10 @@ export default function PublicationList({ publicationList, setPublication, setCi
       // sorter: false,
     },
     {
-      key: 'media_type',
-      label: 'Media House',
+      key: 'media_type_txt',
+      label: 'Media Type',
       // filter: false,
-      // sorter: false,
+       sorter: true,
     },
     {
       key: 'action',
@@ -97,10 +106,11 @@ export default function PublicationList({ publicationList, setPublication, setCi
       pagination
       scopedColumns={{
         action: (list) => (
-          <td className='action-btns'><a  href="javascript:void(0)"onClick={e => getPublicationSingleList(list.id)}><EditIcon /></a> <a href="javascript:void(0)"  className='deleicon'><DeleteIcon /></a></td>
+          <td className='action-btns'><a  href="javascript:void(0)" onClick={e => getPublicationSingleList(list.id)}><EditIcon /></a> 
+          &nbsp;&nbsp;&nbsp;<a href="javascript:void(0)"  className='deleicon' onClick={e => deletepublications(list.id)}><DeleteIcon /></a></td>
         ),
-        media_type: (list) => (
-          <td>{list.media_type === 1 ? 'print' : 'online'}</td>
+        media_type_id: (list) => (
+          <td>{list.media_type_id === 2 ? 'Print' : 'Online'}</td>
         ),
         readership: (list) => (
           <td>{list.readership || 'NA'}</td>

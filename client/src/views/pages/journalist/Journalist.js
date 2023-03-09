@@ -3,8 +3,69 @@ import { NavLink } from "react-router-dom";
 import { DeleteIcon, EditIcon } from "../../../Icons/icons.component";
 // import EditJournalist from "../create-edit/EditJournalist";
 
+import { get, put, deleteMethod } from "../../../services/CommanService";
+import toast from 'react-hot-toast';
+import { store } from '../../../store/store';
+import { CSmartTable } from '@coreui/react-pro'
 
-export default function Journalist(){
+export default function Journalist({journalistList,  setJournalistContact ,setJournalistEmail, setJournalistName, setPublicationId, setMediaType}){
+
+  const columns = [
+    {
+      key: 'id',
+      label: 'No',
+    },
+    {
+      key: 'journalist_name',
+      label: 'Journalist Name',
+      // filter: false,
+      // sorter: false,
+    },
+    
+    {
+      key: 'journalist_contact',
+      label: 'Contact Number	',
+      // filter: false,
+      // sorter: false,
+    },
+
+    {
+      key: 'journalist_email',
+      label: 'Email ID',
+      // filter: false,
+      // sorter: false,
+    },
+    {
+      key: 'action',
+      label: 'Action',
+      filter: false,
+      sorter: false,
+    },
+  ]
+
+  const getJournalistSingleList = (id) => {
+    get("journalist/"+id).then((response) => {
+      setJournalistName(response.data.journalist.journalist_name);
+      setJournalistEmail(response.data.journalist.journalist_email);
+      setJournalistContact(response.data.journalist.journalist_contact);
+      setPublicationId(response.data.journalist.publication_id);
+      setMediaType(response.data.journalist.media_type);
+       
+    })
+      .catch(() => {
+        // handleLoginFailure({ status: UNAUTHORIZED });
+      })
+  }
+
+  const deleteJournalist = (id) => {
+    
+    delete("journalist/"+id).then((response) => {
+      toast.success("Publication successfully deleted");      
+    })
+      .catch(() => {
+        // handleLoginFailure({ status: UNAUTHORIZED });
+      })
+  }
     return(
         <>
             <div class="page-title d-flex justify-content-between">
@@ -13,69 +74,26 @@ export default function Journalist(){
               {/* <button className="btn btn-primary btn-medium">Add Journalist</button> */}
               </div>
             <div className="content-box">
-            <table class="table">
-    <thead>
-      <tr>
-        <th>No</th>
-        <th>Journalist Name</th>
-        <th>Contact Number</th>
-        <th>Email ID</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td>barkhadutt456</td>
-        <td>+91 8974 9654</td>
-        <td>barkha@gmail.com</td>
-        <td className="add-delete">
-            <NavLink to="/EditJournalist" className="nav-link" title="Journalist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><EditIcon /></span></NavLink>
-            <NavLink to="" className="nav-link" title="Journalist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><DeleteIcon /></span></NavLink>
-        </td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>Amit</td>
-        <td>+91 8974 9654</td>
-        <td>amit@gmail.com</td>
-        <td className="add-delete">
-            <NavLink to="/EditJournalist" className="nav-link" title="Journalist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><EditIcon /></span></NavLink>
-            <NavLink to="" className="nav-link" title="Journalist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><DeleteIcon /></span></NavLink>
-        </td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>concept biu</td>
-        <td>+91 8974 9654</td>
-        <td>conceptbiu@gmail.com</td>
-        <td className="add-delete">
-            <NavLink to="/EditJournalist" className="nav-link" title="Journalist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><EditIcon /></span></NavLink>
-            <NavLink to="" className="nav-link" title="Journalist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><DeleteIcon /></span></NavLink>
-        </td>
-      </tr>
-      <tr>
-        <td>4</td>
-        <td>barkhadutt456</td>
-        <td>+91 8974 9654</td>
-        <td>barkha@gmail.com</td>
-        <td className="add-delete">
-            <NavLink to="/EditJournalist" className="nav-link" title="Journalist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><EditIcon /></span></NavLink>
-            <NavLink to="" className="nav-link" title="Journalist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><DeleteIcon /></span></NavLink>
-        </td>
-      </tr>
-      <tr>
-        <td>5</td>
-        <td>barkhadutt456</td>
-        <td>+91 8974 9654</td>
-        <td>barkha@gmail.com</td>
-        <td className="add-delete">
-            <NavLink to="/EditJournalist" className="nav-link" title="Journalist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><EditIcon /></span></NavLink>
-            <NavLink to="" className="nav-link" title="Journalist" data-bs-toggle="tooltip" data-bs-placement="right"><span className='tabicon'><DeleteIcon /></span></NavLink>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+            <CSmartTable
+      columns={columns}
+      columnFilter
+      columnSorter
+      items={journalistList.map((e, index) => ({
+        id: index,
+        ...e
+      }))}
+      pagination
+      scopedColumns={{
+        action: (list) => (
+          <td className='action-btns'><a  href="javascript:void(0)" onClick={e => getJournalistSingleList(list.id)}><EditIcon /></a> 
+          &nbsp;&nbsp;&nbsp;<a href="javascript:void(0)"  className='deleicon' onClick={e => deleteJournalist(list.id)}><DeleteIcon /></a></td>
+        ),
+       }}
+      tableProps={{
+        hover: true,
+        responsive: true,
+      }}
+    />
             </div>
         </>
     )

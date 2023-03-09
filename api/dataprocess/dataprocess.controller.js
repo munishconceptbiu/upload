@@ -3579,7 +3579,7 @@ const checkqualifyarticles = async (articeldata,ccmcounterP,ccmcounterO) => {
                         break;
                         
                         case 27:        
-                            // if any company name is in headline then it need need to check checked as yes… if                             
+                            // if any company name is in headline then it need need to check checked as yesâ€¦ if                             
                             
                             const entity_name = articeldata.entity_name;
 
@@ -3729,7 +3729,7 @@ const checkqualifyarticles = async (articeldata,ccmcounterP,ccmcounterO) => {
 
 
                         case 37 :    
-                                        // What's in it for Me/You column is an authored article…Check
+                                        // What's in it for Me/You column is an authored articleâ€¦Check
                                         // Author article should have a spokesperson name
 
                                         const spokesPersonslist37 = articeldata.spokesPerson; 
@@ -4419,5 +4419,178 @@ exports.relarticlesrowlist = async function (req, res, next) {
         res.status(500).json({ error: error });
     })
    
+
+}
+
+
+exports.singlepubdelete = async function (req, res, next) {
+      
+    var msg = ''; 
+    const singlepubdelete = new Promise((resolve, reject) => {
+
+        //console.log(" inside id : "+req.params.id);
+        dataprocessService.deletepubsingle(req.params.id).then(async (data) => {      
+
+            msg = 'Delete Sucessfull'; 
+            resolve(msg)
+        })              
+    });
+
+    //console.log((JSON.stringify(singlepubdelete)); exist;
+
+    Promise.all([singlepubdelete]).then((values) => {
+        //console.log('values', values);
+        res.json({ message: "Delete Sucessfull" });
+    }).catch((error) => {
+        //console.log(('error', error)
+        res.status(500).json({ error: error });
+    })  
+
+}
+
+exports.singlesuplidelete = async function (req, res, next) {
+      
+    var msg = ''; 
+    const singlesuplidelete = new Promise((resolve, reject) => {
+
+        //console.log(" inside id : "+req.params.id);
+        dataprocessService.deletesuplisingle(req.params.id).then(async (data) => {     
+            msg = 'Delete Sucessfull'; 
+            resolve(msg)
+        })              
+    });
+
+    //console.log((JSON.stringify(singlesuplidelete)); exist;
+
+    Promise.all([singlesuplidelete]).then((values) => {
+        //console.log('values', values);
+        res.json({ message: "Delete Sucessfull" });
+    }).catch((error) => {
+        //console.log(('error', error)
+        res.status(500).json({ error: error });
+    })  
+
+}
+
+exports.singleproddelete = async function (req, res, next) {
+      
+    var msg = ''; 
+    const singleproddelete = new Promise((resolve, reject) => {
+
+        //console.log(" inside id : "+req.params.id);
+        dataprocessService.deleteprodsingle(req.params.id).then(async (data) => {     
+            msg = 'Delete Sucessfull'; 
+            resolve(msg)
+        })              
+    });
+
+    //console.log((JSON.stringify(singleproddelete)); exist;
+
+    Promise.all([singleproddelete]).then((values) => {
+        //console.log('values', values);
+        res.json({ message: "Delete Sucessfull" });
+    }).catch((error) => {
+        //console.log(('error', error)
+        res.status(500).json({ error: error });
+    })  
+
+}
+
+
+exports.singlespokdelete = async function (req, res, next) {
+      
+    var msg = ''; 
+    const singlespokdelete = new Promise((resolve, reject) => {
+
+        //console.log(" inside id : "+req.params.id);
+        dataprocessService.deletespoksingle(req.params.id).then(async (data) => {     
+            msg = 'Delete Sucessfull'; 
+            resolve(msg)
+        })              
+    });
+
+    //console.log((JSON.stringify(singlespokdelete)); exist;
+
+    Promise.all([singlespokdelete]).then((values) => {
+        //console.log('values', values);
+        res.json({ message: "Delete Sucessfull" });
+    }).catch((error) => {
+        //console.log(('error', error)
+        res.status(500).json({ error: error });
+    })  
+
+}
+
+
+exports.singlethemedelete = async function (req, res, next) {
+      
+    var msg = ''; 
+    const singlethemedelete = new Promise((resolve, reject) => {
+
+        //console.log(" inside id : "+req.params.id);
+        dataprocessService.deletethemesingle(req.params.id).then(async (data) => {     
+            msg = 'Delete Sucessfull'; 
+            resolve(msg)
+        })              
+    });
+
+    //console.log((JSON.stringify(singlethemedelete)); exist;
+
+    Promise.all([singlethemedelete]).then((values) => {
+        //console.log('values', values);
+        res.json({ message: "Delete Sucessfull" });
+    }).catch((error) => {
+        //console.log(('error', error)
+        res.status(500).json({ error: error });
+    })  
+
+}
+
+
+exports.singlethemekeyworddelete = async function (req, res, next) {
+      
+    var msg = ''; 
+    const singlethemekeyworddelete = new Promise((resolve, reject) => {
+
+        //console.log(" inside id : "+req.params.id);
+        dataprocessService.deletethemekeywordsingle(req.params.id).then(async (data) => {     
+            msg = 'Delete Sucessfull'; 
+            resolve(msg)
+        })              
+    });
+
+    //console.log((JSON.stringify(singlethemekeyworddelete)); exist;
+
+    Promise.all([singlethemekeyworddelete]).then((values) => {
+        //console.log('values', values);
+        res.json({ message: "Delete Sucessfull" });
+    }).catch((error) => {
+        //console.log(('error', error)
+        res.status(500).json({ error: error });
+    })  
+
+}
+
+exports.singlekeywordtopicdelete = async function (req, res, next) {
+      
+    var msg = ''; 
+    const singlekeywordtopicdelete = new Promise((resolve, reject) => {
+
+        //console.log(" inside id : "+req.params.id);
+        dataprocessService.deletekeywordtopicsingle(req.params.id).then(async (data) => {     
+            msg = 'Delete Sucessfull'; 
+            resolve(msg)
+        })              
+    });
+
+    //console.log((JSON.stringify(singlekeywordtopicdelete)); exist;
+
+    Promise.all([singlekeywordtopicdelete]).then((values) => {
+        //console.log('values', values);
+        res.json({ message: "Delete Sucessfull" });
+    }).catch((error) => {
+        //console.log(('error', error)
+        res.status(500).json({ error: error });
+    })  
 
 }

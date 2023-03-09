@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Add() {
+export default function Add({ setJournalistContact, setJournalistEmail, setJournalistName, setPublicationId,  saveJournalist,  journalist_name, journalist_email, journalist_contact, media_type, setMediaType, publication_id }) {
   return (
     <>
       <div class='page-title d-flex justify-content-between'>
@@ -8,25 +8,29 @@ export default function Add() {
       </div>
       <div className='content-box edit-pubication'>
         <div className='row'>
+        <div className='col-3'>
+            <input
+              className='form-control'
+              type='text'
+              placeholder='Journalist Name'
+              value={journalist_name} onChange={e => setJournalistName(e.target.value)}
+            />
+          </div>
           <div className='col-3'>
             <input
               className='form-control'
               type='text'
               placeholder='Email ID'
+              value={journalist_email} onChange={e => setJournalistEmail(e.target.value)}
             />
           </div>
+          
           <div className='col-3'>
             <input
               className='form-control'
               type='text'
-              placeholder='Language'
-            />
-          </div>
-          <div className='col-3'>
-            <input
-              className='form-control'
-              type='text'
-              placeholder='Based In'
+              placeholder='Contact'
+              value={journalist_contact} onChange={e => setJournalistContact(e.target.value)}
             />
           </div>
           <div className='col-3'>
@@ -34,12 +38,17 @@ export default function Add() {
               className='form-control'
               type='text'
               placeholder='Publication'
+              value={publication_id} onChange={e => setPublicationId(e.target.value)}
             />
           </div>
           <div className='col-3'>
-            <input className='form-control' type='text' placeholder='Genre' />
+          <select className="form-control" value={media_type} placeholder="Media Type" onChange={e => setMediaType(e.target.value)} >
+                        <option value="">Media Type</option>
+                        <option value="Print">Print</option>
+                        <option value="Online">Online</option>
+                    </select>
           </div>
-          <div className='col-3'>
+          {/* <div className='col-3'>
             <input className='form-control' type='text' placeholder='Medium' />
           </div>
           <div className='col-3'>
@@ -79,7 +88,7 @@ export default function Add() {
               type='text'
               placeholder='Article Archieve'
             />
-          </div>
+          </div> */}
         </div>
         {/* <div className='row ep-info'>
           <div className='col-6 '>
@@ -169,8 +178,8 @@ export default function Add() {
         </div> */}
         <div className='row mt-20'>
           <div className='col-12'>
-            <button class='btn btn-gray'>Save</button>
-            <button class='btn btn-primary'>Submit</button>
+            <button class='btn btn-gray' >Reset</button>
+            <button class='btn btn-primary' onClick={() => saveJournalist()}>Save</button>
           </div>
         </div>
       </div>

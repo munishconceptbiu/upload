@@ -26,8 +26,8 @@ export default function ViewSpokeperson(){
   }
 
   const deleteSpokeperson = (id) => {
-    deleteMethod("users/deleteuser/" + id).then((response) => {
-      toast.success("User successfully deleted");
+    deleteMethod("dataprocess/get-singlespokdelete/" + id).then((response) => {
+      toast.success("Spokesperson successfully deleted");
       getSpokepersonList()
     })
       .catch(() => {

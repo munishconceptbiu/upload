@@ -15,7 +15,6 @@ export default function ImagePreview ({
       targetElm.classList.add("hide");
     }
   };
-
   return (
     <div className="imagePreviewWrap">
       <div className="previewImg">

@@ -12,7 +12,7 @@ import "../../../node_modules/placeholder-loading/src/scss/placeholder-loading.s
 
 import ImagePreview from "./ImageFormates"
 import PDFImageViewer from "./PdfViewer"
-function AnalysisHeader({ article, media_type_id, isLoad }) {
+function AnalysisHeader({ article, media_type_id, isLoad, simallerArticleCount }) {
     const DATA_NOT_FOUND = '-';
 
     const escapeString = (s = "") => {
@@ -170,7 +170,7 @@ function AnalysisHeader({ article, media_type_id, isLoad }) {
             </div>
         )
       }
-  
+  console.log('simallerArticleCount', simallerArticleCount)
     return (
         <>
          { isLoad === true && loaderImage()}
@@ -180,7 +180,7 @@ function AnalysisHeader({ article, media_type_id, isLoad }) {
                 <div className="newsItemTop">
                         <div className="nitLeft">
                       
-                        <div style={{color: 'rgb(0, 54, 185)', marginTop: '5px', marginBottom: '5px', fontSize: '14px'}}>Total <span className="feed-count-info"><b>10</b></span> simaller articles were found 
+                        <div style={{color: 'rgb(0, 54, 185)', marginTop: '5px', marginBottom: '5px', fontSize: '14px'}}>Total <span className="feed-count-info"><b>{simallerArticleCount}</b></span> simaller articles were found 
                         </div>
                         </div>
 

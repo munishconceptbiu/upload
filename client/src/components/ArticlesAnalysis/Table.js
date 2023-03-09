@@ -1,28 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import {Container, Row, Tabs, Tab} from  'react-bootstrap';
 import { CSmartTable } from '@coreui/react-pro'
-import { get, post, deleteMethod, put } from "../../services/CommanService";
+import { useNavigate, NavLink } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../../components/main.css'
-export default function Table({ article }) {
-    const [articleList, setArticleList] = useState([]);
-
-    const getArticleList = () => {
-        post("dataprocess/get-relarticlesrowlist", { "client_id": "5193", "media_type": 1, "page": "1", "fromDate":  "2022-12-15", "toDate":  "2022-12-16" }
-        ).then((response) => {
-          setArticleList(response.data.articlesrowlist)
-        //   setMessage(`<div style="color: rgb(0, 54, 185); margin-top: 5px; margin-bottom: 5px; font-size: 14px;">Total <span className="feed-count-info"><b>${response.data.articlesrowlist.length}</b></span> articles were found from <span class="feed-count-info"><b>${moment(startDate).format('LL')}</b></span> to <span className="feed-count-info"> <b>${moment(endDate).format('LL')}</b></span> <span className="feed-count-info">with selected client <b> ${selectRef.getValue().length ? selectRef.getValue()[0]?.label : ""} </b></span></div>`)
-        })
-          .catch(() => {
-            // handleLoginFailure({ status: UNAUTHORIZED });
-          })
+export default function Table({ article,  media_type_id, articleList, setCheckedArticleList}) {
     
-      }
-
-      useEffect(() => {
-        getArticleList()
-      }, []);
 
       const columns = [
         {
@@ -62,6 +46,10 @@ export default function Table({ article }) {
           // sorter: false,
         }
       ]
+      const checkSelected = (ee) => {
+        setCheckedArticleList(ee)
+      }
+      
   return (
     <Container className='entity-tab'>
       <Row className='justfy-content-center'>
@@ -73,10 +61,19 @@ export default function Table({ article }) {
         id: index,
         ...e
       }))}
+      itemsPerPage={5}
+      selectable
+      onSelectAll={checkSelected}
+      onSelectedItemsChange={checkSelected}
       pagination
       tableProps={{
         hover: true,
         responsive: true,
+      }}
+      scopedColumns={{
+        article_id: (row) => (
+          <td className='action-btns'><NavLink target="_blank" to={`/Qualitative/${row.client_id}-${row.article_id}-${row.entity_id}-${row.media_type_id}-${row.id}`}  className="nav-link"> {row.article_id} </NavLink></td>
+        ),
       }}
     />
       </Row>

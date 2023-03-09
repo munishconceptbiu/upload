@@ -16,8 +16,8 @@ export default function ViewJornalist(){
   const state = store.getState();
   const [journalistList, setJournalistList] = useState([]);
   const getJournalistList = () => {
-    get("dataprocess/get-journalistlist/").then((response) => {
-        setJournalistList(response.data.journalistlist)
+    get("journalist/name/a").then((response) => {
+        setJournalistList(response.data.journalist)
     })
       .catch(() => {
         // handleLoginFailure({ status: UNAUTHORIZED });
@@ -25,51 +25,49 @@ export default function ViewJornalist(){
 
   }
 
-  const deleteSpokeperson = (id) => {
-    deleteMethod("users/deleteuser/" + id).then((response) => {
-      toast.success("User successfully deleted");
-      getJournalistList()
-    })
-      .catch(() => {
-        // handleLoginFailure({ status: UNAUTHORIZED });
-      })
-  }
 
-    const [spokesperson_name, setSpokesperson] = useState('');
-    const [designation, setDesignation] = useState('');
-    const [company_id, setCompanyId] = useState('');
-    const [company_name, setCompanyName] = useState('');
+    const [journalist_name, setJournalistName] = useState('');
+    const [publication_id, setPublicationId] = useState('');
+    const [journalist_email, setJournalistEmail] = useState('');
+    const [journalist_contact, setJournalistContact] = useState('');
+    const [media_type, setMediaType] = useState('');
 
-    const saveSpokeperson = async () => {
+    const saveJournalist = async () => {
 
-        if (spokesperson_name === "" || spokesperson_name.trim().length === 0) {
-            toast.error("spokesperson_name can't be empty");
+        if (journalist_name === "" || journalist_name.trim().length === 0) {
+            toast.error("journalist_name can't be empty");
             return false;
         }
-        if (designation === "" || designation.trim().length === 0) {
-            toast.error("designation can't be empty");
+        if (journalist_email === "" || journalist_email.trim().length === 0) {
+            toast.error("journalist_email can't be empty");
             return false;
         }
-        if (company_id === "") {
+        if (publication_id === "") {
             toast.error("company_id can't be empty");
             return false;
         }
-        if (company_name === "" || company_name.trim().length === 0) {
-            toast.error("company_name can't be empty");
+        if (journalist_contact === "" || journalist_contact.trim().length === 0) {
+            toast.error("journalist_contact can't be empty");
             return false;
         }
 
+        if (media_type === "" || media_type.trim().length === 0) {
+          toast.error("media_type can't be empty");
+          return false;
+      }
+
         const formData = {
-            "company_name": company_name,
-            "company_id": company_id,
-            "designation": designation,
-            "spokesperson_name": spokesperson_name,
+            "media_type": media_type,
+            "journalist_name": journalist_name,
+            "publication_id": publication_id,
+            "journalist_email": journalist_email,
+            "journalist_contact":journalist_contact
         }
         const uploadPromise = new Promise((resolve, reject) => {
 
-            post(`dataprocess/add-spokespersons`, formData).then((response) => {
+            post(`journalist`, formData).then((response) => {
                 resolve("Spokessperson Successfully Saved");
-                navigate('/spokepersons')
+                navigate('/journalist')
             }).catch((err) => {
                 reject(err.response.data.error)
             })
@@ -90,24 +88,7 @@ export default function ViewJornalist(){
         );
     }
 
-    const promiseOptions = (inputValue) =>
-    new Promise((resolve) => {
-      inputValue = inputValue || 'a'
-
-      get("artical/get-setting-clientlist/" + inputValue).then((response) => {
-        resolve(response.data.client.map((e) => ({
-          value: e.id,
-          label: e.client_name
-        })));
-      })
-
-    });
-
-  const clientChange = (e) => {
-    setCompanyId(e.value)
-    setCompanyName(e.label);
-  }
-
+   
   
   const [title, setTitle] = useState('Add')
   
@@ -116,8 +97,8 @@ export default function ViewJornalist(){
   }, []);
     return(
         <>
-            <AddJournalist title={title} clientChange={clientChange} promiseOptions={promiseOptions} setSpokesperson={setSpokesperson} setCompanyName={setCompanyName} setDesignation={setDesignation} setCompanyId={setCompanyId}  saveSpokeperson={saveSpokeperson}  spokesperson_name={spokesperson_name} designation={designation} company_id={company_id} company_name={company_name} />
-            <Journalist journalistList={journalistList} setCompanyName={setCompanyName} setSpokesperson={setSpokesperson} setDesignation={setDesignation} setCompanyId={setCompanyId} />
+            <AddJournalist title={title}  setJournalistContact={setJournalistContact} setJournalistEmail={setJournalistEmail} setJournalistName={setJournalistName} setPublicationId={setPublicationId}  saveJournalist={saveJournalist}  journalist_name={journalist_name} journalist_email={journalist_email} journalist_contact={journalist_contact} media_type={media_type} setMediaType={setMediaType} publication_id={publication_id}/>
+            <Journalist journalistList={journalistList}  setJournalistContact={setJournalistContact} setJournalistEmail={setJournalistEmail} setJournalistName={setJournalistName} setPublicationId={setPublicationId} setMediaType={setMediaType} />
         </>
     )
 }

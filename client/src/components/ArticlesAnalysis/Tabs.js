@@ -6,7 +6,7 @@ import FormOne from './AnalysisForms/FormOne';
 // import FormTwo from './AnalysisForms/FormTwo';
 import FormTwo from './AnalysisForms/FormTwo';
 import FormThree from './AnalysisForms/FormThree';
-export default function QaTabs({ article, articleId, clientId }) {
+export default function QaTabs({ article, articleId, clientId, checkArticleList, articleList, simallerArticleCount }) {
 
     const [key, setKey] = useState('tab-1');
 
@@ -14,15 +14,15 @@ export default function QaTabs({ article, articleId, clientId }) {
   return (
     <Container className='qa-tab'>
       <Row className='justfy-content-center'>
-        <Tabs justify variant='pills'  defaultActiveKey="tab-1" className='mb-1 p-0'>
+        <Tabs justify variant='pills'  activeKey={key} className='mb-1 p-0'>
           <Tab eventKey="tab-1" title="1" className='step1 step'>
-                <FormOne article={article} articleId={articleId} setKey={setKey}/>
+                <FormOne simallerArticleCount={simallerArticleCount} checkArticleList={checkArticleList} articleList={articleList} article={article} articleId={articleId} setKey={setKey}/>
           </Tab>
           <Tab eventKey="tab-2" title="2" className='step2 step'>
-                <FormTwo article={article} articleId={articleId} setKey={setKey} clientId={clientId}/>
+                <FormTwo  simallerArticleCount={simallerArticleCount} checkArticleList={checkArticleList} articleList={articleList} article={article} articleId={articleId} setKey={setKey} clientId={clientId}/>
           </Tab>
           <Tab eventKey="tab-3" title="3" className='step3 step'>
-                 <FormThree article={article} articleId={articleId} setKey={setKey} clientId={clientId}/>
+                 <FormThree simallerArticleCount={simallerArticleCount} checkArticleList={checkArticleList} articleList={articleList} article={article} articleId={articleId} setKey={setKey} clientId={clientId}/>
           </Tab>
           {/* <Tab eventKey="tab-3" title="3" className='step3 step'>
                 <FormFour/>

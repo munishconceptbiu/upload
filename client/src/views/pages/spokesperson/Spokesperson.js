@@ -25,6 +25,15 @@ export default function Spokeperson({ spokepersonList, setSpokesperson, setDesig
 
   }
 
+  const deletspokespersons = (id) => {     
+    get("dataprocess/get-singlespokdelete/"+id).then((response) => {
+      toast.success("Publication successfully deleted");      
+    })
+      .catch(() => {
+        // handleLoginFailure({ status: UNAUTHORIZED });
+      })
+  }
+
 
   const columns = [
     {
@@ -94,7 +103,8 @@ export default function Spokeperson({ spokepersonList, setSpokesperson, setDesig
       pagination
       scopedColumns={{
         action: (list) => (
-          <td className='action-btns'><a  href="javascript:void(0)"onClick={e => getSpokepersonSingleList(list.id)}><EditIcon /></a> <a href="javascript:void(0)"  className='deleicon'><DeleteIcon /></a></td>
+          <td className='action-btns'><a  href="javascript:void(0)"onClick={e => getSpokepersonSingleList(list.id)}><EditIcon /></a> 
+          &nbsp;&nbsp;&nbsp;<a href="javascript:void(0)"  className='deleicon' onClick={e => deletspokespersons(list.id)}><DeleteIcon /></a></td>
         ),
         // media_type: (list) => (
         //   <td>{list.media_type === 1 ? 'print' : 'online'}</td>

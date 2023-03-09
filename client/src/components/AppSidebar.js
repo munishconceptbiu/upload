@@ -94,12 +94,12 @@ const AppSidebar = (props) => {
         </NavLink>
       </li>
 
-      {/* <li style={{ padding: "1px 22px", fontSize: "14px" }}>
+      <li style={{ padding: "1px 22px", fontSize: "14px" }}>
       <NavLink to="/journalist" className="nav-link" title="Journalist" data-bs-toggle="tooltip" data-bs-placement="right">
          <span className='menuIcon'><JounalistIcon /></span>
          <span className='menuTitle'>Journalist</span>
         </NavLink>
-      </li> */}
+      </li>
       <li style={{ padding: "1px 22px", fontSize: "14px" }}>
       <NavLink to="/themes" className="nav-link" title="Theme" data-bs-toggle="tooltip" data-bs-placement="right">
          <span className='menuIcon'><OrganizationInfoIcon /></span>

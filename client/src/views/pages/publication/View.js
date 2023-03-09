@@ -19,7 +19,21 @@ export default function ViewPublication(){
     const state = store.getState();
     const [publicationList, setPublicationList] = useState([]);
     const getPublicationList = () => {
-      get("dataprocess/get-publicationlist/").then((response) => {
+      
+      get("dataprocess/get-publicationlist/").then((response) => { 
+        //console.log('publicationlist', response.data.publicationlist); 
+        let finalarry = [];
+        response.data.publicationlist.forEach(function (item) {
+
+          if(item.media_type_id == 1){
+            item.media_type_txt = 'Online';
+          } else {
+            item.media_type_txt = 'Print';
+          }          
+          //finalarry.push(item);
+          //console.log('publicationlist item :- ', item)
+        });
+
         setPublicationList(response.data.publicationlist)
       })
         .catch(() => {
@@ -28,9 +42,10 @@ export default function ViewPublication(){
   
     }
   
-    const deletePublication = (id) => {
-      deleteMethod("users/deleteuser/" + id).then((response) => {
-        toast.success("User successfully deleted");
+    const deletePublication = (id) => {     
+
+      deleteMethod("dataprocess/get-singlepubdelete/" + id).then((response) => {
+        toast.success("Publication successfully deleted");
         getPublicationList()
       })
         .catch(() => {

@@ -69,7 +69,14 @@ module.exports = {
     getQCarticlesrowAll,
     getarticlesqcrulesdata,
     getQCarticlesrowAllCNT,
-    getarticlesrowAllrelated
+    getarticlesrowAllrelated,
+    deletepubsingle,
+    deletesuplisingle,
+    deleteprodsingle,
+    deletespoksingle,
+    deletethemesingle,
+    deletethemekeywordsingle,
+    deletekeywordtopicsingle
 };
 
 //publication Functions 
@@ -574,7 +581,6 @@ async function getclienttktAll(client_id) {
     return resultdata;
 }
 
-
 async function getclienttktsingle(id) { 
     
     var themearrids = '';
@@ -639,7 +645,6 @@ async function getclienttktsingle(id) {
     
     return resultdata;
 }
-
 
 async function addthemekeywordtopic(params) {
 
@@ -719,7 +724,6 @@ async function addthemenew(params,keywordDet,topicdet) {
     
 
 }
-
 
 async function createMTheme(params) {       
         const { count, rows } = await db4.MThemes.findAndCountAll({ where: { client_id: params.client_id,theme_name: params.theme_name} })
@@ -898,7 +902,6 @@ async function getarticlesrowAll(client_id,media_type,startdate,enddate,page,par
     return result;
 }
 
-
 //Articlees Functions 
 async function getarticlesrowAllcustom(client_id,startdate,enddate,page,params) {    
  
@@ -950,7 +953,6 @@ async function getarticlesrowAllcustom(client_id,startdate,enddate,page,params) 
     );    
     return result;
 }
-
 
 //Articlees Functions 
 async function getarticlesrowAlltril(page,req) {     
@@ -1396,7 +1398,6 @@ async function getarticlesrowAllcustomcron() {
     return result;
 }
 
-
 async function getQualifyRulesAll() { 
     //,    logging: console.log
 
@@ -1458,8 +1459,6 @@ async function addqualifyerrorentry(params) {
 
     return created;
 }
-
-
 
 //suppliments Functions 
 async function getProductAll() {    
@@ -1527,8 +1526,6 @@ async function addProduct(params,action,id=0) {
 
     
 }
-
-
 
 //Articlees Functions 
 async function getarticlesheadlinerowAll(headline, entity_id,publication,startdate,enddate) {  
@@ -1690,7 +1687,6 @@ async function getarticlesqcrulesdata(articleId) {
     return await db4.QArticleQualifies.findAll({ where: { bid: articleId } });
 }
 
-
 //Articlees Functions 
 async function getQCarticlesrowAllCNT(flag) {    
      
@@ -1704,7 +1700,6 @@ async function getQCarticlesrowAllCNT(flag) {
     //, logging: console.log
     return result;
 }
-
 
 //Articlees Functions 
 async function getarticlesrowAllrelated(client_id,fromDate,toDate,headline,publication,media_type,zone,edition,entities) {    
@@ -1773,5 +1768,105 @@ async function getarticlesrowAllrelated(client_id,fromDate,toDate,headline,publi
             logging: console.log
         }
     );    
+    return result;
+}
+
+async function deletepubsingle(id) { 
+
+    console.log(" deletepubsingle : "+id);
+
+    result = await db4.sequelize.query(
+        "DELETE FROM m_publications WHERE id = "+id,
+        {                        
+            logging: console.log
+        }
+    );   
+    
+    return result;
+}
+
+
+async function deletesuplisingle(id) { 
+
+    console.log(" deletesuplisingle : "+id);
+
+    result = await db4.sequelize.query(
+        "DELETE FROM m_suppliments WHERE id = "+id,
+        {                        
+            logging: console.log
+        }
+    );   
+    
+    return result;
+}
+
+async function deleteprodsingle(id) { 
+
+    console.log(" deleteprodsingle : "+id);
+
+    result = await db4.sequelize.query(
+        "DELETE FROM products WHERE id = "+id,
+        {                        
+            logging: console.log
+        }
+    );   
+    
+    return result;
+}
+
+
+async function deletespoksingle(id) { 
+
+    console.log(" deletespoksingle : "+id);
+
+    result = await db4.sequelize.query(
+        "DELETE FROM m_spokespersons WHERE id = "+id,
+        {                        
+            logging: console.log
+        }
+    );   
+    
+    return result;
+}
+
+async function deletethemesingle(id) { 
+
+    console.log(" deletethemesingle : "+id);
+
+    result = await db4.sequelize.query(
+        "DELETE FROM m_themes WHERE id = "+id,
+        {                        
+            logging: console.log
+        }
+    );   
+    
+    return result;
+}
+
+async function deletethemekeywordsingle(id) { 
+
+    console.log(" deletethemekeywordsingle : "+id);
+
+    result = await db4.sequelize.query(
+        "DELETE FROM m_theme_keywords WHERE id = "+id,
+        {                        
+            logging: console.log
+        }
+    );   
+    
+    return result;
+}
+
+async function deletekeywordtopicsingle(id) { 
+
+    console.log(" deletekeywordtopicsingle : "+id);
+
+    result = await db4.sequelize.query(
+        "DELETE FROM m_theme_keyword_topics WHERE id = "+id,
+        {                        
+            logging: console.log
+        }
+    );   
+    
     return result;
 }
