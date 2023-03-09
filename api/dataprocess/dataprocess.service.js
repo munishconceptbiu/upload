@@ -42,8 +42,34 @@ module.exports = {
     createMTopics,
     getarticlesrowAll,
     getUniquearticlesrow,
-    addarticlesrow,
-    getarticlesrowAllcustom
+    getarticlesrowAllcustom,
+    createQaData,
+    addQaDataRow,
+    updateQaDataRow,
+    createJournalist,
+    findProductOne,
+    findQaSpokesPerson,
+    createQaSpokesPerson,
+    createQaDataSpokesPerson,
+    createQaClientProduct,
+    createQaDataProduct,
+    updatearticleStatus,
+    getarticlesrowAllcustomcron,
+    getQualifyRulesAll,
+    findArticleQaSpokesPerson,
+    findArticleProducts,
+    findArticlejurnalist,
+    findqasettings,
+    addqualifyerrorentry,
+    getProductAll,
+    getUniqueProduct,
+    addProduct,
+    getarticlesheadlinerowAll,
+    findjurnalist,
+    getQCarticlesrowAll,
+    getarticlesqcrulesdata,
+    getQCarticlesrowAllCNT,
+    getarticlesrowAllrelated
 };
 
 //publication Functions 
@@ -103,14 +129,23 @@ async function getUniquePublications(id) {
 
 }
 
-async function addPublication(params) {
+async function addPublication(params,action,id=0) {
     //console.log("params : ",params); //exist;
 
-    const [row, created] = await db4.MPublications.findOrCreate({ where: { publication: params.publication}, defaults: params });
-    if (created === false) {
-        await db4.MPublications.update(params, { where: { id: row.id } });
-    }
-    return created;
+    if(action == 'update'){
+        const [row, created] = await db4.MPublications.findOrCreate({ where: { id: id}, defaults: params });
+        if (created === false) {
+            await db4.MPublications.update(params, { where: { id: row.id } });
+        }
+        return created;
+    } else {
+        const [row1, created1] = await db4.MPublications.findOrCreate({ where: { publication: params.publication}, defaults: params });
+        if (created1 === false) {
+            await db4.MPublications.update(params, { where: { id: row1.id } });
+        }
+        return created1;
+    }  
+    
 }
 
 
@@ -149,15 +184,31 @@ async function getUniquesuppliments(id) {
 
 }
 
-async function addsuppliments(params) {
+async function addsuppliments(params,action,id=0) {
     
-    const [row, created] = await db4.MSuppliments.findOrCreate({ where: { suppliment_name: params.suppliment_name}, defaults: params });
 
-    if (created === false) {
-        await db4.MSuppliments.update(params, { where: { id: row.id } });
+    // console.log('params : '+ params);
+    // console.log('action : '+ action);
+    // console.log('id : '+ id);
+
+    if(action == 'update'){ 
+        const [row, created] = await db4.MSuppliments.findOrCreate({ where: { id: id}, defaults: params });
+
+        if (created === false) {
+            await db4.MSuppliments.update(params, { where: { id: row.id } });
+        }
+
+        return created;
+    } else {
+        const [row, created] = await db4.MSuppliments.findOrCreate({ where: { suppliment_name: params.suppliment_name}, defaults: params });
+
+        if (created === false) {
+            await db4.MSuppliments.update(params, { where: { id: row.id } });
+        }
+
+        return created;
     }
-
-    return created;
+    
 }
 
 
@@ -204,15 +255,29 @@ async function getUniquespokespersons(id) {
 
 }
 
-async function addspokespersons(params) {
+async function addspokespersons(params,action,id=0) {
     
-    const [row, created] = await db4.MSpokespersons.findOrCreate({ where: { spokesperson_name: params.spokesperson_name}, defaults: params });
+    // console.log('params : '+ params);
+    // console.log('action : '+ action);
+    // console.log('id : '+ id);
 
-    if (created === false) {
-        await db4.MSpokespersons.update(params, { where: { id: row.id } });
+    if(action == 'update'){
+        const [row, created] = await db4.MSpokespersons.findOrCreate({ where: { id: id}, defaults: params });
+
+        if (created === false) {
+            await db4.MSpokespersons.update(params, { where: { id: row.id } });
+        }
+
+        return created;
+    } else {
+        const [row, created] = await db4.MSpokespersons.findOrCreate({ where: { spokesperson_name: params.spokesperson_name}, defaults: params });
+
+        if (created === false) {
+            await db4.MSpokespersons.update(params, { where: { id: row.id } });
+        }
+
+        return created;
     }
-
-    return created;
 }
 
 
@@ -232,6 +297,7 @@ async function getthemeAll() {
     );
     return result;
 }
+
 
 async function getkeywordAll() { 
     
@@ -380,37 +446,68 @@ async function getsinglekeywordtopicAll(id) {
 }
 
 
-async function addkeywords(params) {
+async function addkeywords(params,action,id=0) {
     
-    const [row, created] = await db4.MThemeKeywords.findOrCreate({ where: { theme_id: params.theme_id,keyword: params.keyword}, defaults: params });
+    
+    if(action == 'update'){
+        const [row, created] = await db4.MThemeKeywords.findOrCreate({ where: { id: id}, defaults: params });
 
-    if (created === false) {
-        await db4.MThemeKeywords.update(params, { where: { id: row.id } });
+        if (created === false) {
+            await db4.MThemeKeywords.update(params, { where: { id: row.id } });
+        }
+
+        return created;
+    } else {
+        const [row, created] = await db4.MThemeKeywords.findOrCreate({ where: { theme_id: params.theme_id,keyword: params.keyword}, defaults: params });
+
+        if (created === false) {
+            await db4.MThemeKeywords.update(params, { where: { id: row.id } });
+        }
+
+        return created;
     }
-
-    return created;
 }
 
-async function addtheme(params) {
+async function addtheme(params,action,id=0) {
     
-    const [row, created] = await db4.MThemes.findOrCreate({ where: { client_id: params.client_id,theme_name: params.theme_name}, defaults: params });
+    if(action == 'update'){
+        const [row, created] = await db4.MThemes.findOrCreate({ where: { id: id }, defaults: params });
 
-    if (created === false) {
-        await db4.MThemes.update(params, { where: { id: row.id } });
+        if (created === false) {
+            await db4.MThemes.update(params, { where: { id: row.id } });
+        }
+
+        return created;
+    } else {
+        const [row, created] = await db4.MThemes.findOrCreate({ where: { client_id: params.client_id,theme_name: params.theme_name}, defaults: params });
+
+        if (created === false) {
+            await db4.MThemes.update(params, { where: { id: row.id } });
+        }
+
+        return created;
     }
-
-    return created;
 }
 
-async function addtopic(params) {
+async function addtopic(params,action,id=0) {
     
-    const [row, created] = await db4.MThemeKeywordTopics.findOrCreate({ where: { keyword_id: params.keyword_id,topic: params.topic}, defaults: params });
+    if(action == 'update'){
+        const [row, created] = await db4.MThemeKeywordTopics.findOrCreate({ where: { id: id}, defaults: params });
 
-    if (created === false) {
-        await db4.MThemeKeywordTopics.update(params, { where: { id: row.id } });
-    }
+        if (created === false) {
+            await db4.MThemeKeywordTopics.update(params, { where: { id: row.id } });
+        }
 
-    return created;
+        return created;
+    } else {
+        const [row, created] = await db4.MThemeKeywordTopics.findOrCreate({ where: { keyword_id: params.keyword_id,topic: params.topic}, defaults: params });
+
+        if (created === false) {
+            await db4.MThemeKeywordTopics.update(params, { where: { id: row.id } });
+        }
+
+        return created;
+    } 
 }
 
 async function getclienttktAll(client_id) { 
@@ -793,9 +890,11 @@ async function getarticlesrowAll(client_id,media_type,startdate,enddate,page,par
         "keyword_category2", 
         "theme_id", 
         "theme"]
-        ,       logging: console.log
+        
     },
     );
+
+    //,       logging: console.log
     return result;
 }
 
@@ -843,7 +942,7 @@ async function getarticlesrowAllcustom(client_id,startdate,enddate,page,params) 
     } 
 
     result = await db4.sequelize.query(
-        "SELECT * FROM qa_articles_rows WHERE (client_id = '"+client_id+"' AND publish_date >= '"+startdate+"' AND publish_date <= '"+enddate+"') AND quality_check = '0' "+condition,
+        "SELECT * FROM qa_articles_rows WHERE (client_id >= '"+client_id+"' AND publish_date >= '"+startdate+"' AND publish_date <= '"+enddate+"') AND quality_check = '0' "+condition,
         {            
             type: QueryTypes.SELECT,
             logging: console.log
@@ -851,6 +950,8 @@ async function getarticlesrowAllcustom(client_id,startdate,enddate,page,params) 
     );    
     return result;
 }
+
+
 //Articlees Functions 
 async function getarticlesrowAlltril(page,req) {     
 
@@ -1124,20 +1225,553 @@ async function getUniquearticlesrow(id) {
         "keyword_category2", 
         "theme_id", 
         "theme"]
-        ,       logging: console.log
+        
     },
     );
+
+    //,       logging: console.log
     return result; 
     
 }
 
-async function addarticlesrow(params) {
+async function createQaData(params) {
+
+    //check article id and cav id if there cavid
+    const { count, rows } = await db4.QaArticlesRow.findAndCountAll({ where: { id: params.id } })
+    if (count === 0) {
+        return addQaDataRow(params);
+    }
+    if (count === 1) {
+        return updateQaDataRow(params, rows[0])
+    }
+
+}
+
+async function addQaDataRow(params) {
+    return await db4.QaArticlesRow.create(params);
+}
+
+async function updateQaDataRow(params, article) {
+    await db4.QaArticlesRow.update(params, { where: { id: article.id } });
+    return await db4.QaArticlesRow.findOne({ where: { id: article.id } });
+}
+
+async function createJournalist(params) {   
+
+    // await db4.QJournalists.bulkCreate(params,
+    //     {
+    //         ignoreDuplicates: true,
+    //     }).then(res => {
+    //         return res;
+    //     }).catch((error) => {
+    //         console.error('Failed to retrieve data : ', error);
+    //     });    
+
+    await db4.QJournalists.findOrCreate({ where: { q_article_id: params.q_article_id, journalists_type: params.journalists_type,journalists_name: params.journalists_name }, defaults: params });
+}
+
+async function findProductOne(project) {
+    return await db4.QaClientProduct.findOne({ where: { product_name_merge: project.product_name_merge } });
+}
+async function findQaSpokesPerson(project) {
+    return await db4.QaSpokesPerson.findOne({ where: { spokesperson_name_merge: project.spokesperson_name_merge } });
+}
+
+async function createQaSpokesPerson(params) {
+
+    // sequelize.sync().then(async () => {
+    // await db4.QaSpokesPerson.bulkCreate(dataArray,
+    //     {
+    //         ignoreDuplicates: true,
+    //     }).then(res => {
+    //         return res;
+    //     }).catch((error) => {
+    //         console.error('Failed to retrieve data : ', error);
+    //     });   
+
+    console.log("spokesperson_name_merge  : "+params.spokesperson_name_merge);
+
+    const [row, created] = db4.QaSpokesPerson.findOrCreate({ where: {spokesperson_name_merge: params.spokesperson_name_merge}, defaults: params });
+    // if (created === false) {
+    //     //await db4.QaSpokesPerson.update(params, { where: { id: row.id } });
+    // }
+        
+    return created;
+}
+
+async function createQaDataSpokesPerson(params) {    
+
+    return await db4.QaDataSpokesPerson.findOrCreate({ where: { spokesperson_id: params.spokesperson_id, q_article_id: params.q_article_id }, defaults: params });
+}
+
+async function createQaClientProduct(params) {
+    // await db4.QaClientProduct.bulkCreate(dataArray,
+    //     {
+    //         ignoreDuplicates: true,
+    //     }).then(res => {
+    //         return res;
+    //     }).catch((error) => {
+    //         console.error('Failed to retrieve data : ', error);
+    //     });    
+
+    await db4.QaClientProduct.findOrCreate({ where: {company_id: params.company_id,product_name_merge: params.product_name_merge}, defaults: params });    
+}
+
+async function createQaDataProduct(params) {    
+    await db4.QaDataProduct.findOrCreate({ where: { product_id: params.product_id, q_article_id: params.q_article_id }, defaults: params });
+}
+
+async function updatearticleStatus(params,id) {
+    await db4.QaArticlesRow.update(params, { where: { id: id } });
+    return true;
+}
+
+async function getarticlesrowAllcustomcron() {    
+ 
+    var condition = '';
     
-    const [row, created] = await db4.MSpokespersons.findOrCreate({ where: { spokesperson_name: params.spokesperson_name}, defaults: params });
+    /*if(params.client_id != '' && typeof params.client_id != 'undefined'){
+        condition = condition + " AND client_id = "+ params.client_id;
+    }  
+
+    if(params.client_id != '' && typeof params.client_id != 'undefined'){
+        condition = condition + " AND client_id = "+ params.client_id;
+    } 
+
+    if(params.client_id != '' && typeof params.client_id != 'undefined'){
+        condition = condition + " AND client_id = "+ params.client_id;
+    }  
+    
+    if(params.media_type != '' && typeof params.media_type != 'undefined'){
+        condition = condition + " AND media_type_id = "+ params.media_type;
+    }  
+
+    if(params.media_type != '' && typeof params.media_type != 'undefined'){
+        condition = condition + " AND media_type_id = "+ params.media_type;
+    }  
+
+    if(params.media_type != '' && typeof params.media_type != 'undefined'){
+        condition = condition + " AND media_type_id = "+ params.media_type;
+    }     
+
+    if(params.zone != '' && typeof params.zone != 'undefined'){
+        condition = condition + " AND zone_id = "+ params.zone;
+    }  
+
+    if(params.edition != '' && typeof params.edition != 'undefined'){
+        condition = condition + " AND edition_id = "+ params.edition;
+    }  
+
+    if(params.publication != '' && typeof params.publication != 'undefined'){
+        condition = condition + " AND publication_id = "+ params.publication;
+    }  
+
+    if(params.tonality != '' && typeof params.tonality != 'undefined'){
+        condition = condition + " AND tonality = "+ params.tonality;
+    }   
+    
+    if(params.entities != '' && typeof params.entities != 'undefined'){
+
+        var entityscond = '';
+        var entitys = params.entities;
+
+        let length = entitys.length;
+
+        if(length > 1){
+            entityscond = entitys.join(",");
+        } else {
+            entityscond = entitys;
+        }
+
+        condition = condition + " AND entity_id IN ("+ entityscond+")";
+    } */
+//,logging: console.log
+
+    result = await db4.sequelize.query(
+        "SELECT * FROM qa_articles_rows where quality_check = '1' "+condition+"",
+        {            
+            type: QueryTypes.SELECT
+        }
+    );    
+    return result;
+}
+
+
+async function getQualifyRulesAll() { 
+    //,    logging: console.log
+
+    const result = await db4.MQualifyRules.findAll({
+            attributes: ["id",
+                "rule"],
+            order: ['id']
+        },
+    );
+    return result;
+}
+
+
+async function findArticleQaSpokesPerson(articleId) {
+
+    //return await db4.QaSpokesPerson.findAll({ where: { spokesperson_name_merge: data.articleId } });
+
+    result = await db4.sequelize.query(
+        "SELECT q_spokepeople.q_article_id,q_spokepeople.spokesperson_profiling,q_spokepeople.spokesperson_visibility,q_spokepeople.spokesperson_Comments,spokepeople.spokesperson_name,spokepeople.description,spokepeople.company_id FROM q_spokepeople INNER JOIN spokepeople ON q_spokepeople.spokesperson_id = spokepeople.id and q_article_id = "+articleId,
+        {            
+            type: QueryTypes.SELECT
+        }
+    );    
+    return result;
+}
+
+async function findArticleProducts(articleId) {
+
+    //return await db4.QaSpokesPerson.findAll({ where: { spokesperson_name_merge: data.articleId } });
+
+    result = await db4.sequelize.query(
+        "SELECT q_products.q_article_id,products.product_name,products.description,products.company_id,products.product_category FROM q_products INNER JOIN products ON q_products.product_id = products.id and q_article_id = "+articleId,
+        {            
+            type: QueryTypes.SELECT
+        }
+    );    
+    return result;
+}
+
+async function findArticlejurnalist(articleId) {
+
+    return await db4.QJournalists.findAll({ where: { q_article_id: articleId } });
+}
+
+async function findqasettings(keydatastr) {
+    //,       logging: console.log
+    return await db4.MQasettings.findAll({ where: { key_data: keydatastr } });
+}
+
+
+async function addqualifyerrorentry(params) {
+    
+    //,logging: console.log
+    const [row, created] = await db4.QArticleQualify.findOrCreate({ where: { bid: params.bid,article_id: params.article_id,rule_id: params.rule_id}, defaults: params });
 
     if (created === false) {
-        await db4.MSpokespersons.update(params, { where: { id: row.id } });
+        await db4.QArticleQualify.update(params, { where: { id: row.id } });
     }
 
     return created;
+}
+
+
+
+//suppliments Functions 
+async function getProductAll() {    
+
+    const result = await db4.QaClientProduct.findAll({
+        attributes: ["id",
+        "product_name",
+        "product_name_merge",
+        "description",
+        "company_id",
+        "product_category",
+            "createdAt",
+            "created_by"],
+        group: "product_name_merge",
+    },
+    );
+    return result;
+}
+
+async function getUniqueProduct(id) {
+    
+    const result = await db4.QaClientProduct.findAll({
+        where: {
+            id: id
+        },
+        attributes: ["id",
+            "product_name",
+            "product_name_merge",
+            "description",
+            "company_id",
+            "product_category",
+            "createdAt",
+            "created_by"],
+        group: "product_name_merge",
+    });
+    return result;
+
+}
+
+async function addProduct(params,action,id=0) {   
+
+    if(action == 'update'){
+        const [row, created] = await db4.QaClientProduct.findOrCreate({ where: { id: id}, defaults: params });
+
+        //console.log('created : ', created)
+
+        if (created === false) {      
+
+            await db4.QaClientProduct.update(params, { where: { id: row.id } });
+        }
+
+        return created;
+    } else {
+        const [row, created] = await db4.QaClientProduct.findOrCreate({ where: { product_name_merge: params.product_name_merge}, defaults: params });
+
+        //console.log('created : ', created)
+
+        if (created === false) {      
+
+            await db4.QaClientProduct.update(params, { where: { id: row.id } });
+        }
+
+        return created;
+    }
+
+    
+}
+
+
+
+//Articlees Functions 
+async function getarticlesheadlinerowAll(headline, entity_id,publication,startdate,enddate) {  
+
+    // console.log("headline : "+headline);
+    // console.log("entity_id : "+entity_id);
+    // console.log("publication : "+publication);
+    // console.log("startdate : "+startdate);
+    // console.log("enddate : "+enddate);
+
+    const result = await db4.QaArticlesRow.findAll({
+        where: {
+            headline: headline,
+            entity_id: entity_id,
+            publication: publication,
+            "publish_date": {
+                [Op.and]: {
+                  [Op.gte]: startdate,
+                  [Op.lte]: enddate
+                }
+              }
+        },
+        attributes: ["id",
+        "cav_id",
+        "category_id",       
+        "category",
+        "client_id",    
+        "article_id",    
+        "entity_id",    
+        "entity_name",
+        "press_release_id",
+        "press_release",
+        "tonality",
+        "headline_mention",
+        "prominent_id",    
+        "prominent",
+        "word_count",    
+        "website_url",
+        "publish_date",   
+        "publication_id",   
+        "publication",
+        "edition_id",    
+        "edition",
+        "suppliment_id",    
+        "suppliment",
+        "language_id",    
+        "language",
+        "publication_type_id",    
+        "publication_type",
+        "headline",
+        "journalist_id",    
+        "journalist",
+        "agency_id",    
+        "agency",
+        "author_id", 
+        "mav",
+        "ccm",
+        "page_no",
+        "merge_unmerge_key",
+        "media_type_id",   
+        "article_created_on",  
+        "created_on",  
+        "created_by",
+        "last_modified_by",
+        "last_modified_on",    
+        "column_name", 
+        "bureau", 
+        "state_id", 
+        "state",
+        "is_unique_story", 
+        "journalist_type",
+        "article_location",
+        "article_summary",
+        "article_type",
+        "hit_miss",
+        "push_pull",
+        "positive_ccms", 
+        "neutral_ccms", 
+        "negative_ccms", 
+        "total_ccms", 
+        "photo_presence", 
+        "photo_type",
+        "photo_keyword",
+        "photo_tonality",
+        "headline_presence", 
+        "headline_visibility",
+        "headline_keyword",
+        "headline_tonality",
+        "frontpage",
+        "key_messages_presence",
+        "key_messages",
+        "photo_weightage", 
+        "headline_weightage", 
+        "shared_ex_weightage", 
+        "co_score", 
+        "visibility_score",         
+        "reach",
+        "index",
+        "wordcount_weightage",   
+        "monthly_visitor",   
+        "daily_visitor",   
+        "priority",
+        "priority_weightage", 
+        "vertical",
+        "electrical_vehicle",
+        "author_name",
+        "topic_id",  
+        "topic", 
+        "zone_id",  
+        "zone", 
+        "keyword_id", 
+        "keyword", 
+        "keyword_category", 
+        "keyword_category1", 
+        "keyword_category2", 
+        "theme_id", 
+        "theme"]
+        
+    },
+    );
+
+    //,       logging: console.log
+
+    return result;
+}
+
+async function findjurnalist() {
+
+    const result = await db4.MJournalists.findAll({
+            attributes: ["id",
+            "journalist_name",
+            "publication_id",
+            "journalist_email",
+            "journalist_contact",
+            "journalist_twitter",
+            "createdAt",
+            "created_by"]
+            });
+    return result;
+}
+
+
+//Articlees Functions 
+async function getQCarticlesrowAll(client_id,startdate,enddate,page,params) {    
+     
+    result = await db4.sequelize.query(
+        "SELECT * FROM qa_articles_rows WHERE quality_check = '2' ",
+        {            
+            type: QueryTypes.SELECT
+        }
+    );    
+
+    //,    logging: console.log
+    return result;
+}
+
+async function getarticlesqcrulesdata(articleId) {
+
+    return await db4.QArticleQualifies.findAll({ where: { bid: articleId } });
+}
+
+
+//Articlees Functions 
+async function getQCarticlesrowAllCNT(flag) {    
+     
+    result = await db4.sequelize.query(
+        "SELECT count(*) as flagcount FROM qa_articles_rows WHERE quality_check = '"+flag+"' ",
+        {            
+            type: QueryTypes.SELECT
+        }
+    );    
+
+    //, logging: console.log
+    return result;
+}
+
+
+//Articlees Functions 
+async function getarticlesrowAllrelated(client_id,fromDate,toDate,headline,publication,media_type,zone,edition,entities) {    
+ 
+    var condition = '';
+    
+    if(client_id != '' && typeof client_id != 'undefined'){
+        condition = condition + " AND client_id = "+ client_id;
+    }  
+
+    if(media_type != '' && typeof media_type != 'undefined'){
+        condition = condition + " AND media_type_id = "+ media_type;
+    }     
+
+    if(zone != '' && typeof zone != 'undefined'){
+        condition = condition + " AND zone_id = "+ zone;
+    }  
+
+    if(edition != '' && typeof edition != 'undefined'){
+        condition = condition + " AND edition_id = "+ edition;
+    }  
+
+    if(headline != '' && typeof headline != 'undefined'){
+        condition = condition + " AND headline LIKE '%"+ headline +"%'";
+    }   
+
+    if(publication != '' && typeof publication != 'undefined'){
+        condition = condition + " AND publication_id = "+ publication;
+    } 
+
+    if(fromDate != '' && fromDate != 'Invalid date' && toDate != '' && toDate != 'Invalid date'){
+          
+        if(fromDate == 'Invalid date' && toDate == 'Invalid date'){
+            //console.log('In If');
+        } else {
+            condition = condition + " AND publish_date >= '"+fromDate+"' and publish_date <= '"+toDate+"' ";
+        }
+        //condition = condition + " AND publish_date >= '"+fromDate+"' and publish_date <= '"+toDate+"' ";
+    }      
+    
+    if(entities != '' && typeof entities != 'undefined'){
+
+        var entityscond = '';
+        var entitys = entities;
+
+        let length = entitys.length;
+
+        if(length > 1){
+            entityscond = entitys.join(",");
+        } else {
+            entityscond = entitys;
+        }
+
+        condition = condition + " AND entity_id IN ("+ entityscond+")";
+    } 
+
+    console.log("SELECT * FROM qa_articles_rows WHERE headline != ''  "+condition);
+    //AND quality_check = '0'
+
+    console.log("SELECT * FROM qa_articles_rows WHERE headline != ''  "+condition);
+
+    result = await db4.sequelize.query(
+        "SELECT * FROM qa_articles_rows WHERE headline != ''  "+condition,
+        {            
+            type: QueryTypes.SELECT,
+            logging: console.log
+        }
+    );    
+    return result;
 }

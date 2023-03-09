@@ -7,7 +7,8 @@ const { func } = require('joi');
 
 module.exports = {
     updateArticle,
-    getArticle
+    getArticle,
+    updateArticles
 };
 
 async function updateArticle(data, id) {
@@ -31,4 +32,16 @@ async function getArticle(con) {
       data,
     };
     return axios(config);
+}
+
+async function updateArticles(data) {
+  data?.articles.map(async (id, index) => {
+  const article = await db4.QaArticlesRow.update(data.data, {
+      where: {
+        id: id
+      }
+    });
+    if(data?.articles.length === index + 1) return article;
+  })
+  
 }

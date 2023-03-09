@@ -27,6 +27,8 @@ app.use('/themes', require('./themes/themes.router'));
 app.use('/qaarticle', require('./qaarticle/qaarticle.router'));
 app.use('/journalist', require('./journalist/journalist.router'));
 app.use('/zone', require('./zone/zone.router'));
+app.use('/spokesperson', require('./spokesperson/spokesperson.router'));
+
 
 // global error handler
 app.use(errorHandler);

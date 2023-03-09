@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { get, post, deleteMethod, put } from "../../../services/CommanService";
 import toast from 'react-hot-toast';
-function FormTwo({ articleId, setKey }) {
+function FormTwo({ articleId, setKey, clientId }) {
 
 
     const [keywordList, setKeywordList] = useState([]);
-    const getkeywordList = () => {
-        get("dataprocess/get-keywordlist/").then((response) => {
+    const getkeywordList = (themeId) => {
+        get("dataprocess/get-themekeywordlist/"+themeId).then((response) => {
             setKeywordList(response.data.keywordlist)
         })
             .catch(() => {
@@ -16,7 +16,7 @@ function FormTwo({ articleId, setKey }) {
     }
     const [themeList, setThemeList] = useState([]);
     const getThemeList = () => {
-        get("dataprocess/get-themelist/").then((response) => {
+        get("dataprocess/get-clientthemelist/"+clientId).then((response) => {
             setThemeList(response.data.themelist)
         })
             .catch(() => {
@@ -24,24 +24,48 @@ function FormTwo({ articleId, setKey }) {
             })
 
     }
+    const [topicList, setTopicList] = useState([]);
+    const getTopicList = (keywordId) => {
+        get("dataprocess/get-keywordtopiclist/"+keywordId).then((response) => {
+            setTopicList(response.data.topiclist)
+        })
+            .catch(() => {
+                // handleLoginFailure({ status: UNAUTHORIZED });
+            })
 
+    }
+    
 
     const [keywordId, setKeywordId] = useState()
     const [keywordName, setKeywordName] = useState()
     const [themeId, setThemeId] = useState()
     const [themeName, setThemeName] = useState();
+
+    const [topicId, setTopicId] = useState()
+    const [topicName, setTopicName] = useState();
     const setKeywords = (e) => {
         const data = e.target.value.split('-')
         setKeywordId(data[0])
-        setKeywordName(data[1])
+        setKeywordName(data[1]);
+        setTopicId()
+        setTopicName();
+        getTopicList(data[0])
     }
     const setThemes = (e) => {
         const data = e.target.value.split('-')
         setThemeId(data[0])
-        setThemeName(data[1])
+        setThemeName(data[1]);
+        setKeywordId()
+        setKeywordName()
+        getkeywordList(data[0]);
+    }
+
+    const setTopics = (e) => {
+        const data = e.target.value.split('-')
+        setTopicId(data[0])
+        setTopicName(data[1]);
     }
     useEffect(() => {
-        getkeywordList();
         getThemeList();
     }, []);
 
@@ -93,7 +117,20 @@ function FormTwo({ articleId, setKey }) {
             <div className='row form-details'>
                 <div className="col-12 text-center"><h3>News Level Analysis</h3></div>
                 <div className='col-6 mt-20'>
-                    <select className='form-select' onChange={(e) => setKeywords(e)}>
+                <select className='form-select' onChange={(e) => setThemes(e)}>
+                        <option>
+                            Theme
+                        </option>
+                        {themeList.map((t, index) =>
+                            <option value={`${t.id}-${t.theme_name}`}> {t.theme_name}</option>
+                        )}
+                    </select>
+                   
+
+                </div>
+                
+                <div className='col-6 mt-20'>
+                <select className='form-select' onChange={(e) => setKeywords(e)}>
                         <option value={""}>
                             Keyword Category
                         </option>
@@ -103,25 +140,17 @@ function FormTwo({ articleId, setKey }) {
                     </select>
 
                 </div>
-                {/* <div className='col-6 mt-20'>
-                <select className='form-select'>
-                  <option>
-                  Product Category 
+                <div className='col-6 mt-20'>
+                <select className='form-select' onChange={(e) => setTopics(e)}>
+                  <option value={""}>
+                  Topic Category 
                   </option>
+                  {topicList.map((t, index) =>
+                            <option value={`${t.id}-${t.keyword}`}> {t.keyword}</option>
+                        )}
                 </select>
 
-            </div> */}
-                <div className='col-6 mt-20'>
-                    <select className='form-select' onChange={(e) => setThemes(e)}>
-                        <option>
-                            Theme
-                        </option>
-                        {themeList.map((t, index) =>
-                            <option value={`${t.id}-${t.theme_name}`}> {t.theme_name}</option>
-                        )}
-                    </select>
-
-                </div>
+            </div>
                 <div class="col-6 radio-group"><span class="radio-title">Recommendation article</span><span class="radio-btn">
                     
                     <input type="radio" id="recommend" name="recommend" checked={recommendation === true ? true : false}  value="true"  onChange={e => setRecommedation(true)}></input>

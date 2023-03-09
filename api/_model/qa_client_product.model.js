@@ -8,6 +8,7 @@ function model(sequelize) {
         product_name_merge: { type: DataTypes.STRING, allowNull: true , unique: true},
         description: { type: DataTypes.STRING, allowNull: true },
         company_id: { type: DataTypes.INTEGER, allowNull: true },
+        product_category: { type: DataTypes.STRING, allowNull: true },
         is_active: { type: DataTypes.TINYINT, allowNull: true },
         created_by: { type: DataTypes.INTEGER, allowNull: true },
         last_modified_by: { type: DataTypes.INTEGER, allowNull: true },

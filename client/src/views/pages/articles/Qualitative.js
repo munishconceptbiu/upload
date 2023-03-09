@@ -22,7 +22,8 @@ const Qualitative = () => {
     const [edition, setEdition] = useState('')
     const [journalist, setJournalist] = useState('');
     const [mediatype, setMediaType] = useState(1);
-    const [message, setMessage] = useState('')
+    const [message, setMessage] = useState('');
+    const [isLoad, setIsLoad] = useState(true);
     const getArticleList = () => {
         console.log('selectRef.getValue()[0]', selectRef.getValue()[0])
         post("dataprocess/get-articlesrowlist", { "client_id": selectRef.getValue().length ? selectRef.getValue()[0]?.value : "5193", "media_type": mediatype, "page": "1", "fromDate": startDate === "" || startDate === null ? "2022-12-15" : moment(startDate).format('L'), "toDate": endDate === "" || endDate === null ? "2022-12-16" : moment(endDate).format('L'), zone: zone, publication: publication, edition: edition, journalist: journalist }
@@ -38,13 +39,15 @@ const Qualitative = () => {
 
     const [media_type_id, setMediatTypeId] = useState()
     const [articleId, setArticleId] = useState()
+    const [clientId, setClientId] = useState()
     const getSingleArticle = () => {
         const data = params.aid.split('-')
         setMediatTypeId(data[3] === "1" ? 1 : 2)
         setArticleId(data[4]);
         post("qaarticle", {"client_id":data[0],"article_id":data[1],"entity_id":data[2], "media_type": data[3] === "1" ? 1 : 2}
         ).then((response) => {
-            setArticle(response.data.article.result)
+            setArticle(response.data.article.result);
+            setIsLoad(false);
         })
             .catch(() => {
                 // handleLoginFailure({ status: UNAUTHORIZED });
@@ -90,6 +93,7 @@ const Qualitative = () => {
             })
 
     }
+    const data = params.aid.split('-');
     useEffect(() => {
         getPublicationList();
         getZoneList();
@@ -98,6 +102,7 @@ const Qualitative = () => {
             getSingleArticle();
             const data = params.aid.split('-');
             console.log('data', data)
+            setClientId(data[0])
             setMediatTypeId(data[3] === "1" ? 1 : 2)
             setArticleId(data[4]);
         }
@@ -107,11 +112,11 @@ const Qualitative = () => {
         {article &&
             <div className="content-box mt-0">
                 <div className='row'>
-                    <div className='col-6'>
-                        <AnalysisDetails article = {article} media_type_id={media_type_id} />
+                    <div className='col-7'>
+                        <AnalysisDetails article = {article} media_type_id={media_type_id} clientId={clientId} entityId={data[2]} isLoad={isLoad} />
                     </div>
-                    <div className='col-6 '>
-                        <Tabs article = {article} articleId={articleId} />
+                    <div className='col-5 '>
+                        <Tabs article = {article} articleId={articleId} clientId={data[0]} />
                     </div>
                 </div>
             </div>

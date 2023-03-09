@@ -9,7 +9,8 @@ module.exports = {
     save,
     delete: _delete,
     update: _update,
-    getAllPublicaitonWise
+    getAllPublicaitonWise,
+    getAllNameWise
 };
 
 
@@ -43,4 +44,15 @@ async function _update(params, id) {
 async function getAllPublicaitonWise(id) {
     const result = await db.Journalist.findAll({where: { publication_id: id}});
     return result;
+}
+
+async function getAllNameWise(name) {
+    const journalist = await db.Journalist.findAll({
+        where: {
+            journalist_name: {
+                [Op.like]: `${name}%`
+            }
+        }
+    });
+    return journalist;
 }

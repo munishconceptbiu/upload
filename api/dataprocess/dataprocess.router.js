@@ -21,12 +21,19 @@ router.get('/get-singlesuppliments/:id',  dataprocessController.getUniquesupplim
 
 router.post('/add-suppliments',  dataprocessController.addsuppliments);
 
-//suppliments routes
+//products routes
+router.get('/get-productslist',  dataprocessController.getProductAll);
+
+router.get('/get-singleproducts/:id',  dataprocessController.getUniqueProduct);
+
+router.post('/add-products',  dataprocessController.addProduct);
+
+/*//suppliments routes
 router.get('/get-supplimentslist',  dataprocessController.getsupplimentsAll);
 
 router.get('/get-singlesuppliments/:id',  dataprocessController.getUniquesuppliments);
 
-router.post('/add-suppliments',  dataprocessController.addsuppliments);
+router.post('/add-suppliments',  dataprocessController.addsuppliments);*/
 
 //spokespersons routes
 router.get('/get-spokespersonslist',  dataprocessController.getspokespersonsAll);
@@ -62,6 +69,8 @@ router.get('/get-clienttktsingle/:id',  dataprocessController.getclienttktsingle
 
 router.post('/add-themekeywordtopic',  dataprocessController.addthemekeywordtopic);
 
+router.get('/cronqualifyarticlev1',  dataprocessController.cronqualifyarticlev1);
+
 module.exports = router;
 
 //articles routes
@@ -71,3 +80,10 @@ router.post('/get-articlesrowlist',  dataprocessController.getarticlesrowAll);
 router.get('/get-singlearticlesrow/:id',  dataprocessController.getUniquearticlesrow);
 
 router.post('/add-articlesrow',  dataprocessController.addarticlesrow);
+
+router.get('/cronqualifyarticle',  dataprocessController.cronqualifyarticle);
+
+router.get('/getqualifyRuleslist',  dataprocessController.getqualifyRuleslist);
+
+router.post('/get-relarticlesrowlist',  dataprocessController.relarticlesrowlist);
+

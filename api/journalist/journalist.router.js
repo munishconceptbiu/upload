@@ -9,6 +9,7 @@ const journalistController = require('./journalist.controller')
 
 
 router.get('/publication/:publicationid',  journalistController.getAllPublicaitonWise);
+router.get('/name/:name',  journalistController.getAllNameWise);
 
 router.put('/:id',  journalistController.update);
 router.get('/:id',  journalistController.getSingle);

@@ -62,6 +62,7 @@ function model(sequelize) {
         negative_ccms: { type: DataTypes.INTEGER, allowNull: false }, 
         total_ccms: { type: DataTypes.INTEGER, allowNull: false }, 
         photo_presence: { type: DataTypes.INTEGER, allowNull: false }, 
+        dbphoto:{ type: DataTypes.INTEGER, allowNull: false }, 
         photo_type:{ type: DataTypes.STRING, allowNull: false },
         photo_keyword:{ type: DataTypes.STRING, allowNull: false },
         photo_tonality:{ type: DataTypes.STRING, allowNull: false },
@@ -96,10 +97,16 @@ function model(sequelize) {
         keyword_category:{ type: DataTypes.STRING, allowNull: false }, 
         keyword_category1:{ type: DataTypes.STRING, allowNull: false }, 
         keyword_category2:{ type: DataTypes.STRING, allowNull: false }, 
+        keyword_summary:{ type: DataTypes.STRING, allowNull: false }, 
         theme_id:{ type: DataTypes.INTEGER, allowNull: false }, 
-        theme:{ type: DataTypes.STRING, allowNull: false },
-        createdAt: { type: DataTypes.DATE, allowNull: true},
-        updatedAt: { type: DataTypes.DATE, allowNull: true},   
+        theme:{ type: DataTypes.STRING, allowNull: false },        
+        quality_check: { type: DataTypes.INTEGER, allowNull: false },
+        not_relavant: { type: DataTypes.INTEGER, allowNull: false },
+        recommendation_article: { type: DataTypes.INTEGER, allowNull: false },
+        financial_planner: { type: DataTypes.INTEGER, allowNull: false },
+        new_product_launch: { type: DataTypes.INTEGER, allowNull: false },  
+        news_type:{ type: DataTypes.STRING, allowNull: false } ,  
+        article_tag:{ type: DataTypes.STRING, allowNull: false } 
     };
 
     const options = {

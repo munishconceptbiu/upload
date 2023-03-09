@@ -7,6 +7,8 @@ function model(sequelize) {
         q_article_id: { type: DataTypes.BIGINT, allowNull: false},
         spokesperson_id: { type: DataTypes.INTEGER, allowNull: true },
         spokesperson_profiling: { type: DataTypes.STRING, allowNull: true },
+        spokesperson_visibility: { type: DataTypes.STRING, allowNull: true },
+        spokesperson_Comments: { type: DataTypes.STRING, allowNull: true },
         created_by: { type: DataTypes.INTEGER, allowNull: true },
         last_modified_by: { type: DataTypes.INTEGER, allowNull: true },
         created_at: { type: DataTypes.DATE, allowNull: true},

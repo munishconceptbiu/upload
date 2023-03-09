@@ -10,3 +10,8 @@ exports.getArticle  = async function (req, res, next) {
     let article = await qaarticleService.getArticle(req.body);
     res.json({ article: article.data, message: 'Article updated successful' })
 }
+
+exports.updateArticles  = async function (req, res, next) {
+    let article = await qaarticleService.updateArticles(req.body);
+    res.json({ article: article, message: 'Article updated successful' })
+}

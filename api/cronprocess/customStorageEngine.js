@@ -1,7 +1,7 @@
 var excel = require('excel-stream'); // package to read excel to objects in stream
 const { number } = require('joi');
 const { Transform } = require('stream');
-const dataprocessService = require('./dataprocess.service');
+const cronprocessService = require('./cronprocess.service');
 const StringDecoder = require('string_decoder').StringDecoder
 
 function getDestination(req, file, cb) {
@@ -154,8 +154,8 @@ function saveDataToDB(array, clientdata) {
                 index_weightage: e['Index']
             }
             // console.log('qa_data', qa_data)
-            // await dataprocessService.createQaData(qa_data).then(async(dataprocess) => {
-            //     const [q_articles, created] = dataprocess;
+            // await cronprocessService.createQaData(qa_data).then(async(cronprocess) => {
+            //     const [q_articles, created] = cronprocess;
                
             //     const spokesman = Object.entries(e).filter((e,v) => e[0].match(/Spokesperson [0-9]/g) && e[1] !== 0 )
             //     if(spokesman.length !== 0){
@@ -163,13 +163,13 @@ function saveDataToDB(array, clientdata) {
             //             const sperson = {
             //                 spokesperson_name: s[1]
             //             }
-            //             await dataprocessService.createQaSpokesPerson(sperson).then(async(sp) =>{
+            //             await cronprocessService.createQaSpokesPerson(sperson).then(async(sp) =>{
             //                 const spersondata = {
             //                     spokesperson_id : sp.id,
             //                     q_article_id: q_articles.id,
             //                     spokesperson_profiling : e['Spokesperson Profiling']
             //                 }
-            //                 await dataprocessService.createQaDataSpokesPerson(spersondata)
+            //                 await cronprocessService.createQaDataSpokesPerson(spersondata)
             //             })
                         
             //         })
@@ -180,12 +180,12 @@ function saveDataToDB(array, clientdata) {
             //             const product = {
             //                 product_name: p[1]
             //             }
-            //             await dataprocessService.createQaClientProduct(product).then(async(pro) =>{
+            //             await cronprocessService.createQaClientProduct(product).then(async(pro) =>{
             //                 const spersondata = {
             //                     product_id : pro.id,
             //                     q_article_id: q_articles.id
             //                 }
-            //                 await dataprocessService.createQaDataProduct(spersondata)
+            //                 await cronprocessService.createQaDataProduct(spersondata)
             //             })
                         
             //         })

@@ -10,4 +10,6 @@ router.post('/',  qaarticleController.getArticle);
 
 router.put('/:id',  qaarticleController.updateArticle);
 
+router.put('/',  qaarticleController.updateArticles);
+
 module.exports = router;
