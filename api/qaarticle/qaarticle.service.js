@@ -8,7 +8,10 @@ const { func } = require('joi');
 module.exports = {
     updateArticle,
     getArticle,
-    updateArticles
+    updateArticles,
+    addUpdateJournalist,
+    addUpdateSpokeperson,
+    addUpdateProducts,
 };
 
 async function updateArticle(data, id) {
@@ -35,8 +38,7 @@ async function getArticle(con) {
 }
 
 async function updateArticles(data) {
-  console.log('data', data)
-  data?.articles.map(async (article, index) => {
+  await data?.articles.map(async (article, index) => {
   const articles = await db4.QaArticlesRow.update(data.data, {
       where: {
         id: article.id
@@ -45,4 +47,44 @@ async function updateArticles(data) {
     if(data?.articles.length === index + 1) return articles;
   })
   
+}
+
+
+async function addUpdateSpokeperson(data) {
+  await data?.articles.map(async (article, index) => {
+    await data?.spokeperson.map(async (spokeperson, index) => {
+      const params = {
+        "spokesperson_id" : spokeperson.spokepersonId,
+        "q_article_id": article.id
+      }
+      await db4.QaDataSpokesPerson.findOrCreate({ where: { spokesperson_id: spokeperson.spokepersonId, q_article_id: article.id }, defaults: params });
+    });
+  });
+}
+
+async function addUpdateJournalist(data) {
+  await data?.articles.map(async (article, index) => {
+    await data?.journalist.map(async (journalist, index) => {
+      const params = {
+        "journalists_name" : journalist.journalistName,
+        "journalists_id": journalist.journalistId,
+        "journalists_det": journalist.details,
+        "journalists_type": journalist.type,
+        "q_article_id": article.id
+      }
+      await db4.QJournalists.findOrCreate({ where: { journalists_id: journalist.journalistId, q_article_id: article.id }, defaults: params });
+    });
+  });
+}
+
+async function addUpdateProducts(data) {
+  await data?.articles.map(async (article, index) => {
+    await data?.products.map(async (products, index) => {
+      const params = {
+        "product_id": products.productId,
+        "q_article_id": article.id
+      }
+      await db4.QJournalists.findOrCreate({ where: { product_id: products.productId, q_article_id: article.id }, defaults: params });
+    });
+  });
 }

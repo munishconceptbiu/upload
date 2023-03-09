@@ -15,3 +15,11 @@ exports.updateArticles  = async function (req, res, next) {
     let article = await qaarticleService.updateArticles(req.body);
     res.json({ article: article, message: 'Articles updated successful' })
 }
+
+exports.updateFinalStepArticles  = async function (req, res, next) {
+    await qaarticleService.addUpdateJournalist(req.body)
+    await qaarticleService.addUpdateSpokeperson(req.body)
+    await qaarticleService.addUpdateProducts(req.body)
+    let article = await qaarticleService.updateArticles(req.body);
+    res.json({ article: article, message: 'Articles updated successful' })
+}
