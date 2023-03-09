@@ -123,7 +123,7 @@ const AppSidebar = (props) => {
      <li>
       <NavLink to={"/Articlelist"}  className="nav-link" title="Articlelist" data-bs-toggle="tooltip" data-bs-placement="right">
          <span className='menuIcon'><AnalysisIcon /></span>
-         <span className='menuTitle'>Artical List</span>
+         <span className='menuTitle'>Article List</span>
         </NavLink>
       </li>
       <li>
