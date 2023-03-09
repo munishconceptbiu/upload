@@ -35,6 +35,7 @@ async function getArticle(con) {
 }
 
 async function updateArticles(data) {
+  console.log('data', data)
   data?.articles.map(async (article, index) => {
   const articles = await db4.QaArticlesRow.update(data.data, {
       where: {
