@@ -35,13 +35,13 @@ async function getArticle(con) {
 }
 
 async function updateArticles(data) {
-  data?.articles.map(async (id, index) => {
-  const article = await db4.QaArticlesRow.update(data.data, {
+  data?.articles.map(async (article, index) => {
+  const articles = await db4.QaArticlesRow.update(data.data, {
       where: {
-        id: id
+        id: article.id
       }
     });
-    if(data?.articles.length === index + 1) return article;
+    if(data?.articles.length === index + 1) return articles;
   })
   
 }
