@@ -12,6 +12,6 @@ router.put('/:id',  qaarticleController.updateArticle);
 
 router.put('/',  qaarticleController.updateArticles);
 
-router.put('/finalstep',  qaarticleController.updateFinalStepArticles);
+router.put('/finalstep/add',  qaarticleController.updateFinalStepArticles);
 
 module.exports = router;

@@ -55,7 +55,8 @@ async function addUpdateSpokeperson(data) {
     await data?.spokeperson.map(async (spokeperson, index) => {
       const params = {
         "spokesperson_id" : spokeperson.spokepersonId,
-        "q_article_id": article.id
+        "q_article_id": article.id,
+        "upload_id" : 0
       }
       await db4.QaDataSpokesPerson.findOrCreate({ where: { spokesperson_id: spokeperson.spokepersonId, q_article_id: article.id }, defaults: params });
     });
@@ -70,8 +71,10 @@ async function addUpdateJournalist(data) {
         "journalists_id": journalist.journalistId,
         "journalists_det": journalist.details,
         "journalists_type": journalist.type,
-        "q_article_id": article.id
+        "q_article_id": article.id,
+        "upload_id" : 0
       }
+      console.log('params', params)
       await db4.QJournalists.findOrCreate({ where: { journalists_id: journalist.journalistId, q_article_id: article.id }, defaults: params });
     });
   });
@@ -82,9 +85,10 @@ async function addUpdateProducts(data) {
     await data?.products.map(async (products, index) => {
       const params = {
         "product_id": products.productId,
-        "q_article_id": article.id
+        "q_article_id": article.id,
+        "upload_id" : 0
       }
-      await db4.QJournalists.findOrCreate({ where: { product_id: products.productId, q_article_id: article.id }, defaults: params });
+      await db4.QaDataProduct.findOrCreate({ where: { product_id: products.productId, q_article_id: article.id }, defaults: params });
     });
   });
 }
