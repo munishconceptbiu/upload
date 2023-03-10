@@ -19,8 +19,8 @@ export default function ImagePreview ({
     <div className="imagePreviewWrap">
       <div className="previewImg">
         <img
-          height={Array.isArray(height) ? height[currentSrc] : height}
-          width={Array.isArray(width) ? width[currentSrc] : width}
+          height="400px"
+          width="70%"
           src={imgSrcArray[currentSrc]}
           alt="NA"
         ></img>
