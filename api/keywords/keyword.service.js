@@ -40,7 +40,7 @@ async function getClientKeyword(theme_id,name) {
 }
 
 async function getThemeWordTopic(client_id) {
-     return await db23.sequelize.query(
+     return await db4.sequelize.query(
         `SELECT *
 FROM m_themes t 
 INNER JOIN m_theme_keywords k ON t.id=k.theme_id
