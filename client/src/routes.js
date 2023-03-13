@@ -2,7 +2,7 @@ import React from 'react'
 import Qualitative from './views/pages/articles/Qualitative'
 import ViewJornalist from './views/pages/journalist/View'
 import AddKeyword from './views/pages/keyword/Add'
-import Keyword from './views/pages/keyword/Keyword'
+import ViewKeyword from './views/pages/keyword/View'
 import AddSpokePerson from './views/pages/spokesperson/Add'
 import Spokeperson from './views/pages/spokesperson/Spokesperson'
 import ViewSpokeperson from './views/pages/spokesperson/View'
@@ -70,7 +70,7 @@ const routes = [
   { path: '/add-theme', name: 'add', element: AddTheme },
   { path: '/edit-theme/:tid', name: 'edit', element: AddTheme },
   
-  { path: '/keywords', name: 'list', element: Keyword },
+  { path: '/keywords', name: 'list', element: ViewKeyword },
   { path: '/add-keyword', name: 'add', element: AddKeyword },
   { path: '/edit-keyword/:kid', name: 'edit', element: AddKeyword },
   

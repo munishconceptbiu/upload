@@ -10,10 +10,12 @@ import { useNavigate, NavLink } from 'react-router-dom';
 import { store } from '../../../store/store';
 import { CSmartTable } from '@coreui/react-pro'
 
-export default function PublicationList({ publicationList, setPublication, setCirclation, setEdition, setMediaType, setPublicationTypeId, setReadership, setWebName }){
+export default function PublicationList({ publicationList, setPublication, setCirclation, setEdition, setMediaType, setPublicationTypeId, setReadership, setWebName, addPublication, setTitle, publicationShow }){
 
   const getPublicationSingleList = (id) => {
     get("dataprocess/get-singlepublications/"+id).then((response) => {
+      addPublication(true)
+      setTitle('Edit')
         setPublication(response.data.publicationlist[0].publication);
         setCirclation(response.data.publicationlist[0].circlation)
         setEdition(response.data.publicationlist[0].edition_id)
@@ -92,7 +94,7 @@ export default function PublicationList({ publicationList, setPublication, setCi
         <>
             <div class="page-title d-flex justify-content-between">
               <h1>Publication List</h1>
-              {/* <button onClick={addPublication} className="btn btn-primary btn-medium">Add Publication</button> */}
+             {publicationShow === false && <button onClick={() => { addPublication(true);  setTitle('Add')}} className="btn btn-primary btn-medium">Add Publication</button> }
               </div>
             <div className="content-box">
             <CSmartTable

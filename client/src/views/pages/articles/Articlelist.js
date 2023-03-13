@@ -212,7 +212,7 @@ function Articlelist() {
       dataField: 'ccm',
       text: 'CCM',
       sort: true,
-      filter: numberFilter()
+      filter: textFilter()
       // filter: false,
       // sorter: false,
     },
@@ -220,7 +220,7 @@ function Articlelist() {
       dataField: 'mav',
       text: 'MAV',
       sort: true,
-      filter: numberFilter()
+      filter: textFilter()
       // filter: false,
       // sorter: false,
     },
@@ -252,31 +252,31 @@ function Articlelist() {
       dataField: 'word_count',
       text: 'Word Count',
       sort: true,
-      filter: numberFilter()
+      filter: textFilter()
     },
     {
       dataField: 'zone',
       text: 'Zone',
       sort: true,
-      filter: numberFilter()
+      filter: textFilter()
     },
     {
       dataField: 'co_score',
       text: 'Co Score',
       sort: true,
-      filter: numberFilter()
+      filter: textFilter()
     },
     {
       dataField: 'visibility_score',
       text: 'Visibility Score',
       sort: true,
-      filter: numberFilter()
+      filter: textFilter()
     },
     {
       dataField: 'reach',
       text: 'Reach',
       sort: true,
-      filter: numberFilter()
+      filter: textFilter()
     },
     // {
     //   dataField: 'index',
@@ -300,7 +300,7 @@ function Articlelist() {
       dataField: 'total_ccms',
       text: 'Total ccms',
       sort: true,
-      filter: numberFilter()
+      filter: textFilter()
     },
     {
       dataField: 'page_no',
@@ -309,7 +309,7 @@ function Articlelist() {
       editor: {
         type: Type.TEXTAREA
       },
-      filter: numberFilter(),
+      filter: textFilter(),
       formatter: (cell) => {
         return cell.length > 15 ? cell.substring(0, 15) + '...' : cell;
       },

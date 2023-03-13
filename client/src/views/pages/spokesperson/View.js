@@ -96,7 +96,7 @@ export default function ViewSpokeperson(){
 
       get("artical/get-setting-clientlist/" + inputValue).then((response) => {
         resolve(response.data.client.map((e) => ({
-          value: e.id,
+          value: e.client_id,
           label: e.client_name
         })));
       })
@@ -110,14 +110,16 @@ export default function ViewSpokeperson(){
 
   
   const [title, setTitle] = useState('Add')
-  
+  const [isShowAddEdit, setIsShowAddEdit] = useState(false)
   useEffect(() => {
     getSpokepersonList();
   }, []);
     return(
         <>
-            <AddSpokePerson title={title} clientChange={clientChange} promiseOptions={promiseOptions} setSpokesperson={setSpokesperson} setCompanyName={setCompanyName} setDesignation={setDesignation} setCompanyId={setCompanyId}  saveSpokeperson={saveSpokeperson}  spokesperson_name={spokesperson_name} designation={designation} company_id={company_id} company_name={company_name} />
-            <Spokeperson spokepersonList={spokepersonList} setCompanyName={setCompanyName} setSpokesperson={setSpokesperson} setDesignation={setDesignation} setCompanyId={setCompanyId} />
+            {isShowAddEdit &&
+            <AddSpokePerson title={title} clientChange={clientChange} promiseOptions={promiseOptions} setSpokesperson={setSpokesperson} setCompanyName={setCompanyName} setDesignation={setDesignation} setCompanyId={setCompanyId}  saveSpokeperson={saveSpokeperson}  spokesperson_name={spokesperson_name} designation={designation} company_id={company_id} company_name={company_name} setIsShowAddEdit={setIsShowAddEdit} />
+}
+            <Spokeperson spokepersonList={spokepersonList} setCompanyName={setCompanyName} setSpokesperson={setSpokesperson} setDesignation={setDesignation} setCompanyId={setCompanyId} setTitle={setTitle} setIsShowAddEdit={setIsShowAddEdit} isShowAddEdit={isShowAddEdit} />
         </>
     )
 }

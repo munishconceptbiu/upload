@@ -13,14 +13,14 @@ import move from "lodash-move";
 import { useNavigate, useParams } from 'react-router-dom';
 
 
-export default function AddPublication({ savePublication,  setPublication, setCirclation, setEdition, setMediaType, setPublicationTypeId, setReadership, setWebName, promiseOptions, publication, media_type, publication_type_id,edition_id, readership, circlation, webname, editionChange, title  }){
+export default function AddPublication({ savePublication,  setPublication, setCirclation, setEdition, setMediaType, setPublicationTypeId, setReadership, setWebName, promiseOptions, publication, media_type, publication_type_id,edition_id, readership, circlation, webname, editionChange, title, addPublication  }){
 
    
 
     return(
         <>
         <div class="page-title d-flex justify-content-between">
-              <h1> {title} Publication @@@@@</h1>
+              <h1> {title} Publication</h1>
         </div>
         <div className="content-box edit-pubication">
                 <div className="row">
@@ -44,7 +44,7 @@ export default function AddPublication({ savePublication,  setPublication, setCi
             </div>
             <div className="row mt-20">
                 <div className="col-12">
-                    <button class="btn btn-gray">Reset</button>
+                    <button class="btn btn-gray" onClick={() => addPublication(false)}>Close</button>
                     <button class="btn btn-primary" onClick={savePublication}>Submit</button>
                 </div>
             </div>

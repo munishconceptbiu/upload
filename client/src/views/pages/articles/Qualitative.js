@@ -102,7 +102,7 @@ const Qualitative = () => {
     const [checkArticleList, setCheckedArticleList] = useState([]);
 
     const getSimllerArticleList = () => {
-        post("dataprocess/get-relarticlesrowlist", { "client_id": article?.article?.client_id, "media_type": media_type_id, "page": "1" , "headline": article?.article?.headline}
+        post("dataprocess/get-relarticlesrowlist", { "client_id": article?.client_detail?.id, "media_type": media_type_id, "page": "1" , "headline": article?.article?.headline}
         ).then((response) => {
           setArticleList(response.data.articlesrowlist)
           setSimllerArticleCount(response.data.articlesrowlist.length)
@@ -113,6 +113,8 @@ const Qualitative = () => {
           })
     
       }
+      const [stepOneData, setStepOneData] = useState()
+      const [stepTwoData, setStepTwoData] = useState()
 
       useEffect(() => {
         if(article?.article?.id) getSimllerArticleList()
@@ -126,7 +128,7 @@ const Qualitative = () => {
                         <AnalysisDetails simallerArticleCount={simallerArticleCount} articleList={articleList} article = {article} media_type_id={media_type_id} clientId={clientId} entityId={data[2]} isLoad={isLoad} setCheckedArticleList={setCheckedArticleList} />
                     </div>
                     <div className='col-5 '>
-                        <Tabs articleList={articleList} checkArticleList={checkArticleList} article={article} articleId={articleId} clientId={data[0]} simallerArticleCount={simallerArticleCount} />
+                        <Tabs setStepTwoData={setStepTwoData} setStepOneData={setStepOneData} stepTwoData={stepTwoData} stepOneData={stepOneData} articleList={articleList} checkArticleList={checkArticleList} article={article} articleId={articleId} clientId={data[0]} simallerArticleCount={simallerArticleCount} />
                     </div>
                 </div>
             </div>

@@ -10,7 +10,7 @@ import Reorder, {
 import move from "lodash-move";
 import { useNavigate, useParams } from 'react-router-dom';
 
-export default function AddSpokePerson({ title,clientChange, promiseOptions, setSpokesperson, setCompanyName, setDesignation, setCompanyId,  saveSpokeperson, spokesperson_name, designation, company_id, company_name }){
+export default function AddSpokePerson({ title,clientChange, promiseOptions, setSpokesperson, setCompanyName, setDesignation, setCompanyId,  saveSpokeperson, spokesperson_name, designation, company_id, company_name, setIsShowAddEdit }){
     
 
     return(
@@ -32,7 +32,7 @@ export default function AddSpokePerson({ title,clientChange, promiseOptions, set
             </div>
             <div className="row mt-20">
                 <div className="col-12">
-                    <button class="btn btn-gray">Cancel</button>
+                    <button class="btn btn-gray" onClick={() => setIsShowAddEdit(false)}>Close</button>
                     <button class="btn btn-primary" onClick={saveSpokeperson}>Submit</button>
                 </div>
             </div>

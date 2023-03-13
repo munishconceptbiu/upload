@@ -91,14 +91,16 @@ export default function ViewJornalist(){
    
   
   const [title, setTitle] = useState('Add')
-  
+  const [isShowAddEdit, setIsShowAddEdit] = useState(false)
   useEffect(() => {
     getJournalistList();
   }, []);
     return(
         <>
-            <AddJournalist title={title}  setJournalistContact={setJournalistContact} setJournalistEmail={setJournalistEmail} setJournalistName={setJournalistName} setPublicationId={setPublicationId}  saveJournalist={saveJournalist}  journalist_name={journalist_name} journalist_email={journalist_email} journalist_contact={journalist_contact} media_type={media_type} setMediaType={setMediaType} publication_id={publication_id}/>
-            <Journalist journalistList={journalistList}  setJournalistContact={setJournalistContact} setJournalistEmail={setJournalistEmail} setJournalistName={setJournalistName} setPublicationId={setPublicationId} setMediaType={setMediaType} />
+        {isShowAddEdit &&
+            <AddJournalist title={title}  setJournalistContact={setJournalistContact} setJournalistEmail={setJournalistEmail} setJournalistName={setJournalistName} setPublicationId={setPublicationId}  saveJournalist={saveJournalist}  journalist_name={journalist_name} journalist_email={journalist_email} journalist_contact={journalist_contact} media_type={media_type} setMediaType={setMediaType} publication_id={publication_id} setTitle={setTitle}/>
+        }
+            <Journalist journalistList={journalistList}  setJournalistContact={setJournalistContact} setJournalistEmail={setJournalistEmail} setJournalistName={setJournalistName} setPublicationId={setPublicationId} setMediaType={setMediaType} isShowAddEdit={isShowAddEdit} setTitle={setTitle} setIsShowAddEdit={setIsShowAddEdit} />
         </>
     )
 }

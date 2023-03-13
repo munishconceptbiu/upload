@@ -5,7 +5,7 @@ import AsyncSelect from 'react-select/async';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
-export default function FormThree({ clientId, articleId, setKey, articleList, simallerArticleCount }) {
+export default function FormThree({ clientId, articleId, setKey, articleList, simallerArticleCount, checkArticleList, setStepTwoData, setStepOneData, stepTwoData, stepOneData }) {
 
   let selectRef = useRef();
   const promiseOptions = (inputValue) =>
@@ -149,9 +149,12 @@ export default function FormThree({ clientId, articleId, setKey, articleList, si
 
 
   const saveCall = (articleData) => {
-
+    console.log('stepTwoData', stepTwoData)
+    console.log('stepOneData', stepOneData)
     const formData = {};
     formData.data = {
+      ...stepTwoData,
+      ...stepOneData,
       "photo_mention": photoMention,
       "headline_mention": headlineMention,
       "hit_miss": hitMiss === true ? true : false,
@@ -203,7 +206,11 @@ export default function FormThree({ clientId, articleId, setKey, articleList, si
         return (
           <div className='custom-ui'>
             <h1>Are you sure?</h1>
-            <p>{simallerArticleCount} Simller article found update the same for all article</p>
+            {checkArticleList.length === 0 && 
+            <p>There are {simallerArticleCount} similar articles found do you want to apply same change </p>
+            }
+            {checkArticleList.length !== 0 && 
+            <p>are sure to apply same values to selected articles </p> }
             <button onClick={() => {
               saveNo()
               onClose()
@@ -297,7 +304,7 @@ export default function FormThree({ clientId, articleId, setKey, articleList, si
               </select>
 
             </div>
-            <div className='col-6 mt-20'>
+            {/* <div className='col-6 mt-20'>
               <select className='form-select' disabled>
                 <option>
                   Designation
@@ -325,7 +332,7 @@ export default function FormThree({ clientId, articleId, setKey, articleList, si
                 <option> Mention </option>
               </select>
 
-            </div>
+            </div> */}
             <div class="col-6 radio-group"><span class="radio-title">Comments on</span><span class="radio-btn"><input type="radio" id="age1" name="age" value="30"></input><label for="age1">CFPs</label></span><span class="radio-btn"><input type="radio" id="age2" name="age" value="60"></input><label for="age2">Experts</label></span></div>
           </div>
         )}
@@ -348,14 +355,14 @@ export default function FormThree({ clientId, articleId, setKey, articleList, si
               </select>
 
             </div>
-            <div className='col-6 mt-20'>
+            {/* <div className='col-6 mt-20'>
               <select className='form-select'>
                 <option>
                   Category
                 </option>
               </select>
 
-            </div>
+            </div> */}
           </div>
         )}
         <div className="col-12 text-right mt-10">

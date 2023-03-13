@@ -166,7 +166,7 @@ form.needs-validation{padding: 20px;}
 .table>:not(:first-child){
     border-top:1px solid #d7d7d7;
 }
-.page-title{background-color: #fff;      padding: 15px 40px 8px; position: fixed;
+.page-title{background-color: #fff;      padding: 15px 40px 8px;
     z-index: 9;
     top:0;
     width: 100%;}

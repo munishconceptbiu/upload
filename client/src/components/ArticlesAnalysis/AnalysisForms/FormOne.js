@@ -7,7 +7,7 @@ import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 
-function FormOne({ article, articleId, setKey, articleList, checkArticleList, simallerArticleCount }) {
+function FormOne({ article, articleId, setKey, articleList, checkArticleList, simallerArticleCount, setStepTwoData, setStepOneData, stepTwoData, stepOneData }) {
 
   const articleTypes = ["Interview", "Author", "Brief", "Column", "Editorial", "Feature", "News/Report"]
   const articleTags = ["Press Release", "Press Conference", "Client Articles"];
@@ -38,6 +38,7 @@ function FormOne({ article, articleId, setKey, articleList, checkArticleList, si
       "not_relavant": relavantArticle,
       "quality_check": 4
     }
+    setStepOneData(formData.data)
     formData.articles = articleData;
     const uploadPromise = new Promise((resolve, reject) => {
 
@@ -165,7 +166,7 @@ function FormOne({ article, articleId, setKey, articleList, checkArticleList, si
         <div className='col-6 mt-20'><input type="text" className='qa-input' placeholder='A CCM' onChange={e => setACCM(e.target.value)}></input></div>
 
         <div className="col-12 text-right mt-10">
-          <button onClick={e => saveNext()} className='btn btn-primary btn-medium'>Next</button>
+          <button onClick={e => saveNo()} className='btn btn-primary btn-medium'>Next</button>
         </div>
 
       </div>

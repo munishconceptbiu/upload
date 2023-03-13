@@ -163,11 +163,15 @@ export default function ViewPublication(){
         //     setTitle('Edit')
         // }
     }, []);
+
+    const [publicationShow, addPublication] = useState(false)
   
     return(
         <>
-         <AddPublication  savePublication={savePublication}   setPublication={setPublication} setCirclation={setCirclation} setEdition={setEdition} setMediaType={setMediaType} setPublicationTypeId={setPublicationTypeId} setReadership={setReadership} setWebName={setWebName} promiseOptions={promiseOptions} publication={publication} media_type={media_type} publication_type_id={publication_type_id} edition_id={edition_id} readership={readership} circlation={circlation} webname={webname} editionChange={editionChange} title={title} />
-         <PublicationList publicationList={publicationList}  setPublication={setPublication} setCirclation={setCirclation} setEdition={setEdition} setMediaType={setMediaType} setPublicationTypeId={setPublicationTypeId} setReadership={setReadership} setWebName={setWebName} />
+        {publicationShow && 
+         <AddPublication  savePublication={savePublication}   setPublication={setPublication} setCirclation={setCirclation} setEdition={setEdition} setMediaType={setMediaType} setPublicationTypeId={setPublicationTypeId} setReadership={setReadership} setWebName={setWebName} promiseOptions={promiseOptions} publication={publication} media_type={media_type} publication_type_id={publication_type_id} edition_id={edition_id} readership={readership} circlation={circlation} webname={webname} editionChange={editionChange} title={title} addPublication={addPublication} />
+        }
+         <PublicationList publicationList={publicationList}  setPublication={setPublication} setCirclation={setCirclation} setEdition={setEdition} setMediaType={setMediaType} setPublicationTypeId={setPublicationTypeId} setReadership={setReadership} setWebName={setWebName} addPublication={addPublication} setTitle={setTitle} publicationShow={publicationShow} />
         </>
     )
 }

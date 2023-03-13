@@ -1,10 +1,10 @@
 import React from 'react';
 
-export default function Add({ setJournalistContact, setJournalistEmail, setJournalistName, setPublicationId,  saveJournalist,  journalist_name, journalist_email, journalist_contact, media_type, setMediaType, publication_id }) {
+export default function Add({ setJournalistContact, setJournalistEmail, setJournalistName, setPublicationId,  saveJournalist,  journalist_name, journalist_email, journalist_contact, media_type, setMediaType, publication_id, isShowAddEdit, setTitle, setIsShowAddEdit, title }) {
   return (
     <>
       <div class='page-title d-flex justify-content-between'>
-        <h1>Add/Edit Journalist</h1>
+        <h1>{title} Journalist</h1>
       </div>
       <div className='content-box edit-pubication'>
         <div className='row'>
@@ -178,7 +178,7 @@ export default function Add({ setJournalistContact, setJournalistEmail, setJourn
         </div> */}
         <div className='row mt-20'>
           <div className='col-12'>
-            <button class='btn btn-gray' >Reset</button>
+            <button class='btn btn-gray' onClick={() => setIsShowAddEdit(false)} >Close</button>
             <button class='btn btn-primary' onClick={() => saveJournalist()}>Save</button>
           </div>
         </div>

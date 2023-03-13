@@ -10,9 +10,11 @@ import { store } from '../../../store/store';
 import { CSmartTable } from '@coreui/react-pro'
 
 
-export default function Spokeperson({ spokepersonList, setSpokesperson, setDesignation , setCompanyId, setCompanyName}){
+export default function Spokeperson({ spokepersonList, setSpokesperson, setDesignation , setCompanyId, setCompanyName, setTitle, setIsShowAddEdit, isShowAddEdit}){
 
   const getSpokepersonSingleList = (id) => {
+    setTitle('Edit')
+    setIsShowAddEdit(true)
     get("dataprocess/get-singlespokespersons/"+id).then((response) => {
         setSpokesperson(response.data.spokespersonslist[0].spokesperson_name);
         setDesignation(response.data.spokespersonslist[0].designation)
@@ -89,7 +91,9 @@ export default function Spokeperson({ spokepersonList, setSpokesperson, setDesig
         <>
             <div class="page-title d-flex justify-content-between">
               <h1>Spoke Person List</h1>
-              {/* <button onClick={addSpokeperson} className="btn btn-primary btn-medium">Add Spoke person</button> */}
+              {isShowAddEdit === false &&
+              <button onClick={() => setIsShowAddEdit(true)} className="btn btn-primary btn-medium">Add Spoke person</button>
+              }
               </div>
             <div className="content-box">
             <CSmartTable

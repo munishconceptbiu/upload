@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
-function FormTwo({ articleId, setKey, clientId, articleList, checkArticleList, simallerArticleCount }) {
+function FormTwo({ articleId, setKey, clientId, articleList, checkArticleList, simallerArticleCount, setStepTwoData, setStepOneData, stepTwoData, stepOneData }) {
 
 
     const [keywordList, setKeywordList] = useState([]);
@@ -94,6 +94,7 @@ function FormTwo({ articleId, setKey, clientId, articleList, checkArticleList, s
             "topic_id": topicId,
             "quality_check": 4
         }
+        setStepTwoData(formData.data)
         formData.articles = articleData;
         const uploadPromise = new Promise((resolve, reject) => {
 
@@ -191,7 +192,7 @@ function FormTwo({ articleId, setKey, clientId, articleList, checkArticleList, s
                             Topic Category
                         </option>
                         {topicList.map((t, index) =>
-                            <option value={`${t.id}-${t.keyword}`}> {t.keyword}</option>
+                            <option value={`${t.id}-${t.topic}`}> {t.topic}</option>
                         )}
                     </select>
 
@@ -222,7 +223,7 @@ function FormTwo({ articleId, setKey, clientId, articleList, checkArticleList, s
                         <label for="age2">International</label></span>
                 </div>
                 <div className="col-12 text-right mt-10">
-                    <button className='btn btn-primary btn-medium' onClick={e => saveNext
+                    <button className='btn btn-primary btn-medium' onClick={e => saveNo
                         ()}>Next</button>
                     <button className='btn btn-gray btn-medium' onClick={e => setKey('tab-1')}>Previous</button>
                 </div>

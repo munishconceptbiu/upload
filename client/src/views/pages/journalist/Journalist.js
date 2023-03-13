@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 import { store } from '../../../store/store';
 import { CSmartTable } from '@coreui/react-pro'
 
-export default function Journalist({journalistList,  setJournalistContact ,setJournalistEmail, setJournalistName, setPublicationId, setMediaType}){
+export default function Journalist({journalistList,  setJournalistContact ,setJournalistEmail, setJournalistName, setPublicationId, setMediaType, isShowAddEdit, setTitle, setIsShowAddEdit}){
 
   const columns = [
     {
@@ -45,6 +45,8 @@ export default function Journalist({journalistList,  setJournalistContact ,setJo
 
   const getJournalistSingleList = (id) => {
     get("journalist/"+id).then((response) => {
+      setTitle('Edit');
+      setIsShowAddEdit(true)
       setJournalistName(response.data.journalist.journalist_name);
       setJournalistEmail(response.data.journalist.journalist_email);
       setJournalistContact(response.data.journalist.journalist_contact);
@@ -70,8 +72,9 @@ export default function Journalist({journalistList,  setJournalistContact ,setJo
         <>
             <div class="page-title d-flex justify-content-between">
               <h1>Journalist List</h1>
-              {/* <NavLink to="/add-journalist" className="btn btn-primary btn-medium"  title="Journalist" data-bs-toggle="tooltip" >Add Journalist</NavLink> */}
-              {/* <button className="btn btn-primary btn-medium">Add Journalist</button> */}
+              {isShowAddEdit === false &&
+              <button onClick={() => setIsShowAddEdit(true)} className="btn btn-primary btn-medium">Add Journalist</button>
+              }
               </div>
             <div className="content-box">
             <CSmartTable
