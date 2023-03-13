@@ -7,4 +7,6 @@ const keywordController = require('../keywords/keyword.controller')
 // router
 router.get('/:name',  keywordController.getKeyword);
 
+router.post('/:name',  keywordController.getClientKeyword);
+
 module.exports = router;

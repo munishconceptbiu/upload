@@ -5,3 +5,8 @@ exports.getKeyword  = async function (req, res, next) {
     let keywords = await keywordService.getKeyword(req.params.name);
     res.json({ keywords: keywords, message: 'Keyword successful' })
 }
+
+exports.getClientKeyword  = async function (req, res, next) {
+    let keywords = await keywordService.getClientKeyword(req.body.client_id,req.params.name);
+    res.json({ keywords: keywords, message: 'Keyword successful' })
+}

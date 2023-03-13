@@ -5,7 +5,8 @@ const { Op, QueryTypes } = require("sequelize");
 const { func } = require('joi');
 
 module.exports = {
-    getKeyword
+    getKeyword,
+    getClientKeyword
 };
 
 async function getKeyword(name) {
@@ -14,6 +15,21 @@ async function getKeyword(name) {
             keyword: {
                 [Op.like]: `${name}%`
             }
+        },
+        attributes: ["id",
+            "keyword",
+        ]
+    });
+    return edition;
+}
+
+async function getClientKeyword(client_id,name) {
+    const edition = await db4.MThemeKeywords.findAll({
+        where: {
+            keyword: {
+                [Op.like]: `${name}%`
+            },
+            client_id : client_id
         },
         attributes: ["id",
             "keyword",
