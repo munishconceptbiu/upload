@@ -6,7 +6,8 @@ const { func } = require('joi');
 
 module.exports = {
     getKeyword,
-    getClientKeyword
+    getClientKeyword,
+    getThemeWordTopic
 };
 
 async function getKeyword(name) {
@@ -35,5 +36,20 @@ async function getClientKeyword(theme_id,name) {
             "keyword",
         ]
     });
+    return edition;
+}
+
+async function getThemeWordTopic(client_id) {
+     return await db23.sequelize.query(
+        `SELECT *
+FROM m_themes t 
+INNER JOIN m_theme_keywords k ON t.id=k.theme_id
+INNER JOIN m_theme_keyword_topics topic ON k.id=topic.keyword_id
+WHERE  t.client_id=:client_id`,
+        {
+            replacements: { client_id: client_id },
+            type: QueryTypes.SELECT
+        }
+    );
     return edition;
 }

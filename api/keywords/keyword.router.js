@@ -9,4 +9,6 @@ router.get('/:name',  keywordController.getKeyword);
 
 router.post('/:name',  keywordController.getClientKeyword);
 
+router.get('/themekeywordtopic/:client_id',  keywordController.getThemeWordTopic);
+
 module.exports = router;
