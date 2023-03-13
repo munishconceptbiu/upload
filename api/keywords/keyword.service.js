@@ -23,13 +23,13 @@ async function getKeyword(name) {
     return edition;
 }
 
-async function getClientKeyword(client_id,name) {
+async function getClientKeyword(theme_id,name) {
     const edition = await db4.MThemeKeywords.findAll({
         where: {
             keyword: {
                 [Op.like]: `${name}%`
             },
-            client_id : client_id
+            theme_id : theme_id
         },
         attributes: ["id",
             "keyword",
