@@ -11,6 +11,8 @@ import { get , deleteMethod } from "../../../services/CommanService";
 import toast from 'react-hot-toast';
 import { CSmartTable } from '@coreui/react-pro'
 
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
 
 const ViewUpload = ({ fetchList }) => {
   const state = store.getState();
@@ -212,7 +214,16 @@ const ViewUpload = ({ fetchList }) => {
           sorter: false,
         },
       ]
-
+      const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+      const fileExtension = '.xlsx';
+    
+          const exportToCSV = (csvData, fileName) => {
+            const ws = XLSX.utils.json_to_sheet(csvData);
+            const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
+            const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+            const data = new Blob([excelBuffer], {type: fileType});
+            FileSaver.saveAs(data, fileName + fileExtension);
+        }
       
     return (
       <div className="uqr-contents" ref={scrollRef}>
@@ -338,7 +349,7 @@ const ViewUpload = ({ fetchList }) => {
               <Modal.Title>Mismatcing Articles</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-
+            <Button variant="warning pull-right" style={{marginLeft:"89%"}} onClick={(e) => exportToCSV(uploadNMArticleList,'Mismatch-article')}>Export</Button>
               <div className="container ">
                 <div className="row">
                   <div className="col-12">
