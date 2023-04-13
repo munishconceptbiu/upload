@@ -398,3 +398,7 @@ span.tolltip p{display: none;}
 .article-pagination{display: inline-block;}
 .theme-details{margin-top:30px;}
 .theme-details th{padding: 10px ; background-color: #c5c5c5; border-right: 1px solid #a2a2a2;}
+.theme-form .btn{float: right;}
+.theme-pagination{    display: flex;
+    justify-content: right;}
+.ecode-form input{width: 100%;}
