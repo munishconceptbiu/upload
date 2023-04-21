@@ -34,6 +34,7 @@ const EditClient = React.lazy(() => import('./views/pages/create-edit/EditClient
 const Client = React.lazy(() => import('./views/pages/articles/Client'))
 const Product = React.lazy(() => import('./views/pages/articles/Product'))
 const EntityColorCode = React.lazy(() => import('./views/pages/EntityColorCode'))
+const ArticleSearch = React.lazy(() => import('./views/pages/articles/ArticleSearch'))
 
 
 
@@ -67,7 +68,8 @@ const routes = [
   { path: '/EditClient', name: 'Spoke Person', element: EditClient },
   { path: '/Client', name: 'Spoke Person', element: Client },
   { path: '/Product', name: 'Spoke Person', element: Product },
-  { path: '/EntityColorCode', name: 'Spoke Person', element: EntityColorCode }
+  { path: '/EntityColorCode', name: 'Spoke Person', element: EntityColorCode },
+  { path: '/ArticleSearch', name: 'Spoke Person', element: ArticleSearch }
   
 
 

@@ -88,7 +88,7 @@ function Articlelist(){
 
 
 <div className='content-box'>
-<ArticleFilters/>
+{/* <ArticleFilters/> */}
 			{/* <div className="search-container">
 				<input
 					type="text"
@@ -106,22 +106,16 @@ function Articlelist(){
 								{sorted.sorted === "id" ? renderArrow() : null}
 							</th>
 							<th onClick={sortByName}>
-								<span style={{ marginRight: 10 }}>Company Name</span>
+								<span style={{ marginRight: 10 }}>Headline</span>
 								{sorted.sorted === "name"
 									? renderArrow()
 									: null}
 							</th>
 							<th onClick={sortByEmail}>
-								<span style={{ marginRight: 10 }}>Publish Date</span>
+								<span style={{ marginRight: 10 }}>Entity</span>
 								{sorted.sorted === "email"
 									? renderArrow()
 									: null}
-							</th>
-							<th>
-								<span>Publication</span>
-							</th>
-							<th>
-								<span>Suppliment</span>
 							</th>
 							<th>
 								<span>Edition</span>
@@ -130,16 +124,19 @@ function Articlelist(){
 								<span>Media Type</span>
 							</th>
 							<th>
+								<span>Publication</span>
+							</th>
+							<th>
+								<span>Publish Date</span>
+							</th>
+							<th>
+								<span>Tonality</span>
+							</th>
+							<th>
 								<span>Language</span>
 							</th>
 							<th>
-								<span>Headline</span>
-							</th>
-							<th>
-								<span>Link</span>
-							</th>
-							<th>
-								<span>Publication Type</span>
+								<span>Action</span>
 							</th>
 						</tr>
 					</thead>

@@ -1,14 +1,21 @@
 import React from "react";
 import '../../../src/components/main.css'
-function EditionMumbai(){
+function EditionDetails(){
     return(
-        // <div className="row suggestions">
-        //     <h5>Suggestions:</h5>
-        //     <p>Article been given qualitative with kotak.</p>
+        <>
+        <div className="edition-section">
+            <p>Edition :</p>
+            <ul className="edition-list">
+                <li><a href="#">New Delhi</a></li>
+                <li><a href="#">Mumbai</a></li>
+                <li><a href="#">Kolkata</a></li>
+                <li><a href="#">Chennai</a></li>
+                <li><a href="#">Bengaluru</a></li>
+            </ul>
+        </div>
 
-        // </div>
-        <></>
+        </>
     )
 }
 
-export default EditionMumbai
+export default EditionDetails

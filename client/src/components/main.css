@@ -19,6 +19,7 @@ body{
     position: relative;
     
 }
+.color-blue{color: #0036b9;}
 .container-list{
     padding:30px;
     background: white;
@@ -285,11 +286,10 @@ select.form-select:focus{border-bottom: 3px solid #080fef !important;}
 .edetails span{margin-right: 15px; color: #acabab; font-size: 14px; font-weight: normal;}
 .qualitatxive-form .tab-content h3{font-size: 20px;}
 .leftNavigationWrap .nav-link.active{border-bottom: 0 !important;}
-.nav-pills .nav-link.active, .nav-pills .show>.nav-link{background-color: #fff;  border-radius: 0; border-bottom: 3px solid #0036b9; color: #0036b9; }
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link{background-color: #0036b9;    color: #ffffff !important; }
 .nav-pills .nav-link{color: #393939; font-size: 16px;}
 .nav-justified .nav-item, .nav-justified>.nav-link{flex-basis: auto; flex-grow: 0;}
 .tab-content .row{    padding: 10px 7px 0 0;}
-.nav-pills{border-bottom: 1px solid #d3d3d3;}
 .suggestions h5, .suggestions p {padding-left: 0;}
 .entity-tab {padding: 0px 10px 0; margin-top:25px;}
 .tab-nav{display: flex;     margin-top:40px;}
@@ -339,16 +339,13 @@ input:disabled {opacity: 0.5;}
 .image-tab .tab-content{padding: 0;}
 button.btn-gray, button.btn-gray:hover{background-color: #888888; color: #fff; margin-right: 5px;}
 .keyword-topic{border-top: 1px solid #c4c4c4;     margin-top: 40px;}
-.qa-tab .nav-link{border-radius:50%; border:1px solid #b4b4b4;}
-.qa-tab .nav-link.active{background-color: #0036b9; border:1px solid #0036b9 !important; border-radius:50%; border: 0;  color: #ffffff;  }
-.qa-tab .nav-link::before{ content: "Step"; position: absolute;  top: 40px;left: 0;}
+.qa-tab .nav-link.active{background-color: #0036b9; border-radius: 5px; border:1px solid #0036b9 !important;  border: 0;  color: #ffffff;  }
 .qa-tab .nav-link{position: relative;}
 .qa-tab .nav-link.active::before{color: #0036b9;}
-.form-details{margin-top: 20px;}
+
 .qa-tab .nav-pills{border: 0;}
-.qa-tab ul li{margin: 0 auto;}
 .qa-tab {margin-top:30px;}
-.qa-tab .tab-content{margin-top: 45px; border-top: 1px solid #ccc;}
+.qa-tab .tab-content{box-shadow: 0px 0px 15px -3px rgba(0,0,0,0.3);  margin-top: 20px; padding-bottom: 30px;}
 /* .step1, .step2, .step3, .step4{position: relative;}
 .step2 span{ left: 84px; right: 0;}
 .step3 span{ left: 120px; right: 0;}
@@ -402,3 +399,67 @@ span.tolltip p{display: none;}
 .theme-pagination{    display: flex;
     justify-content: right;}
 .ecode-form input{width: 100%;}
+
+
+.article-header h2{padding-left: 0; margin-left: 0;}
+.article-header p {padding-left: 0; margin-left: 0;}
+.article-header p a{color: #0036b9; margin-right: 3px;}
+.article-header span{padding-left: 0; margin-left: 0; color: #9a9a9a;}
+.article-header{margin-bottom: 25px; border-bottom: 1px solid #9a9a9a; padding-bottom: 15px;}
+
+.edition-section{display: flex;     margin: 0 0 20px 0; padding: 0;}
+.edition-section p{font-weight: bold; font-size: 18px;}
+ul.edition-list{display: flex; }
+ul.edition-list li {     margin: 0 30px 0 0;}
+ul.edition-list li a{text-decoration: underline; color: #0036b9; font-size: 16px;}
+
+.entity-wraper{ padding:15px; margin-bottom:30px; box-shadow: 0px 0px 15px -3px rgba(0,0,0,0.3); border-radius:10px;}
+.entity-wraper .col-md-4{margin:7px 0; font-weight: bold;}
+.entity-wraper .col-md-4 span{color: #757575; margin-left: 5px;}
+.journalist-table{margin-top: 30px;}
+.journalist-table th{padding: 7px 10px; background-color:#e3e3e3 ;}
+/* .image-tab button{box-shadow: 0px 0px 15px -3px rgba(0,0,0,0.3); margin: 0 7px; border-radius: 5px;} */
+
+
+.form-details h3{text-align: center; margin-top: 10px;}
+
+.keyword-analysis table th, td{padding: 10px 15px; background-color:#e3e3e3;}
+.article-search{margin-top: 60px;}
+.qualitative-analysis{box-shadow: 0px 0px 15px -3px rgba(0,0,0,0.3); border-radius:10px; padding:30px;}
+.article-search .col-md-7 .btn-primary{box-shadow: 0px 0px 15px -2px rgba(0,0,0,0.3); font-size: 14px; margin: 0 3px; border: 1px solid #e4e4e4; background-color: #ffffff; border-radius:4px; color: #000;}
+.article-search .col-md-7 .btn-primary:hover{background-color: #0036b9; color: #ffffff;}
+
+.article-search .col-md-3 input{padding: 0; font-size: 14px;}
+.article-search-filter{border-bottom:1px solid #dcdcdc; padding-bottom: 20px;}
+.article-search-tab{padding: 10px; margin-top: 10px;}
+.article-search-tab table{padding: 0;}
+.article-search-tab table th{padding: 12px; background-color: #dcdcdc; border: 1px solid #b5b5b5;}
+.article-search-tab table td{background-color: #fff; border: 1px solid #d9d9d9;}
+.article-search .tab-content{padding: 0 !important; margin: 0 !important;}
+.article-search .nav-pills .nav-link.active, .nav-pills .show>.nav-link{border-radius: 6px 6px 0 0;}
+.article-search-table{padding: 10px 10px 5px 10px; box-shadow: 0px 0px 7px -2px rgba(0,0,0,0.3); border-radius: 0; border:1px solid #dcdcdc; }
+.article-search-table a{margin: 0 5px 0 0;}
+.article-search-btns{display: flex; justify-content: right; margin-top:7px;}
+.article-search-btns .btn-primary{margin-left: 7px;}
+.article-search-btns .btn-primary:first-child{background-color: #d6d6d6; border: 0; color: #393939;}
+.qualitative-analysis .form-check-input{margin-right: 7px;}
+.article-search-tab .tab-content{padding: 0 !important;}
+.article-search-tab .nav-pills{margin-bottom: 0 !important;}
+
+.article-search-filter .btn-primary{float: right; margin-left: 0;}
+.article-search-filter input{padding: 0; margin: 5px 0;}
+.table-options{text-align: right;position: absolute; right: 46px;}
+.table-options button{margin-left: 5px; background-color: #fff; color: #393939; border: 1px solid #9c9c9c; padding: 3px 8px; font-size: 12px;}
+.article-search-tab ul.pagination{    justify-content: right; padding-right: 5px;}
+.article-search-tab ul.pagination  .page-link{margin-right: 0;}
+.article-search-filter .aldatepicker{width: 100%; display: block;}
+.article-search-filter .aldatepicker input{width: 100%;  padding: 6px 0;}
+.article-search-filter .aldatepicker .CalendarIcon{top: 13px;}
+.article-search-tab table td:last-child{text-align: center;}
+.edit-button{background-color: transparent; padding: 0; border: 0; margin-right:10px;}
+.edit-button:hover{background-color: transparent; padding: 0;}
+.edit-button:visited{background-color: transparent; padding: 0;}
+.edit-button:focus{background-color: transparent; padding: 0;}
+
+.addmore{color: #0036b9; font-size: 14px;}
+.addmore:before{content: "+";     font-size: 18px;}
