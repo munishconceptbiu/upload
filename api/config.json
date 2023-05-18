@@ -29,7 +29,7 @@
         "database": "qualitative_biu"
     },
     "livedatabase2": {
-        "host": "101.53.146.126",
+        "host": "101.53.146.125",
         "port": 3306,
         "user": "root",
         "password": "X@h52K!k#Ap$qfCaT",
